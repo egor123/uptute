@@ -54,10 +54,6 @@
       <v-btn id="google" @click="logIn()">
         <v-icon>mdi-google</v-icon>Sign in with Google
       </v-btn>
-      <v-btn id="google" @click="logOut()">
-        <v-icon>mdi-google</v-icon>Log out
-      </v-btn>
-      {{ name }}
     </v-card>
   </div>
 </template>
@@ -94,7 +90,6 @@ export default {
           this.$l("auth.rules.password.lenght.max", { n: this.passwordLength }),
       ],
       errorMessage: "",
-      name: "",
     };
   },
   mounted() {
