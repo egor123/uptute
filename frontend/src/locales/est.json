@@ -1,0 +1,345 @@
+{
+    "id": "est",
+    "auth": {
+      "header": {
+        "log_in": "Logi sisse",
+        "register": "Registreeru"
+      },
+      "btn": {
+        "log_in": "Logi sisse",
+        "register": "Registreeru"
+      },
+      "name": "Ees- ja perekonnanimi..",
+      "email": "Emaili aadress...",
+      "password": "Salasõna...",
+      "forgot": "Unustasid salasõna?",
+      "create": "Loo salasõna",
+      "repeat": "Korda salasõna...",
+      "must_agree": "You must agree to continue!",
+      "privacy": "Nõustun  UpTute'i ",
+      "receive": "Soovin saada UpTute'i uudiskirju.",
+      "like_to": {
+        "parameter": "Sooviksin",
+        "tutor": "hakata eraõpetajaks",
+        "learn": "saada eraõpetajalt abi"
+      },
+      "rules": {
+        "no_spaces": "Tühikud ei ole lubatud",
+        "email": {
+          "require": "E-maili aadress on kohustuslik",
+          "valid": "E-mail aadress peab olema töökorras"
+        },
+        "password": {
+          "password": {
+            "require": "Salasõna on kohustuslik",
+            "lenght": {
+              "max": "Salasõna peab olema lühem kui ${n} tähemärki",
+              "min": "Minimaalselt ${n} tähemärki"
+            }
+          }
+        },
+        "name": {
+          "require": "Kasutajanimi on kohustuslik",
+          "max": "Name must be less than ${n} characters",
+          "lenght": {
+            "max": "Kasutajanimi peab olema lühem kui ${n} tähemärki",
+            "min": "Minimaalselt ${n} tähemärki"
+          }
+        }
+      }
+    },
+    "app": {
+      "pages": {
+        "home": "Avaleht",
+        "find_tutor": "Leia õpetaja",
+        "become_tutor": "Tule õpetajaks!",
+        "blog": "Blogi",
+        "why_us": "Miks valida meid?",
+        "log_in": "Logi sisse",
+        "register": "Regitreeru",
+        "about_us": "Meist",
+        "privacy_policy": "Privaatsuspoliitika",
+        "terms": "Kasutustingimused"
+      },
+      "footer": {
+        "pages_title": "Mõned leheküljed:"
+      }
+    },
+    "home": {
+      "landing": {
+        "title": "Lummav. Lõbus. Lihtne.",
+        "subtitle": "Avasta õppimise võlu!",
+        "btn_find": "Leia õpetaja",
+        "btn_become": "Tule õpetajaks"
+      },
+      "mission": {
+        "title": "Meie missioon",
+        "list": [
+          "Muuta õppeprotsess tulemuslikumaks, lõbusamaks,  uuenduslikumaks ning vahetumaks!",
+          "Teha seda, mida armastame ning jagada enda kirgi ka teistega!",
+          "Pakkuda efektiivset ja taskukohast õpiabi."
+        ],
+        "btn": "Tutvu meiega lähemalt"
+      },
+      "how_it_works": {
+        "title": "Kuidas see käib?",
+        "list": [
+          {
+            "h": "Alusta",
+            "p": "Kliki \"Leia õpetaja\" kohanda filtreid, et tulemus oleks Sinu vajadustele vastav"
+          },
+          {
+            "h": "Vali",
+            "p": "Võrdle pakutavaid eraõpetajaid ja vali Sulle meelepäraseim"
+          },
+          {
+            "h": "Planeeri",
+            "p": "Broneeri tund vaid mõne klikiga!"
+          },
+          {
+            "h": "Tund",
+            "p": "Veeda õppides toredalt aega nii kontaktõppes kui ka videosilla vahendusel!."
+          },
+          {
+            "h": "Tagasiside",
+            "p": "Jaga ka meiega, kuidas tund möödus ning anna õpetajale hinnang!"
+          }
+        ],
+        "btn": "Miks valida meid?"
+      },
+      "gallery": "Gallerii",
+      "testimonials": "Tagasiside",
+      "faq": {
+        "title": "KKK",
+        "questions": "Küsimused",
+        "answers": "Vastused"
+      },
+      "know_you": {
+        "title": "Nüüd kui Sa tunned meid paremini",
+        "subtitle": "Luba ka meil tutvuda Sinuga",
+        "btn": "Leia õpetaja"
+      }
+    },
+    "why_us": {
+      "header": "Miks valida meid?",
+      "student": {
+        "title": "Õpilasele",
+        "list": [
+          {
+            "h": "Taskukohane hind",
+            "p": "Eraõpetajate tunnihinnad alates 4 eurost!"
+          },
+          {
+            "h": "Säästa aega",
+            "p": "Ole kaval, säti enda eratund vahetult kooli järgsele ajale! Ning ega sa õpetajat kaua ootama ei pea. Ta on ju kõrvalklassis."
+          },
+          {
+            "h": "Täna, mitte homme",
+            "p": "Abi on saadaval iga kell! Vajad seda juba täna? Pole probleemi! Asume tegudele!"
+          },
+          {
+            "h": "Kiire ja selge",
+            "p": "Me teame Su raskusi. Meil on ju samad. Me teame, mida selgitada, kuidas selgitada ja kui pikalt."
+          },
+          {
+            "h": "Veeda toredalt aega!",
+            "p": "Meiega ei kogu Sa vaid teadmisi, vaid õpid ka seda, kuidas õppeprotsessist rõõmu tunda!"
+          },
+          {
+            "h": "Klassiruum ei ole mure",
+            "p": "Meie pakume, Sina valid. Nii lihtne see ongi!"
+          }
+        ]
+      },
+      "tutor": {
+        "title": "Õpetajale",
+        "list": [
+          {
+            "h": "Oskused särama",
+            "p": "Sinus peitub palju rohkem kui arvatagi võid! Leidkem koos kasutust Su oskustele!"
+          },
+          {
+            "h": "Rohkem kui töö",
+            "p": "Suhtlusoskus, õpetamisoskus, enesekindlus. Koos viime me need täiesti uuele tasemele!"
+          },
+          {
+            "h": "Kasvav tulu",
+            "p": "Oled ise enda õnne sepp! Sina valid, kui palju enda tunni eest küsid! Ning, mida parem õpetaja oled, seda väärtuslikum õpilase silmis."
+          },
+          {
+            "h": "Õiglane palk",
+            "p": "Meiega teed just seda, mida oskad. Ja vastav on ka palk!"
+          },
+          {
+            "h": "Paindlik töögraafik",
+            "p": "Ole iseenda tööandja! Sina valid, kui palju ja millal töötada tahad!"
+          },
+          {
+            "h": "Säästa enda aega!",
+            "p": "Vii enda tunnid läbi kohe peale kooli, ilma koolimajast lahkumata!"
+          },
+          {
+            "h": "Klassiruum ei ole mure",
+            "p": "Meie pakume, Sina valid. Nii lihtne see ongi!"
+          }
+        ]
+      }
+    },
+    "find": {
+      "header": "Leia õpetaja ",
+      "search": "Trüki õpetaja nimi...",
+      "filters": {
+        "subject": {
+          "h": "Õppeaine",
+          "p": "Sinu õppeaine...",
+          "search": "Otsi"
+        },
+        "language": {
+          "h": "Keel",
+          "p": "Sinu keel..."
+        },
+        "location": {
+          "h": "Asukoht",
+          "p": "Tunni asukoht..."
+        },
+        "audience": {
+          "h": "Vanus",
+          "p": "Sinu klass.."
+        },
+        "price": {
+          "h": "Hind",
+          "p": "tunnis"
+        },
+        "day": {
+          "h": "Päev"
+        },
+        "time": {
+          "h": "Kellaaeg"
+        },
+        "tutor_age": {
+          "h": "Õpetaja vanus",
+          "p": "a"
+        },
+        "filters": {
+          "h": "Sorteeri",
+          "price": "Hind",
+          "raiting": "Reiting",
+          "hours_tought": "Õpetamiskogemus"
+        },
+        "native": "emakeele kõneleja",
+        "refresh": "Tühjenda filtrid"
+      }
+    },
+    "tutor": {
+      "hour": "t",
+      "clarification": "Järgmised 7 päeva, Sinu ajavöönd:",
+      "btn": "Broneeri tund",
+      "subjects": "Õppeained",
+      "languages": "Keeled",
+      "age": "Vanus",
+      "audience": "Sihtrühm",
+      "locations": "Asukohad",
+      "about": "Minust",
+      "comments": "Tagasiside"
+    },
+    "data": {
+      "actions": {
+        "cancel": "Tagasi",
+        "ok": "Nõustu"
+      },
+      "days": {
+        "mon": {
+          "short": "E",
+          "full": "esmaspäev"
+        },
+        "tue": {
+          "short": "T",
+          "full": "teisipäev"
+        },
+        "wed": {
+          "short": "K",
+          "full": "kolmapäev"
+        },
+        "thu": {
+          "short": "N",
+          "full": "neljapäev"
+        },
+        "fri": {
+          "short": "R",
+          "full": "reede"
+        },
+        "sat": {
+          "short": "L",
+          "full": "laupäev"
+        },
+        "sun": {
+          "short": "p",
+          "full": "pühapäev"
+        }
+      },
+      "months": {
+        "jan": {
+          "short": "Jaan",
+          "full": "jaanuar"
+        },
+        "feb": {
+          "short": "Veebr",
+          "full": "veebruar"
+        },
+        "mar": {
+          "short": "Märts",
+          "full": "märts"
+        },
+        "apr": {
+          "short": "Apr",
+          "full": "aprill"
+        },
+        "may": {
+          "short": "Mai",
+          "full": "mai"
+        },
+        "jun": {
+          "short": "Juuni",
+          "full": "juuni"
+        },
+        "jul": {
+          "short": "Juuli",
+          "full": "juuli"
+        },
+        "aug": {
+          "short": "Aug",
+          "full": "august"
+        },
+        "sept": {
+          "short": "Sept",
+          "full": "september"
+        },
+        "oct": {
+          "short": "Okt",
+          "full": "oktoober"
+        },
+        "nov": {
+          "short": "Nov",
+          "full": "november"
+        },
+        "dec": {
+          "short": "Dets",
+          "full": "detsember"
+        }
+      },
+      "subjects": {
+        "math": "Matemaatika",
+        "biol": "Bioloogia",
+        "esl": "Inglise keel",
+        "phys": "Füüsika",
+        "geog": "Geografia",
+        "chem": "Keemia",
+        "cis": "Informaatika"
+      },
+      "languages": {
+        "en": "Inglise keel",
+        "est": "Eesti keel",
+        "ru": "Vene keel"
+      }
+    }
+}
