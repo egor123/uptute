@@ -98,9 +98,8 @@ export default {
   path: "/",
   permissons: {
     roles: "ALL",
-    redirect: "Home"
+    redirect: "Home",
   },
-  test: '',
   components: {
     CheckerLayout,
     SliderLayout,
@@ -110,7 +109,7 @@ export default {
 
 <style scoped lang="scss">
 .img {
-  margin-top: -56px;
+  margin-top: -60px;
   background-image: url("../assets/images/home.jpg");
   height: 100vh;
   width: 100vw;
