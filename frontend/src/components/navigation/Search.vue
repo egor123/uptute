@@ -5,7 +5,7 @@
       <v-text-field
         v-model="search"
         append-outer-icon="mdi-send"
-        filled
+        outlined
         clear-icon="mdi-close-circle"
         clearable
         :label="$l('find.search')"
