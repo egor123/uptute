@@ -15,7 +15,7 @@
     "forgot": "Forgot your password?",
     "create": "Create a passwrod",
     "repeat": "Repeat the password...",
-    "must_agree": "You must agree to continue!",
+    "must_agree": "We need your agreement to continue",
     "privacy": "I agree with UpTute's ",
     "receive": "I'd like to receive UpTute's news and promotions.",
     "like_to": {
@@ -245,11 +245,7 @@
     "date": "Date of the lesson",
     "time": "Time of the lesson",
     "card_name": "Card holder name...",
-    "card_int": [
-      "Card number...",
-      "MM/YY",
-      "CVC"
-    ],
+    "card_int": ["Card number...", "MM/YY", "CVC"],
     "cost": "Cost",
     "button": "Book the lesson"
   },
@@ -258,21 +254,10 @@
     "clarification": "Fill in now or continue later",
     "name": "First name...",
     "surname": "Surname...",
-    "parameters": [
-      "Date of birth",
-      "Gender",
-      "Country",
-      "City",
-      "School"
-    ],
+    "parameters": ["Date of birth", "Gender", "Country", "City", "School"],
     "choises": [
       "DD/MM/YYYY",
-      [
-        "Male",
-        "Female",
-        "Other",
-        "I'd like not to say"
-      ],
+      ["Male", "Female", "Other", "I'd like not to say"],
       "Type your country...",
       "Type your city...",
       "Type your school..."
@@ -288,11 +273,7 @@
       "Your audience",
       "Schools you cover"
     ],
-    "choises": [
-      "Type a subject...",
-      "Grades",
-      "Type a school..."
-    ],
+    "choises": ["Type a subject...", "Grades", "Type a school..."],
     "zoom": "Your zoom meeting link...",
     "motto": "Your motto",
     "button": "Done"

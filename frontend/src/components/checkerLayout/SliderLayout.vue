@@ -80,10 +80,10 @@ export default {
       return this.imgSize ?? 100;
     },
     current: {
-      get: function () {
+      get: function() {
         return this.currentValue;
       },
-      set: function (value) {
+      set: function(value) {
         if (!this.enabled) return;
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
@@ -122,9 +122,8 @@ export default {
         const distance = Math.abs(position);
 
         element.classList.toggle("transition", transition);
-        element.style.transform = `perspective(200px) translate3d(${
-          position * 250
-        }px, 0, ${distance * -50}px)`;
+        element.style.transform = `perspective(200px) translate3d(${position *
+          250}px, 0, ${distance * -50}px)`;
       }
     },
   },
@@ -278,7 +277,7 @@ $radio-margin: 0.5rem;
       transition: 0.6s transform ease-in-out;
     }
     &:hover {
-      box-shadow: 0px 0px 16px 2px black;
+      box-shadow: 0px 0px 16px 2px var(--v-secondary-darken1);
     }
   }
   &::after {
