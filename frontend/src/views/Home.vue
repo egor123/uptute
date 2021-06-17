@@ -2,15 +2,6 @@
   <div>
     <div class="img">
       <div class="img-container">
-        <!-- <div class="candle-container">
-          <div class="candle-flame-wrapper">
-            <div class="candle-flame" style="--scale: 70px; --color: red;"/>
-            <div class="candle-flame" style="--scale: 55px; --color: orange;"/>
-            <div class="candle-flame" style="--scale: 45px; --color: gold;"/>
-            <div class="candle-flame" style="--scale: 35px; --color: white;"/>
-          </div>
-          <div class="candle-body"/>
-        </div> -->
         <div class="img-blur">
           <div class="img-content">
             <h1>{{ $l("home.landing.title") }}</h1>
@@ -132,7 +123,7 @@ export default {
   float: right;
   margin: 20px var(--side-margin);
 }
-@media (min-width: 500px) {
+@media (min-width: 700px) {
   .img-content h2,
   .img-content h1 {
     text-align: start;
@@ -160,44 +151,8 @@ export default {
 
 .btn {
   text-transform: none;
-  margin: 5px;
+  margin: 10px 5px;
   background-color: transparent;
   color: var(--v-secondary-base);
 }
-/* .candle-container {
-  --height: 80%;
-  --scale: 2;
-  position: absolute;
-  left: 10%;
-  bottom: 0;
-  width: 100px;
-  height: calc(var(--height) / var(--scale));
-  background: green;
-  transform: translateY(calc(var(--height) / var(--scale) / -2)) scale(var(--scale));
-}
-
-.candle-flame-wrapper {
-  position: sticky;
-  top: 150px;
-  width: 100px;
-  height: 100px;
-  animation: fire 10ms ease-in-out infinite;
-  display: flex;
-  justify-content: center;
-}
-.candle-flame {
-  position: absolute;
-  width: var(--scale);
-  height: var(--scale);
-  background: var(--color);
-  box-shadow: 0px 0px 9px 4px var(--color);
-  border-radius: 50% 0% 50% 50%;
-  transform: translateY(calc(90px - 95%)) scaleX(.8) rotate(-45deg);
-}
-@keyframes fire {
-  0% {transform: rotate(-1deg);}
-  20% {transform: rotate(3deg) scaleY(1.1);}
-  80% {transform: rotate(-3deg) scaleY(0.9);}
-  100% {transform: rotate(-1deg);}
-} */
 </style>

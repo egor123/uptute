@@ -1,7 +1,5 @@
 <template>
   <v-app-bar clipped-left app id="nav" hide-on-scroll>
-    <!-- {{getNavBar() == true}} -->
-
     <div ref="navIcon">
       <v-app-bar-nav-icon
         color="secondary darken-4"
@@ -11,7 +9,7 @@
     <div id="container" ref="container">
       <div id="title" ref="title">
         <button>
-          <img src="@/assets/logo.svg" id="logo" @click="goToHomePage()" />
+          <img src="@/assets/logo.svg" id="logo" @click="goToHomePage()"/>
         </button>
         <button @click="goToHomePage()">
           <h1 id="name">UpTute</h1>
@@ -40,9 +38,16 @@
         </v-btn>
       </div>
       <div id="locales" ref="locales">
-        <v-menu offset-y open-on-hover>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn text v-bind="attrs" v-on="on" color="secondary" class="ml-4">
+        <v-menu offset-y open-on-hover hide-on-scroll attach="#locales">
+          <template v-slot:activator="{ on, attrs }" >
+            <v-btn
+              text
+              v-bind="attrs"
+              v-on="on"
+              color="secondary"
+              class="ml-4"
+              width="10px"
+            >
               <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
             </v-btn>
           </template>
@@ -52,7 +57,7 @@
               :key="index"
               v-on:change="changeLocale(l)"
             >
-              <button class="justCenter">
+              <button>
                 <img :src="getImgUrl(l)" :alt="l" class="flagImg" />
               </button>
             </v-list-item>
@@ -79,6 +84,7 @@ export default {
         params: { locale: val },
       });
       this.updateLocales(val);
+      this.resize();
     },
     goToHomePage() {
       if (this.$route.name !== "Home") this.$router.push({ name: "Home" });
@@ -93,17 +99,12 @@ export default {
         this.locales[i] = this.locales[i].slice(2, -5);
       this.locales.splice(this.locales.indexOf(locale), 1);
     },
-  },
-  created() {
-    this.updateLocales(this.$route.params.locale);
-  },
-  mounted() {
-    const container = this.$refs.container;
-    const buttons = this.$refs.buttons;
-    const title = this.$refs.title;
-    const locales = this.$refs.locales;
-    const navIcon = this.$refs.navIcon;
-    new ResizeObserver(() => {
+    resize() {
+      const container = this.$refs.container;
+      const buttons = this.$refs.buttons;
+      const title = this.$refs.title;
+      const locales = this.$refs.locales;
+      const navIcon = this.$refs.navIcon;
       buttons.style.display = "flex";
       const mv =
         container.offsetWidth - title.offsetWidth - locales.offsetWidth <
@@ -111,7 +112,13 @@ export default {
       buttons.style.display = mv ? "none" : "flex";
       navIcon.style.display = mv ? "inline" : "none";
       this.setMobileView(mv);
-    }).observe(container);
+    },
+  },
+  created() {
+    this.updateLocales(this.$route.params.locale);
+  },
+  mounted() {
+    new ResizeObserver(this.resize).observe(document.documentElement);
   },
 };
 </script>
@@ -160,11 +167,7 @@ export default {
 #buttons {
   @include flexbox();
   margin-left: auto;
-  #locales {
-    width: content;
-  }
 }
-
 #nav a {
   margin: 2px;
   background-color: var(--v-primary-base);
@@ -175,11 +178,11 @@ export default {
 #nav a.router-link-active {
   color: var(--v-active-base);
 }
-// .flagImg {
-//   border-radius: 2px;
-// }
 
 .languageList {
   background-color: #00000033 !important;
+}
+.listItem {
+  padding: 0;
 }
 </style>

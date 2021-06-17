@@ -39,7 +39,6 @@ html {
   scroll-behavior: smooth;
 }
 #app {
-  // font-family: Comfortaa, Helvetica, Arial, sans-serif;
   font-family: Comfortaa;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

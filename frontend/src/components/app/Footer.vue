@@ -10,7 +10,6 @@
                 <router-link
                   class="link"
                   :to="{ name: page.route }"
-                  @focus.native="scrollToBottom()"
                 >
                   {{ $l("app.pages." + page.name) }}
                 </router-link>
@@ -29,7 +28,6 @@
                 class="icon"
                 size="24px"
                 color="accent"
-                @focus.native="scrollToBottom()"
               >
                 {{ icon.img }}
               </v-icon>
@@ -40,7 +38,6 @@
             <a
               href="https://www.freepik.com"
               title="Freepik"
-              @focus="scrollToBottom()"
             >
               Freepik
             </a>
@@ -48,7 +45,6 @@
             <a
               href="https://www.flaticon.com/"
               title="Flaticon"
-              @focus="scrollToBottom()"
             >
               www.flaticon.com
             </a>
@@ -93,11 +89,11 @@ export default {
       footer.style.height = wrapper.offsetHeight + "px";
     }).observe(wrapper);
   },
-  methods: {
-    scrollToBottom() {
-      window.scrollTo({ top: document.body.scrollHeight });
-    },
-  },
+  // methods: {
+  //   scrollToBottom() {
+  //     window.scrollTo({ top: document.body.scrollHeight });
+  //   },
+  // },
 };
 </script>
 

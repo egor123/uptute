@@ -32,23 +32,9 @@
           </span>
         </label>
       </div>
-      <div id="nav-buttons">
-        <button
-          type="button"
-          id="button-previous"
-          ref="previousButton"
-          v-on:click="current--"
-        >
-          &#8249;
-        </button>
-        <button
-          type="button"
-          id="button-next"
-          ref="nextButton"
-          v-on:click="current++"
-        >
-          &#8250;
-        </button>
+      <div id="nav-buttons" v-for="i in 1" :key="i">
+        <button action="previous" class="btn" ref="btn" />
+        <button action="next" class="btn" ref="btn" />
       </div>
     </div>
   </div>
@@ -74,16 +60,25 @@ export default {
   mounted() {
     this.total = this.elements.length;
     this.setStyles(false);
+
+    this.$refs.btn.forEach((btn) =>
+      btn.addEventListener("click", this.btnIsPressed)
+    );
+  },
+  beforeDestroy() {
+    this.$refs.btn.forEach((btn) =>
+      btn.removeEventListener("click", this.btnIsPressed)
+    );
   },
   computed: {
     imageSize() {
       return this.imgSize ?? 100;
     },
     current: {
-      get: function() {
+      get: function () {
         return this.currentValue;
       },
-      set: function(value) {
+      set: function (value) {
         if (!this.enabled) return;
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
@@ -97,6 +92,30 @@ export default {
     },
   },
   methods: {
+    btnIsPressed(event) {
+      const btn = event.currentTarget;
+      switch (btn.getAttribute("action")) {
+        case "next":
+          this.current++;
+          break;
+        case "previous":
+          this.current--;
+          break;
+      }
+      const ripple = document.createElement("div");
+      const d = btn.clientWidth;
+      const r = d / 2;
+      const rect = btn.getBoundingClientRect();
+      ripple.style.width = ripple.style.height = `${d}px`;
+      ripple.style.left = `${event.clientX - (rect.left + r)}px`;
+      ripple.style.top = `${event.clientY - (rect.top + r)}px`;
+      ripple.classList.add("ripple");
+      btn.appendChild(ripple);
+      setTimeout(
+        () => ripple.remove(),
+        getComputedStyle(ripple).animationDuration.replace("s", "") * 1000
+      );
+    },
     setActive(val) {
       for (var i = 0; i < this.total; i++)
         this.$refs[`radio${i}`][0].disabled = !val;
@@ -122,8 +141,9 @@ export default {
         const distance = Math.abs(position);
 
         element.classList.toggle("transition", transition);
-        element.style.transform = `perspective(200px) translate3d(${position *
-          250}px, 0, ${distance * -50}px)`;
+        element.style.transform = `perspective(200px) translate3d(${
+          position * 250
+        }px, 0, ${distance * -50}px)`;
       }
     },
   },
@@ -133,6 +153,8 @@ export default {
 <style scoped lang="scss">
 $max-width-padding: 500px;
 $max-width-buttons: 1260px;
+$buttons-offset: 0.35rem;
+$buttons-size: 0.6;
 
 $vertical-padding: 15rem;
 
@@ -168,7 +190,7 @@ $radio-margin: 0.5rem;
   margin-top: 15px;
   .radio {
     font-size: $radio-size;
-    color: var(--v-primary-base);
+    color: rgba($color: #000000, $alpha: 0.2);
     & + .radio {
       margin-left: $radio-margin;
     }
@@ -192,6 +214,7 @@ $radio-margin: 0.5rem;
         border-radius: 50%;
         transition: 0.2s transform ease-in-out;
         transform: scale(0);
+        color: rgba($color: #000000, $alpha: 0.6);
       }
       input:checked + .radio-control::before {
         transform: scale(1);
@@ -210,43 +233,44 @@ $radio-margin: 0.5rem;
   @media (max-width: $max-width-buttons) {
     display: none;
   }
-  #button-previous {
-    left: 0;
-  }
-  #button-next {
-    right: 0;
-  }
-  * {
+  .btn {
+    display: flex;
     position: absolute;
+    overflow: hidden;
     font-size: $nav-btn-size;
-    height: 2em;
-    width: 2em;
+    height: 1em;
+    width: 1em;
     top: 40%;
     border-radius: 50%;
-    display: flex;
     justify-content: center;
     align-items: center;
-
-    &:hover {
-      background: radial-gradient(
-        circle at center,
-        rgba(0, 0, 0, 0.2) 0.2em,
-        transparent 0.5em
-      );
+    z-index: 99;
+    &::after {
+      top: 0;
+      text-align: center;
+      opacity: 0.3;
+      transition-property: transform opacity;
+      transition-duration: 0.9s;
+      transition-timing-function: ease-in-out;
+      user-select: none;
     }
-    &::before {
-      content: "";
-      position: absolute;
-      width: 1em;
-      height: 1em;
-      box-shadow: inset 1em 1em currentColor;
-      border-radius: 50%;
-      opacity: 0.2;
-      transition: 0.05s transform ease-in-out;
-      transform: scale(0);
+    &[action="previous"] {
+      left: 0;
+      &::after {
+        content: "\002039";
+        transform: translateX($buttons-offset) scale($buttons-size);
+      }
     }
-    &:active:before {
-      transform: scale(1);
+    &[action="next"] {
+      right: 0;
+      &::after {
+        content: "\00203A";
+        transform: translateX(-$buttons-offset) scale($buttons-size);
+      }
+    }
+    &:hover::after {
+      transform: scale(1) translateX(0);
+      opacity: 0.8;
     }
   }
 }
@@ -288,6 +312,21 @@ $radio-margin: 0.5rem;
     height: 100%;
     z-index: 99;
     box-shadow: inset 0px 0px 1rem 1rem white;
+  }
+}
+</style>
+<style lang="scss">
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background-color: rgba($color: #000000, $alpha: 0.2);
+  animation: ripple 1s ease-in;
+}
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
   }
 }
 </style>
