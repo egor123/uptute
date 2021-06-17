@@ -5,7 +5,6 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VueAnalytics from "vue-analytics";
 import { BackendService, AuthService, LocaleService } from "./services";
-import "material-design-icons-iconfont/dist/material-design-icons.css";
 
 Vue.prototype.$backend = BackendService;
 Vue.prototype.$auth = AuthService;
