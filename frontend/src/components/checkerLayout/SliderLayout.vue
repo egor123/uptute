@@ -38,11 +38,15 @@
           ref="previousButton"
           v-on:click="current++"
         >
-          &#8249;
+          <div id="divPrevious">
+            &#8249;
+          </div>
         </button>
 
         <button id="button-next" ref="nextButton" v-on:click="current--">
-          &#8250;
+          <div id="divNext">
+            &#8250;
+          </div>
         </button>
       </div>
     </div>
@@ -159,47 +163,47 @@ $radio-margin: 0.5rem;
 }
 #radio-butttons {
   display: none;
-  margin: auto;
-  margin-top: 15px;
-  .radio {
-    font-size: $radio-size;
-    color: var(--v-primary-base);
-    & + .radio {
-      margin-left: $radio-margin;
-    }
-    .radio-input {
-      input {
-        display: none;
-      }
-      .radio-control {
-        display: grid;
-        place-items: center;
-        &:hover,
-        &:focus {
-          box-shadow: 0 0 0.2em 0.01em currentColor;
-        }
-      }
-      input + .radio-control::before {
-        content: "";
-        width: 0.5em;
-        height: 0.5em;
-        box-shadow: inset 0.5em 0.5em currentColor;
-        border-radius: 50%;
-        transition: 0.2s transform ease-in-out;
-        transform: scale(0);
-      }
-      input:checked + .radio-control::before {
-        transform: scale(1);
-      }
-    }
-    .radio-control {
-      display: block;
-      width: 1em;
-      height: 1em;
-      border-radius: 50%;
-      border: 0.1em solid currentColor;
-    }
-  }
+  //   margin: auto;
+  //   margin-top: 15px;
+  //   .radio {
+  //     font-size: $radio-size;
+  //     color: var(--v-primary-base);
+  //     & + .radio {
+  //       margin-left: $radio-margin;
+  //     }
+  //     .radio-input {
+  //       input {
+  //         display: none;
+  //       }
+  //       .radio-control {
+  //         display: grid;
+  //         place-items: center;
+  //         &:hover,
+  //         &:focus {
+  //           box-shadow: 0 0 0.2em 0.01em currentColor;
+  //         }
+  //       }
+  //       input + .radio-control::before {
+  //         content: "";
+  //         width: 0.5em;
+  //         height: 0.5em;
+  //         box-shadow: inset 0.5em 0.5em currentColor;
+  //         border-radius: 50%;
+  //         transition: 0.2s transform ease-in-out;
+  //         transform: scale(0);
+  //       }
+  //       input:checked + .radio-control::before {
+  //         transform: scale(1);
+  //       }
+  //     }
+  //     .radio-control {
+  //       display: block;
+  //       width: 1em;
+  //       height: 1em;
+  //       border-radius: 50%;
+  //       border: 0.1em solid currentColor;
+  //     }
+  //   }
 }
 #nav-buttons {
   @media (max-width: $max-width-buttons) {
@@ -207,11 +211,21 @@ $radio-margin: 0.5rem;
   }
   #button-previous {
     left: 0;
+    &:hover > #divPrevious {
+      transform: translate(-1rem) scale(1.1);
+      opacity: 0.25;
+    }
   }
   #button-next {
     right: 0;
+    &:hover > #divNext {
+      transform: translate(1rem) scale(1.1);
+      opacity: 0.25;
+    }
   }
-  * {
+
+  #button-previous,
+  #button-next {
     position: absolute;
     font-size: $nav-btn-size;
     height: 2em;
@@ -221,15 +235,7 @@ $radio-margin: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.15;
 
-    &:hover {
-      // background: radial-gradient(
-      //   circle at center,
-      //   rgba(0, 0, 0, 0.2) 0.2em,
-      //   transparent 0.5em
-      // );
-    }
     &::before {
       content: "";
       position: absolute;
@@ -241,11 +247,28 @@ $radio-margin: 0.5rem;
       transition: 0.05s transform ease-in-out;
       transform: scale(0);
     }
-    &:active:before {
-      transform: scale(1);
-    }
+  }
+
+  #divNext,
+  #divPrevious {
+    opacity: 0.2;
+    transition: all 1000ms;
   }
 }
+
+@keyframes clickButtonNextAnim {
+  from {
+    transform: translate();
+  }
+  to {
+    right: 5rem;
+  }
+}
+
+.clickButtonNext {
+  animation: clickButtonNextAnim 1000ms ease;
+}
+
 #content {
   width: 100%;
   height: $content-height;
