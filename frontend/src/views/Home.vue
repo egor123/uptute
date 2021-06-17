@@ -16,20 +16,17 @@
             <h1>{{ $l("home.landing.title") }}</h1>
             <h2>{{ $l("home.landing.subtitle") }}</h2>
             <v-btn
-              elevation="2"
               rounded
-              color="accent"
-              class="btn"
+              class="btn orangeBack float-left"
               :to="{ name: 'FindATutor' }"
             >
               {{ $l("home.landing.btn_find") }}
             </v-btn>
             <v-btn
               outlined
-              elevation="2"
               rounded
               color="primary"
-              class="btn"
+              class="btn float-left"
               :to="{ name: 'Register' }"
             >
               {{ $l("home.landing.btn_become") }}
@@ -93,6 +90,7 @@
 <script>
 import CheckerLayout from "@/components/checkerLayout/CheckerLayout.vue";
 import SliderLayout from "@/components/checkerLayout/SliderLayout.vue";
+
 export default {
   name: "Home",
   path: "/",
@@ -160,8 +158,7 @@ export default {
 
 .btn {
   text-transform: none;
-  margin: 5px;
-  background-color: transparent;
+  margin: 10px 10px 0 0;
   color: var(--v-secondary-base);
 }
 /* .candle-container {

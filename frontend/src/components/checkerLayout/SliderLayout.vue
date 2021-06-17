@@ -34,19 +34,14 @@
       </div>
       <div id="nav-buttons">
         <button
-          type="button"
           id="button-previous"
           ref="previousButton"
-          v-on:click="current--"
+          v-on:click="current++"
         >
           &#8249;
         </button>
-        <button
-          type="button"
-          id="button-next"
-          ref="nextButton"
-          v-on:click="current++"
-        >
+
+        <button id="button-next" ref="nextButton" v-on:click="current--">
           &#8250;
         </button>
       </div>
@@ -123,7 +118,7 @@ export default {
 
         element.classList.toggle("transition", transition);
         element.style.transform = `perspective(200px) translate3d(${position *
-          250}px, 0, ${distance * -50}px)`;
+          330}px, 0, ${distance * -100}px)`;
       }
     },
   },
@@ -163,7 +158,7 @@ $radio-margin: 0.5rem;
   }
 }
 #radio-butttons {
-  display: flex;
+  display: none;
   margin: auto;
   margin-top: 15px;
   .radio {
@@ -226,13 +221,14 @@ $radio-margin: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0.15;
 
     &:hover {
-      background: radial-gradient(
-        circle at center,
-        rgba(0, 0, 0, 0.2) 0.2em,
-        transparent 0.5em
-      );
+      // background: radial-gradient(
+      //   circle at center,
+      //   rgba(0, 0, 0, 0.2) 0.2em,
+      //   transparent 0.5em
+      // );
     }
     &::before {
       content: "";

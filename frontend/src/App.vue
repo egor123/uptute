@@ -4,7 +4,7 @@
     <Header :isMobileView="isMobileView()" v-model="drawer" />
     <v-main>
       <transition name="fade" mode="out-in">
-        <router-view/>
+        <router-view />
       </transition>
     </v-main>
     <Footer />
@@ -70,6 +70,15 @@ html {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--v-primary-lighten5);
+}
+
+.orangeBack {
+  background: var(--v-accent-base) !important;
+  color: var(--v-secondary-base) !important;
+}
+
+.orangeBack:hover {
+  background: var(--v-accent-darken1) !important;
 }
 </style>
 <style scoped>

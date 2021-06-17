@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar clipped-left app id="nav">
+  <v-app-bar clipped-left app id="nav" hide-on-scroll>
     <div id="container">
       <v-row id="title" class="align-center flex-nowrap">
         <button>
@@ -44,7 +44,7 @@
           {{ $l("app.pages.find_tutor") }}
         </v-btn>
         <div id="locales">
-          <v-menu offset-y open-on-hover>
+          <v-menu offset-y open-on-hover hide-on-scroll>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 text
@@ -52,18 +52,31 @@
                 v-on="on"
                 color="secondary"
                 class="ml-4"
+                width="10px"
               >
-                <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
+                <img
+                  :src="getImgUrl(locale)"
+                  :alt="locale"
+                  class="flagImg"
+                  width="24"
+                  height="16"
+                />
               </v-btn>
             </template>
-            <v-list class="languageList mt-6">
+            <v-list class="languageList mt-6 px-0">
               <v-list-item
                 v-for="(l, index) in locales"
                 :key="index"
                 v-on:change="changeLocale(l)"
               >
                 <button class="justCenter">
-                  <img :src="getImgUrl(l)" :alt="l" class="flagImg" />
+                  <img
+                    :src="getImgUrl(l)"
+                    :alt="l"
+                    class="flagImg"
+                    width="24"
+                    height="16"
+                  />
                 </button>
               </v-list-item>
             </v-list>
@@ -129,7 +142,7 @@ export default {
       if (this.$route.name !== "Home") this.$router.push({ name: "Home" });
     },
     getImgUrl(locale) {
-      return require("@/assets/icons/flags/" + locale + ".svg");
+      return require("@/assets/icons/flags/" + locale + ".png");
     },
     updateLocales(locale) {
       this.locale = locale;
@@ -218,11 +231,7 @@ export default {
   background-color: #00000033 !important;
 }
 
-// .accent {
-//   background: var(--v-accent-base) !important;
-// }
-
-// .accent:hover {
-//   background: var(--v-accent-darken1) !important;
-// }
+.listItem {
+  padding: 0rem;
+}
 </style>

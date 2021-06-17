@@ -19,6 +19,7 @@ export default {
   opacity: 0.7;
   background-color: var(--v-header-base);
   padding: 10px;
-  z-index:2;
+  z-index: 2;
+  box-shadow: 0px 2px 6px var(--v-secondary-darken1);
 }
 </style>

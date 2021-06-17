@@ -166,4 +166,8 @@ export default {
     }
   }
 }
+
+.icon:hover {
+  color: var(--v-accent-darken2) !important;
+}
 </style>

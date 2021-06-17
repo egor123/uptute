@@ -27,8 +27,7 @@
         </v-text-field>
         <p>{{ $l("auth.forgot") }}</p>
         <v-btn
-          color="accent"
-          class="mr-4"
+          class="mr-4 orangeBack"
           @click="
             if ($refs.form.validate())
               signin({ name: name, password: password }).then(
