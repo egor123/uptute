@@ -1,10 +1,10 @@
 <template>
   <v-navigation-drawer
+    v-if="isMobileView"
     id="nav"
-    v-model="drawer"
+    v-model="value"
     clipped
     app
-    v-if="isMobileView"
     color="header"
   >
     <v-card>
@@ -41,37 +41,31 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
-  props: ["value", "isMobileView"],
   data() {
     return {
-      d: this.value,
+      value: false,
     };
   },
   watch: {
     value: function (val) {
-      this.drawer = val;
+      this.setNavBar(val);
+    },
+    getNavBar: function (val) {
+      this.value = val;
     },
   },
-  computed: {
-    drawer: {
-      set: function (val) {
-        this.d = val;
-        this.$emit("input", val);
-      },
-      get: function () {
-        return this.d;
-      },
-    },
-  },
+  computed: mapGetters(["getStatus", "getNavBar", "isMobileView"]),
+  methods: mapActions(["setNavBar"]),
 };
 </script>
 
 <style scoped>
-#nav{
+#nav {
   z-index: 101;
 }
 #title {
-  color:  var(--v-accent-base);
+  color: var(--v-accent-base);
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <Navigation :isMobileView="isMobileView()" v-model="drawer" />
-    <Header :isMobileView="isMobileView()" v-model="drawer" />
+    <Navigation />
+    <Header />
     <v-main>
       <transition name="fade" mode="out-in">
-        <router-view/>
+        <router-view />
       </transition>
     </v-main>
     <Footer />
@@ -28,9 +28,6 @@ export default {
   computed: mapGetters(["getStatus"]),
   methods: {
     ...mapActions(["isAuth"]),
-    isMobileView() {
-      return this.$vuetify.breakpoint.width < 1200;
-    },
   },
 };
 </script>
