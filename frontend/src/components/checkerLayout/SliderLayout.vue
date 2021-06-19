@@ -1,8 +1,8 @@
 <template>
   <div id="main">
     <div id="container">
-      <h1>{{ title }}</h1>
-      <div id="content">
+      <h1 v-animate="'fadeIn'">{{ title }}</h1>
+      <div v-animate="'fadeIn'" id="content">
         <div
           class="element"
           v-for="(element, i) in elements"
@@ -18,7 +18,7 @@
           />
         </div>
       </div>
-      <div id="radio-butttons">
+      <div v-animate="'slideInFromBottom'" id="radio-butttons">
         <label class="radio" v-for="(c, i) in elements" :key="i">
           <span class="radio-input">
             <input
@@ -33,8 +33,18 @@
         </label>
       </div>
       <div id="nav-buttons" v-for="i in 1" :key="i">
-        <button action="previous" class="btn" ref="btn" />
-        <button action="next" class="btn" ref="btn" />
+        <button
+          v-animate="'slideInFromLeft'"
+          action="previous"
+          class="btn"
+          ref="btn"
+        />
+        <button
+          v-animate="'slideInFromRight'"
+          action="next"
+          class="btn"
+          ref="btn"
+        />
       </div>
     </div>
   </div>
@@ -75,10 +85,10 @@ export default {
       return this.imgSize ?? 100;
     },
     current: {
-      get: function () {
+      get: function() {
         return this.currentValue;
       },
-      set: function (value) {
+      set: function(value) {
         if (!this.enabled) return;
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
@@ -96,10 +106,10 @@ export default {
       const btn = event.currentTarget;
       switch (btn.getAttribute("action")) {
         case "next":
-          this.current++;
+          this.current--;
           break;
         case "previous":
-          this.current--;
+          this.current++;
           break;
       }
       const ripple = document.createElement("div");
@@ -141,9 +151,8 @@ export default {
         const distance = Math.abs(position);
 
         element.classList.toggle("transition", transition);
-        element.style.transform = `perspective(200px) translate3d(${
-          position * 250
-        }px, 0, ${distance * -50}px)`;
+        element.style.transform = `perspective(200px) translate3d(${position *
+          330}px, 0, ${distance * -120}px)`;
       }
     },
   },
@@ -153,7 +162,7 @@ export default {
 <style scoped lang="scss">
 $max-width-padding: 500px;
 $max-width-buttons: 1260px;
-$buttons-offset: 0.35rem;
+$buttons-offset: 1rem;
 $buttons-size: 0.6;
 
 $vertical-padding: 15rem;
@@ -190,7 +199,7 @@ $radio-margin: 0.5rem;
   margin-top: 15px;
   .radio {
     font-size: $radio-size;
-    color: rgba($color: #000000, $alpha: 0.2);
+    color: rgba($color: #000000, $alpha: 0.03);
     & + .radio {
       margin-left: $radio-margin;
     }
@@ -203,6 +212,7 @@ $radio-margin: 0.5rem;
         place-items: center;
         &:hover,
         &:focus {
+          color: rgba($color: #000000, $alpha: 0.04);
           box-shadow: 0 0 0.2em 0.01em currentColor;
         }
       }
@@ -214,7 +224,7 @@ $radio-margin: 0.5rem;
         border-radius: 50%;
         transition: 0.2s transform ease-in-out;
         transform: scale(0);
-        color: rgba($color: #000000, $alpha: 0.6);
+        color: rgba($color: #000000, $alpha: 0.1);
       }
       input:checked + .radio-control::before {
         transform: scale(1);
@@ -250,7 +260,7 @@ $radio-margin: 0.5rem;
       text-align: center;
       opacity: 0.3;
       transition-property: transform opacity;
-      transition-duration: 0.9s;
+      transition-duration: 0.6s;
       transition-timing-function: ease-in-out;
       user-select: none;
     }
@@ -269,8 +279,8 @@ $radio-margin: 0.5rem;
       }
     }
     &:hover::after {
-      transform: scale(1) translateX(0);
-      opacity: 0.8;
+      transform: scale(0.6) translateX(0);
+      opacity: 0.35;
     }
   }
 }
@@ -320,7 +330,7 @@ $radio-margin: 0.5rem;
   position: absolute;
   border-radius: 50%;
   transform: scale(0);
-  background-color: rgba($color: #000000, $alpha: 0.2);
+  background-color: rgba($color: #000000, $alpha: 0.03);
   animation: ripple 1s ease-in;
 }
 @keyframes ripple {

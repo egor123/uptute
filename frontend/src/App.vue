@@ -32,6 +32,8 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "./components/publicStyles.css";
+
 :root {
   --side-margin: clamp(0.5rem, 18vw, 22rem);
 }

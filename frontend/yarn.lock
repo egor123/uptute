@@ -8160,6 +8160,11 @@ vue-analytics@^5.22.1:
   resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.22.1.tgz#9d6b32da56daee1b9dfb23a267b50349a03f710f"
   integrity sha512-HPKQMN7gfcUqS5SxoO0VxqLRRSPkG1H1FqglsHccz6BatBatNtm/Vyy8brApktZxNCfnAkrSVDpxg3/FNDeOgQ==
 
+vue-animate-scroll@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/vue-animate-scroll/-/vue-animate-scroll-0.1.5.tgz#28db28bacdbd6009fe56e07be3d4384770e7f1af"
+  integrity sha512-YF+sPM7po7XJ4vce7coPx0Ec57g5ryRA78yYsiMuhZLsfY7hRLU7t/CPvWzLvNKh6YLFumhH7XK/NWrugr0bfw==
+
 vue-cli-plugin-vuetify@~2.0.7:
   version "2.0.7"
   resolved "https://registry.npm.taobao.org/vue-cli-plugin-vuetify/download/vue-cli-plugin-vuetify-2.0.7.tgz#fcb4f1655e7c9199ee40dcbf6465e2355fd074d5"

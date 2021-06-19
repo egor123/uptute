@@ -74,8 +74,7 @@
           </p>
         </div>
         <v-btn
-          color="accent"
-          class="mr-4"
+          class="mr-4 orangeBackground"
           @click="
             if ($refs.form.validate()) {
               signup({ name: name, email: email, password: password }).then(

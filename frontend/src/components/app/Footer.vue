@@ -7,10 +7,7 @@
             <h3>{{ $l("app.footer.pages_title") }}</h3>
             <ul>
               <li v-for="page in pages" :key="page.index">
-                <router-link
-                  class="link"
-                  :to="{ name: page.route }"
-                >
+                <router-link class="link" :to="{ name: page.route }">
                   {{ $l("app.pages." + page.name) }}
                 </router-link>
               </li>
@@ -24,28 +21,18 @@
               icon
               :href="icon.link"
             >
-              <v-icon
-                class="icon"
-                size="24px"
-                color="accent"
-              >
+              <v-icon size="24px" class="icon">
                 {{ icon.img }}
               </v-icon>
             </v-btn>
           </div>
           <div id="container-reference">
             Icons made by
-            <a
-              href="https://www.freepik.com"
-              title="Freepik"
-            >
+            <a href="https://www.freepik.com" title="Freepik">
               Freepik
             </a>
             from
-            <a
-              href="https://www.flaticon.com/"
-              title="Flaticon"
-            >
+            <a href="https://www.flaticon.com/" title="Flaticon">
               www.flaticon.com
             </a>
           </div>
@@ -135,7 +122,7 @@ export default {
 #container {
   margin: 1rem var(--side-margin) 0;
   display: grid;
-  gap: 1.5ch;
+  gap: 2ch;
   grid-auto-columns: 1fr;
   grid-template-areas:
     "text header icons"
@@ -150,6 +137,7 @@ export default {
       "uptute";
     &-text {
       justify-self: center;
+      text-align: center;
     }
     &-text h3,
     &-icons {
@@ -160,6 +148,13 @@ export default {
     &-#{$child} {
       grid-area: $child;
     }
+  }
+}
+
+.icon {
+  color: var(--v-accent-base) !important;
+  &:hover {
+    color: var(--v-accentHover-darken1) !important;
   }
 }
 </style>

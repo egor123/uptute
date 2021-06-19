@@ -1,7 +1,13 @@
 <template>
   <div id="main" :style="backgroundColor">
-    <h1 id="title" v-if="title">{{ title }}</h1>
-    <div class="row" v-for="(row, i) in rows" :key="i" :inversed="isInvesed(i)">
+    <h1 v-animate="'fadeIn'" id="title" v-if="title">{{ title }}</h1>
+    <div
+      v-animate="'slideInFromBottom'"
+      class="row"
+      v-for="(row, i) in rows"
+      :key="i"
+      :inversed="isInvesed(i)"
+    >
       <div class="text-field">
         <h2>{{ row.title }}</h2>
         <p>{{ row.txt }}</p>
@@ -29,7 +35,9 @@ export default {
     backgroundColor() {
       var color = this.color ?? "secondary";
       if (!color.includes("-")) color += "-base";
-      color = getComputedStyle(document.documentElement).getPropertyValue(`--v-${color}`);
+      color = getComputedStyle(document.documentElement).getPropertyValue(
+        `--v-${color}`
+      );
       return `--color: ${color};`;
     },
   },

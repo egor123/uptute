@@ -9,7 +9,7 @@
     <div id="container" ref="container">
       <div id="title" ref="title">
         <button>
-          <img src="@/assets/logo.svg" id="logo" @click="goToHomePage()"/>
+          <img src="@/assets/logo.svg" id="logo" @click="goToHomePage()" />
         </button>
         <button @click="goToHomePage()">
           <h1 id="name">UpTute</h1>
@@ -30,7 +30,7 @@
         </v-btn>
         <v-btn
           rounded
-          color="accent"
+          class="orangeBackground"
           v-if="!getStatus"
           :to="{ name: 'FindATutor' }"
         >
@@ -39,7 +39,7 @@
       </div>
       <div id="locales" ref="locales">
         <v-menu offset-y open-on-hover hide-on-scroll attach="#locales">
-          <template v-slot:activator="{ on, attrs }" >
+          <template v-slot:activator="{ on, attrs }">
             <v-btn
               text
               v-bind="attrs"
@@ -151,9 +151,9 @@ export default {
   color: var(--v-secondary-darken2);
   #logo {
     height: 70px;
-    transition: transform 0.6s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     &:hover {
-      transform: rotate(360deg);
+      opacity: 0.8;
     }
   }
   #name {

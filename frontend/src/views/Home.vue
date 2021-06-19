@@ -9,8 +9,7 @@
             <v-btn
               elevation="2"
               rounded
-              color="accent"
-              class="btn"
+              class="btn orangeBackground"
               :to="{ name: 'FindATutor' }"
             >
               {{ $l("home.landing.btn_find") }}
