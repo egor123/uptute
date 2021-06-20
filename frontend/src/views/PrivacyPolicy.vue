@@ -340,10 +340,10 @@ export default {
   overflow-wrap: break-word;
 }
 h2:first-child {
-  margin-top: 8rem;
+  margin-top: 15vh;
 }
 p:last-child {
-  margin-bottom: 8rem;
+  margin-bottom: 15vh;
 }
 h1 {
   text-align: center;
@@ -365,5 +365,11 @@ td {
 }
 td {
   text-align: left;
+}
+
+@media (max-width: 1500px) {
+  .container {
+    width: 95%;
+  }
 }
 </style>

@@ -125,7 +125,7 @@ export default {
 @media (min-width: 700px) {
   .img-content h2,
   .img-content h1 {
-    text-align: start;
+    text-align: center;
   }
 }
 .img-content::before {

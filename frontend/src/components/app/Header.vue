@@ -151,17 +151,16 @@ export default {
   color: var(--v-secondary-darken2);
   #logo {
     height: 70px;
-    transition: opacity 0.3s ease-in-out;
-    &:hover {
-      opacity: 0.8;
-    }
   }
   #name {
     font-size: 32px;
     color: var(--v-secondary-base);
-    &:hover {
-      color: var(--v-secondary-darken1);
-    }
+  }
+  & > * {
+    transition: opacity 0.3s ease-in-out;
+  }
+  & > *:hover {
+    opacity: 0.7;
   }
 }
 #buttons {
