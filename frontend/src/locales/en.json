@@ -227,7 +227,13 @@
       },
       "native": "native speaker",
       "refresh": "Refresh filters"
-    }
+    },
+    "request": "Send a request"
+  },
+  "choose": {
+    "header": "Choose your tutor",
+    "choose": "Choose one of the following tutors or wait for others to offer their services",
+    "time_left": "Time left for over tutors to offer their services"
   },
   "tutor": {
     "hour": "h",

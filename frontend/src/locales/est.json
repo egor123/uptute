@@ -187,6 +187,7 @@
   },
   "find": {
     "header": "Leia õpetaja ",
+
     "search": "Trüki õpetaja nimi...",
     "filters": {
       "subject": {
@@ -228,7 +229,14 @@
       },
       "native": "emakeele kõneleja",
       "refresh": "Tühjenda filtrid"
-    }
+    },
+    "request": "Saada päring"
+  },
+
+  "choose": {
+    "header": "Vali õpetaja",
+    "choose": "Vali ühte järgnevatest õpetajatest või oota, kuni ülejäänud oma teenusi pakkuvad",
+    "time_left": "Aega jäänud õpetajatel, et oma teenusi pakkuda"
   },
   "tutor": {
     "hour": "t",

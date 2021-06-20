@@ -15,7 +15,7 @@
             <img width="20px" height="20px" src="@/assets/icons/clock.svg" />
             <p>{{ tutor.hours }}h</p>
           </div>
-          <raiting :value="tutor.rating" />
+          <Raiting :value="tutor.rating" />
           <div>
             <img width="20px" height="20px" src="@/assets/icons/message.svg" />
             <p>{{ tutor.comments }}</p>
@@ -26,45 +26,83 @@
           outlined
           rounded
           text
+          class="button"
           :to="{ nane: 'Tutor', params: { id: tutor.id } }"
-          @click="$ga.event('booking', 'button is pressed', 'booking button is pressed', true)"
+          @click="
+            $ga.event(
+              'booking',
+              'button is pressed',
+              'booking button is pressed',
+              true
+            )
+          "
         >
-        
           {{ $l("tutor.btn") }}
         </v-btn>
       </div>
-
-      <calendar class="calendar" :days="tutor.days" />
     </div>
   </div>
 </template>
 
 <script>
-import Calendar from "./Calendar";
 import Raiting from "./Raiting.vue";
+
 export default {
   props: {
     tutors: Array,
   },
-  components: { Calendar, Raiting },
+  components: { Raiting },
 };
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
+$button-height: 36px;
+$card-rows-margin: 10px;
+
 #main {
   width: 100%;
-  min-width: 0px;
+  min-width: 0px; /* ??? */
 }
 .card {
   position: relative;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  max-width: clamp(260px, 80%, 800px);
+  /* max-width: clamp(260px, 80%, 800px); */
+  width: 100%;
   background: var(--v-secondary-base);
   border-radius: 15px;
   margin: 15px auto;
   padding: 15px;
   text-align: left;
+
+  & .button {
+    transition-property: height, opacity, margin-top, background-color;
+    transition-timing-function: ease-in-out;
+
+    background-color: var(--v-secondary-darken1);
+  }
+
+  & .button:hover {
+    transition-duration: 200ms;
+    background-color: var(--v-secondary-darken2);
+  }
+
+  &:not(:hover) .button {
+    height: 0px;
+    opacity: 0;
+    transition-duration: 180ms;
+    transition-delay: 100ms, 0ms, 100ms;
+    margin-top: -15px; // to hide invisible element
+  }
+
+  &:hover * .button {
+    height: $button-height;
+    opacity: 0.3;
+    transition-duration: 300ms;
+    transition-delay: 0ms, 180ms, 0ms;
+    margin-top: $card-rows-margin;
+  }
 }
 
 .data {
@@ -74,21 +112,18 @@ export default {
   justify-content: space-around;
 }
 
-.calendar {
-  flex: 200%;
-}
-
 .profile {
   display: inline-flex;
   width: 100%;
 }
 
 .profile img {
-  margin: auto;
+  margin: 0 auto;
   border-radius: 50%;
   border-style: solid;
   border-width: 2px;
   border-color: var(--v-primary-base);
+  opacity: 0.2;
 }
 
 .profile div {
@@ -101,11 +136,15 @@ export default {
   float: right;
 }
 
+.profile p {
+  margin: 0;
+}
+
 .tutor {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-top: auto;
+  margin-top: $card-rows-margin;
 }
 
 .tutor div {
@@ -116,8 +155,8 @@ export default {
   margin: auto 0;
 }
 
-@media (max-width: 720px) {
-  .card {
+/* @media (max-width: 720px) {
+   .card {
     flex-direction: column;
   }
   .card::after {
@@ -130,5 +169,5 @@ export default {
     position: absolute;
     bottom: 15px;
   }
-}
+} */
 </style>

@@ -24,7 +24,6 @@ export default {
   height: fit-content;
 }
 .star {
-  filter: drop-shadow(0 0 10px rgb(167, 167, 167));
   & + & {
     margin-left: 5px;
   }

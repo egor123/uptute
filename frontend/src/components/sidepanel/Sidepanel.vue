@@ -13,10 +13,9 @@
     <v-btn
       id="panel"
       small
-      depressed
-      outlined
-      plain
+      text
       rounded
+      class="button"
       @click="search = copy(def)"
       >{{ $l("find.filters.refresh") }}</v-btn
     >
@@ -97,19 +96,35 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .container {
   height: fit-content;
+  /* max-height: 70vh; */
   position: -webkit-sticky;
   position: sticky;
   top: 150px;
-  height: 70vh;
   width: 300px;
   min-width: 100px;
   overflow: auto;
 }
+
+#panels {
+  margin: 0;
+}
+
 #panel {
   margin: 5px;
   text-align: left;
+}
+
+.button {
+  background-color: var(--v-background-base);
+  color: var(--v-secondary-darken4);
+  transition: background-color 600ms;
+  opacity: 0.6;
+
+  &:hover {
+    background-color: var(--v-secondary-darken1);
+  }
 }
 </style>
