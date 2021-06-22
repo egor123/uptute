@@ -192,20 +192,17 @@
     "filters": {
       "subject": {
         "h": "Õppeaine",
-        "p": "Sinu õppeaine...",
         "search": "Otsi"
       },
       "language": {
-        "h": "Keel",
-        "p": "Sinu keel..."
+        "h": "Keel"
       },
       "location": {
         "h": "Asukoht",
         "p": "Tunni asukoht..."
       },
       "audience": {
-        "h": "Vanus",
-        "p": "Sinu klass.."
+        "h": "Klass"
       },
       "price": {
         "h": "Hind",

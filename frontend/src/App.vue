@@ -57,17 +57,17 @@ html {
   }
 }
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--v-secondary-darken2);
+  background: var(--v-background-base);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--v-secondary-darken4);
-  border-radius: 10px;
+  background-color: var(--v-secondary-darken3);
+  border-radius: 15px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--v-primary-lighten5);
+  background-color: var(--v-secondary-darken4);
 }
 </style>
 <style scoped>

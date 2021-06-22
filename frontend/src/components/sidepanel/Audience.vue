@@ -1,10 +1,9 @@
 <template>
-  <v-expansion-panel id="panel">
-    <v-expansion-panel-header id="header">
+  <v-expansion-panel active-class="activePanel" id="panel">
+    <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.audience.h") }}
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      {{ $l("find.filters.audience.p") }}
       <div id="slider">
         <v-slider
           v-model="grade"
@@ -29,7 +28,7 @@ export default {
   },
   props: ["value"],
   watch: {
-    value: function (val) {
+    value: function(val) {
       this.grade = val;
     },
   },

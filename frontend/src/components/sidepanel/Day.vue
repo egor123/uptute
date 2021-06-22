@@ -1,6 +1,6 @@
 <template>
-  <v-expansion-panel id="panel">
-    <v-expansion-panel-header id="header">
+  <v-expansion-panel active-class="activePanel" id="panel">
+    <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.day.h") }}
     </v-expansion-panel-header>
     <v-expansion-panel-content>
@@ -96,7 +96,7 @@ export default {
   },
   props: ["value"],
   watch: {
-    value: function (val) {
+    value: function(val) {
       this.dates = val;
       this.date = val.first;
       this.date2 = val.last;
@@ -104,7 +104,7 @@ export default {
   },
   computed: {
     dateFirst: {
-      set: function (val) {
+      set: function(val) {
         this.dates.first = val;
         this.dates.last = this.addDays(val, 7);
         this.date2 = this.dates.last;
@@ -112,18 +112,18 @@ export default {
 
         this.$emit("input", this.dates);
       },
-      get: function () {
+      get: function() {
         return this.dates.first;
       },
     },
     dateLast: {
-      set: function (val) {
+      set: function(val) {
         var f = this.addDays(val, -7);
         var today = this.getDate();
         if (today > f) this.dateFirst = today;
         else this.dateFirst = f;
       },
-      get: function () {
+      get: function() {
         return this.dates.first;
       },
     },

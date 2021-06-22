@@ -1,10 +1,9 @@
 <template>
-  <v-expansion-panel id="panel">
-    <v-expansion-panel-header id="header">
+  <v-expansion-panel active-class="activePanel" id="panel">
+    <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.subject.h") }}
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <p>{{ $l("find.filters.subject.p") }}</p>
       <v-text-field
         class="search"
         v-model="search"
@@ -13,26 +12,27 @@
         single-line
         hide-details
       ></v-text-field>
-      <v-virtual-scroll height="150" item-height="40" :items="getSubjects()">
-        <template v-slot:default="{ item }">
-          <v-list-item :key="item">
-            <v-checkbox
-              v-model="subjects"
-              v-on="handleInput()"
-              :value="item"
-              :label="$l('data.subjects.' + item)"
-            />
-          </v-list-item>
-        </template>
-      </v-virtual-scroll>
+      <div class="scroll">
+        <v-radio-group v-model="subject">
+          <v-radio
+            color="accent"
+            v-for="item in getSubjects()"
+            :key="item"
+            v-on="handleInput()"
+            :value="item"
+            :label="$l('data.subjects.' + item)"
+          />
+        </v-radio-group>
+      </div>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
+
 <script>
 export default {
   data() {
     return {
-      subjects: this.value,
+      subject: this.value,
       search: "",
     };
   },
@@ -53,18 +53,44 @@ export default {
       return values;
     },
     handleInput() {
-      this.$emit("input", this.subjects);
+      this.$emit("input", this.subject);
     },
   },
   watch: {
-    value: function (val) {
+    value: function(val) {
       this.subjects = val;
     },
   },
 };
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
+.scroll {
+  overflow-y: scroll;
+  height: 150px;
+  padding: 0 10px;
+}
+
 .search {
   margin: 10px;
+}
+
+.activePanel#panel {
+  border-radius: 15px 15px 0 0 !important;
+}
+
+.scroll {
+  &::-webkit-scrollbar-track {
+    background: var(--v-secondary-base);
   }
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--v-secondary-darken2);
+    &:hover {
+      background: var(--v-secondary-darken3);
+    }
+  }
+}
 </style>

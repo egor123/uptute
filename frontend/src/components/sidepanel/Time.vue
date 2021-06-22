@@ -1,6 +1,6 @@
 <template>
-  <v-expansion-panel id="panel">
-    <v-expansion-panel-header id="header">
+  <v-expansion-panel active-class="activePanel" id="panel">
+    <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.time.h") }}
     </v-expansion-panel-header>
     <v-expansion-panel-content>
@@ -81,7 +81,7 @@ export default {
     this.times.max = this.time2;
   },
   watch: {
-    value: function (val) {
+    value: function(val) {
       this.times = val;
       this.time = val.min;
       this.time2 = val.max;
@@ -89,7 +89,7 @@ export default {
   },
   computed: {
     timeMin: {
-      set: function (val) {
+      set: function(val) {
         this.times.min = val;
         this.time = val;
         if (this.compareTime(val, this.timeMax)) {
@@ -98,12 +98,12 @@ export default {
         }
         this.$emit("input", this.times);
       },
-      get: function () {
+      get: function() {
         return this.times.min;
       },
     },
     timeMax: {
-      set: function (val) {
+      set: function(val) {
         this.times.max = val;
         this.time2 = val;
         if (this.compareTime(this.timeMin, val)) {
@@ -112,7 +112,7 @@ export default {
         }
         this.$emit("input", this.times);
       },
-      get: function () {
+      get: function() {
         return this.times.max;
       },
     },

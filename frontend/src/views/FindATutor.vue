@@ -4,16 +4,14 @@
 
     <div class="content">
       <div class="innerContent">
-        <div v-if="!chosen">
-          <Sidepanel id="sidepanel" />
-          <v-btn
-            :to="{ name: 'ChooseATutor' }"
-            rounded
-            class="orangeBackground mt-3"
-          >
-            {{ $l("find.request") }}
-          </v-btn>
-        </div>
+        <Sidepanel id="sidepanel" />
+        <v-btn
+          :to="{ name: 'ChooseATutor' }"
+          rounded
+          class="orangeBackground mt-3"
+        >
+          {{ $l("find.request") }}
+        </v-btn>
       </div>
     </div>
   </div>
@@ -52,10 +50,26 @@ export default {
 
 .innerContent {
   margin: 15vh 0;
-  width: 350px; //!!!!! should be changed
+  width: max-content;
+  justify-content: center;
 }
 
 #sidepanel {
   position: static;
+  margin: 0 auto;
+}
+
+@media (max-width: 320px) {
+  .innerContent {
+    transform: scale(0.9);
+    margin: 4rem -0.8rem;
+  }
+}
+
+@media (max-width: 280px) {
+  .innerContent {
+    transform: scale(0.8);
+    margin: 2.5rem -1.7rem;
+  }
 }
 </style>

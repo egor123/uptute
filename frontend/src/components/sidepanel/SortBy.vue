@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panel id="panel">
-    <v-expansion-panel-header id="header">
+    <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.filters.h") }}
     </v-expansion-panel-header>
     <v-expansion-panel-content>
@@ -37,7 +37,7 @@ export default {
     },
   },
   watch: {
-    value: function (val) {
+    value: function(val) {
       this.filter = val;
     },
   },

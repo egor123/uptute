@@ -12,20 +12,29 @@
         </div>
         <div class="tutor">
           <div>
-            <img width="20px" height="20px" src="@/assets/icons/clock.svg" />
-            <p>{{ tutor.hours }}h</p>
+            <img
+              width="20px"
+              height="20px"
+              class="mr-1"
+              src="@/assets/icons/clock.svg"
+            />
+            <p>{{ tutor.hours }}{{ $l("tutor.hour") }}</p>
           </div>
           <Raiting :value="tutor.rating" />
           <div>
-            <img width="20px" height="20px" src="@/assets/icons/message.svg" />
+            <img
+              width="20px"
+              height="20px"
+              class="mr-1"
+              src="@/assets/icons/message.svg"
+            />
             <p>{{ tutor.comments }}</p>
           </div>
         </div>
 
         <v-btn
-          outlined
           rounded
-          text
+          elevation="0"
           class="button"
           :to="{ nane: 'Tutor', params: { id: tutor.id } }"
           @click="
@@ -57,7 +66,7 @@ export default {
 
 <style lang="scss" scoped>
 $button-height: 36px;
-$card-rows-margin: 10px;
+$card-rows-margin: 5px;
 
 #main {
   width: 100%;
@@ -76,32 +85,37 @@ $card-rows-margin: 10px;
   padding: 15px;
   text-align: left;
 
+  & .tutor {
+    margin: 36px 0 -36px 0;
+  }
+
   & .button {
-    transition-property: height, opacity, margin-top, background-color;
-    transition-timing-function: ease-in-out;
-
-    background-color: var(--v-secondary-darken1);
-  }
-
-  & .button:hover {
-    transition-duration: 200ms;
-    background-color: var(--v-secondary-darken2);
-  }
-
-  &:not(:hover) .button {
-    height: 0px;
     opacity: 0;
-    transition-duration: 180ms;
-    transition-delay: 100ms, 0ms, 100ms;
-    margin-top: -15px; // to hide invisible element
+    color: var(--v-secondary-darken3);
+    background: var(--v-secondary-darken4);
+    &:hover {
+      opacity: 1 !important;
+    }
   }
 
-  &:hover * .button {
-    height: $button-height;
-    opacity: 0.3;
-    transition-duration: 300ms;
-    transition-delay: 0ms, 180ms, 0ms;
-    margin-top: $card-rows-margin;
+  &:not(:hover) {
+    & .tutor {
+      transition: all 500ms ease 200ms;
+    }
+    & .button {
+      transition: opacity 500ms ease 0ms;
+    }
+  }
+
+  &:hover {
+    & .tutor {
+      margin: 0 !important;
+      transition: all 600ms ease 0ms;
+    }
+    & .button {
+      opacity: 0.6;
+      transition: opacity 800ms ease 100ms;
+    }
   }
 }
 
@@ -144,7 +158,7 @@ $card-rows-margin: 10px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-top: $card-rows-margin;
+  margin-top: 30px;
 }
 
 .tutor div {
@@ -154,20 +168,4 @@ $card-rows-margin: 10px;
 .tutor * {
   margin: auto 0;
 }
-
-/* @media (max-width: 720px) {
-   .card {
-    flex-direction: column;
-  }
-  .card::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 40px;
-  }
-  .data .v-btn {
-    position: absolute;
-    bottom: 15px;
-  }
-} */
 </style>
