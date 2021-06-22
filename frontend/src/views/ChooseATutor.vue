@@ -32,19 +32,6 @@
         </div>
         <div class="infoCard">
           <v-container class="innerContainer">
-            <v-tooltip right>
-              <template v-slot:activator="{ on, attrs }">
-                <p class="timeLeft" v-bind="attrs" v-on="on">
-                  00:{{ countDown }}
-                </p>
-              </template>
-              <span>
-                <p>
-                  {{ $l("choose.time_left") }}
-                </p>
-              </span>
-            </v-tooltip>
-
             <h3 class="chooseOne">{{ $l("choose.choose") }}</h3>
           </v-container>
         </div>
@@ -121,16 +108,6 @@ export default {
       ],
     };
   },
-  methods: {
-    async countDownTimer() {
-      if (this.countDown > 0) {
-        setTimeout(() => {
-          this.countDown -= 1;
-          this.countDownTimer();
-        }, 1000);
-      }
-    },
-  },
 
   async mounted() {
     for (var i = 0; i < 5; i++) {
@@ -139,7 +116,6 @@ export default {
     this.tutors.forEach((tutor) => {
       tutor.rating = Math.random() * 3 + 2;
     });
-    this.countDownTimer();
   },
 };
 </script>
@@ -160,14 +136,8 @@ $inner-content-width: 350px;
 }
 
 .innerContent {
-  margin: 15vh 0;
+  margin: 7rem 0;
   width: $inner-content-width;
-}
-
-@media (max-width: 400px) {
-  .innerContent {
-    width: 300px;
-  }
 }
 
 .infoCard,
@@ -184,14 +154,35 @@ $inner-content-width: 350px;
   }
 }
 
+@media (max-width: 400px) {
+  .innerContent {
+    transform: scale(0.9);
+    margin: 1.5rem -0.9rem;
+  }
+}
+
+@media (max-width: 330px) {
+  .innerContent {
+    transform: scale(0.8);
+    margin: -3rem -2rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .innerContent {
+    transform: scale(0.7);
+    margin: -7.5rem -3.1rem;
+  }
+}
+
 .lessonInfo {
   border-radius: 15px 15px 0 0;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .infoCard {
   border-radius: 0 0 15px 15px;
-  margin-bottom: 3vh;
+  margin-bottom: 30px;
 }
 
 .lessonInfo {

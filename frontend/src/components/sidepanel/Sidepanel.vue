@@ -1,15 +1,22 @@
 <template>
   <div class="container">
-    <v-expansion-panels v-model="panel" multiple hover focusable id="panels">
-      <Subjects v-model="search.subjects" />
+    <v-expansion-panels v-model="panel" flat hover focusable class="panels">
+      <Subjects class="exp-panel" v-model="search.subjects" />
+
+      <!-- AGE is ALWAYS FIRST!! -->
+
       <Languages v-model="search.languages" />
-      <Audience v-model="search.grade" />
+      <!-- <Audience v-model="search.grade" /> -->
       <Price v-model="search.price" />
-      <Day v-model="search.date" />
-      <Time v-model="search.time" />
+      <!-- <Day v-model="search.date" />
+      <Time v-model="search.time" /> -->
+
+      <!-- AGE is ALWAYS LAST!! -->
+
       <Age v-model="search.age" />
-      <SortBy v-model="search.filter" />
+      <!-- <SortBy v-model="search.filter" /> -->
     </v-expansion-panels>
+
     <v-btn
       id="panel"
       small
@@ -25,29 +32,29 @@
 import { mapGetters, mapActions } from "vuex";
 import Subjects from "./Subjects";
 import Languages from "./Languages";
-import Audience from "./Audience";
+// import Audience from "./Audience";
 import Price from "./Price";
-import Day from "./Day";
-import Time from "./Time";
+// import Day from "./Day";
+// import Time from "./Time";
 import Age from "./Age";
-import SortBy from "../sidepanel/SortBy.vue";
+// import SortBy from "../sidepanel/SortBy.vue";
 
 export default {
   components: {
     Subjects,
     Languages,
-    Audience,
+    // Audience,
     Price,
-    Day,
-    Time,
+    // Day,
+    // Time,
     Age,
-    SortBy,
+    // SortBy,
   },
   data() {
     return {
       panel: [],
       search: {
-        subjects: [],
+        subjects: "",
         languages: [],
         grade: 9,
         price: [0, 15],
@@ -96,6 +103,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .container {
   height: fit-content;
@@ -108,8 +116,18 @@ export default {
   overflow: auto;
 }
 
-#panels {
+.panels {
   margin: 0;
+  border-radius: 15px;
+
+  & * {
+    transition: all 400ms;
+    margin: 0 !important;
+  }
+
+  & *:hover {
+    margin: 5px 0 !important;
+  }
 }
 
 #panel {

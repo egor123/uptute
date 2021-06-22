@@ -190,20 +190,17 @@
     "filters": {
       "subject": {
         "h": "Subject",
-        "p": "Your subject...",
         "search": "Search"
       },
       "language": {
-        "h": "language",
-        "p": "Your language..."
+        "h": "Language"
       },
       "location": {
         "h": "Location",
         "p": "Your location..."
       },
       "audience": {
-        "h": "Audience",
-        "p": "Your grade..."
+        "h": "Grade"
       },
       "price": {
         "h": "Price",
@@ -233,7 +230,7 @@
   "choose": {
     "header": "Choose your tutor",
     "choose": "Choose one of the following tutors or wait for others to offer their services",
-    "time_left": "Time left for over tutors to offer their services"
+    "time_left": "Time left for other tutors to offer their services"
   },
   "tutor": {
     "hour": "h",

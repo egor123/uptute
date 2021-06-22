@@ -11,19 +11,19 @@
 
       <v-list class="pr-0" flat dense nav>
         <v-list-item-group active-class="chosenPage">
-          <v-list-item exact link :to="{ name: 'Home' }">
+          <v-list-item exact active-class="active" :to="{ name: 'Home' }">
             {{ $l("app.pages.home") }}
           </v-list-item>
-          <v-list-item link :to="{ name: 'WhyUs' }">
+          <v-list-item link active-class="active" :to="{ name: 'WhyUs' }">
             {{ $l("app.pages.why_us") }}
           </v-list-item>
-          <v-list-item link :to="{ name: 'LogIn' }">
+          <v-list-item link active-class="active" :to="{ name: 'LogIn' }">
             {{ $l("app.pages.log_in") }}
           </v-list-item>
-          <v-list-item link :to="{ name: 'Register' }">
+          <v-list-item link active-class="active" :to="{ name: 'Register' }">
             {{ $l("app.pages.register") }}
           </v-list-item>
-          <v-list-item link :to="{ name: 'FindATutor' }">
+          <v-list-item link active-class="active" :to="{ name: 'FindATutor' }">
             {{ $l("app.pages.find_tutor") }}
           </v-list-item>
         </v-list-item-group>
@@ -91,7 +91,8 @@ $drawer-background: #fafafa;
   border-radius: 5px 0 0 5px;
 }
 
-.chosenPage:focus {
+.active {
+  color: var(--v-secondary-darken3) !important;
   background: var(--v-secondary-darken1) !important;
   border-radius: 5px 0 0 5px !important;
 }

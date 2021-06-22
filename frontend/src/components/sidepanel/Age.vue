@@ -1,10 +1,10 @@
 <template>
-  <v-expansion-panel id="panel">
-    <v-expansion-panel-header id="header">
+  <v-expansion-panel active-class="activePanel" id="panel">
+    <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.tutor_age.h") }}
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      {{ age[0] }}-{{ age[1] }} {{ $l("find.filters.tutor_age.p") }}
+      <p>{{ age[0] }} - {{ age[1] }} {{ $l("find.filters.tutor_age.p") }}</p>
       <div id="slider">
         <v-range-slider
           v-model="age"
@@ -29,7 +29,7 @@ export default {
   },
   props: ["value"],
   watch: {
-    value: function (val) {
+    value: function(val) {
       this.age = val;
     },
   },
@@ -40,8 +40,21 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 #slider {
   margin-top: 25px;
+}
+
+.panelHeader:hover {
+  border-radius: 0 0 15px 15px;
+}
+
+.activePanel .panelHeader {
+  border-radius: 0 !important;
+}
+
+.activePanel#panel {
+  border-radius: 0 0 15px 15px !important;
 }
 </style>

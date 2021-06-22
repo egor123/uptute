@@ -57,7 +57,7 @@ export default {
 
 <style lang="scss" scoped>
 $button-height: 36px;
-$card-rows-margin: 10px;
+$card-rows-margin: 5px;
 
 #main {
   width: 100%;
@@ -76,32 +76,32 @@ $card-rows-margin: 10px;
   padding: 15px;
   text-align: left;
 
+  & .tutor {
+    margin: 36px 0 -36px 0;
+  }
+
   & .button {
-    transition-property: height, opacity, margin-top, background-color;
-    transition-timing-function: ease-in-out;
-
-    background-color: var(--v-secondary-darken1);
-  }
-
-  & .button:hover {
-    transition-duration: 200ms;
-    background-color: var(--v-secondary-darken2);
-  }
-
-  &:not(:hover) .button {
-    height: 0px;
     opacity: 0;
-    transition-duration: 180ms;
-    transition-delay: 100ms, 0ms, 100ms;
-    margin-top: -15px; // to hide invisible element
   }
 
-  &:hover * .button {
-    height: $button-height;
-    opacity: 0.3;
-    transition-duration: 300ms;
-    transition-delay: 0ms, 180ms, 0ms;
-    margin-top: $card-rows-margin;
+  &:not(:hover) {
+    & .tutor {
+      transition: all 500ms ease 200ms;
+    }
+    & .button {
+      transition: opacity 500ms ease 0ms;
+    }
+  }
+
+  &:hover {
+    & .tutor {
+      margin: 0 !important;
+      transition: all 600ms ease 0ms;
+    }
+    & .button {
+      opacity: 1;
+      transition: opacity 800ms ease 100ms;
+    }
   }
 }
 
@@ -144,7 +144,7 @@ $card-rows-margin: 10px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-top: $card-rows-margin;
+  margin-top: 30px;
 }
 
 .tutor div {
@@ -154,20 +154,4 @@ $card-rows-margin: 10px;
 .tutor * {
   margin: auto 0;
 }
-
-/* @media (max-width: 720px) {
-   .card {
-    flex-direction: column;
-  }
-  .card::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 40px;
-  }
-  .data .v-btn {
-    position: absolute;
-    bottom: 15px;
-  }
-} */
 </style>

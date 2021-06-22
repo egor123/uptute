@@ -1,10 +1,9 @@
 <template>
-  <v-expansion-panel id="panel">
-    <v-expansion-panel-header id="header">
+  <v-expansion-panel active-class="activePanel" id="panel">
+    <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.language.h") }}
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <p>{{ $l("find.filters.language.p") }}</p>
       <v-virtual-scroll height="150" item-height="40" :items="getLanguages()">
         <template v-slot:default="{ item }">
           <v-list-item :key="item">
@@ -38,7 +37,7 @@ export default {
     },
   },
   watch: {
-    value: function (val) {
+    value: function(val) {
       this.languages = val;
     },
   },

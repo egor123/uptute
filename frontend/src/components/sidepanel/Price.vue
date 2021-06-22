@@ -1,10 +1,10 @@
 <template>
-  <v-expansion-panel id="panel">
-    <v-expansion-panel-header id="header">
+  <v-expansion-panel active-class="activePanel" id="panel">
+    <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.price.h") }}
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      {{ price[0] }}-{{ price[1] }}€/{{ $l("find.filters.price.p") }}
+      <p>{{ price[0] }} - {{ price[1] }} €/{{ $l("find.filters.price.p") }}</p>
       <div id="slider">
         <v-range-slider
           v-model="price"
@@ -29,7 +29,7 @@ export default {
   },
   props: ["value"],
   watch: {
-    value: function (val) {
+    value: function(val) {
       this.price = val;
     },
   },
