@@ -55,7 +55,7 @@ export default {
       panel: [],
       search: {
         subjects: "",
-        language: null,
+        language: [],
         grade: 9,
         price: [0, 15],
         date: { first: this.getToday(), last: this.getLastDay() },
@@ -126,7 +126,8 @@ export default {
   }
 
   & *:hover {
-    margin: 5px 0 !important;
+    // margin: 5px 0 !important;
+    transform: scale(0.95);
   }
 }
 

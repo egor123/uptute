@@ -13,16 +13,16 @@
         hide-details
       ></v-text-field>
       <div class="scroll">
-      <v-radio-group v-model="subject">
-        <v-radio
-          color="accent"
-          v-for="item in getSubjects()"
-          :key="item"
-          v-on="handleInput()"
-          :value="item"
-          :label="$l('data.subjects.' + item)"
-        />
-      </v-radio-group>
+        <v-radio-group v-model="subject">
+          <v-radio
+            color="accent"
+            v-for="item in getSubjects()"
+            :key="item"
+            v-on="handleInput()"
+            :value="item"
+            :label="$l('data.subjects.' + item)"
+          />
+        </v-radio-group>
       </div>
     </v-expansion-panel-content>
   </v-expansion-panel>
@@ -57,15 +57,15 @@ export default {
     },
   },
   watch: {
-    value: function (val) {
+    value: function(val) {
       this.subjects = val;
     },
   },
 };
 </script>
 
-<style scoped>
-.scroll{
+<style lang="scss" scoped>
+.scroll {
   overflow-y: scroll;
   height: 150px;
   padding: 0 10px;
@@ -77,5 +77,20 @@ export default {
 
 .activePanel#panel {
   border-radius: 15px 15px 0 0 !important;
+}
+
+.scroll {
+  &::-webkit-scrollbar-track {
+    background: var(--v-secondary-base);
+  }
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--v-secondary-darken2);
+    &:hover {
+      background: var(--v-secondary-darken3);
+    }
+  }
 }
 </style>

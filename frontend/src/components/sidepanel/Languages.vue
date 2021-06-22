@@ -11,6 +11,7 @@
               v-model="languages"
               v-on="handleInput()"
               :value="item"
+              color="accent"
               :label="$l('data.languages.' + item)"
             />
           </v-list-item>

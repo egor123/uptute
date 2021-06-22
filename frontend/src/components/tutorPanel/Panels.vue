@@ -12,20 +12,29 @@
         </div>
         <div class="tutor">
           <div>
-            <img width="20px" height="20px" src="@/assets/icons/clock.svg" />
-            <p>{{ tutor.hours }}h</p>
+            <img
+              width="20px"
+              height="20px"
+              class="mr-1"
+              src="@/assets/icons/clock.svg"
+            />
+            <p>{{ tutor.hours }}{{ $l("tutor.hour") }}</p>
           </div>
           <Raiting :value="tutor.rating" />
           <div>
-            <img width="20px" height="20px" src="@/assets/icons/message.svg" />
+            <img
+              width="20px"
+              height="20px"
+              class="mr-1"
+              src="@/assets/icons/message.svg"
+            />
             <p>{{ tutor.comments }}</p>
           </div>
         </div>
 
         <v-btn
-          outlined
           rounded
-          text
+          elevation="0"
           class="button"
           :to="{ nane: 'Tutor', params: { id: tutor.id } }"
           @click="
@@ -82,6 +91,11 @@ $card-rows-margin: 5px;
 
   & .button {
     opacity: 0;
+    color: var(--v-secondary-darken3);
+    background: var(--v-secondary-darken4);
+    &:hover {
+      opacity: 1 !important;
+    }
   }
 
   &:not(:hover) {
@@ -99,7 +113,7 @@ $card-rows-margin: 5px;
       transition: all 600ms ease 0ms;
     }
     & .button {
-      opacity: 1;
+      opacity: 0.6;
       transition: opacity 800ms ease 100ms;
     }
   }

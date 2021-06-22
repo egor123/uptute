@@ -41,3 +41,7 @@
   transform: scale(1);
   opacity: 1;
 }
+
+.activePanel#panel {
+  border-radius: 0 !important;
+}
