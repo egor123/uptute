@@ -41,3 +41,13 @@
   transform: scale(1);
   opacity: 1;
 }
+
+.activePanel#panel {
+  border-radius: 0;
+}
+
+#panel p {
+  text-align: center;
+  margin: 5px 0 -5px 0;
+  color: var(--v-secondary-darken4);
+}
