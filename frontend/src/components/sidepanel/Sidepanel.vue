@@ -5,7 +5,7 @@
 
       <!-- AGE is ALWAYS FIRST!! -->
 
-      <Languages v-model="search.languages" />
+      <Languages v-model="search.language" />
       <!-- <Audience v-model="search.grade" /> -->
       <Price v-model="search.price" />
       <!-- <Day v-model="search.date" />
@@ -55,7 +55,7 @@ export default {
       panel: [],
       search: {
         subjects: "",
-        languages: [],
+        language: null,
         grade: 9,
         price: [0, 15],
         date: { first: this.getToday(), last: this.getLastDay() },
