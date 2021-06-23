@@ -49,14 +49,15 @@ export default {
 }
 
 .innerContent {
-  margin: 15vh 0;
-  width: max-content;
+  margin: 8rem 0;
+  width: 350px;
   justify-content: center;
 }
 
 #sidepanel {
   position: static;
   margin: 0 auto;
+  padding: 0;
 }
 
 @media (max-width: 320px) {

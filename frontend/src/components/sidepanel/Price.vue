@@ -2,6 +2,9 @@
   <v-expansion-panel active-class="activePanel" id="panel">
     <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.price.h") }}
+      <div class="text-right mr-3 secondary--text text--darken-2">
+        {{ value }}
+      </div>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
       <p>{{ price[0] }} - {{ price[1] }} €/{{ $l("find.filters.price.p") }}</p>

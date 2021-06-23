@@ -110,8 +110,8 @@ export default {
   /* max-height: 70vh; */
   position: -webkit-sticky;
   position: sticky;
-  top: 150px;
-  width: 300px;
+
+  width: 100%;
   min-width: 100px;
   overflow: auto;
 }
@@ -126,7 +126,6 @@ export default {
   }
 
   & *:hover {
-    // margin: 5px 0 !important;
     transform: scale(0.95);
   }
 }

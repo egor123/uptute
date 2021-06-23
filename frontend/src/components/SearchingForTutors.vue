@@ -45,7 +45,7 @@ export default {};
     transform: scale(1);
   }
   to {
-    transform: scale(0.7);
+    transform: scale(0.75);
   }
 }
 

@@ -4,32 +4,7 @@
 
     <div class="content">
       <div class="innerContent">
-        <div class="lessonInfo">
-          <div class="containerInfo">
-            <table>
-              <tr>
-                <th>{{ $l("find.filters.subject.h") }}</th>
-                <td>Maths</td>
-              </tr>
-              <tr>
-                <th>{{ $l("find.filters.language.h") }}</th>
-                <td>English, Esonian</td>
-              </tr>
-              <tr>
-                <th>{{ $l("find.filters.price.h") }}</th>
-                <td>3.00 - 6.00 $/h</td>
-              </tr>
-              <tr>
-                <th>{{ $l("find.filters.day.h") }}</th>
-                <td>Monday, 06.21.2021</td>
-              </tr>
-              <tr>
-                <th>{{ $l("find.filters.time.h") }}</th>
-                <td>12.00 - 14.00</td>
-              </tr>
-            </table>
-          </div>
-        </div>
+        <LessonInfo />
         <div class="infoCard">
           <v-container class="innerContainer">
             <h3 class="chooseOne">{{ $l("choose.choose") }}</h3>
@@ -46,6 +21,7 @@
 import Header from "@/components/Header.vue";
 import Panels from "@/components/tutorPanel/Panels";
 import SearchingForTutors from "@/components/SearchingForTutors.vue";
+import LessonInfo from "@/components/LessonInfo.vue";
 
 export default {
   name: "ChooseATutor",
@@ -58,6 +34,7 @@ export default {
     Header,
     Panels,
     SearchingForTutors,
+    LessonInfo,
   },
   data() {
     return {
@@ -143,12 +120,11 @@ $inner-content-width: 350px;
   width: $inner-content-width;
 }
 
-.infoCard,
-.lessonInfo {
+.infoCard {
   width: 100%;
   height: max-content;
 
-  background: white;
+  background: var(--v-secondary-base);
   flex-wrap: wrap;
   opacity: 0.4;
   transition: opacity 800ms;
@@ -178,56 +154,18 @@ $inner-content-width: 350px;
   }
 }
 
-.lessonInfo {
-  border-radius: 15px 15px 0 0;
-  margin-bottom: 6px;
-}
-
 .infoCard {
-  border-radius: 0 0 15px 15px;
+  border-radius: 15px;
   margin-bottom: 15px;
 }
 
-.lessonInfo {
-  width: 100%;
-  & .containerInfo {
-    padding: 15px;
-    text-align: left;
-    width: 100%;
-  }
-  & table {
-    width: 100%;
-  }
-  & td,
-  th {
-    padding-bottom: 10px;
-    margin: 0;
-    &:last-child {
-      padding: 0px;
-    }
-  }
-
-  & th {
-    color: var(--v-secondary-darken2);
-    font-weight: normal;
-  }
-
-  & td {
-    text-align: right;
-  }
-}
-
-@media (min-width: 1250px) {
+@media (max-width: 1200px) {
   .lessonInfo {
-    position: fixed;
-    right: 3vw;
-    top: 15vh;
-    width: $inner-content-width;
+    border-radius: 15px 15px 0 0;
+    position: static;
   }
-
-  .lessonInfo,
   .infoCard {
-    border-radius: 15px;
+    border-radius: 0 0 15px 15px;
   }
 }
 
@@ -244,3 +182,4 @@ $inner-content-width: 350px;
   margin: 1rem 0;
 }
 </style>
+<style lang="scss"></style>
