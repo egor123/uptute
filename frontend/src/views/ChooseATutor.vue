@@ -35,6 +35,7 @@
             <h3 class="chooseOne">{{ $l("choose.choose") }}</h3>
           </v-container>
         </div>
+        <SearchingForTutors />
         <Panels id="panels" :tutors="tutors" />
       </div>
     </div>
@@ -44,6 +45,7 @@
 <script>
 import Header from "@/components/Header.vue";
 import Panels from "@/components/tutorPanel/Panels";
+import SearchingForTutors from "@/components/SearchingForTutors.vue";
 
 export default {
   name: "ChooseATutor",
@@ -55,6 +57,7 @@ export default {
   components: {
     Header,
     Panels,
+    SearchingForTutors,
   },
   data() {
     return {
@@ -182,7 +185,7 @@ $inner-content-width: 350px;
 
 .infoCard {
   border-radius: 0 0 15px 15px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .lessonInfo {
