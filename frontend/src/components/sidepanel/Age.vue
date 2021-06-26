@@ -49,8 +49,9 @@ export default {
   margin-top: 25px;
 }
 
-.panelHeader:hover {
+.panelHeader {
   border-radius: 0 0 15px 15px;
+  transition: all 500ms;
 }
 
 .activePanel .panelHeader {
