@@ -2,6 +2,9 @@
   <v-expansion-panel active-class="activePanel" id="panel">
     <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.tutor_age.h") }}
+      <div class="text-right mr-3 secondary--text text--darken-2">
+        {{ value }}
+      </div>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
       <p>{{ age[0] }} - {{ age[1] }} {{ $l("find.filters.tutor_age.p") }}</p>

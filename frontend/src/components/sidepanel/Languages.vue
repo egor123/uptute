@@ -2,6 +2,9 @@
   <v-expansion-panel active-class="activePanel" id="panel">
     <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.language.h") }}
+      <div class="text-right mr-3 secondary--text text--darken-2">
+        {{ value }}
+      </div>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
       <v-virtual-scroll height="150" item-height="40" :items="getLanguages()">
