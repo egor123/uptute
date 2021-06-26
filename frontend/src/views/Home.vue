@@ -99,7 +99,6 @@ export default {
 
 <style scoped lang="scss">
 .img {
-  margin-top: -60px;
   background-image: url("../assets/images/home.jpg");
   height: 100vh;
   width: 100vw;
