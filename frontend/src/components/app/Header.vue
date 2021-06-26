@@ -166,7 +166,7 @@ $header-height: 56px;
   flex-direction: column;
   width: 100vw;
   z-index: 100;
-  transition: transform 0.8s ease;
+  transition: transform 0.25s ease-out;
   &.hide {
     transform: translateY(-$header-height);
   }

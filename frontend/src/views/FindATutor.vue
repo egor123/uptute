@@ -61,7 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 .innerContent {
-  margin: 8rem 0;
+  margin: calc(106px + 8rem) auto 8rem auto;
   width: 350px;
   justify-content: center;
 }
