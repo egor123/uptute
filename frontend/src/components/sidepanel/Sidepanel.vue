@@ -128,7 +128,6 @@ export default {
   }
 
   & *:hover {
-    // margin: 5px 0 !important;
     transform: scale(0.95);
   }
 }

@@ -41,13 +41,15 @@
       </p>
       <div class="table">
         <table>
-          <tr>
-            <th>Andmetüüp</th>
-            <th>Õiguslik alus</th>
-            <th>Andmete töötlemise eesmärk</th>
-            <th>Andmete saamine</th>
-            <th>Kaua andmeid säilitame</th>
-          </tr>
+          <thead>
+            <tr>
+              <th>Andmetüüp</th>
+              <th>Õiguslik alus</th>
+              <th>Andmete töötlemise eesmärk</th>
+              <th>Andmete saamine</th>
+              <th>Kaua andmeid säilitame</th>
+            </tr>
+          </thead>
           <tr>
             <td>
               Andmed isiku tuvastamiseks: ees- ja perekonnanimi, isikukood ja
@@ -338,10 +340,9 @@ export default {
   width: calc(100% - 2 * var(--side-margin));
   height: 100%;
   overflow-wrap: break-word;
+  margin: calc(106px + 3rem) auto 3rem auto;
 }
-h2:first-child {
-  margin-top: 15vh;
-}
+
 p:last-child {
   margin-bottom: 15vh;
 }
@@ -355,14 +356,29 @@ h2 {
 .table {
   overflow: auto;
   margin: 2rem 0;
+
+  border-collapse: separate;
+  border: 2px solid var(--v-secondary-darken2);
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
 }
-table,
+
 th,
 td {
-  border: 2px solid var(--v-secondary-darken2);
-  border-collapse: collapse;
-  padding: 5px;
+  border-left: 2px dotted var(--v-secondary-darken2);
+  border-top: 2px dotted var(--v-secondary-darken2);
+  padding: 1rem;
 }
+
+th {
+  border-top: none;
+}
+
+td:first-child,
+th:first-child {
+  border-left: none;
+}
+
 td {
   text-align: left;
 }

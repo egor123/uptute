@@ -244,28 +244,24 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .container {
   text-align: justify;
   width: calc(100% - 2 * var(--side-margin));
   height: 100%;
   overflow-wrap: break-word;
+  margin: calc(106px + 3rem) auto 3rem auto;
 }
-h2:first-child {
-  margin-top: 15vh;
-}
-ol:last-child {
-  margin-bottom: 15vh;
-}
-h1 {
-  text-align: center;
-  margin: 3rem 0rem;
-}
+
 h2 {
   margin: 2rem 0 1rem 0;
 }
 ol {
   counter-reset: item;
+  padding: 0;
+  * > * {
+    padding-left: 0.7rem;
+  }
 }
 li {
   display: block;
