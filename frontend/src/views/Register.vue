@@ -189,7 +189,7 @@ export default {
 }
 #card {
   height: fit-content;
-  margin: 80px auto;
+  margin: calc(106px + 3rem) auto 3rem auto;
   padding: 30px;
   width: min(90%, 400px);
 }

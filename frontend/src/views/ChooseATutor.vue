@@ -106,7 +106,7 @@ export default {
 $inner-content-width: 350px;
 
 .innerContent {
-  margin: 7rem 0;
+  margin: calc(106px + 3rem) auto 3rem auto;
   width: $inner-content-width;
 }
 
