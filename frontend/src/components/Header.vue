@@ -1,6 +1,6 @@
 <template>
-  <div app id="header">
-    <slot/>
+  <div app id="header" ref="header">
+    <slot />
     <h3>{{ title }}</h3>
   </div>
 </template>
@@ -10,17 +10,13 @@ export default {
   props: {
     title: String(),
   },
+  mounted() {
+    const header = this.$refs.header;
+    this.$root.$emit("setSubHeader", header.innerHTML);
+    header.parentElement.removeChild(header);
+  },
+  destroyed() {
+    this.$root.$emit("setSubHeader", "");
+  },
 };
 </script>
-
-<style scoped>
-#header {
-  position: fixed;
-  width: 100vw;
-  opacity: 0.7;
-  background-color: var(--v-header-base);
-  padding: 10px;
-  z-index: 2;
-  box-shadow: 0px 2px 6px var(--v-secondary-darken1);
-}
-</style>
