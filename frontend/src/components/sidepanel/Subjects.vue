@@ -3,7 +3,7 @@
     <v-expansion-panel-header class="panelHeader">
       {{ $l("find.filters.subject.h") }}
       <div class="text-right mr-3 secondary--text text--darken-2">
-        {{ value }}
+        {{ $l("data.subjects." + value) }}
       </div>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { bus } from "@/main.js";
+
 export default {
   data() {
     return {
@@ -59,6 +61,11 @@ export default {
       this.$emit("input", this.subject);
     },
   },
+  created() {
+    bus.$on("searchCheck", () => {
+      bus.$emit("searchCheckFeedback", this.subject);
+    });
+  },
   watch: {
     value: function(val) {
       this.subjects = val;
@@ -68,12 +75,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.scroll {
-  overflow-y: scroll;
-  height: 150px;
-  padding: 0 10px;
-}
-
 .search {
   margin: 10px;
 }
@@ -83,6 +84,10 @@ export default {
 }
 
 .scroll {
+  overflow-y: scroll;
+  height: 150px;
+  padding: 0 10px;
+
   &::-webkit-scrollbar-track {
     background: var(--v-secondary-base);
   }

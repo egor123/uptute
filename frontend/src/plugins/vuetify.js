@@ -16,6 +16,7 @@ export default new Vuetify({
         header: "#F8F8F8",
         accent: "#FFA500",
         accentHover: "#FF8C00",
+        error: "#ef5350",
       },
     },
   },

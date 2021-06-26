@@ -22,6 +22,9 @@ export default {
   padding: 2px;
   width: fit-content;
   height: fit-content;
+  display: flex;
+  flex: row;
+  margin: 0;
 }
 .star {
   & + & {

@@ -28,6 +28,7 @@
     >
   </div>
 </template>
+
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Subjects from "./Subjects";
@@ -82,6 +83,7 @@ export default {
         if (search !== this.$route.query.search) {
           this.$router.push({ query: { search } });
         }
+
         //TO DO fetch!!!!!!!!!!!!!!!!!!!!!
       },
       deep: true,
@@ -126,6 +128,7 @@ export default {
   }
 
   & *:hover {
+    // margin: 5px 0 !important;
     transform: scale(0.95);
   }
 }

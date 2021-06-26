@@ -1,15 +1,11 @@
 <template>
-  <div id="container">
+  <div id="containerMain">
     <Header :title="$l('find.header')" />
 
-    <div class="content">
+    <div id="contentMain">
       <div class="innerContent">
         <Sidepanel id="sidepanel" />
-        <v-btn
-          :to="{ name: 'ChooseATutor' }"
-          rounded
-          class="orangeBackground mt-3"
-        >
+        <v-btn @click="emitSearchCheck()" rounded class="orangeBackground mt-3">
           {{ $l("find.request") }}
         </v-btn>
       </div>
@@ -20,6 +16,7 @@
 <script>
 import Header from "@/components/Header.vue";
 import Sidepanel from "@/components/sidepanel/Sidepanel.vue";
+import { bus } from "@/main.js";
 
 export default {
   name: "FindATutor",
@@ -28,26 +25,41 @@ export default {
     roles: "USER",
     redirect: "LogIn",
   },
+  data() {
+    return {
+      search: {
+        subjects: "",
+        language: [],
+      },
+      checkedValues: [],
+    };
+  },
+  methods: {
+    emitSearchCheck() {
+      bus.$emit("searchCheck");
+    },
+  },
   components: {
     Header,
     Sidepanel,
+  },
+  created() {
+    bus.$on("searchCheckFeedback", (checkValue) => {
+      let checkedValue = checkValue.length != 0;
+      this.checkedValues.push(checkedValue);
+      console.log(this.checkedValues);
+      if (this.checkedValues.length === 2) {
+        if (!this.checkedValues.includes(false)) {
+          this.$router.push({ name: "ChooseATutor" });
+        }
+        this.checkedValues = [];
+      }
+    });
   },
 };
 </script>
 
 <style lang="scss" scoped>
-#container {
-  display: flex;
-  height: 100%;
-}
-
-.content {
-  display: flex;
-  flex: 100%;
-  background-color: var(--v-background-base);
-  justify-content: center;
-}
-
 .innerContent {
   margin: 8rem 0;
   width: 350px;
