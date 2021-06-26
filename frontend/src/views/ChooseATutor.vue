@@ -1,8 +1,8 @@
 <template>
-  <div id="container">
+  <div id="containerMain">
     <Header :title="$l('choose.header')" />
 
-    <div class="content">
+    <div id="contentMain">
       <div class="innerContent">
         <LessonInfo />
         <div class="infoCard">
@@ -11,6 +11,7 @@
           </v-container>
         </div>
         <SearchingForTutors />
+        <SortBy class="sortBy" />
         <Panels id="panels" :tutors="tutors" />
       </div>
     </div>
@@ -22,6 +23,7 @@ import Header from "@/components/Header.vue";
 import Panels from "@/components/tutorPanel/Panels";
 import SearchingForTutors from "@/components/SearchingForTutors.vue";
 import LessonInfo from "@/components/LessonInfo.vue";
+import SortBy from "@/components/sidepanel/SortBy.vue";
 
 export default {
   name: "ChooseATutor",
@@ -35,10 +37,10 @@ export default {
     Panels,
     SearchingForTutors,
     LessonInfo,
+    SortBy,
   },
   data() {
     return {
-      countDown: 60,
       tutors: [
         {
           name: "No Name",
@@ -102,18 +104,6 @@ export default {
 
 <style lang="scss" scoped>
 $inner-content-width: 350px;
-
-#container {
-  display: flex;
-  height: 100%;
-}
-
-.content {
-  display: flex;
-  flex: 100%;
-  background-color: var(--v-background-base);
-  justify-content: center;
-}
 
 .innerContent {
   margin: 7rem 0;
@@ -182,4 +172,3 @@ $inner-content-width: 350px;
   margin: 1rem 0;
 }
 </style>
-<style lang="scss"></style>

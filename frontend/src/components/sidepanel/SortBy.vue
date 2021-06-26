@@ -1,23 +1,23 @@
 <template>
-  <v-expansion-panel id="panel">
-    <v-expansion-panel-header class="panelHeader">
-      {{ $l("find.filters.filters.h") }}
-    </v-expansion-panel-header>
-    <v-expansion-panel-content>
-      <v-virtual-scroll height="150" item-height="40" :items="getFilters()">
-        <template v-slot:default="{ item }">
-          <v-list-item :key="item">
-            <v-checkbox
-              v-model="filter"
-              v-on="handleInput()"
-              :value="item"
-              :label="$l('find.filters.filters.' + item)"
-            />
-          </v-list-item>
-        </template>
-      </v-virtual-scroll>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+  <v-expansion-panels flat focusable hover class="expPanels">
+    <v-expansion-panel active-class="activePanel" class="expPanel">
+      <v-expansion-panel-header class="panelHeader">
+        {{ $l("find.filters.filters.h") }}
+      </v-expansion-panel-header>
+      <v-expansion-panel-content>
+        <v-radio-group v-model="filter">
+          <v-radio
+            color="accent"
+            v-for="item in getFilters()"
+            :key="item"
+            v-on="handleInput()"
+            :value="item"
+            :label="$l('find.filters.filters.' + item)"
+          />
+        </v-radio-group>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>
 <script>
 export default {
@@ -43,3 +43,28 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.expPanels {
+  margin-top: 15px;
+  border-radius: 15px !important;
+}
+
+.expPanel {
+  border-radius: 15px !important;
+  opacity: 0.4;
+  transition: opacity 800ms;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.panelHeader {
+  border-radius: 15px;
+  transition: all 500ms;
+}
+
+.activePanel .panelHeader {
+  border-radius: 15px 15px 0 0 !important;
+}
+</style>
