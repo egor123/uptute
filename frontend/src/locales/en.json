@@ -238,8 +238,9 @@
     "btn": "Book a lesson",
     "subjects": "Subjects",
     "languages": "Languages",
-    "age": "Age",
+    "age": "My age",
     "audience": "Audience",
+    "grades": "Grades",
     "locations": "Locations",
     "about": "About me",
     "comments": "Comments"
@@ -427,5 +428,9 @@
       "est": "Estonian",
       "ru": "Russian"
     }
+  },
+  "about_tutor": {
+    "me": "About me",
+    "languages": "Languages"
   }
 }

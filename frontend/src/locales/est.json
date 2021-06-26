@@ -241,10 +241,11 @@
     "btn": "Broneeri tund",
     "subjects": "Õppeained",
     "languages": "Keeled",
-    "age": "Vanus",
+    "age": "Mu vanus",
     "audience": "Sihtrühm",
+    "grades": "Klassid",
     "locations": "Asukohad",
-    "about": "Minust",
+    "about": "Veidike minust",
     "comments": "Tagasiside"
   },
   "data": {
@@ -346,5 +347,12 @@
       "est": "Eesti keel",
       "ru": "Vene keel"
     }
+  },
+  "about_tutor": {
+    "me": "Veidike minust",
+    "subjects": "Õppeained",
+    "languages": "Keeled",
+    "age": "Vanus",
+    "audience": "Sihtrühm"
   }
 }
