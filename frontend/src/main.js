@@ -11,6 +11,8 @@ Vue.prototype.$backend = BackendService;
 Vue.prototype.$auth = AuthService;
 Vue.prototype.$l = LocaleService;
 
+export const bus = new Vue();
+
 Vue.use(VueAnalytics, {
   id: "UA-193056943-1",
   router,
