@@ -13,7 +13,7 @@
     </v-dialog>
 
     <div id="content">
-      <Sidepanel class="sidepanel" v-if="!isMobileView()" />
+      <!-- <Sidepanel class="sidepanel" v-if="!isMobileView()" /> -->
       <Panels :tutors="tutors" />
     </div>
     <PageSelectionPanel />
@@ -25,7 +25,7 @@ import Header from "@/components/Header.vue";
 import PageSelectionPanel from "@/components/navigation/PageSelectionPanel.vue";
 import Search from "@/components/navigation/Search.vue";
 import Panels from "@/components/tutorPanel/Panels";
-import Sidepanel from "@/components/sidepanel/Sidepanel.vue";
+// import Sidepanel from "@/components/sidepanel/Sidepanel.vue";
 import ComingSoon from "@/components/ComingSoon.vue";
 
 export default {
@@ -39,7 +39,7 @@ export default {
     Header,
     PageSelectionPanel,
     Panels,
-    Sidepanel,
+    // Sidepanel,
     Search,
     ComingSoon,
   },

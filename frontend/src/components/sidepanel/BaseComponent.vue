@@ -1,0 +1,126 @@
+<template>
+  <v-expansion-panel id="panel" :class="{ errorMovement: error }">
+    <v-expansion-panel-header id="header" :class="{ errorColor: error }">
+      {{ label }}
+      <div
+        class="text-right mr-3 secondary--text text--darken-2"
+        :class="{ errorColor: error }"
+      >
+        {{ getText() }}
+      </div>
+    </v-expansion-panel-header>
+    <v-expansion-panel-content>
+      <v-text-field
+        v-if="search === true"
+        v-model="searchStr"
+        :label="$l('find.filters.subject.search')"
+        append-icon="mdi-magnify"
+        single-line
+        hide-details
+      />
+      <div id="scroll">
+        <slot />
+      </div>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
+</template>
+
+<script>
+export default {
+  data: () => ({
+    searchStr: "",
+    error: false,
+  }),
+  props: ["value", "default", "rules", "label", "text", "propURL", "search"],
+  mounted() {
+    this.emit(this.$route.query[this.propURL] ?? this.default);
+  },
+  watch: {
+    value: function (val) {
+      var params = JSON.parse(JSON.stringify(this.$route.query));
+      params[this.propURL] = val;
+      this.$router.push({ query: params }).catch(() => {});
+      if (this.rules(this.value)) this.error = false;
+    },
+    searchStr: function (val) {
+      this.$emit("search", val);
+    },
+  },
+  methods: {
+    refresh() {
+      this.emit(this.default);
+    },
+    emit(val) {
+      if (Array.isArray(this.default) && !Array.isArray(val)) val = [val];
+      this.$emit("input", val);
+    },
+    isValid() {
+      const val = this.rules(this.value);
+      this.error = false;
+      setTimeout(() => {
+        this.error = !val;
+      }, 10);
+      return val;
+    },
+    getText() {
+      return this.text ?? "";
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+#scroll {
+  overflow-y: scroll;
+  max-height: 150px;
+  padding: 0 10px;
+  &::-webkit-scrollbar-track {
+    background: var(--v-secondary-base);
+  }
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--v-secondary-darken2);
+    &:hover {
+      background: var(--v-secondary-darken3);
+    }
+  }
+}
+#panel {
+  transition: transform 400ms;
+  border-radius: 0;
+  &:hover {
+    transform: scale(0.95);
+  }
+  &:first-child {
+    border-top-right-radius: inherit;
+    border-top-left-radius: inherit;
+  }
+  &:last-child {
+    border-bottom-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+    overflow: hidden;
+  }
+}
+.errorColor {
+  color: var(--v-error-base) !important;
+}
+.errorMovement {
+  animation: errorAnimation 800ms ease-in-out;
+}
+@keyframes errorAnimation {
+  0% {
+    transform: translateX(0rem);
+  }
+  33% {
+    transform: translateX(-0.8rem);
+  }
+  66% {
+    transform: translateX(0.3rem);
+  }
+  100% {
+    transform: translateX(0rem);
+  }
+}
+</style>

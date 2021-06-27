@@ -1,5 +1,5 @@
 var localeJSON;
-const missingValue = "undefinded";
+const missingValue = "";
 export const defaultLocale = navigator.language.split('-')[0];
 
 export default function (path, params = {}) {

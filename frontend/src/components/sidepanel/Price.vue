@@ -1,50 +1,42 @@
 <template>
-  <v-expansion-panel active-class="activePanel" id="panel">
-    <v-expansion-panel-header class="panelHeader">
-      {{ $l("find.filters.price.h") }}
-      <div class="text-right mr-3 secondary--text text--darken-2">
-        {{ value }}
-      </div>
-    </v-expansion-panel-header>
-    <v-expansion-panel-content>
-      <p>{{ price[0] }} - {{ price[1] }} €/{{ $l("find.filters.price.p") }}</p>
-      <div id="slider">
-        <v-range-slider
-          v-model="price"
-          @input="handleInput"
-          min="0"
-          max="15"
-          step="1"
-          thumb-label="always"
-          :thumb-size="20"
-          color="accent"
-        />
-      </div>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+  <BaseComponent
+    ref="base"
+    v-model="price"
+    :default="[0, 15]"
+    :rules="() => true"
+    :label="$l('find.filters.price.h')"
+    :text="`${price[0]} - ${price[1]} €/${$l('find.filters.price.p')}`"
+    propURL="price"
+  >
+    <div id="slider">
+      <v-range-slider
+        v-model="price"
+        min="0"
+        max="15"
+        step="1"
+        thumb-label="always"
+        :thumb-size="20"
+        color="accent"
+      />
+    </div>
+  </BaseComponent>
 </template>
 <script>
+import BaseComponent from "./BaseComponent.vue";
+
 export default {
+  components: {
+    BaseComponent,
+  },
   data() {
     return {
-      price: this.value,
+      price: [],
     };
-  },
-  props: ["value"],
-  watch: {
-    value: function(val) {
-      this.price = val;
-    },
-  },
-  methods: {
-    handleInput() {
-      this.$emit("input", this.price);
-    },
   },
 };
 </script>
 <style scoped>
 #slider {
-  margin-top: 25px;
+  padding: 30px 15px 0 15px;
 }
 </style>
