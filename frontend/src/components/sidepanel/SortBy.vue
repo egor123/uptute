@@ -19,6 +19,7 @@
     </v-expansion-panel>
   </v-expansion-panels>
 </template>
+
 <script>
 export default {
   data() {
@@ -52,11 +53,6 @@ export default {
 
 .expPanel {
   border-radius: 15px !important;
-  opacity: 0.4;
-  transition: opacity 800ms;
-  &:hover {
-    opacity: 1;
-  }
 }
 
 .panelHeader {

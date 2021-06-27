@@ -14,9 +14,27 @@
   background: var(--v-accent-base) !important;
   color: var(--v-secondary-base) !important;
   transition: all 300ms;
+  &:hover {
+    background: var(--v-accentHover-base) !important;
+  }
 }
-.orangeBackground:hover {
-  background: var(--v-accentHover-base) !important;
+
+.greyBackground {
+  background: var(--v-secondary-darken4) !important;
+  color: var(--v-primary-base) !important;
+  transition: all 300ms;
+  &:hover {
+    background: var(--v-secondary-darken3) !important;
+  }
+}
+
+.darkGreyBackground {
+  background: var(--v-primary-lighten4) !important;
+  color: var(--v-secondary-base) !important;
+  transition: all 300ms;
+  &:hover {
+    background: var(--v-secondary-darken3) !important;
+  }
 }
 
 .animate {

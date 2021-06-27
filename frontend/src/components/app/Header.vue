@@ -31,7 +31,8 @@
           </v-btn>
           <v-btn
             rounded
-            class="orangeBackground"
+            text
+            color="accent"
             v-if="!getStatus"
             :to="{ name: 'FindATutor' }"
           >
@@ -46,7 +47,7 @@
                 v-bind="attrs"
                 v-on="on"
                 color="secondary"
-                class="ml-4"
+                class="ma-0"
                 width="10px"
               >
                 <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
@@ -166,7 +167,7 @@ $header-height: 56px;
   flex-direction: column;
   width: 100vw;
   z-index: 100;
-  transition: transform 0.8s ease;
+  transition: transform 0.25s ease-out;
   &.hide {
     transform: translateY(-$header-height);
   }
@@ -211,6 +212,7 @@ $header-height: 56px;
       * {
         background-color: inherit;
         color: var(--secondary-base);
+        margin-right: 0.5rem;
       }
     }
     #nav a {
@@ -240,5 +242,9 @@ $header-height: 56px;
   &.notBlank {
     padding: 10px;
   }
+}
+
+.flagImg {
+  border-radius: 1.5px;
 }
 </style>

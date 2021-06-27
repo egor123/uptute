@@ -113,14 +113,13 @@ export default {
 
 <style scoped>
 #container {
-  padding-top: -56px;
   overflow: auto;
 }
 #card {
   height: fit-content;
-  margin: 80px auto;
   padding: 30px;
   width: min(90%, 400px);
+  margin: calc(106px + 3rem) auto 3rem auto;
 }
 
 #google .v-icon {

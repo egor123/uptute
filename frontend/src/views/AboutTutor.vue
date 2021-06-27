@@ -29,106 +29,102 @@
       </v-row>
     </Subheader>
 
-    <div id="contentMain">
-      <v-row class="justify-center">
-        <v-col
-          class=" col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4"
-          id="backgroundCard"
-        >
-          <v-row id="contentWrapper">
-            <v-col>
-              <v-btn class="orangeBackground" rounded text id="bookButton">
-                {{ $l("tutor.btn") }}
-              </v-btn>
+    <v-row id="contentMain" class="ma-0 justify-center">
+      <v-col
+        class=" col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4"
+        id="backgroundCard"
+      >
+        <v-row class="ma-0" id="contentWrapper">
+          <v-col>
+            <v-btn class="orangeBackground" rounded text id="bookButton">
+              {{ $l("tutor.btn") }}
+            </v-btn>
 
-              <div id="headerInfo">
-                <v-row class=" mb-2 profile justify-center">
-                  <img
-                    @click="goToAboutTutor()"
-                    class="userImg"
-                    src="@/assets/icons/user.svg"
-                  />
-                  <div>
-                    <h3>{{ tutor.name }}</h3>
-                    <p>{{ tutor.location }}, {{ tutor.grade }}</p>
-                  </div>
-                </v-row>
-
-                <v-row id="rating" class="justify-center">
-                  <Rating :value="tutor.rating" />
-                </v-row>
-
-                <v-row
-                  class="mt-2 mb-2 hoursAndPrice align-center justify-center"
-                >
-                  <img
-                    width="20px"
-                    height="20px"
-                    class="mr-1"
-                    src="@/assets/icons/clock.svg"
-                  />
-                  <p>{{ tutor.hours }}{{ $l("tutor.hour") }}</p>
-                  <p class="ml-5">
-                    {{ tutor.pph }}&euro;/{{ $l("tutor.hour") }}
-                  </p>
-                </v-row>
-              </div>
-
-              <v-row>
-                <v-col id="moto"> <Moto /> </v-col
-              ></v-row>
-
-              <v-row id="aboutRow">
-                <v-col id="about">
-                  <h4>{{ $l("tutor.about") }}</h4>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Temporibus nostrum a debitis aliquam quasi, accusamus
-                    accusantium iure odio molestias unde, autem harum placeat
-                    ad? Odio vel fugit porro doloribus doloremque? Lorem, ipsum
-                    dolor sit amet consectetur adipisicing elit. Ut, magnam.
-                  </p>
-                </v-col>
+            <div id="headerInfo">
+              <v-row class="ma-0 mb-2 profile justify-center">
+                <img
+                  @click="goToAboutTutor()"
+                  class="userImg"
+                  src="@/assets/icons/user.svg"
+                />
+                <div>
+                  <h3>{{ tutor.name }}</h3>
+                  <p>{{ tutor.location }}, {{ tutor.grade }}</p>
+                </div>
               </v-row>
 
-              <v-row id="additionalInfoRow" class="justify-center">
-                <v-col cols="10" id="additionalInfo">
-                  <v-row>
-                    <v-col class="col-12 col-sm-6" id="subjects">
-                      <h4>{{ $l("tutor.subjects") }}</h4>
-                      <p>Maths</p>
-                      <p>Chemistry</p>
-                      <p>Biology</p>
-                    </v-col>
-                    <v-col class="col-12 col-sm-6" id="languages">
-                      <h4>{{ $l("tutor.languages") }}</h4>
-                      <p>Estonian</p>
-                      <p>Russian</p>
-                      <p>English</p>
-                    </v-col>
-                    <v-col class="col-12 col-sm-6" id="audience">
-                      <h4>{{ $l("tutor.audience") }}</h4>
-                      <p>{{ $l("tutor.grades") }} 1 - 10</p>
-                    </v-col>
-                    <v-col class="col-12 col-sm-6" id="age">
-                      <h4>{{ $l("tutor.age") }}</h4>
-                      <p>17</p>
-                    </v-col>
-                  </v-row>
-                </v-col>
+              <v-row id="rating" class="ma-0 justify-center">
+                <Rating :value="tutor.rating" />
               </v-row>
-              <v-row id="comments">
-                <v-col>
-                  <h4>{{ $l("tutor.comments") }}</h4>
-                  <Comments />
-                </v-col>
+
+              <v-row
+                class="ma-0 mt-2 mb-2 hoursAndPrice align-center justify-center"
+              >
+                <img
+                  width="20px"
+                  height="20px"
+                  class="mr-1"
+                  src="@/assets/icons/clock.svg"
+                />
+                <p>{{ tutor.hours }}{{ $l("tutor.hour") }}</p>
+                <p class="ml-5">{{ tutor.pph }}&euro;/{{ $l("tutor.hour") }}</p>
               </v-row>
-              <div id="commentRow"></div>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </div>
+            </div>
+
+            <v-row class="ma-0">
+              <v-col id="moto"> <Moto /> </v-col
+            ></v-row>
+
+            <v-row class="ma-0" id="aboutRow">
+              <v-col id="about">
+                <h4>{{ $l("tutor.about") }}</h4>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Temporibus nostrum a debitis aliquam quasi, accusamus
+                  accusantium iure odio molestias unde, autem harum placeat ad?
+                  Odio vel fugit porro doloribus doloremque? Lorem, ipsum dolor
+                  sit amet consectetur adipisicing elit. Ut, magnam.
+                </p>
+              </v-col>
+            </v-row>
+
+            <v-row id="additionalInfoRow" class="ma-0 justify-center">
+              <v-col cols="10" id="additionalInfo">
+                <v-row class="ma-0">
+                  <v-col class="col-12 col-sm-6" id="subjects">
+                    <h4>{{ $l("tutor.subjects") }}</h4>
+                    <p>Maths</p>
+                    <p>Chemistry</p>
+                    <p>Biology</p>
+                  </v-col>
+                  <v-col class="col-12 col-sm-6" id="languages">
+                    <h4>{{ $l("tutor.languages") }}</h4>
+                    <p>Estonian</p>
+                    <p>Russian</p>
+                    <p>English</p>
+                  </v-col>
+                  <v-col class="col-12 col-sm-6" id="audience">
+                    <h4>{{ $l("tutor.audience") }}</h4>
+                    <p>{{ $l("tutor.grades") }} 1 - 10</p>
+                  </v-col>
+                  <v-col class="col-12 col-sm-6" id="age">
+                    <h4>{{ $l("tutor.age") }}</h4>
+                    <p>17</p>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+            <v-row class="ma-0" id="comments">
+              <v-col>
+                <h4>{{ $l("tutor.comments") }}</h4>
+                <Comments />
+              </v-col>
+            </v-row>
+            <div id="commentRow"></div>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -228,15 +224,11 @@ export default {
 }
 
 #backgroundCard {
-  margin: 7rem 0;
+  margin: calc(106px + 6rem) 0 6rem 0;
   height: max-content;
   background: white;
   border-radius: 15px;
   opacity: 0.7;
-}
-
-#contentWrapper {
-  padding: 30px;
 }
 
 h4 {
@@ -296,7 +288,7 @@ p {
 }
 
 #contentWrapper {
-  padding: 3rem 4rem;
+  padding: 3rem;
 }
 
 #bookButton {
