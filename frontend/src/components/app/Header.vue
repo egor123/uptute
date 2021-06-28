@@ -141,6 +141,7 @@ export default {
         callback(subHeader);
       });
       this.$root.$on("removeSubHeader", () => {
+        subHeader.innerHTML = "";
         subHeader.classList.toggle("notBlank", false);
       });
     },
