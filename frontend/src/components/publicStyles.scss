@@ -20,16 +20,16 @@
 }
 
 .greyBackground {
-  background: var(--v-secondary-darken4) !important;
-  color: var(--v-primary-base) !important;
+  background: var(--v-secondary-darken1) !important;
+  color: var(--v-secondary-base) !important;
   transition: all 300ms;
   &:hover {
-    background: var(--v-secondary-darken3) !important;
+    background: var(--v-secondary-darken2) !important;
   }
 }
 
 .darkGreyBackground {
-  background: var(--v-primary-lighten4) !important;
+  background: var(--v-primary-lighten2) !important;
   color: var(--v-secondary-base) !important;
   transition: all 300ms;
   &:hover {

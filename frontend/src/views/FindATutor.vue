@@ -18,7 +18,7 @@
       <v-btn @click="refresh()" small text rounded id="refreshBtn">
         {{ $l("find.filters.refresh") }}
       </v-btn>
-      <v-btn @click="request()" rounded color="accent">
+      <v-btn @click="request()" rounded outlined color="accent">
         {{ $l("find.request") }}
       </v-btn>
     </div>
@@ -44,18 +44,34 @@ export default {
     Age,
     Header,
   },
+  data() {
+    return {
+      checkInProgress: false,
+    };
+  },
   methods: {
-    isValid() {
+    async isValid() {
+      this.checkInProgress = true;
       var value = true;
-      for (const e of this.$refs.component)
-        if (!e.$refs.base.isValid()) value = false;
+      for (const e of this.$refs.component) {
+        if (!e.$refs.base.isValid()) {
+          value = false;
+          await this.delay(100);
+        }
+      }
+      if (!value) await this.delay(1100);
+      this.checkInProgress = false;
       return value;
+    },
+    delay(time) {
+      return new Promise((res) => setTimeout(res, time));
     },
     refresh() {
       this.$refs.component.forEach((e) => e.$refs.base.refresh());
     },
-    request() {
-      if (this.isValid())
+    async request() {
+      if (this.checkInProgress) return;
+      if (await this.isValid())
         this.$router.push({ name: "ChooseATutor", query: this.$route.query });
     },
   },
@@ -66,11 +82,11 @@ export default {
 #container {
   height: 100%;
   width: 100%;
-  padding: 8rem 0 2rem 0;
+  padding: calc(106px + 7rem) 1rem 7rem 1rem;
   background-color: var(--v-background-base);
 }
 #content {
-  margin: 0 auto;
+  margin: auto;
   max-width: 350px;
   min-width: 250px;
   padding: 0 1rem;
@@ -81,13 +97,14 @@ export default {
 }
 #panels {
   border-radius: 15px;
-  overflow: hidden !important;
 }
 #refreshBtn {
   background-color: var(--v-background-base);
   color: var(--v-secondary-darken4);
   transition: background-color 600ms;
   opacity: 0.6;
+  margin-top: 0.3rem;
+  margin-bottom: 1rem;
   &:hover {
     background-color: var(--v-secondary-darken1);
   }

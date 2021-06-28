@@ -72,8 +72,7 @@ $card-rows-margin: 5px;
 
   & .button {
     opacity: 0;
-    color: var(--v-secondary-darken3);
-    background: var(--v-secondary-darken4);
+
     &:hover {
       opacity: 1 !important;
     }
@@ -94,7 +93,7 @@ $card-rows-margin: 5px;
       transition: all 600ms ease 0ms;
     }
     & .button {
-      opacity: 0.6;
+      opacity: 1;
       transition: opacity 800ms ease 100ms;
     }
   }

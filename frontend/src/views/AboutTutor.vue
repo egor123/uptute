@@ -1,23 +1,17 @@
 <template>
   <div id="containerMain">
-    <div>
-      <Subheader>
-        <v-row id="subheader" class="justify-center">
-          <v-col class="center pa-0 col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4">
-            <img
-              @click="goToAboutTutor()"
-              class="userImg"
-              src="@/assets/icons/user.svg"
-            />
-            <h3>{{ tutor.name }}</h3>
-          </v-col>
-        </v-row>
-      </Subheader>
-    </div>
+    <Subheader>
+      <img
+        @click="goToAboutTutor()"
+        class="userImg"
+        src="@/assets/icons/user.svg"
+      />
+      <h3>{{ tutor.name }}</h3>
+    </Subheader>
 
     <v-row id="contentMain" class="ma-0 justify-center">
       <v-col
-        class="col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4"
+        class="pa-0 col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4"
         id="backgroundCard"
       >
         <v-col
@@ -36,83 +30,82 @@
             {{ $l("tutor.btn") }}
           </v-btn>
         </v-col>
-        <v-row class="ma-0" id="contentWrapper">
-          <v-col>
-            <div id="headerInfo">
-              <v-row class="ma-0 mb-2 profile justify-center">
-                <p>{{ tutor.location }}, {{ tutor.grade }}</p>
-              </v-row>
 
-              <v-row id="rating" class="ma-0 justify-center">
-                <Rating :value="tutor.rating" />
-              </v-row>
-
-              <v-row
-                class="ma-0 mt-2 mb-2 hoursAndPrice align-center justify-center"
-              >
-                <img
-                  width="20px"
-                  height="20px"
-                  class="mr-1"
-                  src="@/assets/icons/clock.svg"
-                />
-                <p>{{ tutor.hours }}{{ $l("tutor.hour") }}</p>
-                <p class="ml-5">{{ tutor.pph }}&euro;/{{ $l("tutor.hour") }}</p>
-              </v-row>
-            </div>
-
-            <v-row class="ma-0">
-              <v-col id="moto"> <Moto /> </v-col
-            ></v-row>
-
-            <v-row class="ma-0" id="aboutRow">
-              <v-col id="about">
-                <h4>{{ $l("tutor.about") }}</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Temporibus nostrum a debitis aliquam quasi, accusamus
-                  accusantium iure odio molestias unde, autem harum placeat ad?
-                  Odio vel fugit porro doloribus doloremque? Lorem, ipsum dolor
-                  sit amet consectetur adipisicing elit. Ut, magnam.
-                </p>
-              </v-col>
+        <div id="contentWrapper">
+          <div id="headerInfo">
+            <v-row class="ma-0 mb-2 profile justify-center">
+              <p>{{ tutor.location }}, {{ tutor.grade }}</p>
             </v-row>
 
-            <v-row id="additionalInfoRow" class="ma-0 justify-center">
-              <v-col cols="10" id="additionalInfo">
-                <v-row class="ma-0">
-                  <v-col class="col-12 col-sm-6" id="subjects">
-                    <h4>{{ $l("tutor.subjects") }}</h4>
-                    <p>Maths</p>
-                    <p>Chemistry</p>
-                    <p>Biology</p>
-                  </v-col>
-                  <v-col class="col-12 col-sm-6" id="languages">
-                    <h4>{{ $l("tutor.languages") }}</h4>
-                    <p>Estonian</p>
-                    <p>Russian</p>
-                    <p>English</p>
-                  </v-col>
-                  <v-col class="col-12 col-sm-6" id="audience">
-                    <h4>{{ $l("tutor.audience") }}</h4>
-                    <p>{{ $l("tutor.grades") }} 1 - 10</p>
-                  </v-col>
-                  <v-col class="col-12 col-sm-6" id="age">
-                    <h4>{{ $l("tutor.age") }}</h4>
-                    <p>17</p>
-                  </v-col>
-                </v-row>
-              </v-col>
+            <v-row id="rating" class="ma-0 justify-center">
+              <Rating :value="tutor.rating" />
             </v-row>
-            <v-row class="ma-0" id="comments">
-              <v-col>
-                <h4>{{ $l("tutor.comments") }}</h4>
-                <Comments />
-              </v-col>
+
+            <v-row
+              class="ma-0 mt-2 mb-2 hoursAndPrice align-center justify-center"
+            >
+              <img
+                width="20px"
+                height="20px"
+                class="mr-1"
+                src="@/assets/icons/clock.svg"
+              />
+              <p>{{ tutor.hours }}{{ $l("tutor.hour") }}</p>
+              <p class="ml-5">{{ tutor.pph }}&euro;/{{ $l("tutor.hour") }}</p>
             </v-row>
-            <div id="commentRow"></div>
-          </v-col>
-        </v-row>
+          </div>
+
+          <v-row class="ma-0">
+            <v-col id="moto"> <Moto /> </v-col
+          ></v-row>
+
+          <v-row class="ma-0" id="aboutRow">
+            <v-col id="about">
+              <h4>{{ $l("tutor.about") }}</h4>
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Temporibus nostrum a debitis aliquam quasi, accusamus
+                accusantium iure odio molestias unde, autem harum placeat ad?
+                Odio vel fugit porro doloribus doloremque? Lorem, ipsum dolor
+                sit amet consectetur adipisicing elit. Ut, magnam.
+              </p>
+            </v-col>
+          </v-row>
+
+          <v-row id="additionalInfoRow" class="ma-0 justify-center">
+            <v-col cols="10" id="additionalInfo">
+              <v-row class="ma-0">
+                <v-col class="col-12 col-sm-6" id="subjects">
+                  <h4>{{ $l("tutor.subjects") }}</h4>
+                  <p>Maths</p>
+                  <p>Chemistry</p>
+                  <p>Biology</p>
+                </v-col>
+                <v-col class="col-12 col-sm-6" id="languages">
+                  <h4>{{ $l("tutor.languages") }}</h4>
+                  <p>Estonian</p>
+                  <p>Russian</p>
+                  <p>English</p>
+                </v-col>
+                <v-col class="col-12 col-sm-6" id="audience">
+                  <h4>{{ $l("tutor.audience") }}</h4>
+                  <p>{{ $l("tutor.grades") }} 1 - 10</p>
+                </v-col>
+                <v-col class="col-12 col-sm-6" id="age">
+                  <h4>{{ $l("tutor.age") }}</h4>
+                  <p>17</p>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row class="ma-0" id="comments">
+            <v-col>
+              <h4>{{ $l("tutor.comments") }}</h4>
+              <Comments />
+            </v-col>
+          </v-row>
+          <div id="commentRow"></div>
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -147,42 +140,6 @@ export default {
         hours: 10,
         rating: 4.5,
         comments: 11,
-        days: [
-          {
-            times: [
-              { start: "8:00", end: "12:30" },
-              { start: "14:01", end: "15:30" },
-              { start: "15:41", end: "23:00" },
-            ],
-            date: new Date(),
-          },
-          {
-            times: [
-              { start: "8:00", end: "12:30" },
-              { start: "15:00", end: "22:00" },
-            ],
-            date: new Date(new Date().getTime() + 86400000),
-          },
-          {
-            times: [{ start: "15:00", end: "24:00" }],
-            date: new Date(new Date().getTime() + 86400000 * 2),
-          },
-          {
-            times: [{ start: "15:00", end: "23:00" }],
-            date: new Date(new Date().getTime() + 86400000 * 3),
-          },
-          {
-            times: [{ start: "15:00", end: "23:00" }],
-            date: new Date(new Date().getTime() + 86400000 * 4),
-          },
-          {
-            date: new Date(new Date().getTime() + 86400000 * 5),
-          },
-          {
-            times: [{ start: "10:00", end: "20:00" }],
-            date: new Date(new Date().getTime() + 86400000 * 6),
-          },
-        ],
       },
     };
   },
@@ -261,8 +218,8 @@ p {
 }
 
 .userImg {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 
   border-radius: 50%;
   border: 2px solid var(--v-primary-base);

@@ -39,4 +39,7 @@ export default {
 #slider {
   padding: 30px 15px 0 15px;
 }
+::v-deep #scroll {
+  padding: 0 !important;
+}
 </style>
