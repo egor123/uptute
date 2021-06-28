@@ -3,7 +3,6 @@
     ref="base"
     v-model="filter"
     :default="'raiting'"
-    :rules="() => true"
     :label="$l('find.filters.filters.h')"
     :text="$l('find.filters.filters.' + filter)"
     propURL="filter"

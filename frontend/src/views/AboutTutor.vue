@@ -2,16 +2,14 @@
   <div id="containerMain">
     <div>
       <Subheader>
-        <v-row id="subheader" class="justify-center">
-          <v-col class="center pa-0 col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4">
-            <img
-              @click="goToAboutTutor()"
-              class="userImg"
-              src="@/assets/icons/user.svg"
-            />
-            <h3>{{ tutor.name }}</h3>
-          </v-col>
-        </v-row>
+        <div id="subheader">
+          <img
+            @click="goToAboutTutor()"
+            class="userImg"
+            src="@/assets/icons/user.svg"
+          />
+          <h3>{{ tutor.name }}</h3>
+        </div>
       </Subheader>
     </div>
 
@@ -22,16 +20,10 @@
       >
         <v-col
           id="buttonWrapper"
+          ref="bookButton"
           class="col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4"
         >
-          <v-btn
-            @click="bookALesson()"
-            class="orangeBackground "
-            small
-            text
-            ref="blablabla"
-            id="bookButton"
-          >
+          <v-btn class="orangeBackground" small text id="bookButton">
             <v-icon class="mr-1">mdi-handshake-outline</v-icon>
             {{ $l("tutor.btn") }}
           </v-btn>
@@ -189,6 +181,7 @@ export default {
 
   async mounted() {
     this.tutor.rating = Math.random() * 3 + 2;
+    this.initBookButton();
   },
   created() {
     window.addEventListener("scroll", this.onScroll);
@@ -197,9 +190,22 @@ export default {
     window.removeEventListener("scroll", this.onScroll);
   },
   methods: {
-    bookALesson() {
-      console.log(this.$refs.blablabla);
-      this.$router.push({ name: "ChooseATutor" });
+    isHover(el) {
+      return el.parentElement.querySelector(":hover") === el;
+    },
+    isTouchInput() {
+      return window.matchMedia("(pointer: coarse)").matches;
+    },
+    initBookButton() {
+      const btn = this.$refs.bookButton;
+      var opened = false;
+      btn.addEventListener("transitionend", (val) => {
+        if (val.propertyName === "transform") opened = this.isHover(btn);
+      });
+      btn.addEventListener("click", () => {
+        if (!this.isTouchInput() || opened)
+          this.$router.push({ name: "ChooseATutor" });
+      });
     },
   },
 };
@@ -207,24 +213,9 @@ export default {
 
 <style lang="scss" scoped>
 #subheader {
-  opacity: 1;
-
-  .center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  #bookButton {
-    margin: 0;
-  }
-  h3 {
-    margin-left: 1rem;
-  }
-  img {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin: 0;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #backgroundCard {
