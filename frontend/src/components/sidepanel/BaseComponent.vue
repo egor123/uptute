@@ -41,7 +41,7 @@ export default {
       var params = JSON.parse(JSON.stringify(this.$route.query));
       params[this.propURL] = val;
       this.$router.push({ query: params }).catch(() => {});
-      if (this.rules(this.value)) this.error = false;
+      if (this.verify()) this.error = false;
     },
     searchStr: function(val) {
       this.$emit("search", val);
@@ -56,7 +56,7 @@ export default {
       this.$emit("input", val);
     },
     isValid() {
-      const val = this.rules(this.value);
+      const val = this.verify();
       this.errorAnim = false;
       setTimeout(() => {
         this.errorAnim = !val;
@@ -66,6 +66,10 @@ export default {
     },
     getText() {
       return this.text ?? "";
+    },
+    verify() {
+      if (this.rules === undefined) return true;
+      return this.rules(this.value);
     },
   },
 };

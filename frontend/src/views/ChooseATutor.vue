@@ -11,7 +11,9 @@
           </v-container>
         </div>
         <SearchingForTutors />
-        <SortBy class="sortBy" />
+        <v-expansion-panels class="panels" flat focusable hover>
+          <SortBy class="sortBy" />
+        </v-expansion-panels>
         <Panels id="panels" :tutors="tutors" />
       </div>
     </div>
@@ -112,6 +114,7 @@ $inner-content-width: 350px;
 
 .infoCard {
   width: 100%;
+  margin-bottom: 0 !important;
   height: max-content;
 
   background: var(--v-secondary-base);
@@ -121,6 +124,10 @@ $inner-content-width: 350px;
   &:hover {
     opacity: 1;
   }
+}
+
+.panels {
+  border-radius: 15px;
 }
 
 @media (max-width: 400px) {

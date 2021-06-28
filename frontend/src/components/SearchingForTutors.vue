@@ -1,13 +1,11 @@
 <template>
-  <div class="container">
-    <div class="imgContainer">
-      <div class="innerImgContainer">
-        <img
-          class="magnifiying-glass"
-          src="@/assets\icons\magnifiying-glass.svg"
-          alt="searching for tutors"
-        />
-      </div>
+  <div class="imgContainer">
+    <div class="innerImgContainer">
+      <img
+        class="magnifiying-glass"
+        src="@/assets\icons\magnifiying-glass.svg"
+        alt="searching for tutors"
+      />
     </div>
   </div>
 </template>
@@ -19,16 +17,24 @@ export default {};
 <style lang="scss">
 .imgContainer {
   display: flex;
+  align-items: center;
   width: 1rem;
   height: 1rem;
+
   animation: triangularMovement 2s ease-in-out infinite alternate both,
     opacityChange 2.3s ease-in-out infinite alternate both;
-  margin: auto;
+  margin: 1rem auto;
 }
 .innerImgContainer {
-  width: 1rem;
-  height: 1rem;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: flex;
   animation: scaleChange 2s ease-in-out 1s infinite alternate both;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 @keyframes triangularMovement {

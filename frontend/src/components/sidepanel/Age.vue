@@ -3,7 +3,6 @@
     ref="base"
     v-model="age"
     :default="[14, 21]"
-    :rules="() => true"
     :label="$l('find.filters.tutor_age.h')"
     :text="age.join(' - ')"
     propURL="age"

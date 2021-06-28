@@ -251,6 +251,7 @@ export default {
   height: 100%;
   overflow-wrap: break-word;
   margin: calc(106px + 3rem) auto 3rem auto;
+  hyphens: auto;
 }
 
 h2 {

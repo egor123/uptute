@@ -1,0 +1,10 @@
+@mixin flexbox($direction: row) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+  }
+  @mixin boxSize($size) {
+    width: $size;
+    height: $size;
+  }

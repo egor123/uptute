@@ -128,7 +128,7 @@ export default {
     "text header icons"
     "reference reference reference"
     "uptute uptute uptute";
-  @media (max-width: 500px) {
+  @media (max-width: 750px) {
     grid-template-areas:
       "header"
       "text"

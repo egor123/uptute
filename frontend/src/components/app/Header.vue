@@ -136,9 +136,13 @@ export default {
     },
     subHeader() {
       const subHeader = this.$refs.subHeader;
-      this.$root.$on("setSubHeader", (val) => {
-        subHeader.innerHTML = val;
-        subHeader.classList.toggle("notBlank", val !== "");
+      this.$root.$on("getSubHeader", (callback) => {
+        subHeader.classList.toggle("notBlank", true);
+        callback(subHeader);
+      });
+      this.$root.$on("removeSubHeader", () => {
+        subHeader.innerHTML = "";
+        subHeader.classList.toggle("notBlank", false);
       });
     },
   },

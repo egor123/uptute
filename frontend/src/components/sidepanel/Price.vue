@@ -3,7 +3,6 @@
     ref="base"
     v-model="price"
     :default="[0, 15]"
-    :rules="() => true"
     :label="$l('find.filters.price.h')"
     :text="`${price[0]} - ${price[1]} €/${$l('find.filters.price.p')}`"
     propURL="price"
