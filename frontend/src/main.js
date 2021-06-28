@@ -6,6 +6,8 @@ import vuetify from "./plugins/vuetify";
 import VueAnalytics from "vue-analytics";
 import VueAnimate from "vue-animate-scroll";
 import { BackendService, AuthService, LocaleService } from "./services";
+import mdiVue from "mdi-vue/v2";
+import * as mdijs from "@mdi/js";
 
 Vue.prototype.$backend = BackendService;
 Vue.prototype.$auth = AuthService;
@@ -24,7 +26,11 @@ Vue.use(VueAnalytics, {
   },
 });
 
-Vue.use(VueAnimate); //Formate as would be correct
+Vue.use(mdiVue, {
+  icons: mdijs,
+});
+
+Vue.use(VueAnimate);
 
 new Vue({
   router,

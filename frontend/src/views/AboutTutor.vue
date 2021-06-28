@@ -1,56 +1,46 @@
 <template>
   <div id="containerMain">
-    <Subheader>
-      <v-row class="justify-center">
-        <v-col class="pa-0 col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4">
-          <v-row id="subheader">
-            <v-col class="pa-0 center">
-              <img
-                @click="goToAboutTutor()"
-                class="userImg"
-                src="@/assets/icons/user.svg"
-              />
-              <h3>{{ tutor.name }}</h3>
-            </v-col>
-
-            <v-col class="pa-0 center">
-              <v-btn
-                class="orangeBackground"
-                small
-                rounded
-                text
-                id="bookButton"
-              >
-                {{ $l("tutor.btn") }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </Subheader>
+    <div>
+      <Subheader>
+        <v-row id="subheader" class="justify-center">
+          <v-col class="center pa-0 col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4">
+            <img
+              @click="goToAboutTutor()"
+              class="userImg"
+              src="@/assets/icons/user.svg"
+            />
+            <h3>{{ tutor.name }}</h3>
+          </v-col>
+        </v-row>
+      </Subheader>
+    </div>
 
     <v-row id="contentMain" class="ma-0 justify-center">
       <v-col
-        class=" col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4"
+        class="col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4"
         id="backgroundCard"
       >
+        <v-col
+          id="buttonWrapper"
+          class="col-10 col-sm-9 col-md-7 col-lg-5 col-xl-4"
+        >
+          <v-btn
+            @click="bookALesson()"
+            class="orangeBackground "
+            small
+            text
+            ref="blablabla"
+            id="bookButton"
+          >
+            <v-icon class="mr-1">mdi-handshake-outline</v-icon>
+            {{ $l("tutor.btn") }}
+          </v-btn>
+        </v-col>
         <v-row class="ma-0" id="contentWrapper">
           <v-col>
-            <v-btn class="orangeBackground" rounded text id="bookButton">
-              {{ $l("tutor.btn") }}
-            </v-btn>
-
             <div id="headerInfo">
               <v-row class="ma-0 mb-2 profile justify-center">
-                <img
-                  @click="goToAboutTutor()"
-                  class="userImg"
-                  src="@/assets/icons/user.svg"
-                />
-                <div>
-                  <h3>{{ tutor.name }}</h3>
-                  <p>{{ tutor.location }}, {{ tutor.grade }}</p>
-                </div>
+                <p>{{ tutor.location }}, {{ tutor.grade }}</p>
               </v-row>
 
               <v-row id="rating" class="ma-0 justify-center">
@@ -148,6 +138,7 @@ export default {
   },
   data() {
     return {
+      windowTop: 0,
       tutor: {
         name: "No Name",
         pph: 5,
@@ -199,24 +190,37 @@ export default {
   async mounted() {
     this.tutor.rating = Math.random() * 3 + 2;
   },
+  created() {
+    window.addEventListener("scroll", this.onScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll);
+  },
+  methods: {
+    bookALesson() {
+      console.log(this.$refs.blablabla);
+      this.$router.push({ name: "ChooseATutor" });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 #subheader {
-  margin: 0.5rem 0;
-  & .center {
+  opacity: 1;
+
+  .center {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  & #bookButton {
+  #bookButton {
     margin: 0;
   }
-  & h3 {
+  h3 {
     margin-left: 1rem;
   }
-  & img {
+  img {
     width: 2.5rem;
     height: 2.5rem;
     margin: 0;
@@ -226,9 +230,8 @@ export default {
 #backgroundCard {
   margin: calc(106px + 6rem) 0 6rem 0;
   height: max-content;
-  background: white;
   border-radius: 15px;
-  opacity: 0.7;
+  background: #ffffffaa;
 }
 
 h4 {
@@ -237,10 +240,6 @@ h4 {
 
 p {
   margin: 0;
-}
-
-#bookButton {
-  padding: 15px;
 }
 
 #aboutRow {
@@ -259,10 +258,6 @@ p {
       margin-bottom: 3rem;
     }
   }
-}
-
-.profile div {
-  text-align: left;
 }
 
 .userImg {
@@ -291,12 +286,30 @@ p {
   padding: 3rem;
 }
 
-#bookButton {
-  margin-bottom: 2rem;
-  padding: 0 1rem;
+#buttonWrapper {
+  position: fixed;
+  overflow: hidden;
+  flex: 100%;
+  transform: translateY(5rem);
+  #bookButton {
+    position: sticky;
+    padding: 15px;
+    left: 100%;
+    transform: translateX(76%);
+
+    border-radius: 15px 0 0 15px !important;
+
+    transition: transform 600ms ease-in-out;
+    &:hover {
+      transform: translateX(0%);
+    }
+  }
 }
 
-#headerInfo,
+#headerInfo {
+  margin-bottom: 2rem;
+}
+
 #aboutRow,
 #additionalInfoRow {
   padding: 2rem 0rem;
