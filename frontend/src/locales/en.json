@@ -246,12 +246,15 @@
     "comments": "Comments"
   },
   "booking": {
+    "subheader": "Book the lesson",
     "date": "Date of the lesson",
     "time": "Time of the lesson",
     "card_name": "Card holder name...",
     "card_int": ["Card number...", "MM/YY", "CVC"],
     "cost": "Cost",
-    "button": "Book the lesson"
+    "tooltip": "Cost of the lesson is calculated at the end of the session based on its length",
+
+    "button": "Confirm the booking"
   },
   "set1": {
     "subheader": "Setting up your account",
