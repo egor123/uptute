@@ -11,12 +11,12 @@ export default {
     title: String(),
   },
   mounted() {
-    const header = this.$refs.header;
-    this.$root.$emit("setSubHeader", header.innerHTML);
-    header.parentElement.removeChild(header);
+    this.$root.$emit("getSubHeader", (parent) => {
+      parent.append(this.$refs.header);
+    });
   },
   destroyed() {
-    this.$root.$emit("setSubHeader", "");
+    this.$root.$emit("removeSubHeader");
   },
 };
 </script>
