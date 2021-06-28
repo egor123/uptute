@@ -11,7 +11,9 @@
           </v-container>
         </div>
         <SearchingForTutors />
-        <SortBy class="sortBy" />
+        <v-expansion-panels flat focusable hover>
+          <SortBy class="sortBy" />
+        </v-expansion-panels>
         <Panels id="panels" :tutors="tutors" />
       </div>
     </div>
