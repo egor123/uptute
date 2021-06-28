@@ -19,6 +19,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+  line-height: 1rem;
   padding: 2px;
   width: fit-content;
   height: fit-content;
