@@ -34,13 +34,15 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./components/publicStyles.scss";
+@import "./scss/styles.scss";
+@import "./scss/mixins.scss";
 
 :root {
   --side-margin: clamp(0.5rem, 18vw, 22rem);
 }
 html {
   scroll-behavior: smooth;
+  @include fontSize();
 }
 
 #app {
