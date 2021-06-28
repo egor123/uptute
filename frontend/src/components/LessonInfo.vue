@@ -39,30 +39,35 @@
     opacity: 1;
   }
 
-  & .containerInfo {
+  .containerInfo {
     padding: 15px;
     text-align: left;
     width: 100%;
   }
 
-  & table {
+  table {
     width: 100%;
   }
-  & td,
+  td,
   th {
     padding-bottom: 10px;
     margin: 0;
-    &:last-child {
-      padding: 0px;
+  }
+
+  tr:last-child {
+    td,
+    th {
+      padding: 0;
+      width: 100%;
     }
   }
 
-  & th {
+  th {
     color: var(--v-secondary-darken2);
     font-weight: normal;
   }
 
-  & td {
+  td {
     text-align: right;
   }
 }

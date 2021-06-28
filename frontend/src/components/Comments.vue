@@ -26,18 +26,22 @@
 <style lang="scss" scoped>
 .comments {
   text-align: left;
-  & .person {
+  p {
+    text-align: justify;
+    hyphens: auto;
+  }
+  .person {
     display: flex;
     flex: row;
     align-content: center;
     opacity: 0.6;
     margin: 1.2rem 0 0.5rem 0;
-    & img {
+    img {
       border: solid black 1px;
       border-radius: 50%;
       margin-right: 0.5rem;
     }
-    & .name {
+    .name {
       margin: 0;
     }
   }

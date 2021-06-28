@@ -10,6 +10,7 @@
     <Footer />
   </v-app>
 </template>
+
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Header from "@/components/app/Header";
@@ -31,6 +32,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 @import "./scss/styles.scss";
 @import "./scss/mixins.scss";
@@ -42,6 +44,7 @@ html {
   scroll-behavior: smooth;
   @include fontSize();
 }
+
 #app {
   font-family: Comfortaa;
   -webkit-font-smoothing: antialiased;

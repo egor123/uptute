@@ -1,3 +1,82 @@
+<<<<<<< HEAD:frontend/src/components/publicStyles.scss
+#containerMain {
+  display: flex;
+  height: 100%;
+}
+
+#contentMain {
+  display: flex;
+  flex: 100%;
+  background-color: var(--v-background-base);
+  justify-content: center;
+}
+
+.orangeBackground {
+  background: var(--v-accent-base) !important;
+  color: var(--v-secondary-base) !important;
+  transition: all 300ms;
+  &:hover {
+    background: var(--v-accentHover-base) !important;
+  }
+}
+
+.greyBackground {
+  background: var(--v-secondary-darken1) !important;
+  color: var(--v-secondary-base) !important;
+  transition: all 300ms;
+  &:hover {
+    background: var(--v-secondary-darken2) !important;
+  }
+}
+
+.darkGreyBackground {
+  background: var(--v-primary-lighten2) !important;
+  color: var(--v-secondary-base) !important;
+  transition: all 300ms;
+  &:hover {
+    background: var(--v-secondary-darken3) !important;
+  }
+}
+
+.animate {
+  transition-delay: 0.1s;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in;
+}
+
+.fadeIn {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.slideInFromLeft {
+  transform: translateX(-4rem);
+  opacity: 0;
+}
+
+.slideInFromRight {
+  transform: translateX(4rem);
+  opacity: 0;
+}
+
+.slideInFromBottom {
+  transform: translateY(4rem);
+  opacity: 0;
+}
+
+.fadeIn.animate-active,
+.slideInFromLeft.animate-active,
+.slideInFromRight.animate-active,
+.slideInFromBottom.animate-active {
+  transform: translate(0);
+  transform: scale(1);
+  opacity: 1;
+}
+
+.activePanel#panel {
+  border-radius: 0 !important;
+}
+=======
 #containerMain {
   display: flex;
   height: 100%;
@@ -75,3 +154,4 @@
 .activePanel#panel {
   border-radius: 0 !important;
 }
+>>>>>>> c97b4b5c920517ef9c7243624cbc8ef94a62b56a:frontend/src/scss/styles.scss

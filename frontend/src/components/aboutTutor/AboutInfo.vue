@@ -16,8 +16,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-p{
-    margin-top: 1rem;
-    text-align: left;
+p {
+  margin-top: 1rem;
+  text-align: justify;
+  hyphens: auto;
 }
 </style>

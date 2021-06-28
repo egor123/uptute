@@ -14,7 +14,7 @@
       :key="item"
       :value="item"
       :label="$l('data.languages.' + item)"
-      height="5"
+      height="0"
       color="accent"
     />
   </BaseComponent>

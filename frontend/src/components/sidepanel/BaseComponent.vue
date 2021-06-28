@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel id="panel" :class="{ errorMovement: error }">
+  <v-expansion-panel id="panel" :class="{ errorMovement: errorAnim }">
     <v-expansion-panel-header id="header" :class="{ errorColor: error }">
       {{ label }}
       <div
@@ -30,19 +30,20 @@ export default {
   data: () => ({
     searchStr: "",
     error: false,
+    errorAnim: false,
   }),
   props: ["value", "default", "rules", "label", "text", "propURL", "search"],
   mounted() {
     this.emit(this.$route.query[this.propURL] ?? this.default);
   },
   watch: {
-    value: function (val) {
+    value: function(val) {
       var params = JSON.parse(JSON.stringify(this.$route.query));
       params[this.propURL] = val;
       this.$router.push({ query: params }).catch(() => {});
       if (this.verify()) this.error = false;
     },
-    searchStr: function (val) {
+    searchStr: function(val) {
       this.$emit("search", val);
     },
   },
@@ -56,19 +57,20 @@ export default {
     },
     isValid() {
       const val = this.verify();
-      this.error = false;
+      this.errorAnim = false;
       setTimeout(() => {
-        this.error = !val;
-      }, 10);
+        this.errorAnim = !val;
+      }, 50);
+      this.error = !val;
       return val;
     },
     getText() {
       return this.text ?? "";
     },
-    verify(){
-      if(this.rules === undefined) return true;
+    verify() {
+      if (this.rules === undefined) return true;
       return this.rules(this.value);
-    }
+    },
   },
 };
 </script>
@@ -76,6 +78,7 @@ export default {
 <style lang="scss" scoped>
 #scroll {
   overflow-y: scroll;
+  overflow-x: visible;
   max-height: 150px;
   padding: 0 10px;
   &::-webkit-scrollbar-track {
@@ -91,6 +94,7 @@ export default {
     }
   }
 }
+
 #panel {
   transition: transform 400ms;
   border-radius: 0;
@@ -111,20 +115,23 @@ export default {
   color: var(--v-error-base) !important;
 }
 .errorMovement {
-  animation: errorAnimation 800ms ease-in-out;
+  animation: errorAnimation 1100ms ease-in-out;
 }
+
 @keyframes errorAnimation {
   0% {
     transform: translateX(0rem);
   }
-  33% {
+  25% {
     transform: translateX(-0.8rem);
   }
-  66% {
-    transform: translateX(0.3rem);
+  50% {
+    transform: translateX(0.5rem);
+  }
+  75% {
+    transform: translateX(-0.3rem);
   }
   100% {
-    transform: translateX(0rem);
   }
 }
 </style>

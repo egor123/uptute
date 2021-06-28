@@ -248,6 +248,16 @@
     "about": "Veidike minust",
     "comments": "Tagasiside"
   },
+  "booking": {
+    "subheader": "Broneeri tund",
+    "date": "Tunni kuupäev",
+    "time": "Tunni kellaaeg",
+    "card_name": "Kaardi omaniku nimi...",
+    "card_int": ["Kaardi number...", "KK/AA", "CVC"],
+    "cost": "Hind",
+    "tooltip": "Eratunni hind arvutatakse sessiooni lõpus arvestades selle pikkust",
+    "button": "Kinnita broneering"
+  },
   "data": {
     "actions": {
       "cancel": "Tagasi",

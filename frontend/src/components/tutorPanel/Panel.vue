@@ -38,8 +38,10 @@
       <v-btn
         rounded
         elevation="0"
+        outlined
+        color="accent"
         class="button"
-        :to="{ nane: 'Tutor', params: { id: tutor.id } }"
+        :to="{ name: 'BookTheLesson' }"
         @click="
           $ga.event(
             'booking',

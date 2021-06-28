@@ -19,8 +19,7 @@ export default {
       if (val.propertyName === "transform") opened = this.isHover(wrapper);
     });
     wrapper.querySelector("*").addEventListener("click", () => {
-      if (!this.isTouchInput() || opened)
-        this.$router.push(this.to);
+      if (!this.isTouchInput() || opened) this.$router.push(this.to);
     });
   },
   methods: {
