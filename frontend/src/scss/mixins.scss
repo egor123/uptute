@@ -1,18 +1,31 @@
 @import "./config.scss";
 
 @mixin flexbox($direction: row) {
-  display: flex;
-  flex-direction: $direction;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
 }
-@mixin boxSize($size) {
-  width: $size;
-  height: $size;
+@mixin box-size($size) {
+    width: $size;
+    height: $size;
 }
-@mixin fontSize() {
-  font-size: map-get($font-sizes, normal);
-  @media (max-width: $font-size-breakpoint) {
-    font-size: map-get($font-sizes, small);
-  }
+@mixin pseudo-elements() {
+    &::before,
+    &::after {
+        @content;
+    }
+}
+@mixin fill-parent($offset: 0) {
+    position: absolute;
+    top: $offset;
+    bottom: $offset;
+    left: $offset;
+    right: $offset;
+}
+@mixin font-size() {
+    font-size: map-get($font-sizes, normal);
+    @media (max-width: $font-size-breakpoint) {
+        font-size: map-get($font-sizes, small);
+    }
 }

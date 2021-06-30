@@ -91,7 +91,7 @@ export default {
   align-items: center;
   justify-content: center;
   img {
-    @include boxSize(40px);
+    @include box-size(40px);
     border-radius: 50%;
     border: 2px solid var(--v-primary-base);
     opacity: 0.2;
@@ -100,7 +100,7 @@ export default {
 }
 #container {
   background: var(--v-background-base);
-  @include boxSize(100%);
+  @include box-size(100%);
   padding: calc(106px + 7rem) 8vw 7rem 8vw;
 }
 #card {
