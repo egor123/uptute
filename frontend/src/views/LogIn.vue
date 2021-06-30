@@ -53,6 +53,15 @@
       <v-btn id="google" @click="logIn()">
         <v-icon>mdi-google</v-icon>Sign in with Google
       </v-btn>
+      <v-snackbar
+        max-width="800"
+        id="snackbar"
+        color="error"
+        timeout="15000"
+        v-model="showSnackbar"
+      >
+        {{ $l("auth.allow_cookies") }}
+      </v-snackbar>
       <p>{{ $l("auth.forgot") }}</p>
       <p @click="goToRegisterPage()">{{ $l("auth.account_yet") }}</p>
     </v-card>
@@ -91,6 +100,7 @@ export default {
           this.$l("auth.rules.password.lenght.max", { n: this.passwordLength }),
       ],
       errorMessage: "",
+      showSnackbar: false,
     };
   },
   mounted() {
@@ -100,7 +110,11 @@ export default {
   //methods: mapActions(["signin"]),
   methods: {
     logIn() {
-      GoogleAuthService.signIn().catch((e) => console.log(e.error));
+      GoogleAuthService.signIn().catch((e) => {
+        if (e.error === "idpiframe_initialization_failed") {
+          this.showSnackbar = true;
+        }
+      });
     },
     logOut() {
       GoogleAuthService.signOut();
@@ -117,6 +131,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#snackbar {
+  border-radius: 15px !important;
+}
+
 #container {
   overflow: auto;
 }
