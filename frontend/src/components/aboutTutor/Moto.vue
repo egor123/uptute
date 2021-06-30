@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="moto">
     <p>{{ moto }}</p>
     <img src="@/assets/icons/right-quotes-symbol.svg" />
   </div>
@@ -15,17 +15,22 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
-div {
+p {
+  margin: 0;
+  margin-bottom: auto;
+}
+
+#moto {
   position: relative;
-  height: 5rem;
+  height: content;
   text-align: center;
   @include flexbox();
   img {
     position: absolute;
     @include boxSize(50px);
     opacity: 0.1;
-    top: 15%;
-    left: 20%;
+    top: -30%;
+    left: 12%;
   }
 }
 </style>

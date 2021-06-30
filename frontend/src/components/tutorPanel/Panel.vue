@@ -13,6 +13,7 @@
           <p>{{ tutor.location }}, {{ tutor.grade }}</p>
         </div>
       </div>
+
       <div class="tutor">
         <div>
           <img
@@ -70,8 +71,7 @@ export default {
   },
   methods: {
     goToAboutTutor() {
-      if (this.$route.name !== "AboutTutor")
-        this.$router.push({ name: "AboutTutor" });
+      this.$router.push({ name: "AboutTutor" });
     },
   },
 };

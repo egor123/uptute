@@ -13,6 +13,7 @@
     "email": "Your email...",
     "password": "Your password...",
     "forgot": "Forgot your password?",
+    "account_yet": "Don't have an account yet?",
     "create": "Create a passwrod",
     "repeat": "Repeat the password...",
     "must_agree": "We need your agreement to continue",

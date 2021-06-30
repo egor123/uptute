@@ -51,6 +51,7 @@ export default {
           grade: "11b",
           hours: 10,
           rating: 4.5,
+          moto: "Sun shines to all of us the same way",
           comments: 11,
           days: [
             {
@@ -133,21 +134,21 @@ $inner-content-width: 350px;
 @media (max-width: 400px) {
   .innerContent {
     transform: scale(0.9);
-    margin: 1.5rem -0.9rem;
+    margin: 5rem -0.9rem;
   }
 }
 
 @media (max-width: 330px) {
   .innerContent {
     transform: scale(0.8);
-    margin: -3rem -2rem;
+    margin: -0.5rem -2rem;
   }
 }
 
 @media (max-width: 300px) {
   .innerContent {
     transform: scale(0.7);
-    margin: -7.5rem -3.1rem;
+    margin: -6rem -3.1rem;
   }
 }
 

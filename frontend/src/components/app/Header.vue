@@ -17,18 +17,20 @@
           </button>
         </div>
         <div id="buttons" ref="buttons">
-          <v-btn rounded :to="{ name: 'WhyUs' }">
-            {{ $l("app.pages.why_us") }}
+          <v-btn rounded v-if="getStatus" :to="{ name: 'Account' }">
+            {{ $l("app.pages.account") }}
           </v-btn>
           <v-btn rounded v-if="!getStatus" :to="{ name: 'LogIn' }">
             {{ $l("app.pages.log_in") }}
           </v-btn>
-          <v-btn rounded v-if="!getStatus" :to="{ name: 'Register' }">
+          <!-- <v-btn rounded v-if="!getStatus" :to="{ name: 'Register' }">
             {{ $l("app.pages.register") }}
+          </v-btn> -->
+
+          <v-btn rounded :to="{ name: 'WhyUs' }">
+            {{ $l("app.pages.why_us") }}
           </v-btn>
-          <v-btn rounded v-if="getStatus" :to="{ name: 'Account' }">
-            {{ $l("app.pages.account") }}
-          </v-btn>
+
           <v-btn
             rounded
             text

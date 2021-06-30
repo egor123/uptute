@@ -245,6 +245,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
 .container {
   text-align: justify;
   width: calc(100% - 2 * var(--side-margin));
@@ -252,6 +254,7 @@ export default {
   overflow-wrap: break-word;
   margin: calc(106px + 3rem) auto 3rem auto;
   hyphens: auto;
+  @include fontSize;
 }
 
 h2 {

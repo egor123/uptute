@@ -23,7 +23,7 @@ export default {};
 
   animation: triangularMovement 2s ease-in-out infinite alternate both,
     opacityChange 2.3s ease-in-out infinite alternate both;
-  margin: 1rem auto;
+  margin: 1.5rem auto;
 }
 .innerImgContainer {
   width: 100%;

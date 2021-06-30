@@ -38,9 +38,13 @@ export default {
 
 <style scoped>
 #slider {
-  padding: 30px 15px 0 15px;
+  padding: 30px 25px 0 25px;
 }
 ::v-deep #scroll {
   padding: 0 !important;
+}
+
+::v-deep #expPanelContent > * {
+  padding: 0;
 }
 </style>

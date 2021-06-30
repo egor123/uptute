@@ -55,7 +55,7 @@ export default {
 <style scoped lang="scss">
 $max-width: 800px;
 
-$element-width: 25ch;
+$element-width: 28ch;
 $element-height: 12ch;
 $spacing-width: 15ch;
 $spacing-height: 2ch;
@@ -83,6 +83,8 @@ $title-margin-bottom: 1rem;
   grid-auto-rows: $element-height;
   .text-field {
     grid-area: text;
+    text-align: left;
+    hyphens: auto;
     h2 {
       margin-bottom: 1em;
     }
@@ -92,7 +94,9 @@ $title-margin-bottom: 1rem;
   }
   .image-field {
     grid-area: image;
+    margin: auto;
   }
+
   grid-template-columns: $element-width;
   grid-template-rows: auto;
   grid-template-areas: "text" "image";

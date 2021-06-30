@@ -210,6 +210,7 @@ $radio-margin: 0.5rem;
       .radio-control {
         display: grid;
         place-items: center;
+
         &:hover,
         &:focus {
           color: rgba($color: #000000, $alpha: 0.04);
@@ -218,13 +219,13 @@ $radio-margin: 0.5rem;
       }
       input + .radio-control::before {
         content: "";
-        width: 0.5em;
-        height: 0.5em;
-        box-shadow: inset 0.5em 0.5em currentColor;
+        width: 100%;
+        height: 100%;
+        box-shadow: inset 1em 1em currentColor;
         border-radius: 50%;
         transition: 0.2s transform ease-in-out;
         transform: scale(0);
-        color: rgba($color: #000000, $alpha: 0.1);
+        color: rgba($color: #000000, $alpha: 0.3);
       }
       input:checked + .radio-control::before {
         transform: scale(1);
@@ -235,7 +236,8 @@ $radio-margin: 0.5rem;
       width: 1em;
       height: 1em;
       border-radius: 50%;
-      border: 0.1em solid currentColor;
+      background: var(--v-secondary-darken1);
+      opacity: 0.25;
     }
   }
 }

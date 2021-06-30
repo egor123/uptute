@@ -1,7 +1,19 @@
 <template>
   <div id="buttonWrapper" ref="buttonWrapper">
-    <v-btn class="orangeBackground" small text>
-      <v-icon class="mr-1">mdi-handshake-outline</v-icon>
+    <v-btn class="orangeBackground pa-2" small text>
+      <!-- <v-icon class="mr-1">mdi-play-circle</v-icon> -->
+      <!-- <v-icon class="mr-1">mdi-play-circle-outline</v-icon> -->
+      <!-- <v-icon class="mr-1">mdi-play</v-icon> -->
+      <!-- <v-icon class="mr-1">mdi-calendar-arrow-right</v-icon> -->
+      <!-- <v-icon class="mr-1">mdi-calendar-check</v-icon> -->
+      <!-- <v-icon class="mr-1">mdi-calendar-check-outline</v-icon> -->
+      <v-icon class="mr-2">mdi-credit-card-outline</v-icon>
+      <!-- <v-icon class="mr-1">mdi-calendar-clock</v-icon> -->
+      <!-- <v-icon class="mr-1">mdi-calendar-clock-outline</v-icon> -->
+      <!-- <v-icon class="mr-1">mdi-calendar-cursor</v-icon> -->
+      <!-- <v-icon class="mr-1">mdi-cash</v-icon> -->
+      <!-- <v-icon class="mr-1">mdi-cart-plus</v-icon> -->
+
       {{ $l("tutor.btn") }}
     </v-btn>
   </div>
@@ -39,7 +51,7 @@ export default {
   overflow: hidden;
   top: 30vh;
   margin-left: auto;
-  padding: 0;
+  padding: 2rem 0;
   width: fit-content;
   & > * {
     padding: 15px;

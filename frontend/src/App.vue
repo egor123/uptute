@@ -75,6 +75,7 @@ html {
   background-color: var(--v-secondary-darken4);
 }
 </style>
+
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
