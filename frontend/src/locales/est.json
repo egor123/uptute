@@ -13,6 +13,7 @@
     "email": "Emaili aadress...",
     "password": "Salasõna...",
     "forgot": "Unustasid salasõna?",
+    "account_yet": "Pole veel registreerunud?",
     "create": "Loo salasõna",
     "repeat": "Korda salasõna...",
     "must_agree": "Jätkamiseks vajame su nõusolekut",

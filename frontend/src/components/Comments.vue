@@ -24,11 +24,14 @@
 </template>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
 .comments {
   text-align: left;
   p {
     text-align: justify;
     hyphens: auto;
+    @include fontSize;
   }
   .person {
     display: flex;

@@ -44,7 +44,7 @@ export default {
   }
   &::before {
     position: absolute;
-    @include star-style("\2606", gray);
+    @include star-style("\2605", var(--v-secondary-darken1));
   }
   &::after {
     @include star-style("\2605", white);

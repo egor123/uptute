@@ -25,7 +25,7 @@
           required
         >
         </v-text-field>
-        <p>{{ $l("auth.forgot") }}</p>
+
         <v-btn
           class="mr-4 orangeBackground"
           @click="
@@ -53,6 +53,8 @@
       <v-btn id="google" @click="logIn()">
         <v-icon>mdi-google</v-icon>Sign in with Google
       </v-btn>
+      <p>{{ $l("auth.forgot") }}</p>
+      <p @click="goToRegisterPage()">{{ $l("auth.account_yet") }}</p>
     </v-card>
   </div>
 </template>
@@ -103,6 +105,9 @@ export default {
     logOut() {
       GoogleAuthService.signOut();
     },
+    goToRegisterPage() {
+      this.$router.push({ name: "Register" });
+    },
   },
   components: {
     Header,
@@ -111,7 +116,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #container {
   overflow: auto;
 }
@@ -124,5 +129,20 @@ export default {
 
 #google .v-icon {
   margin-right: 10px;
+}
+
+p {
+  color: var(--v-secondary-darken2);
+  font-size: 87.5%;
+  cursor: pointer;
+  &:hover {
+    color: var(--v-secondary-darken3);
+  }
+  &:first-of-type {
+    margin: 2rem 0 1rem 0;
+  }
+  &:last-of-type {
+    margin: 1rem 0 0 0;
+  }
 }
 </style>

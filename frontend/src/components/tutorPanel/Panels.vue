@@ -9,7 +9,7 @@
         </template>
 
         <span>
-          <Moto />
+          <Moto :moto="tutor.moto" />
 
           <Comments />
         </span>
@@ -67,7 +67,7 @@ $card-rows-margin: 5px;
   padding: 15px;
 
   & .tutor {
-    margin: 36px 0 -36px 0;
+    margin: 56px 0 -36px 0;
   }
 
   & .button {
@@ -89,7 +89,7 @@ $card-rows-margin: 5px;
 
   &:hover {
     & .tutor {
-      margin: 0 !important;
+      transform: translateY(-46px);
       transition: all 600ms ease 0ms;
     }
     & .button {
@@ -110,6 +110,10 @@ $card-rows-margin: 5px;
   background: var(--v-secondary-base);
   opacity: 0.4 !important;
   border-radius: 15px;
+}
+
+::v-deep #moto {
+  margin: 1rem 0 2.5rem 0;
 }
 
 @media (max-width: 1120px) {

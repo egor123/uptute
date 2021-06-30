@@ -7,7 +7,7 @@
             <h1>{{ $l("home.landing.title") }}</h1>
             <h2>{{ $l("home.landing.subtitle") }}</h2>
             <v-btn
-              elevation="2"
+              elevation="3"
               rounded
               class="btn orangeBackground"
               :to="{ name: 'FindATutor' }"
@@ -16,7 +16,7 @@
             </v-btn>
             <v-btn
               outlined
-              elevation="2"
+              elevation="3"
               rounded
               color="primary"
               class="btn"
@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <sliderLayout
+    <SliderLayout
       :title="$l('home.mission.title')"
       :elements="[
         {
@@ -45,7 +45,7 @@
         },
       ]"
     />
-    <checker-layout
+    <Checker-layout
       inversed
       color="background"
       :title="$l('home.how_it_works.title')"
@@ -83,6 +83,7 @@
 <script>
 import CheckerLayout from "@/components/checkerLayout/CheckerLayout.vue";
 import SliderLayout from "@/components/checkerLayout/SliderLayout.vue";
+
 export default {
   name: "Home",
   path: "/",

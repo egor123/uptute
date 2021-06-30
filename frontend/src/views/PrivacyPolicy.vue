@@ -334,7 +334,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/scss/mixins.scss";
+
 .container {
   text-align: justify;
   width: calc(100% - 2 * var(--side-margin));
@@ -342,11 +344,16 @@ export default {
   overflow-wrap: break-word;
   margin: calc(106px + 3rem) auto 3rem auto;
   hyphens: auto;
+  @include fontSize;
 }
 
-p:last-child {
-  margin-bottom: 15vh;
+p {
+  margin: 0.5rem 0 1rem 0;
+  &:last-child {
+    margin-bottom: 15vh;
+  }
 }
+
 h1 {
   text-align: center;
   margin: 3rem 0rem;

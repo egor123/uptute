@@ -9,7 +9,7 @@
         {{ getText() }}
       </div>
     </v-expansion-panel-header>
-    <v-expansion-panel-content>
+    <v-expansion-panel-content id="expPanelContent">
       <v-text-field
         v-if="search === true"
         v-model="searchStr"
@@ -77,7 +77,7 @@ export default {
 
 <style lang="scss" scoped>
 #scroll {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: visible;
   max-height: 150px;
   padding: 0 10px;
