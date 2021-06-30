@@ -22,6 +22,6 @@ p {
   margin-top: 1rem;
   text-align: justify;
   hyphens: auto;
-  @include fontSize;
+  @include font-size;
 }
 </style>

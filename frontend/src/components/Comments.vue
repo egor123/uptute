@@ -31,7 +31,7 @@
   p {
     text-align: justify;
     hyphens: auto;
-    @include fontSize;
+    @include font-size;
   }
   .person {
     display: flex;

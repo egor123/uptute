@@ -344,7 +344,7 @@ export default {
   overflow-wrap: break-word;
   margin: calc(106px + 3rem) auto 3rem auto;
   hyphens: auto;
-  @include fontSize;
+  @include font-size;
 }
 
 p {

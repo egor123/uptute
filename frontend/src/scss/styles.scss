@@ -1,3 +1,5 @@
+@import "./mixins.scss";
+
 #containerMain {
   display: flex;
   height: 100%;
@@ -74,4 +76,36 @@
 
 .activePanel#panel {
   border-radius: 0 !important;
+}
+
+input[type="radio"] {
+  // ----- Settings -----
+  $size: 2rem;
+  $margin: 0.2rem;
+  $default-amount: 90;
+  $checked-amount: 70;
+  $box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  $transition-time: 0.5s;
+  // --------------------
+  @include box-size($size);
+  position: relative;
+  margin: $margin;
+  @include pseudo-elements {
+    @include fill-parent(-1px);
+    content: "";
+    border-radius: 50%;
+  }
+  &::before {
+    background-color: lighten($color: #000000, $amount: $default-amount);
+  }
+  &:hover::before {
+    box-shadow: $box-shadow;
+  }
+  &::after {
+    background-color: lighten($color: #000000, $amount: $checked-amount);
+    transition: transform $transition-time ease;
+  }
+  &:not(:checked)::after {
+    transform: scale(0);
+  }
 }

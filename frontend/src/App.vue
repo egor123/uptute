@@ -42,7 +42,7 @@ export default {
 }
 html {
   scroll-behavior: smooth;
-  @include fontSize();
+  @include font-size();
 }
 
 #app {

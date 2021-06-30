@@ -27,7 +27,7 @@ p {
   @include flexbox();
   img {
     position: absolute;
-    @include boxSize(50px);
+    @include box-size(50px);
     opacity: 0.1;
     top: -30%;
     left: 12%;

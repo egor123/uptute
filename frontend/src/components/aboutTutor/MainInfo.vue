@@ -37,7 +37,7 @@ export default {
   & > *:last-child {
     @include flexbox(row);
     img {
-      @include boxSize(20px);
+      @include box-size(20px);
       opacity: 0.2;
     }
     div {
