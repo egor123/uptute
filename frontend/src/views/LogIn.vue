@@ -100,7 +100,7 @@ export default {
   //methods: mapActions(["signin"]),
   methods: {
     logIn() {
-      GoogleAuthService.signIn();
+      GoogleAuthService.signIn().catch((e) => console.log(e.error));
     },
     logOut() {
       GoogleAuthService.signOut();

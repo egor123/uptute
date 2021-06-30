@@ -74,7 +74,7 @@ function getAuth() {
 }
 
 function signIn() {
-    getAuth()
+    return getAuth()
         .then(auth => auth.signIn())
         // .then(auth => auth.grantOfflineAccess())
         // .then(resp => axios.post('/api/auth/google/signIn', resp.code))
