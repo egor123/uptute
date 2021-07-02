@@ -9,7 +9,7 @@
       "log_in": "Logi sisse",
       "register": "Registreeru"
     },
-    "allow_cookies": "Kasutamaks Google autorisatsiooni palun luba KOLMANDATE ISIKUTE KÜPSISTE kasutamist",
+    "allow_cookies": "Kasutamaks Google autorisatsiooni palun luba <b>Kolmandate Isikute Küpsiste</b> kasutamist",
     "name": "Ees- ja perekonnanimi..",
     "email": "Emaili aadress...",
     "password": "Salasõna...",
@@ -258,7 +258,8 @@
     "card_int": ["Kaardi number...", "KK/AA", "CVC"],
     "cost": "Hind",
     "tooltip": "Eratunni hind arvutatakse sessiooni lõpus arvestades selle pikkust",
-    "button": "Kinnita broneering"
+    "button": "Kinnita broneering",
+    "link": "Su eratunni link"
   },
   "data": {
     "actions": {

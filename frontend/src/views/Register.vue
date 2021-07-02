@@ -175,7 +175,9 @@ export default {
       return "success";
     },
   },
-  methods: mapActions(["signup"]),
+  methods: {
+    ...mapActions(["signup"]),
+  },
   components: {
     Header,
     ComingSoon,

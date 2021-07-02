@@ -1,21 +1,23 @@
 <template>
-  <div id="buttonWrapper" ref="buttonWrapper">
-    <v-btn class="orangeBackground pa-2" small text>
-      <!-- <v-icon class="mr-1">mdi-play-circle</v-icon> -->
-      <!-- <v-icon class="mr-1">mdi-play-circle-outline</v-icon> -->
-      <!-- <v-icon class="mr-1">mdi-play</v-icon> -->
-      <!-- <v-icon class="mr-1">mdi-calendar-arrow-right</v-icon> -->
-      <!-- <v-icon class="mr-1">mdi-calendar-check</v-icon> -->
-      <!-- <v-icon class="mr-1">mdi-calendar-check-outline</v-icon> -->
-      <v-icon class="mr-2">mdi-credit-card-outline</v-icon>
-      <!-- <v-icon class="mr-1">mdi-calendar-clock</v-icon> -->
-      <!-- <v-icon class="mr-1">mdi-calendar-clock-outline</v-icon> -->
-      <!-- <v-icon class="mr-1">mdi-calendar-cursor</v-icon> -->
-      <!-- <v-icon class="mr-1">mdi-cash</v-icon> -->
-      <!-- <v-icon class="mr-1">mdi-cart-plus</v-icon> -->
+  <div id="container">
+    <div id="buttonWrapper" ref="buttonWrapper">
+      <v-btn class="orangeBackground pa-2" small text>
+        <!-- <v-icon class="mr-1">mdi-play-circle</v-icon> -->
+        <!-- <v-icon class="mr-1">mdi-play-circle-outline</v-icon> -->
+        <!-- <v-icon class="mr-1">mdi-play</v-icon> -->
+        <!-- <v-icon class="mr-1">mdi-calendar-arrow-right</v-icon> -->
+        <!-- <v-icon class="mr-1">mdi-calendar-check</v-icon> -->
+        <!-- <v-icon class="mr-1">mdi-calendar-check-outline</v-icon> -->
+        <v-icon class="mr-2">mdi-credit-card-outline</v-icon>
+        <!-- <v-icon class="mr-1">mdi-calendar-clock</v-icon> -->
+        <!-- <v-icon class="mr-1">mdi-calendar-clock-outline</v-icon> -->
+        <!-- <v-icon class="mr-1">mdi-calendar-cursor</v-icon> -->
+        <!-- <v-icon class="mr-1">mdi-cash</v-icon> -->
+        <!-- <v-icon class="mr-1">mdi-cart-plus</v-icon> -->
 
-      {{ $l("tutor.btn") }}
-    </v-btn>
+        {{ $l("tutor.btn") }}
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -46,12 +48,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/scss/mixins.scss";
+#container {
+  @include fill-parent;
+}
 #buttonWrapper {
+  $offset: 30vh;
   position: sticky;
   overflow: hidden;
-  top: 30vh;
+  top: $offset;
+  bottom: $offset; //padding-bottom: $offset; ????
   margin-left: auto;
-  padding: 2rem 0;
   width: fit-content;
   & > * {
     padding: 15px;

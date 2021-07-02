@@ -1,33 +1,25 @@
 <template>
-  <div id="containerMain">
-    <Subheader :title="$l('booking.subheader')" />
+  <Background :title="$l('booking.subheader')">
+    <BackgroundCard>
+      <div id="profile">
+        <img
+          @click="goToAboutTutor()"
+          class="userImg"
+          src="@/assets/icons/user.svg"
+        />
+        <h3>{{ tutor.name }}</h3>
+      </div>
 
-    <v-row id="contentMain" class="ma-0 justify-center">
-      <v-col
-        class="pa-0 col-11 col-sm-9 col-md-6 col-lg-5 col-xl-3"
-        id="backgroundCard"
-      >
-        <div id="contentWrapper">
-          <div class=" ma-0 justify-center align-center d-flex flex-row">
-            <img
-              @click="goToAboutTutor()"
-              class="userImg"
-              src="@/assets/icons/user.svg"
-            />
-            <h3>{{ tutor.name }}</h3>
-          </div>
+      <InfoTable />
 
-          <InfoTable />
-
-          <ConfirmButton />
-        </div>
-      </v-col>
-    </v-row>
-  </div>
+      <ConfirmButton />
+    </BackgroundCard>
+  </Background>
 </template>
 
 <script>
-import Subheader from "@/components/Header.vue";
+import Background from "@/components/background/Background.vue";
+import BackgroundCard from "@/components/background/BackgroundCard.vue";
 import InfoTable from "@/components/bookTheLesson/InfoTable.vue";
 import ConfirmButton from "@/components/bookTheLesson/ConfirmButton.vue";
 
@@ -38,7 +30,9 @@ export default {
     roles: "ALL",
   },
   components: {
-    Subheader,
+    Background,
+    BackgroundCard,
+
     InfoTable,
     ConfirmButton,
   },
@@ -65,17 +59,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#backgroundCard {
-  margin: calc(106px + 6rem) 0 6rem 0;
-  height: max-content;
-  border-radius: 15px;
-  background: #ffffffaa;
-}
+@import "@/scss/mixins.scss";
 
-#contentWrapper {
-  padding: 3rem;
+#profile {
+  @include flexbox;
 }
-
 .userImg {
   width: 50px;
   height: 50px;

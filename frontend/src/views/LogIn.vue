@@ -60,7 +60,7 @@
         timeout="15000"
         v-model="showSnackbar"
       >
-        {{ $l("auth.allow_cookies") }}
+        <p class="errorSnackbar ma-0" v-html="$l('auth.allow_cookies')"></p>
       </v-snackbar>
       <p>{{ $l("auth.forgot") }}</p>
       <p @click="goToRegisterPage()">{{ $l("auth.account_yet") }}</p>
@@ -149,7 +149,7 @@ export default {
   margin-right: 10px;
 }
 
-p {
+p:not(.errorSnackbar) {
   color: var(--v-secondary-darken2);
   font-size: 87.5%;
   cursor: pointer;

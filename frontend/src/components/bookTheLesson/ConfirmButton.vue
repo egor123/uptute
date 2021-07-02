@@ -8,7 +8,7 @@
 
     <v-card id="card">
       <v-card-title id="cardTitle" class="justify-center text-h5 background">
-        Your lesson's link
+        {{ $l("booking.link") }}
       </v-card-title>
 
       <v-card-text id="cardText" class="pa-4">

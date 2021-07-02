@@ -94,10 +94,10 @@ export default {
       return this.imgSize ?? 100;
     },
     current: {
-      get: function () {
+      get: function() {
         return this.currentValue;
       },
-      set: function (value) {
+      set: function(value) {
         if (!this.enabled) return;
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
@@ -160,9 +160,8 @@ export default {
         const distance = Math.abs(position);
 
         element.classList.toggle("transition", transition);
-        element.style.transform = `perspective(200px) translate3d(${
-          position * 330
-        }px, 0, ${distance * -120}px)`;
+        element.style.transform = `perspective(200px) translate3d(${position *
+          330}px, 0, ${distance * -120}px)`;
       }
     },
   },
@@ -205,54 +204,11 @@ $radio-margin: 0.5rem;
     height: 100%;
   }
 }
-// #radio-butttons {
-//   display: flex;
-//   margin: auto;
-//   margin-top: 15px;
-//   .radio {
-//     font-size: $radio-size;
-//     color: rgba($color: #000000, $alpha: 0.03);
-//     & + .radio {
-//       margin-left: $radio-margin;
-//     }
-//     .radio-input {
-//       input {
-//         display: none;
-//       }
-//       .radio-control {
-//         display: grid;
-//         place-items: center;
-
-//         &:hover,
-//         &:focus {
-//           color: rgba($color: #000000, $alpha: 0.04);
-//           box-shadow: 0 0 0.2em 0.01em currentColor;
-//         }
-//       }
-//       input + .radio-control::before {
-//         content: "";
-//         width: 100%;
-//         height: 100%;
-//         box-shadow: inset 1em 1em currentColor;
-//         border-radius: 50%;
-//         transition: 0.2s transform ease-in-out;
-//         transform: scale(0);
-//         color: rgba($color: #000000, $alpha: 0.3);
-//       }
-//       input:checked + .radio-control::before {
-//         transform: scale(1);
-//       }
-//     }
-//     .radio-control {
-//       display: block;
-//       width: 1em;
-//       height: 1em;
-//       border-radius: 50%;
-//       background: var(--v-secondary-darken1);
-//       opacity: 0.25;
-//     }
-//   }
-// }
+#radio-butttons {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 15px;
+}
 #nav-buttons {
   @media (max-width: $max-width-buttons) {
     display: none;
