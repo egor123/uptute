@@ -5,9 +5,9 @@
     :default="[0, 15]"
     :label="$l('find.filters.price.h')"
     :text="`${price[0]} - ${price[1]} €/${$l('find.filters.price.p')}`"
+    slider="true"
     propURL="price"
   >
-    <div id="slider">
       <v-range-slider
         v-model="price"
         min="0"
@@ -17,7 +17,6 @@
         :thumb-size="20"
         color="accent"
       />
-    </div>
   </BaseComponent>
 </template>
 <script>
@@ -34,16 +33,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-#slider {
-  padding: 30px 25px 0 25px;
-}
-
-::v-deep #scroll {
-  padding: 0 !important;
-}
-
-::v-deep #expPanelContent > * {
-  padding: 0;
-}
-</style>

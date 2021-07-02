@@ -6,29 +6,17 @@
     :rules="(val) => val != ''"
     :label="$l('find.filters.subject.h')"
     :text="this.$l('data.subjects.' + subject)"
-    :search="true"
+    search="true"
     @search="(val) => (search = val)"
     propURL="subject"
   >
-    <!-- <v-radio-group v-model="subject">
-      <v-radio
-        type="radio"
-        v-for="item in getSubjects()"
-        v-show="show(item)"
-        :key="item"
-        :value="item"
-        :label="$l('data.subjects.' + item)"
-        color="accent"
-      />
-    </v-radio-group> -->
-    <div v-for="item in getSubjects()" :key="item" id="btn">
+    <div v-for="item in getSubjects()" :key="item" class="btn">
       <input
         type="radio"
         :id="item"
         :value="item"
         v-show="show(item)"
         v-model="subject"
-        :ref="`radio${item}`"
       />
       <label :for="item">{{ $l("data.subjects." + item) }}</label>
     </div>
@@ -62,7 +50,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-#btn {
+.btn {
   text-align: left;
   display: flex;
   align-items: center;
