@@ -41,7 +41,7 @@ export default {
     change(item) {
       if (this.filter.name === item.name)
         item.dir = item.dir === "up" ? "down" : "up";
-      this.filter = {name: item.name, dir: item.dir};
+      this.filter = { name: item.name, dir: item.dir };
     },
   },
 };
@@ -51,8 +51,8 @@ export default {
 @import "@/scss/mixins.scss";
 
 $icon-wrapper-size: 1.5rem;
-$scale: .4;
-$transition-duration: .4s;
+$scale: 0.4;
+$transition-duration: 0.4s;
 .filter {
   @include flexbox;
   justify-content: left;
@@ -70,6 +70,9 @@ $transition-duration: .4s;
     @include flexbox;
     border-radius: 50%;
     overflow: hidden;
+  }
+  .rotator {
+    @include flexbox;
   }
   p {
     margin: 0 0 0 $icon-wrapper-size;
