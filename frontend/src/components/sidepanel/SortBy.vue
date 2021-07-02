@@ -4,7 +4,9 @@
     v-model="filter"
     :default="{ name: 'rating', value: 'up' }"
     :label="$l('find.filters.filters.h')"
-    :text="$l('find.filters.filters.' + filter)"
+    :text="`${$l('find.filters.filters.' + filter.name)} ${
+      filter.dir === 'up' ? '↑' : '↓'
+    }`"
     propURL="filter"
   >
     <label class="filter" v-for="item in filters" :key="item.name">
