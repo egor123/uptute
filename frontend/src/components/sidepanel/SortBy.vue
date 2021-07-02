@@ -53,16 +53,17 @@ export default {
 $icon-wrapper-size: 1.5rem;
 $scale: 0.4;
 $transition-duration: 0.4s;
+$margin-top: 0.4rem;
 .filter {
   @include flexbox;
   justify-content: left;
+  & + & {
+    margin-top: $margin-top;
+  }
   span,
   .rotator,
   .icon {
     transition: all $transition-duration ease;
-  }
-  .icon {
-    color: var(--v-secondary-darken2);
   }
   span {
     position: absolute;
@@ -73,6 +74,10 @@ $transition-duration: 0.4s;
   }
   .rotator {
     @include flexbox;
+    @include box-size(100%);
+  }
+  .icon {
+    color: var(--v-secondary-darken2);
   }
   p {
     margin: 0 0 0 $icon-wrapper-size;
