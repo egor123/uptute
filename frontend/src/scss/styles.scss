@@ -1,17 +1,5 @@
 @import "./mixins.scss";
 
-#containerMain {
-  display: flex;
-  height: 100%;
-}
-
-#contentMain {
-  display: flex;
-  flex: 100%;
-  background-color: var(--v-background-base);
-  justify-content: center;
-}
-
 .orangeBackground {
   background: var(--v-accent-base) !important;
   color: var(--v-secondary-base) !important;
@@ -82,10 +70,10 @@ input[type="radio"] {
   // ----- Settings -----
   $size: 2rem;
   $margin: 0.2rem;
-  $default-amount: 90;
-  $checked-amount: 70;
-  $box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-  $transition-time: 0.5s;
+  $default-amount: 92;
+  $checked-amount: 83;
+  $transition-time: 0.4s;
+
   // --------------------
   @include box-size($size);
   position: relative;
@@ -98,13 +86,14 @@ input[type="radio"] {
     background-color: lighten($color: #000000, $amount: $default-amount);
   }
   &:hover::before {
-    box-shadow: $box-shadow;
+    cursor: pointer;
   }
   &::after {
     background-color: lighten($color: #000000, $amount: $checked-amount);
-    transition: transform $transition-time ease;
+    transition: all $transition-time ease-in-out;
   }
   &:not(:checked)::after {
     transform: scale(0);
+    opacity: 0;
   }
 }

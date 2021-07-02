@@ -1,27 +1,23 @@
 <template>
-  <div id="containerMain">
-    <Header :title="$l('choose.header')" />
-
-    <div id="contentMain">
-      <div class="innerContent">
-        <LessonInfo />
-        <div class="infoCard">
-          <v-container class="innerContainer">
-            <h3 class="chooseOne">{{ $l("choose.choose") }}</h3>
-          </v-container>
-        </div>
-        <SearchingForTutors />
-        <v-expansion-panels class="panels" flat focusable hover>
-          <SortBy class="sortBy" />
-        </v-expansion-panels>
-        <Panels id="panels" :tutors="tutors" />
+  <Background :title="$l('choose.header')">
+    <div class="innerContent">
+      <LessonInfo />
+      <div class="infoCard">
+        <v-container class="innerContainer">
+          <h3 class="chooseOne">{{ $l("choose.choose") }}</h3>
+        </v-container>
       </div>
+      <SearchingForTutors />
+      <v-expansion-panels class="panels" flat focusable hover>
+        <SortBy class="sortBy" />
+      </v-expansion-panels>
+      <Panels id="panels" :tutors="tutors" />
     </div>
-  </div>
+  </Background>
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import Background from "@/components/background/Background.vue";
 import Panels from "@/components/tutorPanel/Panels";
 import SearchingForTutors from "@/components/SearchingForTutors.vue";
 import LessonInfo from "@/components/LessonInfo.vue";
@@ -35,7 +31,7 @@ export default {
     redirect: "LogIn",
   },
   components: {
-    Header,
+    Background,
     Panels,
     SearchingForTutors,
     LessonInfo,

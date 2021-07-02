@@ -81,6 +81,7 @@ export default {
   overflow-x: visible;
   max-height: 150px;
   padding: 0 10px;
+  margin-top: 1rem;
   &::-webkit-scrollbar-track {
     background: var(--v-secondary-base);
   }
@@ -98,6 +99,7 @@ export default {
 #panel {
   transition: transform 400ms;
   border-radius: 0;
+  margin: 0;
   &:hover {
     transform: scale(0.95);
   }

@@ -5,7 +5,7 @@
       "log_in": "Log in",
       "register": "Register"
     },
-    "allow_cookies": "To use Google authorisation please allow THIRD-PARTY COOKIES",
+    "allow_cookies": "To use Google authorisation please allow <b>Third-Party Cookies</b> ",
     "btn": {
       "log_in": "Log in",
       "register": "Register"
@@ -255,38 +255,43 @@
     "card_int": ["Card number...", "MM/YY", "CVC"],
     "cost": "Cost",
     "tooltip": "Cost of the lesson is calculated at the end of the session based on its length",
+    "button": "Confirm the booking",
+    "link": "Your lesson's link"
+  },
+  "set_up": {
+    "subheader": "Setting up your account",
 
-    "button": "Confirm the booking"
+    "1": {
+      "clarification": "Fill in now or continue later",
+      "name": "First name...",
+      "surname": "Surname...",
+      "parameters": ["Date of birth", "Gender", "Country", "City", "School"],
+      "choises": [
+        "DD/MM/YYYY",
+        ["Male", "Female", "Other", "I'd like not to say"],
+        "Type your country...",
+        "Type your city...",
+        "Type your school..."
+      ],
+      "button_tutor": "Next",
+      "button_student": "Done"
+    },
+
+    "2": {
+      "subheader": "Setting up your account",
+      "clarification": "Fill in or continue later",
+      "parameters (copy)": [
+        "Subjects you tech",
+        "Your audience",
+        "Schools you cover"
+      ],
+      "choises": ["Type a subject...", "Grades", "Type a school..."],
+      "zoom": "Your zoom meeting link...",
+      "motto": "Your motto",
+      "button": "Done"
+    }
   },
-  "set1": {
-    "subheader": "Setting up your account",
-    "clarification": "Fill in now or continue later",
-    "name": "First name...",
-    "surname": "Surname...",
-    "parameters": ["Date of birth", "Gender", "Country", "City", "School"],
-    "choises": [
-      "DD/MM/YYYY",
-      ["Male", "Female", "Other", "I'd like not to say"],
-      "Type your country...",
-      "Type your city...",
-      "Type your school..."
-    ],
-    "button_tutor": "Next",
-    "button_student": "Done"
-  },
-  "set2": {
-    "subheader": "Setting up your account",
-    "clarification": "Fill in or continue later",
-    "parameters (copy)": [
-      "Subjects you tech",
-      "Your audience",
-      "Schools you cover"
-    ],
-    "choises": ["Type a subject...", "Grades", "Type a school..."],
-    "zoom": "Your zoom meeting link...",
-    "motto": "Your motto",
-    "button": "Done"
-  },
+
   "acc_pages": {
     "subheader": "Account",
     "main": "Main view",

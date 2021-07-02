@@ -82,10 +82,10 @@ export default {
       return this.imgSize ?? 100;
     },
     current: {
-      get: function () {
+      get: function() {
         return this.currentValue;
       },
-      set: function (value) {
+      set: function(value) {
         if (!this.enabled) return;
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
@@ -148,9 +148,8 @@ export default {
         const distance = Math.abs(position);
 
         element.classList.toggle("transition", transition);
-        element.style.transform = `perspective(200px) translate3d(${
-          position * 330
-        }px, 0, ${distance * -120}px)`;
+        element.style.transform = `perspective(200px) translate3d(${position *
+          330}px, 0, ${distance * -120}px)`;
       }
     },
   },
@@ -192,6 +191,11 @@ $radio-margin: 0.5rem;
     width: 100%;
     height: 100%;
   }
+}
+#radio-butttons {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 15px;
 }
 #nav-buttons {
   @media (max-width: $max-width-buttons) {
