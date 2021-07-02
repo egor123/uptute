@@ -28,18 +28,6 @@
           v-model="current"
           :ref="`radio${i}`"
         />
-        <!-- <label class="radio" v-for="(c, i) in elements" :key="i">
-          <span class="radio-input">
-            <input
-              type="radio"
-              name="radio"
-              :value="i"
-              v-model="current"
-              :ref="`radio${i}`"
-            />
-            <span class="radio-control"></span>
-          </span>
-        </label> -->
       </div>
       <div id="nav-buttons" v-for="i in 1" :key="i">
         <button
@@ -205,54 +193,6 @@ $radio-margin: 0.5rem;
     height: 100%;
   }
 }
-// #radio-butttons {
-//   display: flex;
-//   margin: auto;
-//   margin-top: 15px;
-//   .radio {
-//     font-size: $radio-size;
-//     color: rgba($color: #000000, $alpha: 0.03);
-//     & + .radio {
-//       margin-left: $radio-margin;
-//     }
-//     .radio-input {
-//       input {
-//         display: none;
-//       }
-//       .radio-control {
-//         display: grid;
-//         place-items: center;
-
-//         &:hover,
-//         &:focus {
-//           color: rgba($color: #000000, $alpha: 0.04);
-//           box-shadow: 0 0 0.2em 0.01em currentColor;
-//         }
-//       }
-//       input + .radio-control::before {
-//         content: "";
-//         width: 100%;
-//         height: 100%;
-//         box-shadow: inset 1em 1em currentColor;
-//         border-radius: 50%;
-//         transition: 0.2s transform ease-in-out;
-//         transform: scale(0);
-//         color: rgba($color: #000000, $alpha: 0.3);
-//       }
-//       input:checked + .radio-control::before {
-//         transform: scale(1);
-//       }
-//     }
-//     .radio-control {
-//       display: block;
-//       width: 1em;
-//       height: 1em;
-//       border-radius: 50%;
-//       background: var(--v-secondary-darken1);
-//       opacity: 0.25;
-//     }
-//   }
-// }
 #nav-buttons {
   @media (max-width: $max-width-buttons) {
     display: none;

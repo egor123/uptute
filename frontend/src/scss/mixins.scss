@@ -13,6 +13,7 @@
 @mixin pseudo-elements() {
     &::before,
     &::after {
+        content: "";
         @content;
     }
 }

@@ -92,7 +92,6 @@ input[type="radio"] {
   margin: $margin;
   @include pseudo-elements {
     @include fill-parent(-1px);
-    content: "";
     border-radius: 50%;
   }
   &::before {
