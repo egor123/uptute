@@ -40,7 +40,7 @@ export default {
     value: function(val) {
       var params = JSON.parse(JSON.stringify(this.$route.query));
       params[this.propURL] = val;
-      this.$router.push({ query: params }).catch(() => {});
+      this.$router.replace({ query: params }).catch(() => {});
       if (this.verify()) this.error = false;
     },
     searchStr: function(val) {
