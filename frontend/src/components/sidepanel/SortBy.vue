@@ -2,22 +2,28 @@
   <BaseComponent
     ref="base"
     v-model="filter"
-    :default="{ name: 'rating', value: 'up' }"
+    :default="filters[0]"
     :label="$l('find.filters.filters.h')"
-    :text="`${$l('find.filters.filters.' + filter.name)} ${
-      filter.dir === 'up' ? '↑' : '↓'
+    :text="`${this.$l('find.filters.filters.' + this.filter.name)} ${
+      this.filter.dir === 'up' ? '↑' : '↓'
     }`"
     propURL="filter"
   >
-    <label class="filter" v-for="item in filters" :key="item.name">
-      <input type="radio" name="radio" :dir="item.dir" @click="change(item)" />
-      <span>
+    <div
+      class="filter"
+      v-for="item in filters"
+      :key="item.name"
+      :checked="filter.name === item.name"
+      :dir="item.dir"
+      @click="change(item)"
+    >
+      <div class="wrapper">
         <div class="rotator">
           <v-icon class="icon">mdi-water</v-icon>
         </div>
-      </span>
+      </div>
       <p>{{ $l("find.filters.filters." + item.name) }}</p>
-    </label>
+    </div>
   </BaseComponent>
 </template>
 
@@ -39,6 +45,7 @@ export default {
       filter: {},
     };
   },
+
   methods: {
     change(item) {
       if (this.filter.name === item.name)
@@ -62,21 +69,11 @@ $margin-top: 0.4rem;
   & + & {
     margin-top: $margin-top;
   }
-  span,
+  .wrapper,
   .rotator,
   .icon {
+    @include flexbox;
     transition: all $transition-duration ease;
-  }
-  span {
-    position: absolute;
-    @include box-size($icon-wrapper-size);
-    @include flexbox;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-  .rotator {
-    @include flexbox;
-    @include box-size(100%);
   }
   .icon {
     color: var(--v-secondary-darken2);
@@ -84,20 +81,25 @@ $margin-top: 0.4rem;
   p {
     margin: 0 0 0 $icon-wrapper-size;
   }
-  input {
-    display: none;
-    &[dir="down"] ~ span .rotator {
-      transform: rotate(180deg);
-    }
-    &:not(:checked) ~ span {
+  .wrapper {
+    position: absolute;
+    @include box-size($icon-wrapper-size);
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  &[checked] .icon {
+    color: var(--v-accent-base);
+  }
+  &:not([checked]) {
+    .wrapper {
       transform: scale($scale);
-      .icon {
-        transform: scale(#{1 / $scale});
-      }
     }
-    &:checked ~ span .icon {
-      color: var(--v-accent-base);
+    .icon{
+      transform: scale(#{1 / $scale});
     }
+  }
+  &[dir="down"] .rotator {
+    transform: rotate(180deg);
   }
 }
 </style>
