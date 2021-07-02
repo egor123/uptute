@@ -10,8 +10,9 @@
     @search="(val) => (search = val)"
     propURL="subject"
   >
-    <v-radio-group v-model="subject">
+    <!-- <v-radio-group v-model="subject">
       <v-radio
+        type="radio"
         v-for="item in getSubjects()"
         v-show="show(item)"
         :key="item"
@@ -19,7 +20,18 @@
         :label="$l('data.subjects.' + item)"
         color="accent"
       />
-    </v-radio-group>
+    </v-radio-group> -->
+    <div v-for="item in getSubjects()" :key="item" id="btn">
+      <input
+        type="radio"
+        :id="item"
+        :value="item"
+        v-show="show(item)"
+        v-model="subject"
+        :ref="`radio${item}`"
+      />
+      <label :for="item">{{ $l("data.subjects." + item) }}</label>
+    </div>
   </BaseComponent>
 </template>
 
@@ -49,3 +61,28 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+#btn {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+
+  label {
+    margin-left: 0.8rem;
+    color: rgba($color: #000000, $alpha: 0.6);
+    cursor: pointer;
+  }
+}
+
+input[type="radio"] {
+  margin: 0;
+  width: 1rem;
+  height: 1rem;
+  &::after {
+    background-color: var(--v-accent-base);
+  }
+}
+</style>

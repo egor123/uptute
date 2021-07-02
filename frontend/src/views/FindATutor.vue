@@ -1,7 +1,6 @@
 <template>
-  <div id="container">
+  <Background :title="$l('find.header')">
     <div id="content">
-      <Header :title="$l('find.header')" />
       <v-expansion-panels
         flat
         hover
@@ -22,11 +21,11 @@
         {{ $l("find.request") }}
       </v-btn>
     </div>
-  </div>
+  </Background>
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import Background from "@/components/background/Background.vue";
 import Subjects from "@/components/sidepanel/Subjects";
 import Languages from "@/components/sidepanel/Languages";
 import Price from "@/components/sidepanel/Price";
@@ -38,11 +37,11 @@ export default {
     redirect: "LogIn",
   },
   components: {
+    Background,
     Subjects,
     Languages,
     Price,
     Age,
-    Header,
   },
   data() {
     return {
@@ -79,22 +78,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#container {
-  height: 100%;
-  width: 100%;
-  padding: calc(106px + 7rem) 1rem 7rem 1rem;
-  background-color: var(--v-background-base);
-}
+@import "@/scss/mixins.scss";
+
 #content {
-  margin: auto;
+  @include flexbox(column);
   max-width: 350px;
   min-width: 250px;
-  padding: 0 1rem;
-  * {
-    display: block;
-    margin: auto;
-  }
+  height: max-content;
+  margin: calc(106px + 6rem) 1rem 6rem 1rem;
 }
+
 #panels {
   border-radius: 15px;
 }

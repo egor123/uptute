@@ -1,11 +1,15 @@
 <template>
-  <div id="container">
-    <Subheader id="subheader">
-      <img @click="goToAboutTutor()" src="@/assets/icons/user.svg" />
-      <h3>{{ tutor.name }}</h3>
-    </Subheader>
-    <div id="card">
+  <Background>
+    <template v-slot:subheader>
+      <div id="subheader">
+        <img @click="goToAboutTutor()" src="@/assets/icons/user.svg" />
+        <h3>{{ tutor.name }}</h3>
+      </div>
+    </template>
+
+    <BackgroundCard>
       <BookButton :to="{ name: 'BookTheLesson' }" />
+
       <div id="content">
         <MainInfo
           :location="tutor.location"
@@ -27,18 +31,19 @@
           <Comments />
         </div>
       </div>
-    </div>
-  </div>
+    </BackgroundCard>
+  </Background>
 </template>
 
 <script>
+import Background from "@/components/background/Background.vue";
+import BackgroundCard from "@/components/background/BackgroundCard.vue";
 import BookButton from "@/components/aboutTutor/BookButton.vue";
 import MainInfo from "@/components/aboutTutor/MainInfo.vue";
 import AboutInfo from "@/components/aboutTutor/AboutInfo.vue";
 import AdditionalInfo from "@/components/aboutTutor/AdditionalInfo.vue";
 import Moto from "@/components/aboutTutor/Moto.vue";
 import Comments from "@/components/Comments.vue";
-import Subheader from "@/components/Header.vue";
 
 export default {
   name: "AboutTutor",
@@ -47,8 +52,9 @@ export default {
     roles: "ALL",
   },
   components: {
+    Background,
+    BackgroundCard,
     Comments,
-    Subheader,
     BookButton,
     MainInfo,
     AboutInfo,
@@ -98,22 +104,12 @@ export default {
     margin-right: 1rem;
   }
 }
-#container {
-  background: var(--v-background-base);
-  @include box-size(100%);
-  padding: calc(106px + 7rem) 8vw 7rem 8vw;
-}
-#card {
-  background: #ffffffaa;
-  max-width: 50rem;
-  margin: auto;
-  border-radius: 15px;
-}
-#content {
-  @include flexbox(column);
-  padding: 3rem;
-  padding-top: calc(3rem - (2rem + 28px));
 
+::v-deep #backgroundCard {
+  max-width: 50rem !important;
+}
+
+#content {
   & > *:not(:first-child) {
     margin-top: 5rem;
   }
