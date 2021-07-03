@@ -63,6 +63,7 @@ $icon-wrapper-size: 1.5rem;
 $scale: 0.4;
 $transition-duration: 0.4s;
 $margin-top: 0.4rem;
+$side-margin: 0.8rem;
 .filter {
   @include flexbox;
   justify-content: left;
@@ -83,7 +84,7 @@ $margin-top: 0.4rem;
     color: var(--v-secondary-darken2);
   }
   p {
-    margin: 0 0 0 $icon-wrapper-size;
+    margin: 0 0 0 #{$icon-wrapper-size + $side-margin};
   }
   .wrapper {
     position: absolute;
