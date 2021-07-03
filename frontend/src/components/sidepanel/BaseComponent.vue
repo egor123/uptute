@@ -1,5 +1,9 @@
 <template>
-  <v-expansion-panel id="panel" :class="{ errorMovement: errorAnim }">
+  <v-expansion-panel
+    :slider="slider"
+    id="panel"
+    :class="{ errorMovement: errorAnim }"
+  >
     <v-expansion-panel-header id="header" :class="{ errorColor: error }">
       {{ label }}
       <div
@@ -11,7 +15,7 @@
     </v-expansion-panel-header>
     <v-expansion-panel-content id="expPanelContent">
       <v-text-field
-        v-if="search === true"
+        v-if="search === 'true'"
         v-model="searchStr"
         :label="$l('find.filters.subject.search')"
         append-icon="mdi-magnify"
@@ -32,30 +36,42 @@ export default {
     error: false,
     errorAnim: false,
   }),
-  props: ["value", "default", "rules", "label", "text", "propURL", "search"],
+  props: [
+    "value", // v-model
+    "default", // default value
+    "rules", // validation, always true if undef
+    "label", // panel's label
+    "text", // panel's text
+    "propURL", // prop's name in URL query
+    "search", // shows search panel if true, can be accesed by @search
+    "slider", // changes styles for slider content if true
+    // also required: ref="base"
+  ],
   mounted() {
-    this.emit(this.$route.query[this.propURL] ?? this.default);
+    var emit = this.default;
+    var val = this.$route.query[this.propURL];
+    if(val !== undefined)
+      emit = JSON.parse(val);
+    this.emit(emit); 
   },
   watch: {
-    value: function(val) {
+    value: function (val) {
       var params = JSON.parse(JSON.stringify(this.$route.query));
-      params[this.propURL] = val;
-      this.$router.push({ query: params }).catch(() => {});
+      params[this.propURL] = JSON.stringify(val);
+      this.$router.replace({ query: params }).catch(() => {});
       if (this.verify()) this.error = false;
     },
-    searchStr: function(val) {
+    searchStr: function (val) {
       this.$emit("search", val);
     },
   },
   methods: {
     refresh() {
+      // refresh value
       this.emit(this.default);
     },
-    emit(val) {
-      if (Array.isArray(this.default) && !Array.isArray(val)) val = [val];
-      this.$emit("input", val);
-    },
     isValid() {
+      // check if value is valid
       const val = this.verify();
       this.errorAnim = false;
       setTimeout(() => {
@@ -63,6 +79,10 @@ export default {
       }, 50);
       this.error = !val;
       return val;
+    },
+    emit(val) {
+      if (Array.isArray(this.default) && !Array.isArray(val)) val = [val];
+      this.$emit("input", val);
     },
     getText() {
       return this.text ?? "";
@@ -80,8 +100,7 @@ export default {
   overflow-y: auto;
   overflow-x: visible;
   max-height: 150px;
-  padding: 0 10px;
-  margin-top: 1rem;
+  padding: .8rem 0.6rem 0 0.6rem;
   &::-webkit-scrollbar-track {
     background: var(--v-secondary-base);
   }
@@ -112,7 +131,16 @@ export default {
     border-bottom-left-radius: inherit;
     overflow: hidden;
   }
+  &[slider="true"] {
+    ::v-deep #expPanelContent > * {
+      padding: 0;
+    }
+    #scroll {
+      padding: 30px 25px 0 25px;
+    }
+  }
 }
+
 .errorColor {
   color: var(--v-error-base) !important;
 }

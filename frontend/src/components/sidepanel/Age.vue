@@ -5,9 +5,9 @@
     :default="[14, 21]"
     :label="$l('find.filters.tutor_age.h')"
     :text="age.join(' - ')"
+    slider="true"
     propURL="age"
   >
-    <div id="slider">
       <v-range-slider
         v-model="age"
         min="14"
@@ -17,7 +17,6 @@
         :thumb-size="20"
         color="accent"
       />
-    </div>
   </BaseComponent>
 </template>
 
@@ -35,16 +34,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#slider {
-  padding: 30px 25px 0 25px;
-}
-::v-deep #scroll {
-  padding: 0 !important;
-}
-
-::v-deep #expPanelContent > * {
-  padding: 0;
-}
-</style>

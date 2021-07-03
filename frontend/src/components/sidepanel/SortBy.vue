@@ -2,38 +2,27 @@
   <BaseComponent
     ref="base"
     v-model="filter"
-    :default="'raiting'"
+    :default="filters[0]"
     :label="$l('find.filters.filters.h')"
-    :text="$l('find.filters.filters.' + filter)"
+    :text="`${$l('find.filters.filters.' + filter.name)} ${
+      filter.dir === 'up' ? '↑' : '↓'
+    }`"
     propURL="filter"
   >
-    <!-- <v-radio-group v-model="filter">
-      <v-radio
-        color="accent"
-        v-for="item in getFilters()" ------
-        :key="item" -------
-        :value="item"
-        :label="$l('find.filters.filters.' + item)"
-      />
-    </v-radio-group> -->
     <div
-      class="sortBy d-flex justify-left"
-      v-for="item in getFilters()"
-      :key="item"
+      class="filter"
+      v-for="item in filters"
+      :key="item.name"
+      :checked="filter.name === item.name"
+      :dir="item.dir"
+      @click="change(item)"
     >
-      <button
-        :id="item"
-        :class="{ active: filter == item, down: down }"
-        class="sortButton"
-        @click="changeChosen(item)"
-      >
-        <v-icon class="iconWater ma-0 pa-0">mdi-water</v-icon>
-        <div class="dot"></div>
-      </button>
-
-      <label class="label" :for="item">{{
-        $l("find.filters.filters." + item)
-      }}</label>
+      <div class="wrapper">
+        <div class="rotator">
+          <v-icon class="icon">mdi-water</v-icon>
+        </div>
+      </div>
+      <p>{{ $l("find.filters.filters." + item.name) }}</p>
     </div>
   </BaseComponent>
 </template>
@@ -47,23 +36,21 @@ export default {
   },
   data() {
     return {
-      filter: "",
-      down: false,
+      filters: [
+        //TO DO!!!!!!!!!
+        { name: "raiting", dir: "up" },
+        { name: "price", dir: "up" },
+        { name: "hours_tought", dir: "up" },
+      ],
+      filter: {},
     };
   },
+
   methods: {
-    getFilters() {
-      //TO DO!!!!!!!!!!!!!!!
-      return ["raiting", "price", "hours_tought"];
-    },
-    changeChosen(item) {
-      if (this.filter === item) {
-        this.down = !this.down;
-      } else {
-        this.filter = item;
-        this.down = true;
-      }
-      console.log(this.down);
+    change(item) {
+      if (this.filter.name === item.name)
+        item.dir = item.dir === "up" ? "down" : "up";
+      this.filter = { name: item.name, dir: item.dir };
     },
   },
 };
@@ -72,65 +59,51 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-.sortBy {
-  .sortButton {
-    position: relative;
-    @include box-size(1.5rem);
+$icon-wrapper-size: 1.5rem;
+$scale: 0.4;
+$transition-duration: 0.4s;
+$margin-top: 0.4rem;
+.filter {
+  @include flexbox;
+  justify-content: left;
+  cursor: pointer;
+  *{
+    cursor: inherit;
+  }
+  & + & {
+    margin-top: $margin-top;
+  }
+  .wrapper,
+  .rotator,
+  .icon {
     @include flexbox;
-    margin-bottom: 0.5rem;
-
-    transition: transform 400ms ease-in-out;
-
-    .iconWater {
-      position: absolute;
-      @include box-size(1rem);
-      color: var(--v-accent-base);
+    transition: all $transition-duration ease;
+  }
+  .icon {
+    color: var(--v-secondary-darken2);
+  }
+  p {
+    margin: 0 0 0 $icon-wrapper-size;
+  }
+  .wrapper {
+    position: absolute;
+    @include box-size($icon-wrapper-size);
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  &[checked] .icon {
+    color: var(--v-accent-base);
+  }
+  &:not([checked]) {
+    .wrapper {
+      transform: scale($scale);
     }
-    .dot {
-      @include box-size(0.8rem);
-      @include flexbox;
-      background: var(--v-secondary-darken2);
-      border-radius: 50%;
-    }
-    &:not(.active) {
-      .iconWater {
-        opacity: 0;
-        transform: scale(0.1);
-        transition: all 400ms ease-in-out;
-      }
-      .dot {
-        opacity: 1;
-        transform: scale(1);
-        transition: all 400ms 200ms ease-in-out;
-      }
-    }
-    &.active {
-      .iconWater {
-        opacity: 1;
-        transform: scale(1);
-        transition: all 400ms 200ms ease-in-out;
-      }
-      .dot {
-        opacity: 0;
-        transform: scale(0.1);
-        transition: all 400ms ease-in-out;
-      }
-      &.down {
-        transform: rotate(180deg);
-      }
+    .icon{
+      transform: scale(#{1 / $scale});
     }
   }
-}
-
-.label {
-  margin-left: 0.8rem;
-  color: rgba($color: #000000, $alpha: 0.6);
-  &:hover {
-    cursor: pointer;
+  &[dir="down"] .rotator {
+    transform: rotate(180deg);
   }
-}
-
-::v-deep #scroll {
-  overflow: hidden;
 }
 </style>

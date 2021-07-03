@@ -28,18 +28,6 @@
           v-model="current"
           :ref="`radio${i}`"
         />
-        <!-- <label class="radio" v-for="(c, i) in elements" :key="i">
-          <span class="radio-input">
-            <input
-              type="radio"
-              name="radio"
-              :value="i"
-              v-model="current"
-              :ref="`radio${i}`"
-            />
-            <span class="radio-control"></span>
-          </span>
-        </label> -->
       </div>
       <div id="nav-buttons" v-for="i in 1" :key="i">
         <button
