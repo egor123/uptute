@@ -286,8 +286,15 @@
         "Schools you cover"
       ],
       "choises": ["Type a subject...", "Grades", "Type a school..."],
-      "zoom": "Your zoom meeting link...",
+      "zoom": "Your Zoom meeting link",
+      "dialog": {
+        "title": "Not sure what it is?",
+        "text": "Find out",
+        "link": "here"
+      },
       "motto": "Your motto",
+      "about": "A bit about yourself",
+
       "button": "Done"
     }
   },

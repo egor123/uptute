@@ -64,6 +64,11 @@ td {
   cursor: default;
   padding: 1rem;
   margin: -1rem -1rem -1rem auto;
+
+  transition: color 300ms ease-in-out;
+  &:hover {
+    color: var(--v-secondary-darken3);
+  }
 }
 
 .priceTooltip {
