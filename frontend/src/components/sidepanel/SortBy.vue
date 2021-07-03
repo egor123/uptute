@@ -4,8 +4,8 @@
     v-model="filter"
     :default="filters[0]"
     :label="$l('find.filters.filters.h')"
-    :text="`${this.$l('find.filters.filters.' + this.filter.name)} ${
-      this.filter.dir === 'up' ? '↑' : '↓'
+    :text="`${$l('find.filters.filters.' + filter.name)} ${
+      filter.dir === 'up' ? '↑' : '↓'
     }`"
     propURL="filter"
   >
@@ -66,6 +66,10 @@ $margin-top: 0.4rem;
 .filter {
   @include flexbox;
   justify-content: left;
+  cursor: pointer;
+  *{
+    cursor: inherit;
+  }
   & + & {
     margin-top: $margin-top;
   }
