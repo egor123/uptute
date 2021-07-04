@@ -1,18 +1,17 @@
 <template>
   <BaseComponent
     ref="base"
-    v-model="grade"
-    :default="12"
-    :label="$l('find.filters.audience.h')"
-    :text="grade.join(' - ')"
+    v-model="price"
+    :default="8"
+    :label="$l('find.filters.price.h')"
+    :text="`${price} €/${$l('find.filters.price.p')}`"
     slider="true"
-    propURL="grade"
+    propURL="price"
   >
     <v-slider
-      id="slider"
-      v-model="grade"
-      min="1"
-      max="12"
+      v-model="price"
+      min="0"
+      max="15"
       step="1"
       thumb-label="always"
       :thumb-size="20"
@@ -29,7 +28,7 @@ export default {
   },
   data() {
     return {
-      grade: 0,
+      price: [],
     };
   },
 };

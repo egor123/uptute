@@ -223,7 +223,7 @@
       "filters": {
         "h": "Sorteeri",
         "price": "Hind",
-        "raiting": "Reiting",
+        "rating": "Reiting",
         "hours_tought": "Õpetamiskogemus"
       },
       "native": "emakeele kõneleja",

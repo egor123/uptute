@@ -44,8 +44,9 @@ export default {
       background: #fff;
       border-radius: 15px;
       overflow: visible;
+      transform: translateY(-0.1rem);
       padding: 0.3rem;
-      margin: 0.3rem 0 0 0.5rem;
+      margin: 0.2rem 0 0 0.5rem;
 
       &--active {
         transform: translate(0, -1.1rem) scale(0.8);

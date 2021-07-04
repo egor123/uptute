@@ -8,16 +8,16 @@
     slider="true"
     propURL="grade"
   >
-      <v-range-slider
+    <v-range-slider
       id="slider"
-        v-model="grade"
-        min="1"
-        max="12"
-        step="1"
-        thumb-label="always"
-        :thumb-size="20"
-        color="accent"
-      />
+      v-model="grade"
+      min="1"
+      max="12"
+      step="1"
+      thumb-label="always"
+      :thumb-size="20"
+      color="accent"
+    />
   </BaseComponent>
 </template>
 <script>
@@ -34,3 +34,5 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped></style>
