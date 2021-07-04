@@ -50,18 +50,17 @@ export default {
   mounted() {
     var emit = this.default;
     var val = this.$route.query[this.propURL];
-    if(val !== undefined)
-      emit = JSON.parse(val);
-    this.emit(emit); 
+    if (val !== undefined) emit = JSON.parse(val);
+    this.emit(emit);
   },
   watch: {
-    value: function (val) {
+    value: function(val) {
       var params = JSON.parse(JSON.stringify(this.$route.query));
       params[this.propURL] = JSON.stringify(val);
       this.$router.replace({ query: params }).catch(() => {});
       if (this.verify()) this.error = false;
     },
-    searchStr: function (val) {
+    searchStr: function(val) {
       this.$emit("search", val);
     },
   },
@@ -164,6 +163,12 @@ export default {
     transform: translateX(-0.3rem);
   }
   100% {
+  }
+}
+
+::v-deep {
+  .v-slider__track-container .v-slider__track-background.primary {
+    background: var(--v-secondary-darken1) !important;
   }
 }
 </style>

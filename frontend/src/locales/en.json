@@ -202,7 +202,7 @@
         "p": "Your location..."
       },
       "audience": {
-        "h": "Grade"
+        "h": "Grades you tech"
       },
       "price": {
         "h": "Price",
@@ -221,7 +221,7 @@
       "filters": {
         "h": "Sort by",
         "price": "Price",
-        "raiting": "Raiting",
+        "rating": "Rating",
         "hours_tought": "Hours tought"
       },
       "native": "native speaker",
@@ -261,42 +261,32 @@
   "set_up": {
     "subheader": "Setting up your account",
 
-    "1": {
-      "clarification": "Fill in now or continue later",
-      "name": "First name...",
-      "surname": "Surname...",
-      "parameters": ["Date of birth", "Gender", "Country", "City", "School"],
-      "choises": [
-        "DD/MM/YYYY",
-        ["Male", "Female", "Other", "I'd like not to say"],
-        "Type your country...",
-        "Type your city...",
-        "Type your school..."
-      ],
-      "button_tutor": "Next",
-      "button_student": "Done"
+    "clarification": "Fill in now or continue later",
+    "name": "First name...",
+    "surname": "Surname...",
+    "birth": "Date of birth",
+    "choises": [
+      "DD/MM/YYYY",
+      ["Male", "Female", "Other", "I'd like not to say"],
+      "Type your country...",
+      "Type your city...",
+      "Type your school..."
+    ],
+    "button_tutor": "Next",
+    "button_student": "Done",
+    "parameters (copy)": ["Your audience", "Schools you cover"],
+    "subjects": "Subjects you tech",
+    "choises2": ["Type a subject...", "Grades", "Type a school..."],
+    "zoom": "Your Zoom meeting link",
+    "dialog": {
+      "title": "Not sure what it is?",
+      "text": "Find out",
+      "link": "here"
     },
+    "motto": "Your motto",
+    "about": "A bit about yourself",
 
-    "2": {
-      "subheader": "Setting up your account",
-      "clarification": "Fill in or continue later",
-      "parameters (copy)": [
-        "Subjects you tech",
-        "Your audience",
-        "Schools you cover"
-      ],
-      "choises": ["Type a subject...", "Grades", "Type a school..."],
-      "zoom": "Your Zoom meeting link",
-      "dialog": {
-        "title": "Not sure what it is?",
-        "text": "Find out",
-        "link": "here"
-      },
-      "motto": "Your motto",
-      "about": "A bit about yourself",
-
-      "button": "Done"
-    }
+    "button": "Done"
   },
 
   "acc_pages": {

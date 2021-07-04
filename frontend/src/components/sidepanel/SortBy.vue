@@ -4,9 +4,11 @@
     v-model="filter"
     :default="filters[0]"
     :label="$l('find.filters.filters.h')"
-    :text="`${$l('find.filters.filters.' + filter.name)} ${
-      filter.dir === 'up' ? '↑' : '↓'
-    }`"
+    :text="
+      `${$l('find.filters.filters.' + filter.name)} ${
+        filter.dir === 'up' ? '↑' : '↓'
+      }`
+    "
     propURL="filter"
   >
     <div
@@ -38,7 +40,7 @@ export default {
     return {
       filters: [
         //TO DO!!!!!!!!!
-        { name: "raiting", dir: "up" },
+        { name: "rating", dir: "up" },
         { name: "price", dir: "up" },
         { name: "hours_tought", dir: "up" },
       ],
@@ -68,7 +70,7 @@ $side-margin: 0.8rem;
   @include flexbox;
   justify-content: left;
   cursor: pointer;
-  *{
+  * {
     cursor: inherit;
   }
   & + & {
@@ -99,7 +101,7 @@ $side-margin: 0.8rem;
     .wrapper {
       transform: scale($scale);
     }
-    .icon{
+    .icon {
       transform: scale(#{1 / $scale});
     }
   }

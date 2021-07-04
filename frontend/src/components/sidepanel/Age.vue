@@ -8,15 +8,15 @@
     slider="true"
     propURL="age"
   >
-      <v-range-slider
-        v-model="age"
-        min="14"
-        max="21"
-        step="1"
-        thumb-label="always"
-        :thumb-size="20"
-        color="accent"
-      />
+    <v-range-slider
+      v-model="age"
+      min="14"
+      max="21"
+      step="1"
+      thumb-label="always"
+      :thumb-size="20"
+      color="accent"
+    />
   </BaseComponent>
 </template>
 

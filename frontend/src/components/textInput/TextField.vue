@@ -1,7 +1,7 @@
 <template>
   <v-text-field :label="label" filled rounded>
     <template v-if="imgName != null" v-slot:append>
-      <img id="zoomImg" width="30" height="30" :src="getImg()" alt="" />
+      <img class="appendedImg" width="30" height="30" :src="getImg()" alt="" />
     </template>
   </v-text-field>
 </template>
@@ -15,6 +15,12 @@ export default {
   methods: {
     getImg() {
       return require(`@/assets/icons/${this.imgName}.svg`);
+    },
+  },
+  watch: {
+    imgName: function(newVal, oldVal) {
+      // watch it
+      console.log("Prop changed: ", newVal, " | was: ", oldVal);
     },
   },
 };
@@ -46,7 +52,7 @@ export default {
       border-radius: 15px;
       overflow: visible;
       padding: 0.3rem;
-      margin: 0rem 0 0 0.5rem;
+      margin: -0.1rem 0 0 0.5rem;
 
       &--active {
         transform: translate(0, -0.9rem) scale(0.8);
@@ -55,6 +61,11 @@ export default {
     .v-input__append-inner {
       padding: 0;
       margin: auto 0 auto 0.1rem;
+    }
+  }
+  @media (max-width: 450px) {
+    .appendedImg {
+      opacity: 0;
     }
   }
 }

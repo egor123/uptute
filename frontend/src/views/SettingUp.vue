@@ -5,14 +5,14 @@
         <img id="userImg" src="@/assets/icons/user.svg" alt="" />
 
         <div>
-          <Textarea class="motto" :label="$l('set_up.2.motto')" />
-          <Textarea class="about" :label="$l('set_up.2.about')" />
+          <Textarea class="motto" :label="$l('set_up.motto')" />
+          <Textarea class="about" :label="$l('set_up.about')" />
         </div>
 
         <div id="zoomDiv">
           <TextField
             class="zoom"
-            :label="$l('set_up.2.zoom')"
+            :label="$l('set_up.zoom')"
             imgName="zoom-icon"
           />
 
@@ -25,16 +25,16 @@
               </template>
 
               <template v-slot:title id="title">
-                {{ $l("set_up.2.dialog.title") }}
+                {{ $l("set_up.dialog.title") }}
               </template>
 
               <template v-slot:text>
-                {{ $l("set_up.2.dialog.text") }}
+                {{ $l("set_up.dialog.text") }}
                 <a
                   target="_blank"
                   href="https://support.zoom.us/hc/en-us/articles/201362843-Personal-meeting-ID-PMI-and-personal-link"
                 >
-                  {{ $l("set_up.2.dialog.link") }}</a
+                  {{ $l("set_up.dialog.link") }}</a
                 >
               </template>
             </Dialog>
@@ -49,11 +49,11 @@
           v-for="i in 1"
           :key="i"
         >
-          <Age ref="component" />
-          <Subjects ref="component" />
+          <Birth ref="component" />
+          <SubjectsYouTeach ref="component" />
           <Audience ref="component" />
           <Languages ref="component" />
-          <Price ref="component" />
+          <YourPrice ref="component" />
         </v-expansion-panels>
       </div>
     </BackgroundCard>
@@ -64,11 +64,11 @@
 import Background from "@/components/background/Background.vue";
 import BackgroundCard from "@/components/background/BackgroundCard.vue";
 
-import Age from "@/components/sidepanel/Age.vue";
-import Subjects from "@/components/sidepanel/Subjects.vue";
+import Birth from "@/components/sidepanel/Birth.vue";
+import SubjectsYouTeach from "@/components/sidepanel/SubjectsYouTeach.vue";
 import Audience from "@/components/sidepanel/Audience.vue";
 import Languages from "@/components/sidepanel/Languages.vue";
-import Price from "@/components/sidepanel/Price.vue";
+import YourPrice from "@/components/sidepanel/YourPrice.vue";
 
 import Dialog from "@/components/Dialog.vue";
 import Textarea from "@/components/textInput/Textarea.vue";
@@ -85,11 +85,11 @@ export default {
     Background,
     BackgroundCard,
 
-    Age,
-    Subjects,
+    Birth,
+    SubjectsYouTeach,
     Audience,
     Languages,
-    Price,
+    YourPrice,
 
     Dialog,
     Textarea,
@@ -121,6 +121,7 @@ export default {
 
 #zoomDiv {
   position: relative;
+
   .zoom {
     border-radius: 15px;
   }
@@ -130,6 +131,12 @@ export default {
     left: 105%;
     top: 50%;
     transform: translateY(-50%);
+
+    @media (max-width: 450px) {
+      left: 84%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
 
     #dialog {
       @include box-size(30px);
