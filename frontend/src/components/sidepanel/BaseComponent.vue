@@ -99,7 +99,8 @@ export default {
   overflow-y: auto;
   overflow-x: visible;
   max-height: 150px;
-  padding: 0.8rem 0.6rem 0 0.6rem;
+  margin-top: 1rem;
+  padding: 0 0.6rem 0 0.6rem;
   &::-webkit-scrollbar-track {
     background: var(--v-secondary-base);
   }
@@ -135,6 +136,7 @@ export default {
       padding: 0;
     }
     #scroll {
+      margin-top: 0;
       padding: 30px 25px 0 25px;
     }
   }
