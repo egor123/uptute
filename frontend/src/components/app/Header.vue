@@ -140,7 +140,6 @@ export default {
       const subHeader = this.$refs.subHeader;
       subHeader.classList.toggle("empty", true);
       new MutationObserver(() => {
-        console.log("changed");
         subHeader.classList.toggle("empty", subHeader.innerHTML === "");
       }).observe(subHeader, { childList: true });
       this.$root.$on("getSubHeader", (callback) => {
