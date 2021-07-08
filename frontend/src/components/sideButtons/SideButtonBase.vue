@@ -75,13 +75,17 @@ export default {
 
 ::v-deep {
   .v-btn {
-    background: var(--v-secondary-darken1);
+    // background: var(--v-secondary-darken1);
+    background: var(--v-accent-base);
+
     margin-bottom: 0.8rem;
     box-shadow: 1px 2px 4px 0px var(--v-secondary-darken3);
-    color: var(--v-secondary-darken3);
+    // color: var(--v-secondary-darken3);
+    color: var(--v-header-base);
   }
   .v-btn__content .v-icon {
-    color: var(--v-secondary-darken3);
+    // color: var(--v-secondary-darken3);
+    color: var(--v-header-base);
   }
 }
 </style>
