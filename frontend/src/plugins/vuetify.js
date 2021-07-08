@@ -13,6 +13,7 @@ export default new Vuetify({
         primary: "#000000",
         secondary: "#FFFFFF",
         background: "EFEFEF",
+        card: "EBEBEB",
         header: "#F8F8F8",
         accent: "#FFA500",
         accentHover: "#FF8C00",

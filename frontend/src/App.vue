@@ -43,6 +43,9 @@ export default {
 html {
   scroll-behavior: smooth;
   @include font-size();
+  body {
+    height: 100%;
+  }
 }
 
 #app {

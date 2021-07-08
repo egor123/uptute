@@ -55,7 +55,6 @@
       </v-btn>
       <v-snackbar
         max-width="800"
-        id="snackbar"
         color="error"
         timeout="15000"
         v-model="showSnackbar"
@@ -131,7 +130,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#snackbar {
+::v-deep .v-snack__wrapper {
   border-radius: 15px !important;
 }
 

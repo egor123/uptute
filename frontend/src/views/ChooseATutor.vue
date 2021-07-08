@@ -13,6 +13,17 @@
       </v-expansion-panels>
       <Panels id="panels" :tutors="tutors" />
     </div>
+    <v-snackbar max-width="800" color="error" timeout="-1" v-model="showAlert">
+      Sarch session will be ended!
+      <div id="snackButtons">
+        <v-btn text v-model="closeButton" ref="closeBtn">
+          Close anyway
+        </v-btn>
+        <v-btn text v-model="backButton" ref="backBtn">
+          Back
+        </v-btn>
+      </div>
+    </v-snackbar>
   </Background>
 </template>
 
@@ -40,6 +51,9 @@ export default {
   },
   data() {
     return {
+      showAlert: false,
+      closeButton: false,
+      backButton: false,
       tutors: [
         {
           name: "No Name",
@@ -48,8 +62,14 @@ export default {
           grade: "11b",
           hours: 10,
           rating: 4.5,
-          moto: "Sun shines to all of us the same way",
           comments: 11,
+          subjects: ["math", "chem", "biol"],
+          languages: ["est", "ru", "en"],
+          audience: [1, 10],
+          age: 17,
+          moto: "Sun shines to all of us the same way",
+          about:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris semper varius nibh, quis ornare massa sollicitudin at. Aenean ut dictum purus. Fusce faucibus elit at nisi pellentesque aliquet. Nunc rhoncus malesuada ullamcorper. Mauris sodales libero eget varius tincidunt. Pellentesque quis euismod nisl, et suscipit felis. Donec mollis, mi et efficitur dictum, nisi ligula vulputate nibh, sit amet dignissim ante lorem efficitur sem. Sed tincidunt convallis erat, eu blandit tellus semper id. Sed quis sodales orci, quis tempus justo. Nam porta auctor dictum. Maecenas varius nec turpis imperdiet accumsan.",
           days: [
             {
               times: [
@@ -90,8 +110,43 @@ export default {
       ],
     };
   },
+  methods: {
+    preventNav(event) {
+      console.log(event);
+      event.preventDefault();
+      event.returnValue = "";
+    },
+    untilClick() {
+      return new Promise((res) => {
+        const backBtn = this.$refs.backBtn.$el;
+        const closeBtn = this.$refs.closeBtn.$el;
+        backBtn.onclick = () => {
+          res("back");
+        };
+        closeBtn.onclick = () => {
+          res("close");
+        };
+      });
+    },
+  },
+  beforeRouteLeave(to, from, next) {
+    this.showAlert = true;
+    // if (!window.confirm("Leave without saving?")) {
+    //   return;
+    // }
 
-  async mounted() {
+    this.untilClick().then((val) => {
+      console.log(val);
+      this.showAlert = false;
+      if (val === "close") next();
+    });
+  },
+  beforeDestroy() {
+    window.removeEventListener("beforeunload", this.preventNav);
+  },
+  mounted() {
+    window.addEventListener("beforeunload", this.preventNav);
+
     for (var i = 0; i < 5; i++) {
       this.tutors.push({ ...this.tutors[0] });
     }
@@ -103,7 +158,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
 $inner-content-width: 350px;
+
+::v-deep .v-snack__wrapper {
+  border-radius: 15px !important;
+  .v-snack__content {
+    @include flexbox(column);
+  }
+  #snackButtons .v-btn {
+    border-radius: 15px !important;
+    margin: 0.5rem 0.5rem 0 0.5rem;
+  }
+}
 
 .innerContent {
   margin: calc(106px + 3rem) auto 3rem auto;
