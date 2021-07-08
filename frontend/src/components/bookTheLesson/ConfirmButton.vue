@@ -7,15 +7,16 @@
     </template>
 
     <template v-slot:title>
-      {{ $l("booking.link") }}
+      {{ $l("booking.dialog.title") }}
     </template>
 
     <template v-slot:text>
+      {{ $l("booking.dialog.text") }}
       <a
         target="_blank"
         href="https://us04web.zoom.us/j/5839697402?pwd=T01CeDdOMGZHZVplOGdzK2ZieGpZdz09"
       >
-        https://us04web.zoom.us/j/5839697402?pwd=T01CeDdOMGZHZVplOGdzK2ZieGpZdz09
+        {{ $l("booking.dialog.here") }}
       </a>
     </template>
   </Dialog>

@@ -1,25 +1,21 @@
 <template>
-  <Background :title="$l('booking.subheader')">
-    <BackgroundCard>
-      <div id="profile">
-        <img
-          @click="goToAboutTutor()"
-          class="userImg"
-          src="@/assets/icons/user.svg"
-        />
-        <h3>{{ tutor.name }}</h3>
-      </div>
+  <div>
+    <div id="profile">
+      <img
+        @click="goToAboutTutor()"
+        class="userImg"
+        src="@/assets/icons/user.svg"
+      />
+      <h3>{{ tutor.name }}</h3>
+    </div>
 
-      <InfoTable />
+    <InfoTable />
 
-      <ConfirmButton />
-    </BackgroundCard>
-  </Background>
+    <ConfirmButton />
+  </div>
 </template>
 
 <script>
-import Background from "@/components/background/Background.vue";
-import BackgroundCard from "@/components/background/BackgroundCard.vue";
 import InfoTable from "@/components/bookTheLesson/InfoTable.vue";
 import ConfirmButton from "@/components/bookTheLesson/ConfirmButton.vue";
 
@@ -30,9 +26,6 @@ export default {
     roles: "ALL",
   },
   components: {
-    Background,
-    BackgroundCard,
-
     InfoTable,
     ConfirmButton,
   },

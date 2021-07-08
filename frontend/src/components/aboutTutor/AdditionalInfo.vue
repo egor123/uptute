@@ -3,11 +3,15 @@
     <v-row class="ma-0">
       <v-col class="col-12 col-sm-6">
         <h4>{{ $l("tutor.subjects") }}</h4>
-        <p v-for="txt in subjects" :key="txt">{{ $l('data.subjects.' + txt) }}</p>
+        <p v-for="txt in subjects" :key="txt">
+          {{ $l("data.subjects." + txt) }}
+        </p>
       </v-col>
       <v-col class="col-12 col-sm-6">
         <h4>{{ $l("tutor.languages") }}</h4>
-        <p v-for="txt in languages" :key="txt">{{ $l('data.languages.' + txt) }}</p>
+        <p v-for="txt in languages" :key="txt">
+          {{ $l("data.languages." + txt) }}
+        </p>
       </v-col>
       <v-col class="col-12 col-sm-6">
         <h4>{{ $l("tutor.audience") }}</h4>
@@ -23,15 +27,20 @@
 
 <script>
 export default {
-  props:{
+  props: {
     subjects: Array,
     languages: Array,
     audience: Array,
-    age: Number
-  }
+    age: Number,
+  },
 };
 </script>
 
 <style scoped lang="scss">
-
+h4 {
+  margin-bottom: 1rem;
+}
+p {
+  margin-bottom: 0.5rem;
+}
 </style>

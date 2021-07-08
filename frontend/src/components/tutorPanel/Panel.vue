@@ -2,11 +2,19 @@
   <div class="card">
     <div class="data">
       <div class="profile">
-        <img
-          @click="goToAboutTutor()"
-          class="userImg"
-          src="@/assets/icons/user.svg"
-        />
+        <Dialog class="dialog">
+          <template v-slot:object>
+            <img class="userImg" src="@/assets/icons/user.svg" />
+          </template>
+
+          <template v-slot:title>
+            <AboutTutorTitle :name="tutor.name" />
+          </template>
+          <template v-slot:text>
+            <AboutTutorContent :tutor="tutor" />
+          </template>
+        </Dialog>
+
         <div>
           <p class="pph">{{ tutor.pph }}&euro;/{{ $l("tutor.hour") }}</p>
           <h3>{{ tutor.name }}</h3>
@@ -36,44 +44,67 @@
         </div>
       </div>
 
-      <v-btn
-        rounded
-        elevation="0"
-        outlined
-        color="accent"
-        class="button"
-        :to="{ name: 'BookTheLesson' }"
-        @click="
-          $ga.event(
-            'booking',
-            'button is pressed',
-            'booking button is pressed',
-            true
-          )
-        "
-      >
-        {{ $l("tutor.btn") }}
-      </v-btn>
+      <Dialog class="dialog">
+        <template v-slot:object
+          ><v-btn
+            rounded
+            elevation="0"
+            outlined
+            color="accent"
+            class="button"
+            @click="
+              $ga.event(
+                'booking',
+                'button is pressed',
+                'booking button is pressed',
+                true
+              )
+            "
+          >
+            {{ $l("tutor.btn") }}
+          </v-btn>
+        </template>
+
+        <template v-slot:title>
+          {{ $l("booking.subheader") }}
+        </template>
+        <template v-slot:text>
+          <BookTheLesson />
+        </template>
+      </Dialog>
     </div>
   </div>
 </template>
 
 <script>
 import Rating from "./Rating.vue";
+import Dialog from "@/components/Dialog.vue";
+import AboutTutorTitle from "@/components/aboutTutor/AboutTutorTitle.vue";
+import AboutTutorContent from "@/components/aboutTutor/AboutTutorContent.vue";
+import BookTheLesson from "@/components/bookTheLesson/BookTheLesson.vue";
 
 export default {
+  data() {
+    return {
+      windowTop: 0,
+    };
+  },
   components: {
     Rating,
+    Dialog,
+    AboutTutorTitle,
+    AboutTutorContent,
+    BookTheLesson,
   },
   props: {
     tutor: Object,
     tooltipUse: String,
   },
-  methods: {
-    goToAboutTutor() {
-      this.$router.push({ name: "AboutTutor" });
-    },
-  },
+  // methods: {
+  //   goToAboutTutor() {
+  //     this.$router.push({ name: "AboutTutor" });
+  //   },
+  // },
 };
 </script>
 
@@ -141,5 +172,9 @@ export default {
 
 .tutor * {
   margin: auto 0;
+}
+
+.button.v-btn {
+  width: 100%;
 }
 </style>
