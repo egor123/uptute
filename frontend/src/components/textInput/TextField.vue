@@ -46,6 +46,7 @@ export default {
   }
 
   .v-text-field__slot {
+    overflow: hidden;
     .v-label {
       color: var(--v-secondary-darken2) !important;
       background: var(--v-header-base);
