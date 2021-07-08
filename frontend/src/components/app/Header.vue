@@ -138,13 +138,16 @@ export default {
     },
     subHeader() {
       const subHeader = this.$refs.subHeader;
+      subHeader.classList.toggle("empty", true);
+      new MutationObserver(() => {
+        console.log("changed");
+        subHeader.classList.toggle("empty", subHeader.innerHTML === "");
+      }).observe(subHeader, { childList: true });
       this.$root.$on("getSubHeader", (callback) => {
-        subHeader.classList.toggle("notBlank", true);
         callback(subHeader);
       });
       this.$root.$on("removeSubHeader", () => {
         subHeader.innerHTML = "";
-        subHeader.classList.toggle("notBlank", false);
       });
     },
   },
@@ -243,10 +246,10 @@ $header-height: 56px;
   width: 100vw;
   opacity: 0.7;
   background-color: var(--v-header-base);
-  padding: 0;
+  padding: 10px;
   box-shadow: 0px 2px 6px var(--v-secondary-darken1);
-  &.notBlank {
-    padding: 10px;
+  &.empty {
+    display: none;
   }
 }
 
