@@ -2,18 +2,7 @@
   <div class="card">
     <div class="data">
       <div class="profile">
-        <Dialog class="dialog">
-          <template v-slot:object>
-            <img class="userImg" src="@/assets/icons/user.svg" />
-          </template>
-
-          <template v-slot:title>
-            <AboutTutorTitle :name="tutor.name" />
-          </template>
-          <template v-slot:text>
-            <AboutTutorContent :tutor="tutor" />
-          </template>
-        </Dialog>
+        <UserImg :tutor="tutor" />
 
         <div>
           <p class="pph">{{ tutor.pph }}&euro;/{{ $l("tutor.hour") }}</p>
@@ -44,44 +33,15 @@
         </div>
       </div>
 
-      <Dialog class="dialog">
-        <template v-slot:object
-          ><v-btn
-            rounded
-            elevation="0"
-            outlined
-            color="accent"
-            class="button"
-            @click="
-              $ga.event(
-                'booking',
-                'button is pressed',
-                'booking button is pressed',
-                true
-              )
-            "
-          >
-            {{ $l("tutor.btn") }}
-          </v-btn>
-        </template>
-
-        <template v-slot:title>
-          {{ $l("booking.subheader") }}
-        </template>
-        <template v-slot:text>
-          <BookTheLesson />
-        </template>
-      </Dialog>
+      <BookButton :tutor="tutor" />
     </div>
   </div>
 </template>
 
 <script>
 import Rating from "./Rating.vue";
-import Dialog from "@/components/Dialog.vue";
-import AboutTutorTitle from "@/components/aboutTutor/AboutTutorTitle.vue";
-import AboutTutorContent from "@/components/aboutTutor/AboutTutorContent.vue";
-import BookTheLesson from "@/components/bookTheLesson/BookTheLesson.vue";
+import UserImg from "@/components/dialogs/UserImg.vue";
+import BookButton from "@/components/dialogs/BookButton.vue";
 
 export default {
   data() {
@@ -91,20 +51,13 @@ export default {
   },
   components: {
     Rating,
-    Dialog,
-    AboutTutorTitle,
-    AboutTutorContent,
-    BookTheLesson,
+    UserImg,
+    BookButton,
   },
   props: {
     tutor: Object,
     tooltipUse: String,
   },
-  // methods: {
-  //   goToAboutTutor() {
-  //     this.$router.push({ name: "AboutTutor" });
-  //   },
-  // },
 };
 </script>
 
@@ -115,22 +68,6 @@ export default {
   justify-content: space-between;
   flex-direction: row;
   text-align: left;
-}
-
-.userImg {
-  width: 50px;
-  height: 50px;
-  margin: auto;
-  cursor: pointer;
-
-  border-radius: 50%;
-  border: 2px solid var(--v-primary-base);
-  opacity: 0.2;
-
-  transition: box-shadow 400ms;
-  &:hover {
-    box-shadow: 1px 2px 5px 2.5px var(--v-primary-lighten4);
-  }
 }
 
 .data {
@@ -172,9 +109,5 @@ export default {
 
 .tutor * {
   margin: auto 0;
-}
-
-.button.v-btn {
-  width: 100%;
 }
 </style>
