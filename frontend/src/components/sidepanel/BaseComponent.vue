@@ -102,7 +102,7 @@ export default {
   margin-top: 1rem;
   padding: 0 0.6rem 0 0.6rem;
   &::-webkit-scrollbar-track {
-    background: var(--v-secondary-base);
+    background: var(--v-header-base);
   }
   &::-webkit-scrollbar {
     width: 10px;
@@ -119,6 +119,7 @@ export default {
   transition: transform 400ms;
   border-radius: 0;
   margin: 0;
+  background: var(--v-header-base);
   &:hover {
     transform: scale(0.95);
   }

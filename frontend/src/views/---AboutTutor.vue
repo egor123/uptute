@@ -8,7 +8,15 @@
     </template>
 
     <BackgroundCard>
-      <BookButton :to="{ name: 'BookTheLesson' }" />
+      <SideButtonBase
+        :sideButtons="[
+          {
+            name: 'mdi-credit-card-outline',
+            path: $l('tutor.btn'),
+          },
+        ]"
+        :to="{ name: 'BookTheLesson' }"
+      />
 
       <div id="content">
         <MainInfo
@@ -38,7 +46,8 @@
 <script>
 import Background from "@/components/background/Background.vue";
 import BackgroundCard from "@/components/background/BackgroundCard.vue";
-import BookButton from "@/components/aboutTutor/BookButton.vue";
+
+import SideButtonBase from "@/components/sideButtons/SideButtonBase.vue";
 import MainInfo from "@/components/aboutTutor/MainInfo.vue";
 import AboutInfo from "@/components/aboutTutor/AboutInfo.vue";
 import AdditionalInfo from "@/components/aboutTutor/AdditionalInfo.vue";
@@ -55,7 +64,7 @@ export default {
     Background,
     BackgroundCard,
     Comments,
-    BookButton,
+    SideButtonBase,
     MainInfo,
     AboutInfo,
     AdditionalInfo,

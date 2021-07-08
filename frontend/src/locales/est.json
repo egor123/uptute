@@ -259,7 +259,11 @@
     "cost": "Hind",
     "tooltip": "Eratunni hind arvutatakse sessiooni lõpus arvestades selle pikkust",
     "button": "Kinnita broneering",
-    "link": "Su eratunni link"
+    "dialog": {
+      "title": "Su eratunni link",
+      "here": "siit",
+      "text": "Oma eratunni leiad"
+    }
   },
   "data": {
     "actions": {

@@ -38,7 +38,7 @@ export default {
 
   .v-input__slot {
     margin: 0 !important;
-    background: white !important;
+    background: var(--v-header-base) !important;
   }
 
   .v-text-field__details {
@@ -48,11 +48,11 @@ export default {
   .v-text-field__slot {
     .v-label {
       color: var(--v-secondary-darken2) !important;
-      background: #fff;
+      background: var(--v-header-base);
       border-radius: 15px;
       overflow: visible;
       padding: 0.3rem;
-      margin: -0.1rem 0 0 0.5rem;
+      margin: 0 0 0 0.5rem;
 
       &--active {
         transform: translate(0, -0.9rem) scale(0.8);
