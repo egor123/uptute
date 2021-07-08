@@ -1,4 +1,18 @@
-const ROLES = ["USER"];
+const ROLES = ["USER"]; //TO DO!!!!!!!!
+
+/* EXAMPLE:
+
+export default {
+  name: "ChooseATutor",              // page's name; default - file's name
+  path: "/choose_a_tutor",           // page's URL; default - modified name
+  permisions: {                      // default - undefined
+    roles: "USER",                   // redirects if roles not valid; can be array; default - "ALL"
+    allowedOrigins: "FindATutor",    // redirects if last page not valid; can be array; default - undefined
+    redirect: "FindATutor",          // default - "Home"
+  },
+}
+
+*/
 
 export function createRoutes(prefix = '') {
     const context = require.context('@/views', true, /.vue$/);
@@ -12,7 +26,7 @@ export function createRoutes(prefix = '') {
 }
 function configurePermissions(permissions) {
     return (to, from, next) => {
-        if (isPermisionsValid(ROLES, getRoles(permissions?.roles))) next();
+        if (isPermisionsValid(ROLES, getRoles(permissions?.roles)) && isOriginValid(from?.name, permissions?.allowedOrigins)) next();
         else next(getRedirect(permissions?.redirect));
     }
 }
@@ -30,5 +44,10 @@ function isPermisionsValid(roles, permisions) {
     if (permisions.includes("ALL")) return true;
     for (var role of roles) if (permisions.includes(role)) return true;
     return false;
+}
+function isOriginValid(origin, allowedOrigin) {
+    if (allowedOrigin === undefined || origin === undefined) return true;
+    if (Array.isArray(allowedOrigin)) return allowedOrigin.includes(origin);
+    return allowedOrigin == origin;
 }
 export function redirect(path, redirect) { return { path, redirect } }

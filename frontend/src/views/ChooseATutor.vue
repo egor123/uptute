@@ -39,7 +39,8 @@ export default {
   path: "/choose_a_tutor",
   permisions: {
     roles: "USER",
-    redirect: "LogIn",
+    allowedOrigins: "FindATutor",
+    redirect: "FindATutor",
   },
   components: {
     Background,
