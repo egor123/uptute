@@ -1,7 +1,7 @@
 <template>
   <div app id="header" ref="header">
     <slot />
-    <h3>{{ title }}</h3>
+    <h3 v-if="title">{{ title }}</h3>
   </div>
 </template>
 
@@ -12,7 +12,8 @@ export default {
   },
   mounted() {
     this.$root.$emit("getSubHeader", (parent) => {
-      parent.append(this.$refs.header);
+      if (this.$refs.header.innerHTML !== "<!---->")
+        parent.append(this.$refs.header);
     });
   },
   destroyed() {
