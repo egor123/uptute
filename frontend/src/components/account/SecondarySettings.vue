@@ -1,7 +1,5 @@
 <template>
   <div id="wrapper">
-    <img id="userImg" src="@/assets/icons/user.svg" alt="" />
-
     <div>
       <Textarea class="motto" :label="$l('set_up.motto')" />
       <Textarea class="about" :label="$l('set_up.about')" />
@@ -43,7 +41,6 @@
       v-for="i in 1"
       :key="i"
     >
-      <Birth ref="component" />
       <SubjectsYouTeach ref="component" />
       <Audience ref="component" />
       <Languages ref="component" />
@@ -53,7 +50,6 @@
 </template>
 
 <script>
-import Birth from "@/components/sidepanel/Birth.vue";
 import SubjectsYouTeach from "@/components/sidepanel/SubjectsYouTeach.vue";
 import Audience from "@/components/sidepanel/Audience.vue";
 import Languages from "@/components/sidepanel/Languages.vue";
@@ -65,7 +61,6 @@ import TextField from "@/components/textInput/TextField.vue";
 
 export default {
   components: {
-    Birth,
     SubjectsYouTeach,
     Audience,
     Languages,
@@ -135,19 +130,5 @@ export default {
 
 #panels {
   border-radius: 15px;
-}
-
-#userImg {
-  @include box-size(100px);
-
-  border-radius: 50%;
-  border: 2px solid var(--v-primary-base);
-  opacity: 0.2;
-  cursor: pointer;
-
-  transition: box-shadow 400ms;
-  &:hover {
-    box-shadow: 1px 2px 5px 2.5px var(--v-primary-lighten4);
-  }
 }
 </style>

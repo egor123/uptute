@@ -34,6 +34,8 @@ export default {
 
     padding: 0.5rem 0.5rem !important;
     margin: 1rem 0 !important;
+    height: 2.5rem;
+    max-height: 2.5rem;
   }
 
   .v-input__slot {
@@ -53,10 +55,10 @@ export default {
       border-radius: 15px;
       overflow: visible;
       padding: 0.3rem;
-      margin: 0 0 0 0.5rem;
+      margin: 0.3rem 0 0 0.5rem;
 
       &--active {
-        transform: translate(0, -0.9rem) scale(0.8);
+        transform: translate(0rem, -1.1rem) scale(0.8);
       }
     }
     .v-input__append-inner {

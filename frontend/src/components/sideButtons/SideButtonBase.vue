@@ -4,7 +4,7 @@
       <v-btn
         v-for="sideButton in sideButtons"
         :key="sideButton.id"
-        :to="to"
+        :to="sideButton.to"
         class="pa-2"
         small
         text
