@@ -229,13 +229,26 @@
       "native": "emakeele kõneleja",
       "refresh": "Tühjenda filtrid"
     },
-    "request": "Saada päring"
+    "request": "Saada päring",
+    "sure": "Kindel, et tahad alustada otsing?",
+    "begin": "Yep",
+    "cancel": "Tagasi"
   },
 
-  "choose": {
-    "header": "Vali õpetaja",
-    "choose": "Vali ühte järgnevatest õpetajatest või oota, kuni ülejäänud oma teenusi pakkuvad",
-    "time_left": "Aega jäänud õpetajatel, et oma teenusi pakkuda"
+  "choose_a": {
+    "tutor": {
+      "header": "Vali õpetaja",
+      "choose": "Vali ühte järgnevatest õpetajatest või oota, kuni ülejäänud oma teenusi pakkuvad",
+      "time_left": "Aega jäänud õpetajatel, et oma teenusi pakkuda",
+      "ended": "Väljudes otsing katkestub!",
+      "anyway": "Siiski välju",
+      "cancel": "Tagasi"
+    },
+    "student": {
+      "header": "Pakku oma abi",
+      "price": "Jooksev tunnihind",
+      "grade": "klass"
+    }
   },
   "tutor": {
     "hour": "t",
