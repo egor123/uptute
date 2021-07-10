@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import InfoCardBase from "@/components/infoCards/InfoCardBase.vue";
+import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
 
 export default {
   components: {
