@@ -29,10 +29,22 @@ export default {
     flex-direction: column;
     background: var(--v-header-base);
 
-    animation: slideInFromLeft 1s ease-in-out;
+    animation: slideInFromLeft 0.6s ease-in-out;
+
     border-radius: 15px;
     margin: 15px auto;
     padding: 15px;
+
+    @keyframes slideInFromLeft {
+      from {
+        transform: translateX(-4rem);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
 
     .moving {
       margin: 56px 0 -36px 0;
