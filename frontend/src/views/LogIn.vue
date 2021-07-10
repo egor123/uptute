@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <Header :title="$l('auth.header.log_in')" />
+    <Subheader :title="$l('auth.header.log_in')" />
     <coming-soon />
 
     <v-card id="card">
@@ -69,8 +69,7 @@
 
 <script>
 //import { mapActions } from "vuex";
-import Header from "@/components/Header.vue";
-import ComingSoon from "@/components/ComingSoon.vue";
+import Subheader from "@/components/app/Subheader.vue";
 import { GoogleAuthService } from "@/services/index";
 export default {
   data() {
@@ -123,8 +122,7 @@ export default {
     },
   },
   components: {
-    Header,
-    ComingSoon,
+    Subheader,
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :title="$l('why_us.header')" />
+    <Subheader :title="$l('why_us.header')" />
     <CheckerLayout
       inversed
       :title="$l('why_us.student.title')"
@@ -83,10 +83,10 @@
 
 <script>
 import CheckerLayout from "@/components/checkerLayout/CheckerLayout.vue";
-import Header from "@/components/Header.vue";
+import Subheader from "@/components/app/Subheader.vue";
 export default {
   components: {
-    Header,
+    Subheader,
     CheckerLayout,
   },
 };

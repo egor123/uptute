@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header title="Privaatsuspoliitika" />
+    <Subheader title="Privaatsuspoliitika" />
     <div class="container">
       <h2>
         Sissejuhatus
@@ -326,10 +326,10 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import Subheader from "@/components/app/Subheader.vue";
 export default {
   components: {
-    Header,
+    Subheader,
   },
 };
 </script>
