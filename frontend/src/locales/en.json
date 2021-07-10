@@ -227,12 +227,25 @@
       "native": "native speaker",
       "refresh": "Refresh filters"
     },
-    "request": "Send a request"
+    "request": "Send a request",
+    "sure": "Sure you want to begin the search?",
+    "begin": "Begin",
+    "cancel": "Cancel"
   },
-  "choose": {
-    "header": "Choose your tutor",
-    "choose": "Choose one of the following tutors or wait for others to offer their services",
-    "time_left": "Time left for other tutors to offer their services"
+  "choose_a": {
+    "tutor": {
+      "header": "Choose your tutor",
+      "choose": "Choose one of the following tutors or wait for others to offer their services",
+      "time_left": "Time left for other tutors to offer their services",
+      "ended": "Sarch session will be ended!",
+      "anyway": "Close anyway",
+      "cancel": "Cancel"
+    },
+    "student": {
+      "header": "Offer a lesson",
+      "price": "Current price per hour",
+      "grade": "grade"
+    }
   },
   "tutor": {
     "hour": "h",
@@ -266,9 +279,10 @@
     "subheader": "Setting up your account",
 
     "clarification": "Fill in now or continue later",
-    "name": "First name...",
-    "surname": "Surname...",
+    "name": "First name",
+    "surname": "Surname",
     "birth": "Date of birth",
+    "grade": "Your grade",
     "choises": [
       "DD/MM/YYYY",
       ["Male", "Female", "Other", "I'd like not to say"],
@@ -289,7 +303,8 @@
     },
     "motto": "Your motto",
     "about": "A bit about yourself",
-
+    "as_student": "As a student",
+    "as_tutor": "As a tutor",
     "button": "Done"
   },
 
@@ -308,7 +323,8 @@
     "old": "Old password...",
     "new": "New password...",
     "repeat": "Repeat the new password...",
-    "delete": "Delete the acount"
+    "delete": "Delete the acount",
+    "save": "Save changes"
   },
   "past": {
     "statement": "Statement",

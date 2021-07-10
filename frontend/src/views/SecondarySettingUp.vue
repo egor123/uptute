@@ -1,26 +1,21 @@
 <template>
-  <AccountBase :title="$l('acc_pages.settings')">
-    <PrimarySettings />
+  <AccountBase :title="$l('set_up.subheader')">
     <SecondarySettings />
-    <v-btn id="save" rounded outlined color="accent">
-      {{ $l("settings.save") }}</v-btn
-    >
+    <v-btn id="done" rounded outlined color="accent">{{
+      $l("set_up.button")
+    }}</v-btn>
   </AccountBase>
 </template>
 
 <script>
-import PrimarySettings from "@/components/account/PrimarySettings.vue";
 import SecondarySettings from "@/components/account/SecondarySettings.vue";
 import AccountBase from "@/components/account/AccountBase.vue";
 
 export default {
-  name: "Settings",
-  path: "/settings",
   permisions: {
     roles: "ALL",
   },
   components: {
-    PrimarySettings,
     SecondarySettings,
     AccountBase,
   },
@@ -29,11 +24,11 @@ export default {
 
 <style lang="scss" scoped>
 ::v-deep {
-  .nameAndAge {
-    margin-bottom: 2rem !important;
+  #buttonWrapper {
+    display: none;
   }
 }
-#save {
+#done.v-btn {
   margin-top: 3rem;
 }
 </style>

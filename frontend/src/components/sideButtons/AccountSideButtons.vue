@@ -3,7 +3,7 @@
     <SideButtonBase
       :sideButtons="[
         {
-          name: 'mdi-calendar-clock',
+          name: 'mdi-calendar',
           path: $l('acc_pages.calendar'),
           to: { name: 'Calendar' },
         },
