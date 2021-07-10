@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import BookButton from "@/components/dialogs/BookButton.vue";
+import BookButton from "@/components/choosing/choosingATutor/BookButton.vue";
 
 export default {
   components: {
