@@ -20,6 +20,7 @@
     <jetty.version>9.4.40.v20210413</jetty.version>
     <commons.lang.version>3.12.0</commons.lang.version>
     <jersey.version>2.34</jersey.version>
+    <guice.version>5.0.1</guice.version>
   </properties>
 
   <dependencies>
@@ -68,6 +69,14 @@
       <artifactId>jersey-media-json-jackson</artifactId>
       <version>${jersey.version}</version>
     </dependency>
+
+    <!--  -->
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet-core</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -76,11 +85,21 @@
     </dependency>
 
     <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-servlet-core</artifactId>
-      <version>${jersey.version}</version>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>${guice.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-servlet</artifactId>
+      <version>${guice.version}</version>
+    </dependency> 
+
+    <dependency>
+      <groupId>org.reflections</groupId>
+      <artifactId>reflections</artifactId>
+      <version>0.9.12</version>
   </dependency>
-  
     <!-- Randomizers -->
     <dependency>
       <groupId>com.github.javafaker</groupId>

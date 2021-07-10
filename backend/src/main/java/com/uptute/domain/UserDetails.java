@@ -1,6 +1,5 @@
 package com.uptute.domain;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import lombok.*;
@@ -10,8 +9,4 @@ import lombok.*;
 @ToString
 public class UserDetails {
     private ArrayList<String> lessonsId;
-
-    private String imgUrl;
-    private LocalDate birthday;
-    private String name;
 }

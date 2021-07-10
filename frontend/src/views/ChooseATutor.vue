@@ -2,16 +2,14 @@
   <Background :title="$l('choose_a.tutor.header')">
     <div class="innerContent">
       <LessonInfo class="lessonInfo" />
-      <div class="infoCard">
-        <InfoCardBase>
-          <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
-        </InfoCardBase>
-      </div>
+      <InfoCardBase class="infoCard">
+        <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
+      </InfoCardBase>
       <Searching />
       <v-expansion-panels class="panels" flat focusable hover>
-        <SortBy class="sortBy" />
+        <SortBy />
       </v-expansion-panels>
-      <Panels id="panels" :tutors="tutors" />
+      <Panels id="panels" :tutors="$store.getters.getTutors" />
     </div>
     <v-snackbar max-width="800" color="error" timeout="-1" v-model="showAlert">
       {{ $l("choose_a.tutor.ended") }}
@@ -54,60 +52,6 @@ export default {
       showAlert: false,
       closeButton: false,
       backButton: false,
-      tutors: [
-        {
-          name: "No Name",
-          pph: 5,
-          location: "HTG",
-          grade: "11b",
-          hours: 10,
-          rating: 4.5,
-          comments: 11,
-          subjects: ["math", "chem", "biol"],
-          languages: ["est", "ru", "en"],
-          audience: [1, 10],
-          age: 17,
-          moto: "Sun shines to all of us the same way",
-          about:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris semper varius nibh, quis ornare massa sollicitudin at. Aenean ut dictum purus. Fusce faucibus elit at nisi pellentesque aliquet. Nunc rhoncus malesuada ullamcorper. Mauris sodales libero eget varius tincidunt. Pellentesque quis euismod nisl, et suscipit felis. Donec mollis, mi et efficitur dictum, nisi ligula vulputate nibh, sit amet dignissim ante lorem efficitur sem. Sed tincidunt convallis erat, eu blandit tellus semper id. Sed quis sodales orci, quis tempus justo. Nam porta auctor dictum. Maecenas varius nec turpis imperdiet accumsan.",
-          days: [
-            {
-              times: [
-                { start: "8:00", end: "12:30" },
-                { start: "14:01", end: "15:30" },
-                { start: "15:41", end: "23:00" },
-              ],
-              date: new Date(),
-            },
-            {
-              times: [
-                { start: "8:00", end: "12:30" },
-                { start: "15:00", end: "22:00" },
-              ],
-              date: new Date(new Date().getTime() + 86400000),
-            },
-            {
-              times: [{ start: "15:00", end: "24:00" }],
-              date: new Date(new Date().getTime() + 86400000 * 2),
-            },
-            {
-              times: [{ start: "15:00", end: "23:00" }],
-              date: new Date(new Date().getTime() + 86400000 * 3),
-            },
-            {
-              times: [{ start: "15:00", end: "23:00" }],
-              date: new Date(new Date().getTime() + 86400000 * 4),
-            },
-            {
-              date: new Date(new Date().getTime() + 86400000 * 5),
-            },
-            {
-              times: [{ start: "10:00", end: "20:00" }],
-              date: new Date(new Date().getTime() + 86400000 * 6),
-            },
-          ],
-        },
-      ],
     };
   },
   methods: {
@@ -120,21 +64,13 @@ export default {
       return new Promise((res) => {
         const backBtn = this.$refs.backBtn.$el;
         const closeBtn = this.$refs.closeBtn.$el;
-        backBtn.onclick = () => {
-          res("back");
-        };
-        closeBtn.onclick = () => {
-          res("close");
-        };
+        backBtn.onclick = () => res("back");
+        closeBtn.onclick = () => res("close");
       });
     },
   },
   beforeRouteLeave(to, from, next) {
     this.showAlert = true;
-    // if (!window.confirm("Leave without saving?")) {
-    //   return;
-    // }
-
     this.untilClick().then((val) => {
       console.log(val);
       this.showAlert = false;
@@ -146,13 +82,7 @@ export default {
   },
   mounted() {
     window.addEventListener("beforeunload", this.preventNav);
-
-    for (var i = 0; i < 5; i++) {
-      this.tutors.push({ ...this.tutors[0] });
-    }
-    this.tutors.forEach((tutor) => {
-      tutor.rating = Math.random() * 3 + 2;
-    });
+    this.$store.dispatch("startSearch", null);
   },
 };
 </script>
@@ -212,7 +142,7 @@ $inner-content-width: 350px;
       position: static;
     }
     .infoCard {
-      .baseCard {
+      &.baseCard {
         border-radius: 0 0 15px 15px;
       }
     }

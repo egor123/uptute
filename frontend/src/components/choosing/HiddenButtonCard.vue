@@ -16,7 +16,7 @@ export default {
     BookButton,
   },
   props: {
-    tutor: Object,
+    tutor: Object, 
   },
 };
 </script>
@@ -30,6 +30,7 @@ export default {
     background: var(--v-header-base);
 
     animation: slideInFromLeft 0.6s ease-in-out;
+
     border-radius: 15px;
     margin: 15px auto;
     padding: 15px;
