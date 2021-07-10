@@ -2,14 +2,12 @@
   <Background :title="$l('choose_a.tutor.header')">
     <div class="innerContent">
       <LessonInfo class="lessonInfo" />
-      <div class="infoCard">
-        <InfoCardBase>
-          <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
-        </InfoCardBase>
-      </div>
+      <InfoCardBase class="infoCard">
+        <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
+      </InfoCardBase>
       <Searching />
       <v-expansion-panels class="panels" flat focusable hover>
-        <SortBy class="sortBy" />
+        <SortBy />
       </v-expansion-panels>
       <Panels id="panels" :tutors="$store.getters.getTutors" />
     </div>
@@ -144,7 +142,7 @@ $inner-content-width: 350px;
       position: static;
     }
     .infoCard {
-      .baseCard {
+      &.baseCard {
         border-radius: 0 0 15px 15px;
       }
     }

@@ -23,15 +23,9 @@ public class TutorResource {
     // private TutorService service;
 
     @GET
-    @Path("/{UUID}/shortInfo")
+    @Path("/{UUID}/info")
     public Response getShortInfo(@PathParam("UUID") String UUID) {
-        return Response.status(200).entity(service.getShortInfo(UUID)).build();
-    }
-
-    @GET
-    @Path("/{UUID}/fullInfo")
-    public Response getFullInfo(@PathParam("UUID") String UUID) {
-        return Response.status(200).entity(service.getFullInfo(UUID)).build();
+        return Response.status(200).entity(service.getInfo(UUID)).build();
     }
 
     @GET

@@ -13,8 +13,7 @@ import com.uptute.domain.AccauntDetails;
 import com.uptute.payloads.PageableRequest;
 import com.uptute.payloads.PageableResponse;
 import com.uptute.payloads.TutorCommentResponse;
-import com.uptute.payloads.TutorFullInfoResponse;
-import com.uptute.payloads.TutorShortInfoResponse;
+import com.uptute.payloads.TutorInfoResponse;
 import com.uptute.repository.AccauntRepository;
 import com.uptute.repository.AccauntRepositoryImpl;
 import com.uptute.repository.LessonRepository;
@@ -48,25 +47,14 @@ public class TutorServiceImpl implements TutorService {
     }
 
     @Override
-    public TutorShortInfoResponse getShortInfo(String UUID) {
-        Accaunt usr = accauntRepository.get(UUID);
-        AccauntDetails acDet = usr.getAccauntDetails();
-        TutorDetails tutDet = usr.getTutorDetails();
-        ArrayList<Lesson> lessons = lessonRepository.getByTutor(UUID);
-
-        return new TutorShortInfoResponse(usr.getUUID(), acDet.getFirstName(), acDet.getLastName(), acDet.getImgUrl(),
-                tutDet.getMoto(), getRating(lessons), tutDet.getPph(), getHours(lessons), lessons.size());
-    }
-
-    @Override
-    public TutorFullInfoResponse getFullInfo(String UUID) {
+    public TutorInfoResponse getInfo(String UUID) {
         Accaunt usr = accauntRepository.get(UUID);
         AccauntDetails acDet = usr.getAccauntDetails();
         TutorDetails tutDet = usr.getTutorDetails();
         ArrayList<Lesson> lessons = lessonRepository.getByTutor(UUID);
         int age = LocalDate.now().getYear() - acDet.getBirthday().getYear();
 
-        return new TutorFullInfoResponse(UUID, acDet.getFirstName(), acDet.getLastName(), acDet.getImgUrl(),
+        return new TutorInfoResponse(UUID, acDet.getFirstName(), acDet.getLastName(), acDet.getImgUrl(),
                 tutDet.getZoomLink(), tutDet.getSubjects(), tutDet.getLanguages(), tutDet.getAudience(),
                 tutDet.getMoto(), tutDet.getAbout(), age, getRating(lessons), tutDet.getPph(), getHours(lessons),
                 lessons.size());

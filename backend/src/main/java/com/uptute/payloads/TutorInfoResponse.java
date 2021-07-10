@@ -10,7 +10,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @ToString
-public class TutorFullInfoResponse{
+public class TutorInfoResponse{
     private String UUID;
     private String firstName;
     private String lastName;

@@ -16,7 +16,7 @@ export default {
     BookButton,
   },
   props: {
-    tutor: Object,
+    tutor: Object, 
   },
 };
 </script>
@@ -29,7 +29,7 @@ export default {
     flex-direction: column;
     background: var(--v-header-base);
 
-    animation: slideInfFromLeft 1s ease-in-out;
+    animation: slideInFromLeft 1s ease-in-out;
     border-radius: 15px;
     margin: 15px auto;
     padding: 15px;
