@@ -7,9 +7,9 @@ import lombok.*;
 @ToString
 public class TutorShortInfoResponse{
     private String UUID;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String imgUrl;
-    private String zoomLink;
     private float rating;
     private float pph;
     private float hours;

@@ -9,7 +9,8 @@ public class TutorCommentResponse {
     public String lessonsId;
 
     public String userUUID;
-    public String userName;
+    public String userFirstName;
+    public String userLastName;
 
     private int rating;
     private String review;

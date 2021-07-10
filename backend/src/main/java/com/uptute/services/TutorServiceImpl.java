@@ -1,24 +1,32 @@
 package com.uptute.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import com.google.inject.Singleton;
 import com.uptute.domain.Accaunt;
 import com.uptute.domain.Lesson;
+import com.uptute.domain.Pageable;
 import com.uptute.domain.TutorDetails;
-import com.uptute.domain.UserDetails;
+import com.uptute.domain.AccauntDetails;
+import com.uptute.payloads.PageableRequest;
+import com.uptute.payloads.PageableResponse;
 import com.uptute.payloads.TutorCommentResponse;
 import com.uptute.payloads.TutorFullInfoResponse;
 import com.uptute.payloads.TutorShortInfoResponse;
+import com.uptute.repository.AccauntRepository;
+import com.uptute.repository.AccauntRepositoryImpl;
+import com.uptute.repository.LessonRepository;
+import com.uptute.repository.LessonRepositoryImpl;
 
-import lombok.var;
-
+@Singleton
 public class TutorServiceImpl implements TutorService {
 
     Logger log = Logger.getLogger(TutorServiceImpl.class.getName());
 
-    AccauntService accauntService = new AccauntServiceImpl();
-    LessonService lessonService = new LessonServiceImpl();
+    AccauntRepository accauntRepository = new AccauntRepositoryImpl();
+    LessonRepository lessonRepository = new LessonRepositoryImpl();
 
     private float getRating(ArrayList<Lesson> lessons) {
         float total = 0;
@@ -41,36 +49,43 @@ public class TutorServiceImpl implements TutorService {
 
     @Override
     public TutorShortInfoResponse getShortInfo(String UUID) {
-        Accaunt usr = accauntService.getAccaunt(UUID);
-        UserDetails usrDet = usr.getUserDetails();
+        Accaunt usr = accauntRepository.get(UUID);
+        AccauntDetails acDet = usr.getAccauntDetails();
         TutorDetails tutDet = usr.getTutorDetails();
-        ArrayList<Lesson> lessons = lessonService.getLessonsByTutor(UUID);
+        ArrayList<Lesson> lessons = lessonRepository.getByTutor(UUID);
 
-        return new TutorShortInfoResponse(usr.getUUID(), usrDet.getName(), usrDet.getImgUrl(), tutDet.getZoomLink(),
+        return new TutorShortInfoResponse(usr.getUUID(), acDet.getFirstName(), acDet.getLastName(), acDet.getImgUrl(),
                 getRating(lessons), tutDet.getPph(), getHours(lessons), lessons.size());
     }
 
     @Override
     public TutorFullInfoResponse getFullInfo(String UUID) {
-        Accaunt usr = accauntService.getAccaunt(UUID);
-        UserDetails usrDet = usr.getUserDetails();
+        Accaunt usr = accauntRepository.get(UUID);
+        AccauntDetails acDet = usr.getAccauntDetails();
         TutorDetails tutDet = usr.getTutorDetails();
-        ArrayList<Lesson> lessons = lessonService.getLessonsByTutor(UUID);
+        ArrayList<Lesson> lessons = lessonRepository.getByTutor(UUID);
+        int age = LocalDate.now().getYear() - acDet.getBirthday().getYear();
 
-        return new TutorFullInfoResponse(UUID, usrDet.getName(), usrDet.getImgUrl(), tutDet.getZoomLink(),
-                tutDet.getSubjects(), tutDet.getLanguages(), tutDet.getMoto(), tutDet.getAbout(), getRating(lessons),
-                tutDet.getPph(), getHours(lessons), lessons.size());
+        return new TutorFullInfoResponse(UUID, acDet.getFirstName(), acDet.getLastName(), acDet.getImgUrl(),
+                tutDet.getZoomLink(), tutDet.getSubjects(), tutDet.getLanguages(), tutDet.getAudience(),
+                tutDet.getMoto(), tutDet.getAbout(), age, getRating(lessons), tutDet.getPph(), getHours(lessons),
+                lessons.size());
     }
 
     @Override
-    public ArrayList<TutorCommentResponse> getComments(String UUID) {
-        ArrayList<Lesson> lessons = lessonService.getLessonsByTutor(UUID);
+    public PageableResponse<TutorCommentResponse> getComments(String UUID, PageableRequest request) {
+        TutorDetails tutDet = accauntRepository.get(UUID).getTutorDetails();
+        Pageable<TutorCommentResponse> pageable = new Pageable<>(request);
+        ArrayList<String> lessonsId = pageable.getClampedArray(tutDet.getLessonsId());
         ArrayList<TutorCommentResponse> comments = new ArrayList<>();
-        for (var l : lessons)
-            if (l.getRating() != 0)
-                comments.add(new TutorCommentResponse(l.getId(), l.getUserUUID(),
-                        accauntService.getAccaunt(l.getUserUUID()).getUserDetails().getName(), l.getRating(),
-                        l.getReview()));
-        return comments;
+        for (var id : lessonsId) {
+            Lesson l = lessonRepository.get(id);
+            if (l.getRating() != 0) {
+                var acDet = accauntRepository.get(l.getUserUUID()).getAccauntDetails();
+                comments.add(new TutorCommentResponse(l.getId(), l.getUserUUID(), acDet.getFirstName(),
+                        acDet.getLastName(), l.getRating(), l.getReview()));
+            }
+        }
+        return pageable.toResponse(comments);
     }
 }
