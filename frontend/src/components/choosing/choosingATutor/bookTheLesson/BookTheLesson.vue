@@ -2,12 +2,12 @@
   <div>
     <div id="profile">
       <UserImg :tutor="tutor" />
-      <h3>{{ tutor.name }}</h3>
+      <h3>{{ tutor.firstName }} {{ tutor.lastName }}</h3>
     </div>
 
-    <InfoTable />
+    <InfoTable :tutor="tutor" />
 
-    <ConfirmButton />
+    <ConfirmButton :tutor="tutor" />
   </div>
 </template>
 
@@ -42,6 +42,10 @@ export default {
 ::v-deep {
   .userImg {
     margin-right: 1rem;
+  }
+  h3 {
+    font-weight: 600;
+    font-size: 1rem;
   }
 }
 </style>

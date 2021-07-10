@@ -59,6 +59,9 @@ $card-rows-margin: 5px;
   .comments {
     margin-top: 1rem;
   }
+  #moto {
+    margin: 1rem 0 2.5rem 0;
+  }
 }
 
 .tooltip {
@@ -68,10 +71,6 @@ $card-rows-margin: 5px;
   background: var(--v-secondary-base);
   opacity: 0.4 !important;
   border-radius: 15px;
-}
-
-::v-deep #moto {
-  margin: 1rem 0 2.5rem 0;
 }
 
 @media (max-width: 1120px) {

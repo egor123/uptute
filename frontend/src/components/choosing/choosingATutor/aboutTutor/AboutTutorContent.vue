@@ -1,8 +1,7 @@
 <template>
   <div id="content">
     <MainInfo
-      :location="tutor.location"
-      :grade="tutor.grade"
+      :age="tutor.age"
       :rating="tutor.rating"
       :hours="tutor.hours"
       :pph="tutor.pph"

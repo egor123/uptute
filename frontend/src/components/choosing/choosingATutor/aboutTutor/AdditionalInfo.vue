@@ -15,7 +15,7 @@
       </v-col>
       <v-col class="col-12 col-sm-6">
         <h4>{{ $l("tutor.audience") }}</h4>
-        <p>{{ `${$l("tutor.grades")} ${audience[0]} - ${audience[1]}` }}</p>
+        <p>{{ `${$l("tutor.grades")} ${audience.from} - ${audience.to}` }}</p>
       </v-col>
       <v-col class="col-12 col-sm-6">
         <h4>{{ $l("tutor.age") }}</h4>
@@ -30,7 +30,7 @@ export default {
   props: {
     subjects: Array,
     languages: Array,
-    audience: Array,
+    audience: Object,
     age: Number,
   },
 };

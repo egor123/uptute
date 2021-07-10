@@ -103,12 +103,16 @@ $inner-content-width: 350px;
 }
 
 .innerContent {
-  margin: calc(106px + 3rem) auto 3rem auto;
+  margin: calc(106px + 3rem) auto auto auto;
   width: $inner-content-width;
 }
 
 .panels {
   border-radius: 15px;
+}
+
+#panels {
+  margin-bottom: 3rem;
 }
 
 @media (max-width: 400px) {

@@ -5,7 +5,7 @@
     </template>
 
     <template v-slot:title>
-      <AboutTutorTitle :name="tutor.name" />
+      <AboutTutorTitle :tutor="tutor" />
     </template>
     <template v-slot:text>
       <AboutTutorContent :tutor="tutor" />
