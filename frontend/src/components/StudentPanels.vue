@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import HiddenButtonCard from "@/components/choosing/tutorPanel/HiddenButtonCard.vue";
+import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
 import Dialog from "@/components/dialogs/Dialog.vue";
 
 export default {

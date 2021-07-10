@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Rating from "@/components/choosing/tutorPanel/Rating.vue";
+import Rating from "@/components/choosing/choosingATutor/Rating.vue";
 
 export default {
   props: {

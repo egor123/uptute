@@ -24,7 +24,7 @@
 import Header from "@/components/Header.vue";
 import PageSelectionPanel from "@/components/navigation/PageSelectionPanel.vue";
 import Search from "@/components/navigation/Search.vue";
-import Panels from "@/components/choosing/tutorPanel/Panels";
+import Panels from "@/components/choosing/choosingATutor/Panels";
 // import Sidepanel from "@/components/sidepanel/Sidepanel.vue";
 import ComingSoon from "@/components/ComingSoon.vue";
 
