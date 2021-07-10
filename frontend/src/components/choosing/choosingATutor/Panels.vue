@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import Panel from "@/components/tutorPanel/Panel.vue";
-import Moto from "@/components/aboutTutor/Moto.vue";
-import Comments from "@/components/Comments.vue";
+import Panel from "./Panel.vue";
+import Moto from "./aboutTutor/Moto.vue";
+import Comments from "@/components/choosing/choosingATutor/aboutTutor/Comments.vue";
 
 export default {
   props: {

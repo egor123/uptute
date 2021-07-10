@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import InfoTable from "@/components/bookTheLesson/InfoTable.vue";
-import ConfirmButton from "@/components/bookTheLesson/ConfirmButton.vue";
-import UserImg from "@/components/dialogs/UserImg.vue";
+import InfoTable from "@/components/choosing/choosingATutor/bookTheLesson/InfoTable.vue";
+import ConfirmButton from "@/components/choosing/choosingATutor/bookTheLesson/ConfirmButton.vue";
+import UserImg from "@/components/choosing/choosingATutor/UserImg.vue";
 
 export default {
   name: "BookTheLesson",

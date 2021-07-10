@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <coming-soon />
-    <Header :title="$l('auth.header.register')" />
+    <Subheader :title="$l('auth.header.register')" />
 
     <v-card id="card">
       <v-form ref="form" v-model="valid" lazy-validation>
@@ -104,8 +104,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import Header from "../components/Header.vue";
-import ComingSoon from "@/components/ComingSoon.vue";
+import Subheader from "../components/app/Subheader.vue";
 
 export default {
   data() {
@@ -179,8 +178,7 @@ export default {
     ...mapActions(["signup"]),
   },
   components: {
-    Header,
-    ComingSoon,
+    Subheader,
   },
 };
 </script>

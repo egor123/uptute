@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import HiddenButtonCard from "@/components/tutorPanel/HiddenButtonCard.vue";
-import Dialog from "@/components/dialogs/Dialog.vue";
+import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
+import Dialog from "@/components/global/Dialog.vue";
 
 export default {
   components: {
@@ -74,7 +74,7 @@ table {
     width: 50%;
     &.profile {
       @include flexbox;
-      justify-content: start;
+      justify-content: flex-start;
       .userImg {
         width: 50px;
         height: 50px;

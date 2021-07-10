@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import Background from "@/components/background/Background.vue";
-import InfoCardBase from "@/components/infoCards/InfoCardBase.vue";
-import Panels from "@/components/tutorPanel/Panels";
-import Searching from "@/components/Searching.vue";
-import LessonInfo from "@/components/infoCards/LessonInfo.vue";
-import SortBy from "@/components/sidepanel/SortBy.vue";
+import Background from "@/components/global/background/Background.vue";
+import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
+import Panels from "@/components/choosing/choosingATutor/Panels";
+import Searching from "@/components/choosing/Searching.vue";
+import LessonInfo from "@/components/choosing/infoCards/LessonInfo.vue";
+import SortBy from "@/components/filterPanel/SortBy.vue";
 
 export default {
   permisions: {

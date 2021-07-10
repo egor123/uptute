@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import TextField from "@/components/textInput/TextField.vue";
-import Birth from "@/components/sidepanel/Birth.vue";
-import Grade from "@/components/sidepanel/Grade.vue";
+import TextField from "@/components/global/textInput/TextField.vue";
+import Birth from "@/components/filterPanel/Birth.vue";
+import Grade from "@/components/filterPanel/Grade.vue";
 
 export default {
   components: {

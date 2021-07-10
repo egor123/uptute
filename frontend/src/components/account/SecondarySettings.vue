@@ -50,14 +50,14 @@
 </template>
 
 <script>
-import SubjectsYouTeach from "@/components/sidepanel/SubjectsYouTeach.vue";
-import Audience from "@/components/sidepanel/Audience.vue";
-import Languages from "@/components/sidepanel/Languages.vue";
-import YourPrice from "@/components/sidepanel/YourPrice.vue";
+import SubjectsYouTeach from "@/components/filterPanel/SubjectsYouTeach.vue";
+import Audience from "@/components/filterPanel/Audience.vue";
+import Languages from "@/components/filterPanel/Languages.vue";
+import YourPrice from "@/components/filterPanel/YourPrice.vue";
 
-import Dialog from "@/components/dialogs/Dialog.vue";
-import Textarea from "@/components/textInput/Textarea.vue";
-import TextField from "@/components/textInput/TextField.vue";
+import Dialog from "@/components/global/Dialog.vue";
+import Textarea from "@/components/global/textInput/Textarea.vue";
+import TextField from "@/components/global/textInput/TextField.vue";
 
 export default {
   components: {

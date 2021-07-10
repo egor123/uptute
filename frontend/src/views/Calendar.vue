@@ -113,8 +113,6 @@
 import AccountBase from "@/components/account/AccountBase.vue";
 
 export default {
-  name: "Calendar",
-  path: "/calendar",
   permisions: {
     roles: "ALL",
   },

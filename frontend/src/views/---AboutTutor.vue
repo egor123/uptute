@@ -44,15 +44,15 @@
 </template>
 
 <script>
-import Background from "@/components/background/Background.vue";
-import BackgroundCard from "@/components/background/BackgroundCard.vue";
+import Background from "@/components/global/background/Background.vue";
+import BackgroundCard from "@/components/global/background/BackgroundCard.vue";
 
-import SideButtonBase from "@/components/sideButtons/SideButtonBase.vue";
-import MainInfo from "@/components/aboutTutor/MainInfo.vue";
-import AboutInfo from "@/components/aboutTutor/AboutInfo.vue";
-import AdditionalInfo from "@/components/aboutTutor/AdditionalInfo.vue";
-import Moto from "@/components/aboutTutor/Moto.vue";
-import Comments from "@/components/Comments.vue";
+import SideButtonBase from "@/components/account/sideButtons/SideButtonBase.vue";
+import MainInfo from "@/components/choosing/choosingATutor/aboutTutor/MainInfo.vue";
+import AboutInfo from "@/components/choosing/choosingATutor/aboutTutor/AboutInfo.vue";
+import AdditionalInfo from "@/components/choosing/choosingATutor/aboutTutor/AdditionalInfo.vue";
+import Moto from "@/components/choosing/choosingATutor/aboutTutor/Moto.vue";
+import Comments from "@/components/choosing/choosingATutor/aboutTutor/Comments.vue";
 
 export default {
   name: "AboutTutor",

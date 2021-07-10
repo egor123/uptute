@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import Background from "@/components/background/Background.vue";
-import InfoCardBase from "@/components/infoCards/InfoCardBase.vue";
-import Searching from "@/components/Searching.vue";
-import StudentPanels from "@/components/StudentPanels.vue";
+import Background from "@/components/global/background/Background.vue";
+import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
+import Searching from "@/components/choosing/Searching.vue";
+import StudentPanels from "@/components/choosing/choosingAStudent/StudentPanels.vue";
 
 export default {
   components: {

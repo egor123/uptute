@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import Dialog from "@/components/dialogs/Dialog.vue";
-import BookTheLesson from "@/components/bookTheLesson/BookTheLesson.vue";
+import Dialog from "@/components/global/Dialog.vue";
+import BookTheLesson from "@/components/choosing/choosingATutor/bookTheLesson/BookTheLesson.vue";
 
 export default {
   components: {

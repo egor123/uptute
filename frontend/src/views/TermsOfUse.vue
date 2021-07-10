@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header title="Kasutustingimused" />
+    <Subheader title="Kasutustingimused" />
     <div class="container">
       <h2>Üldsätted</h2>
       <ol>
@@ -236,10 +236,10 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import Subheader from "@/components/app/Subheader.vue";
 export default {
   components: {
-    Header,
+    Subheader,
   },
 };
 </script>

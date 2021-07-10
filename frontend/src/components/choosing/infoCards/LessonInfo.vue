@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import InfoCardBase from "@/components/infoCards/InfoCardBase.vue";
+import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
 
 export default {
   components: {
@@ -59,7 +59,6 @@ tr:last-child {
 
 th {
   color: var(--v-secondary-darken2);
-  font-weight: normal;
 }
 
 td {

@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import HiddenButtonCard from "@/components/tutorPanel/HiddenButtonCard.vue";
+import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
 import Rating from "./Rating.vue";
-import UserImg from "@/components/dialogs/UserImg.vue";
+import UserImg from "@/components/choosing/choosingATutor/UserImg.vue";
 
 export default {
   data() {
