@@ -59,7 +59,6 @@ tr:last-child {
 
 th {
   color: var(--v-secondary-darken2);
-  font-weight: normal;
 }
 
 td {

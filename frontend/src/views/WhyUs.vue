@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import CheckerLayout from "@/components/checkerLayout/CheckerLayout.vue";
+import CheckerLayout from "@/components/layouts/CheckerLayout.vue";
 import Subheader from "@/components/app/Subheader.vue";
 export default {
   components: {
