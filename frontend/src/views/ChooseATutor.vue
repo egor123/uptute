@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Background from "@/components/background/Background.vue";
+import Background from "@/components/global/background/Background.vue";
 import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
 import Panels from "@/components/choosing/choosingATutor/Panels";
 import Searching from "@/components/choosing/Searching.vue";

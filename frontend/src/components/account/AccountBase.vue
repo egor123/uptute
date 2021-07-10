@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import Background from "@/components/background/Background.vue";
-import BackgroundCard from "@/components/background/BackgroundCard.vue";
+import Background from "@/components/global/background/Background.vue";
+import BackgroundCard from "@/components/global/background/BackgroundCard.vue";
 
 import AccountSideButtons from "@/components/account/sideButtons/AccountSideButtons.vue";
 

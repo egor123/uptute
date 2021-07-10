@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import Background from "@/components/background/Background.vue";
-import BackgroundCard from "@/components/background/BackgroundCard.vue";
+import Background from "@/components/global/background/Background.vue";
+import BackgroundCard from "@/components/global/background/BackgroundCard.vue";
 
 import SideButtonBase from "@/components/account/sideButtons/SideButtonBase.vue";
 import MainInfo from "@/components/choosing/choosingATutor/aboutTutor/MainInfo.vue";

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Dialog from "@/components/Dialog.vue";
+import Dialog from "@/components/global/Dialog.vue";
 import BookTheLesson from "@/components/choosing/choosingATutor/bookTheLesson/BookTheLesson.vue";
 
 export default {

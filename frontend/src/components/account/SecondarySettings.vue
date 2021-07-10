@@ -55,9 +55,9 @@ import Audience from "@/components/filterPanel/Audience.vue";
 import Languages from "@/components/filterPanel/Languages.vue";
 import YourPrice from "@/components/filterPanel/YourPrice.vue";
 
-import Dialog from "@/components/Dialog.vue";
-import Textarea from "@/components/textInput/Textarea.vue";
-import TextField from "@/components/textInput/TextField.vue";
+import Dialog from "@/components/global/Dialog.vue";
+import Textarea from "@/components/global/textInput/Textarea.vue";
+import TextField from "@/components/global/textInput/TextField.vue";
 
 export default {
   components: {

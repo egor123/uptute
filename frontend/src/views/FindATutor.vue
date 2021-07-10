@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import Background from "@/components/background/Background.vue";
+import Background from "@/components/global/background/Background.vue";
 import Subjects from "@/components/filterPanel/Subjects";
 import Languages from "@/components/filterPanel/Languages";
 import Price from "@/components/filterPanel/Price";

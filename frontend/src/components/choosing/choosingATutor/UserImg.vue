@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Dialog from "@/components/Dialog.vue";
+import Dialog from "@/components/global/Dialog.vue";
 import AboutTutorTitle from "@/components/choosing/choosingATutor/aboutTutor/AboutTutorTitle.vue";
 import AboutTutorContent from "@/components/choosing/choosingATutor/aboutTutor/AboutTutorContent.vue";
 
