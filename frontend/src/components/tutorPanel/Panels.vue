@@ -56,49 +56,6 @@ $card-rows-margin: 5px;
 }
 
 ::v-deep {
-  .card {
-    animation: slideInfFromLeft 1s ease-in-out; //for later when they will be added one by one
-    position: relative;
-
-    /* max-width: clamp(260px, 80%, 800px); */
-    width: 100%;
-    background: var(--v-secondary-base);
-    border-radius: 15px;
-    margin: 15px auto;
-    padding: 15px;
-
-    & .tutor {
-      margin: 56px 0 -36px 0;
-    }
-
-    & .button {
-      opacity: 0;
-
-      &:hover {
-        opacity: 1 !important;
-      }
-    }
-
-    &:not(:hover) {
-      & .tutor {
-        transition: all 500ms ease 200ms;
-      }
-      & .button {
-        transition: opacity 500ms ease 0ms;
-      }
-    }
-
-    &:hover {
-      & .tutor {
-        transform: translateY(-46px);
-        transition: all 600ms ease 0ms;
-      }
-      & .button {
-        opacity: 1;
-        transition: opacity 800ms ease 100ms;
-      }
-    }
-  }
   .comments {
     margin-top: 1rem;
   }

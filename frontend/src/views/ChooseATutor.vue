@@ -1,26 +1,26 @@
 <template>
-  <Background :title="$l('choose.header')">
+  <Background :title="$l('choose_a.tutor.header')">
     <div class="innerContent">
-      <LessonInfo />
+      <LessonInfo class="lessonInfo" />
       <div class="infoCard">
-        <v-container class="innerContainer">
-          <h3 class="chooseOne">{{ $l("choose.choose") }}</h3>
-        </v-container>
+        <InfoCardBase>
+          <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
+        </InfoCardBase>
       </div>
-      <SearchingForTutors />
+      <Searching />
       <v-expansion-panels class="panels" flat focusable hover>
         <SortBy class="sortBy" />
       </v-expansion-panels>
       <Panels id="panels" :tutors="tutors" />
     </div>
     <v-snackbar max-width="800" color="error" timeout="-1" v-model="showAlert">
-      Sarch session will be ended!
+      {{ $l("choose_a.tutor.ended") }}
       <div id="snackButtons">
         <v-btn text v-model="closeButton" ref="closeBtn">
-          Close anyway
+          {{ $l("choose_a.tutor.anyway") }}
         </v-btn>
         <v-btn text v-model="backButton" ref="backBtn">
-          Back
+          {{ $l("choose_a.tutor.cancel") }}
         </v-btn>
       </div>
     </v-snackbar>
@@ -29,14 +29,13 @@
 
 <script>
 import Background from "@/components/background/Background.vue";
+import InfoCardBase from "@/components/infoCards/InfoCardBase.vue";
 import Panels from "@/components/tutorPanel/Panels";
-import SearchingForTutors from "@/components/SearchingForTutors.vue";
-import LessonInfo from "@/components/LessonInfo.vue";
+import Searching from "@/components/Searching.vue";
+import LessonInfo from "@/components/infoCards/LessonInfo.vue";
 import SortBy from "@/components/sidepanel/SortBy.vue";
 
 export default {
-  name: "ChooseATutor",
-  path: "/choose_a_tutor",
   permisions: {
     roles: "USER",
     allowedOrigins: "FindATutor",
@@ -44,8 +43,9 @@ export default {
   },
   components: {
     Background,
+    InfoCardBase,
     Panels,
-    SearchingForTutors,
+    Searching,
     LessonInfo,
     SortBy,
   },
@@ -177,20 +177,6 @@ $inner-content-width: 350px;
   width: $inner-content-width;
 }
 
-.infoCard {
-  width: 100%;
-  margin-bottom: 0 !important;
-  height: max-content;
-
-  background: var(--v-secondary-base);
-  flex-wrap: wrap;
-  opacity: 0.4;
-  transition: opacity 800ms;
-  &:hover {
-    opacity: 1;
-  }
-}
-
 .panels {
   border-radius: 15px;
 }
@@ -215,24 +201,22 @@ $inner-content-width: 350px;
     margin: -6rem -3.1rem;
   }
 }
+::v-deep {
+  @media (max-width: 1200px) {
+    .lessonInfo {
+      &.baseCard {
+        border-radius: 15px 15px 0 0;
+        position: static;
+      }
 
-.infoCard {
-  border-radius: 15px;
-  margin-bottom: 15px;
-}
-
-@media (max-width: 1200px) {
-  .lessonInfo {
-    border-radius: 15px 15px 0 0;
-    position: static;
+      position: static;
+    }
+    .infoCard {
+      .baseCard {
+        border-radius: 0 0 15px 15px;
+      }
+    }
   }
-  .infoCard {
-    border-radius: 0 0 15px 15px;
-  }
-}
-
-.innerContainer {
-  padding: 15px;
 }
 
 .chooseOne {

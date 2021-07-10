@@ -1,6 +1,6 @@
 <template>
-  <div class="card">
-    <div class="data">
+  <HiddenButtonCard :tutor="tutor">
+    <template v-slot:static>
       <div class="profile">
         <UserImg :tutor="tutor" />
 
@@ -10,7 +10,9 @@
           <p>{{ tutor.location }}, {{ tutor.grade }}</p>
         </div>
       </div>
+    </template>
 
+    <template v-slot:moving>
       <div class="tutor">
         <div>
           <img
@@ -32,16 +34,14 @@
           <p>{{ tutor.comments }}</p>
         </div>
       </div>
-
-      <BookButton :tutor="tutor" />
-    </div>
-  </div>
+    </template>
+  </HiddenButtonCard>
 </template>
 
 <script>
+import HiddenButtonCard from "@/components/tutorPanel/HiddenButtonCard.vue";
 import Rating from "./Rating.vue";
 import UserImg from "@/components/dialogs/UserImg.vue";
-import BookButton from "@/components/dialogs/BookButton.vue";
 
 export default {
   data() {
@@ -50,9 +50,9 @@ export default {
     };
   },
   components: {
+    HiddenButtonCard,
     Rating,
     UserImg,
-    BookButton,
   },
   props: {
     tutor: Object,
@@ -62,38 +62,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  cursor: auto;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  text-align: left;
-}
-
-.data {
-  flex: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+* {
+  margin: auto 0;
 }
 
 .profile {
   display: inline-flex;
   width: 100%;
-}
-
-.profile div {
-  margin-left: 10px;
-  width: 100%;
-  padding: 0;
-}
-
-.profile .pph {
-  float: right;
-}
-
-.profile p {
-  margin: 0;
+  text-align: left;
+  div {
+    margin-left: 10px;
+    width: 100%;
+    padding: 0;
+  }
+  .pph {
+    float: right;
+  }
+  p {
+    margin: 0;
+  }
 }
 
 .tutor {
@@ -101,13 +88,11 @@ export default {
   justify-content: space-between;
   flex-wrap: wrap;
   margin-top: 10px;
-}
-
-.tutor div {
-  display: flex;
-}
-
-.tutor * {
-  margin: auto 0;
+  div {
+    display: flex;
+  }
+  * {
+    margin: auto 0;
+  }
 }
 </style>

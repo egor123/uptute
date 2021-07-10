@@ -21,6 +21,17 @@
         {{ $l("find.request") }}
       </v-btn>
     </div>
+    <v-snackbar max-width="800" color="accent" timeout="-1" v-model="showAlert">
+      {{ $l("find.sure") }}
+      <div id="snackButtons">
+        <v-btn :to="{ name: 'ChooseATutor' }" text>
+          {{ $l("find.begin") }}
+        </v-btn>
+        <v-btn @click="showAlert = false" text>
+          {{ $l("find.cancel") }}
+        </v-btn>
+      </div>
+    </v-snackbar>
   </Background>
 </template>
 
@@ -46,6 +57,7 @@ export default {
   data() {
     return {
       checkInProgress: false,
+      showAlert: false,
     };
   },
   methods: {
@@ -71,7 +83,8 @@ export default {
     async request() {
       if (this.checkInProgress) return;
       if (await this.isValid())
-        this.$router.push({ name: "ChooseATutor", query: this.$route.query });
+        // this.$router.push({ name: "ChooseATutor", query: this.$route.query });
+        this.showAlert = true;
     },
   },
 };
@@ -79,6 +92,17 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
+
+::v-deep .v-snack__wrapper {
+  border-radius: 15px !important;
+  .v-snack__content {
+    @include flexbox(column);
+  }
+  #snackButtons .v-btn {
+    border-radius: 15px !important;
+    margin: 0.5rem 0.5rem 0 0.5rem;
+  }
+}
 
 #content {
   @include flexbox(column);

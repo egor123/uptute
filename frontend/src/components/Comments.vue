@@ -1,7 +1,7 @@
 <template>
   <div class="comments">
     <div class="commenter">
-      <div class="person">
+      <div class="tutor">
         <img width="20px" height="20px" src="@/assets/icons/user.svg" alt="" />
         <p class="name">Captain Jack Sparrow</p>
       </div>
@@ -10,7 +10,7 @@
       </p>
     </div>
     <div class="commenter">
-      <div class="person">
+      <div class="tutor">
         <img width="20px" height="20px" src="@/assets/icons/user.svg" alt="" />
         <p class="name">Bilbo Baggins</p>
       </div>
@@ -33,7 +33,7 @@
     hyphens: auto;
     @include font-size;
   }
-  .person {
+  .tutor {
     display: flex;
     flex: row;
     align-content: center;
