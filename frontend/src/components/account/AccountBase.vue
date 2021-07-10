@@ -11,7 +11,7 @@
 import Background from "@/components/background/Background.vue";
 import BackgroundCard from "@/components/background/BackgroundCard.vue";
 
-import AccountSideButtons from "@/components/sideButtons/AccountSideButtons.vue";
+import AccountSideButtons from "@/components/account/sideButtons/AccountSideButtons.vue";
 
 export default {
   components: {
