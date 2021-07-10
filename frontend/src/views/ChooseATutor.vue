@@ -33,7 +33,7 @@ import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
 import Panels from "@/components/choosing/choosingATutor/Panels";
 import Searching from "@/components/choosing/Searching.vue";
 import LessonInfo from "@/components/choosing/infoCards/LessonInfo.vue";
-import SortBy from "@/components/sidepanel/SortBy.vue";
+import SortBy from "@/components/filterPanel/SortBy.vue";
 
 export default {
   permisions: {

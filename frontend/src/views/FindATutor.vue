@@ -37,10 +37,10 @@
 
 <script>
 import Background from "@/components/background/Background.vue";
-import Subjects from "@/components/sidepanel/Subjects";
-import Languages from "@/components/sidepanel/Languages";
-import Price from "@/components/sidepanel/Price";
-import Age from "@/components/sidepanel/Age";
+import Subjects from "@/components/filterPanel/Subjects";
+import Languages from "@/components/filterPanel/Languages";
+import Price from "@/components/filterPanel/Price";
+import Age from "@/components/filterPanel/Age";
 
 export default {
   permisions: {
