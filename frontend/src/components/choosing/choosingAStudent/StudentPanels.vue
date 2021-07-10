@@ -52,7 +52,7 @@
 
 <script>
 import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
-import Dialog from "@/components/dialogs/Dialog.vue";
+import Dialog from "@/components/Dialog.vue";
 
 export default {
   components: {

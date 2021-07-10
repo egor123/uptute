@@ -55,7 +55,7 @@ import Audience from "@/components/sidepanel/Audience.vue";
 import Languages from "@/components/sidepanel/Languages.vue";
 import YourPrice from "@/components/sidepanel/YourPrice.vue";
 
-import Dialog from "@/components/dialogs/Dialog.vue";
+import Dialog from "@/components/Dialog.vue";
 import Textarea from "@/components/textInput/Textarea.vue";
 import TextField from "@/components/textInput/TextField.vue";
 
