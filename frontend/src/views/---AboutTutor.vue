@@ -52,7 +52,7 @@ import MainInfo from "@/components/choosing/choosingATutor/aboutTutor/MainInfo.v
 import AboutInfo from "@/components/choosing/choosingATutor/aboutTutor/AboutInfo.vue";
 import AdditionalInfo from "@/components/choosing/choosingATutor/aboutTutor/AdditionalInfo.vue";
 import Moto from "@/components/choosing/choosingATutor/aboutTutor/Moto.vue";
-import Comments from "@/components/Comments.vue";
+import Comments from "@/components/choosing/choosingATutor/aboutTutor/Comments.vue";
 
 export default {
   name: "AboutTutor",

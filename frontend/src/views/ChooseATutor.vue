@@ -31,7 +31,7 @@
 import Background from "@/components/background/Background.vue";
 import InfoCardBase from "@/components/infoCards/InfoCardBase.vue";
 import Panels from "@/components/choosing/choosingATutor/Panels";
-import Searching from "@/components/Searching.vue";
+import Searching from "@/components/choosing/Searching.vue";
 import LessonInfo from "@/components/infoCards/LessonInfo.vue";
 import SortBy from "@/components/sidepanel/SortBy.vue";
 
