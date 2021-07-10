@@ -3,8 +3,8 @@
     ref="base"
     v-model="grade"
     :default="12"
-    :label="$l('find.filters.audience.h')"
-    :text="grade.join(' - ')"
+    :label="$l('set_up.grade')"
+    :text="grade"
     slider="true"
     propURL="grade"
   >

@@ -3,7 +3,7 @@
     <SideButtonBase
       :sideButtons="[
         {
-          name: 'mdi-calendar-clock',
+          name: 'mdi-calendar',
           path: $l('acc_pages.calendar'),
           to: { name: 'Calendar' },
         },
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import SideButtonBase from "@/components/sideButtons/SideButtonBase.vue";
+import SideButtonBase from "@/components/account/sideButtons/SideButtonBase.vue";
 
 export default {
   components: {

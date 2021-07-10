@@ -21,12 +21,25 @@
 <style lang="scss" scoped>
 #cardText {
   padding: 2rem;
+  background: var(--v-background-base);
 }
 
 ::v-deep {
   .v-card {
     #cardTitle {
+      z-index: 10;
       font-family: Comfortaa !important;
+      position: sticky;
+      background: var(--v-header-base) !important;
+      opacity: 0.7;
+      top: 0px;
+      border-radius: 15px 15px 0 0;
+      width: 100%;
+      color: var(--v-primary-base);
+      box-shadow: 0px 2px 6px var(--v-secondary-darken1);
+      * {
+        font-weight: 600;
+      }
     }
 
     & > .v-card__text {
@@ -35,12 +48,9 @@
   }
 
   .v-dialog {
-    // min-width: 22rem;
-    // width: fit-content;
-    // max-width: 50rem;
-    min-width: fit-content;
     width: 40rem;
     max-width: calc(100vw - 2rem);
+
     border-radius: 15px;
   }
 
@@ -48,23 +58,8 @@
     border-radius: 0;
   }
 
-  // ::-webkit-scrollbar-track {
-  //   background: #ffffff;
-  //   border-radius: 0 15px 15px 0;
-  // }
-
   ::-webkit-scrollbar {
-    // background: red;
-    // border-radius: 0 15px 15px 0 !important;
     width: 0px;
   }
-
-  // ::-webkit-scrollbar-thumb {
-  //   background: var(--v-secondary-darken2);
-
-  //   &:hover {
-  //     background: var(--v-secondary-darken3);
-  //   }
-  // }
 }
 </style>

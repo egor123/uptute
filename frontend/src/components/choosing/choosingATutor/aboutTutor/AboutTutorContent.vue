@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import MainInfo from "@/components/aboutTutor/MainInfo.vue";
-import AboutInfo from "@/components/aboutTutor/AboutInfo.vue";
-import AdditionalInfo from "@/components/aboutTutor/AdditionalInfo.vue";
-import Moto from "@/components/aboutTutor/Moto.vue";
-import Comments from "@/components/Comments.vue";
+import MainInfo from "@/components/choosing/choosingATutor/aboutTutor/MainInfo.vue";
+import AboutInfo from "@/components/choosing/choosingATutor/aboutTutor/AboutInfo.vue";
+import AdditionalInfo from "@/components/choosing/choosingATutor/aboutTutor/AdditionalInfo.vue";
+import Moto from "@/components/choosing/choosingATutor/aboutTutor/Moto.vue";
+import Comments from "@/components/choosing/choosingATutor/aboutTutor/Comments.vue";
 
 export default {
   components: {

@@ -24,7 +24,6 @@ p {
   position: relative;
   height: content;
   text-align: center;
-  width: max-content;
   @include flexbox();
   margin: auto;
   img {

@@ -81,8 +81,8 @@
 </template>
 
 <script>
-import CheckerLayout from "@/components/checkerLayout/CheckerLayout.vue";
-import SliderLayout from "@/components/checkerLayout/SliderLayout.vue";
+import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
+import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
 
 export default {
   name: "Home",

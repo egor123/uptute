@@ -1,6 +1,5 @@
 <template>
   <AccountBase>
-    <!-- :title="$l('acc_pages.calendar')" -->
     <div class="sheetWrapper">
       <v-sheet class="toolbar">
         <v-toolbar flat>
@@ -114,8 +113,6 @@
 import AccountBase from "@/components/account/AccountBase.vue";
 
 export default {
-  name: "Calendar",
-  path: "/calendar",
   permisions: {
     roles: "ALL",
   },
@@ -237,6 +234,7 @@ $border: 1px solid var(--v-background-base);
 
 ::v-deep {
   #backgroundCard {
+    margin: 70px 0 20px 0;
     .v-calendar {
       height: 75vh;
       width: 80vw;
@@ -244,10 +242,6 @@ $border: 1px solid var(--v-background-base);
         width: 500px;
       }
     }
-    // margin: 60px 0 0;
-    // width: 100vw;
-    // padding: 0;
-    // background: #ffffff00 !important;
     @media (max-width: 800px) {
       .v-calendar,
       .v-calendar.v-calendar-daily {
@@ -265,7 +259,11 @@ $border: 1px solid var(--v-background-base);
     min-width: max-content !important;
     border-radius: 15px;
   }
-
+  .sheetWrapper {
+    border-radius: 15px;
+    overflow: hidden;
+    border: $border;
+  }
   .v-sheet {
     overflow: hidden;
     &.v-toolbar,
@@ -277,13 +275,12 @@ $border: 1px solid var(--v-background-base);
       color: var(--v-card-darken2);
     }
     &.calendar {
-      border-radius: 0 0 15px 15px !important;
       width: max-content;
       height: max-content;
 
       .v-calendar {
-        border: $border;
-        border-radius: 0 0 15px 15px !important;
+        border: none;
+        border-top: $border;
         &.v-calendar-daily {
           ::-webkit-scrollbar {
             width: 0;
@@ -382,8 +379,7 @@ $border: 1px solid var(--v-background-base);
     }
 
     &.toolbar {
-      border-radius: 15px 15px 0 0 !important;
-      border: $border !important;
+      border: none !important;
       border-bottom: 0px !important;
       background: var(--v-secondary-base);
       .spacer.onPhone {

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Subheader from "@/components/Header.vue";
+import Subheader from "@/components/app/Subheader.vue";
 export default {
   components: {
     Subheader,

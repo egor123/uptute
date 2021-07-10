@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import Background from "@/components/background/Background.vue";
-import BackgroundCard from "@/components/background/BackgroundCard.vue";
+import Background from "@/components/global/background/Background.vue";
+import BackgroundCard from "@/components/global/background/BackgroundCard.vue";
 
-import AccountSideButtons from "@/components/sideButtons/AccountSideButtons.vue";
+import AccountSideButtons from "@/components/account/sideButtons/AccountSideButtons.vue";
 
 export default {
   components: {
@@ -34,14 +34,11 @@ export default {
   width: 100vw;
   max-width: 100%;
   padding: 0;
-  margin: 60px 0 0;
+  margin: 156px 0 7rem 0;
   background: #ffffff00 !important;
 
   @media (max-width: 600px) {
-    //rewrite !!!!!!!!!
     width: 100%;
-    margin-right: 0;
-    margin-left: 0;
     background: #ffffff00 !important;
   }
 }

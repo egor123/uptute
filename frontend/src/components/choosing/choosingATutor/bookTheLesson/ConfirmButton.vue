@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Dialog from "@/components/Dialog.vue";
+import Dialog from "@/components/global/Dialog.vue";
 
 export default {
   components: {

@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <coming-soon />
-    <Header :title="$l('find.header')" />
+    <Subheader :title="$l('find.header')" />
     <Search />
     <v-dialog v-model="dialog" v-if="isMobileView()" max-width="300">
       <template v-slot:activator="{ on, attrs }">
@@ -21,12 +21,11 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import Subheader from "@/components/app/Subheader.vue";
 import PageSelectionPanel from "@/components/navigation/PageSelectionPanel.vue";
 import Search from "@/components/navigation/Search.vue";
-import Panels from "@/components/tutorPanel/Panels";
-// import Sidepanel from "@/components/sidepanel/Sidepanel.vue";
-import ComingSoon from "@/components/ComingSoon.vue";
+import Panels from "@/components/choosing/choosingATutor/Panels";
+// import Sidepanel from "@/components/filterPanel/filterPanel.vue";
 
 export default {
   name: "FindATutorOld",
@@ -36,12 +35,11 @@ export default {
     redirect: "LogIn",
   },
   components: {
-    Header,
+    Subheader,
     PageSelectionPanel,
     Panels,
     // Sidepanel,
     Search,
-    ComingSoon,
   },
   data: () => ({
     dialog: false,
