@@ -15,8 +15,8 @@
 
 <script>
 import Dialog from "@/components/dialogs/Dialog.vue";
-import AboutTutorTitle from "@/components/aboutTutor/AboutTutorTitle.vue";
-import AboutTutorContent from "@/components/aboutTutor/AboutTutorContent.vue";
+import AboutTutorTitle from "@/components/tutorPanel/aboutTutor/AboutTutorTitle.vue";
+import AboutTutorContent from "@/components/tutorPanel/aboutTutor/AboutTutorContent.vue";
 
 export default {
   components: {

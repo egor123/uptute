@@ -74,7 +74,7 @@ table {
     width: 50%;
     &.profile {
       @include flexbox;
-      justify-content: start;
+      justify-content: flex-start;
       .userImg {
         width: 50px;
         height: 50px;

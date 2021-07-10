@@ -48,10 +48,10 @@ import Background from "@/components/background/Background.vue";
 import BackgroundCard from "@/components/background/BackgroundCard.vue";
 
 import SideButtonBase from "@/components/sideButtons/SideButtonBase.vue";
-import MainInfo from "@/components/aboutTutor/MainInfo.vue";
-import AboutInfo from "@/components/aboutTutor/AboutInfo.vue";
-import AdditionalInfo from "@/components/aboutTutor/AdditionalInfo.vue";
-import Moto from "@/components/aboutTutor/Moto.vue";
+import MainInfo from "@/components/tutorPanel/aboutTutor/MainInfo.vue";
+import AboutInfo from "@/components/tutorPanel/aboutTutor/AboutInfo.vue";
+import AdditionalInfo from "@/components/tutorPanel/aboutTutor/AdditionalInfo.vue";
+import Moto from "@/components/tutorPanel/aboutTutor/Moto.vue";
 import Comments from "@/components/Comments.vue";
 
 export default {
