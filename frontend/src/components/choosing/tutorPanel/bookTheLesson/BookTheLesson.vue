@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import InfoTable from "@/components/tutorPanel/bookTheLesson/InfoTable.vue";
-import ConfirmButton from "@/components/tutorPanel/bookTheLesson/ConfirmButton.vue";
+import InfoTable from "@/components/choosing/tutorPanel/bookTheLesson/InfoTable.vue";
+import ConfirmButton from "@/components/choosing/tutorPanel/bookTheLesson/ConfirmButton.vue";
 import UserImg from "@/components/dialogs/UserImg.vue";
 
 export default {

@@ -30,7 +30,7 @@
 <script>
 import Background from "@/components/background/Background.vue";
 import InfoCardBase from "@/components/infoCards/InfoCardBase.vue";
-import Panels from "@/components/tutorPanel/Panels";
+import Panels from "@/components/choosing/tutorPanel/Panels";
 import Searching from "@/components/Searching.vue";
 import LessonInfo from "@/components/infoCards/LessonInfo.vue";
 import SortBy from "@/components/sidepanel/SortBy.vue";

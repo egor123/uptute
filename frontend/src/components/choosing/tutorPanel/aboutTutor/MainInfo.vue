@@ -11,19 +11,19 @@
 </template>
 
 <script>
-import Rating from "@/components/tutorPanel/Rating.vue";
+import Rating from "@/components/choosing/tutorPanel/Rating.vue";
 
 export default {
-    props:{
-        location: String,
-        grade: String,
-        rating: Number,
-        hours: Number,
-        pph: Number
-    },
-    components:{
-        Rating
-    }
+  props: {
+    location: String,
+    grade: String,
+    rating: Number,
+    hours: Number,
+    pph: Number,
+  },
+  components: {
+    Rating,
+  },
 };
 </script>
 

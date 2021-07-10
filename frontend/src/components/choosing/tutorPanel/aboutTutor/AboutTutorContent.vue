@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import MainInfo from "@/components/tutorPanel/aboutTutor/MainInfo.vue";
-import AboutInfo from "@/components/tutorPanel/aboutTutor/AboutInfo.vue";
-import AdditionalInfo from "@/components/tutorPanel/aboutTutor/AdditionalInfo.vue";
-import Moto from "@/components/tutorPanel/aboutTutor/Moto.vue";
+import MainInfo from "@/components/choosing/tutorPanel/aboutTutor/MainInfo.vue";
+import AboutInfo from "@/components/choosing/tutorPanel/aboutTutor/AboutInfo.vue";
+import AdditionalInfo from "@/components/choosing/tutorPanel/aboutTutor/AdditionalInfo.vue";
+import Moto from "@/components/choosing/tutorPanel/aboutTutor/Moto.vue";
 import Comments from "@/components/Comments.vue";
 
 export default {

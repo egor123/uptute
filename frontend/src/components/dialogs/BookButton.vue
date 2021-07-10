@@ -31,7 +31,7 @@
 
 <script>
 import Dialog from "@/components/dialogs/Dialog.vue";
-import BookTheLesson from "@/components/tutorPanel/bookTheLesson/BookTheLesson.vue";
+import BookTheLesson from "@/components/choosing/tutorPanel/bookTheLesson/BookTheLesson.vue";
 
 export default {
   components: {
