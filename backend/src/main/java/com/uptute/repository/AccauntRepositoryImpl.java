@@ -45,8 +45,8 @@ public class AccauntRepositoryImpl implements AccauntRepository {
         String lastName = faker.name().lastName();
         String imgUrl = null;
         LocalDate birthday = LocalDate.now().minusYears(randomNumber(random, 17, 20));
-
-        AccauntDetails accauntDetails = new AccauntDetails(firstName, lastName, imgUrl, birthday);
+        Integer grade = randomNumber(random, 1, 12);
+        AccauntDetails accauntDetails = new AccauntDetails(firstName, lastName, imgUrl, birthday, grade);
 
         ArrayList<String> uLessonsId = new ArrayList<String>();
         for (int i = 0; i < randomNumber(random, 1, 15); i++)

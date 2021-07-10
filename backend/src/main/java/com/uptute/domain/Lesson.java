@@ -14,6 +14,6 @@ public class Lesson {
     private float duration;
     private float invoice;
 
-    private int rating;
+    private Integer rating;
     private String review;
 }

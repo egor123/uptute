@@ -10,7 +10,8 @@ public class TutorShortInfoResponse{
     private String firstName;
     private String lastName;
     private String imgUrl;
-    private float rating;
+    private String moto;
+    private Float rating;
     private float pph;
     private float hours;
     private int comments;

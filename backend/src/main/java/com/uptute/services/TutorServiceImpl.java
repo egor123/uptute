@@ -55,7 +55,7 @@ public class TutorServiceImpl implements TutorService {
         ArrayList<Lesson> lessons = lessonRepository.getByTutor(UUID);
 
         return new TutorShortInfoResponse(usr.getUUID(), acDet.getFirstName(), acDet.getLastName(), acDet.getImgUrl(),
-                getRating(lessons), tutDet.getPph(), getHours(lessons), lessons.size());
+                tutDet.getMoto(), getRating(lessons), tutDet.getPph(), getHours(lessons), lessons.size());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class TutorServiceImpl implements TutorService {
         ArrayList<TutorCommentResponse> comments = new ArrayList<>();
         for (var id : lessonsId) {
             Lesson l = lessonRepository.get(id);
-            if (l.getRating() != 0) {
+            if (l.getRating() != null) {
                 var acDet = accauntRepository.get(l.getUserUUID()).getAccauntDetails();
                 comments.add(new TutorCommentResponse(l.getId(), l.getUserUUID(), acDet.getFirstName(),
                         acDet.getLastName(), l.getRating(), l.getReview()));

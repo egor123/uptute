@@ -12,4 +12,5 @@ public class AccauntDetails {
     private String lastName;
     private String imgUrl;
     private LocalDate birthday;
+    private Integer grade;
 }
