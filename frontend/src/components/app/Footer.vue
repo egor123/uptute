@@ -111,9 +111,6 @@ export default {
     list-style-type: none;
     padding: 0;
   }
-  h3 {
-    font-size: 1.2rem;
-  }
 }
 #container-icons {
   text-align: right;

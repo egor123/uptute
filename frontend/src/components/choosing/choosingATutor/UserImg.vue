@@ -5,7 +5,7 @@
     </template>
 
     <template v-slot:title>
-      <AboutTutorTitle :name="tutor.name" />
+      <AboutTutorTitle :tutor="tutor" />
     </template>
     <template v-slot:text>
       <AboutTutorContent :tutor="tutor" />
@@ -34,7 +34,8 @@ export default {
 .userImg {
   width: 50px;
   height: 50px;
-  margin: auto;
+  margin: 0;
+  padding: 0;
   cursor: pointer;
 
   border-radius: 50%;

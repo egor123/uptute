@@ -1,6 +1,6 @@
 <template>
   <div id="mainInfo">
-    <p>{{ location }}, {{ grade }}</p>
+    <p>{{ age }} {{ $l("find.filters.tutor_age.p") }}</p>
     <Rating :value="rating" />
     <div>
       <img src="@/assets/icons/clock.svg" />
@@ -16,7 +16,7 @@ import Rating from "@/components/choosing/choosingATutor/Rating.vue";
 export default {
   props: {
     location: String,
-    grade: String,
+    age: Number,
     rating: Number,
     hours: Number,
     pph: Number,

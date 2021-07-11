@@ -216,7 +216,7 @@
       },
       "tutor_age": {
         "h": "Tutor's age",
-        "p": "y.o."
+        "p": " y.o."
       },
       "filters": {
         "h": "Sort by",

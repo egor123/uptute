@@ -1,14 +1,14 @@
 <template>
   <div id="subheader">
     <img @click="goToAboutTutor()" src="@/assets/icons/user.svg" />
-    <h3 id="title">{{ name }}</h3>
+    <h3 id="title">{{ tutor.firstName }} {{ tutor.lastName }}</h3>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    name: String,
+    tutor: Object,
   },
 };
 </script>

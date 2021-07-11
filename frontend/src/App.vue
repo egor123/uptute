@@ -46,6 +46,24 @@ html {
   body {
     height: 100%;
   }
+  p {
+    font-size: 1rem;
+  }
+  h3 {
+    font-size: 1rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+  h1 {
+    font-size: 2rem;
+    color: var(--v-accent-base);
+  }
+  h3,
+  h2,
+  h1 {
+    font-weight: 600;
+  }
 }
 
 #app {

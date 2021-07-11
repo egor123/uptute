@@ -12,7 +12,7 @@
     </tr>
     <tr>
       <th>{{ $l("find.filters.price.h") }}</th>
-      <td>60 UC / h</td>
+      <td>{{ tutor.pph }} UC/{{ $l("tutor.hour") }}</td>
       <td>
         <v-tooltip content-class="priceTooltip" right>
           <template v-slot:activator="{ on, attrs }">
@@ -26,6 +26,14 @@
     </tr>
   </table>
 </template>
+
+<script>
+export default {
+  props: {
+    tutor: Object,
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 table {

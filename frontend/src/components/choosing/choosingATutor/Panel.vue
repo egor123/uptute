@@ -5,9 +5,9 @@
         <UserImg :tutor="tutor" />
 
         <div>
-          <p class="pph">{{ tutor.pph }}&euro;/{{ $l("tutor.hour") }}</p>
-          <h3>{{ tutor.name }}</h3>
-          <p>{{ tutor.location }}, {{ tutor.grade }}</p>
+          <p class="pph">{{ tutor.pph }} UC/{{ $l("tutor.hour") }}</p>
+          <h3>{{ tutor.firstName }} {{ tutor.lastName }}</h3>
+          <p>{{ tutor.age }} {{ $l("find.filters.tutor_age.p") }}</p>
         </div>
       </div>
     </template>
@@ -23,7 +23,7 @@
           />
           <p>{{ tutor.hours }}{{ $l("tutor.hour") }}</p>
         </div>
-        <Rating :value="tutor.rating" />
+        <Rating :value="tutor.rating" class="rating" />
         <div>
           <img
             width="20px"
@@ -85,9 +85,14 @@ export default {
 
 .tutor {
   display: flex;
-  justify-content: space-between;
+  position: relative;
   flex-wrap: wrap;
-  margin-top: 10px;
+  justify-content: space-between;
+  .rating {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
   div {
     display: flex;
   }
