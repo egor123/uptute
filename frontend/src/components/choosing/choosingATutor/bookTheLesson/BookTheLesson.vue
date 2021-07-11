@@ -43,9 +43,5 @@ export default {
   .userImg {
     margin-right: 1rem;
   }
-  h3 {
-    font-weight: 600;
-    font-size: 1rem;
-  }
 }
 </style>

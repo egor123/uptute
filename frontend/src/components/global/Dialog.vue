@@ -1,7 +1,7 @@
 <template>
   <v-dialog>
     <template v-slot:activator="{ on, attrs }">
-      <div v-bind="attrs" v-on="on">
+      <div class="activator" v-bind="attrs" v-on="on">
         <slot name="object" />
       </div>
     </template>
@@ -22,6 +22,10 @@
 #cardText {
   padding: 2rem;
   background: var(--v-background-base);
+}
+
+[role="button"] {
+  height: max-content;
 }
 
 ::v-deep {

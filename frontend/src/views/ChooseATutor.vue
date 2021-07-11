@@ -117,24 +117,17 @@ $inner-content-width: 350px;
 
 @media (max-width: 400px) {
   .innerContent {
-    transform: scale(0.9);
-    margin: 5rem -0.9rem;
+    width: 100vh;
+    padding: 0 1rem;
   }
 }
 
 @media (max-width: 330px) {
-  .innerContent {
-    transform: scale(0.8);
-    margin: -0.5rem -2rem;
-  }
 }
 
 @media (max-width: 300px) {
-  .innerContent {
-    transform: scale(0.7);
-    margin: -6rem -3.1rem;
-  }
 }
+
 ::v-deep {
   @media (max-width: 1200px) {
     .lessonInfo {

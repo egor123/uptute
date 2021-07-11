@@ -180,9 +180,6 @@ $radio-margin: 0.5rem;
   @media (max-width: $max-width-padding) {
     padding: $vertical-padding 1rem;
   }
-  h1 {
-    color: var(--v-accent-base);
-  }
   #container {
     position: relative;
     display: flex;

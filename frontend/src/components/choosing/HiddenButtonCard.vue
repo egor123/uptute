@@ -16,7 +16,7 @@ export default {
     BookButton,
   },
   props: {
-    tutor: Object, 
+    tutor: Object,
   },
 };
 </script>
@@ -47,7 +47,7 @@ export default {
     }
 
     .moving {
-      margin: 56px 0 -36px 0;
+      margin: 76px 0 -36px 0;
     }
 
     .button {
@@ -69,7 +69,7 @@ export default {
 
     &:hover {
       .moving {
-        transform: translateY(-46px);
+        transform: translateY(-56px);
         transition: all 600ms ease 0ms;
       }
       .button {

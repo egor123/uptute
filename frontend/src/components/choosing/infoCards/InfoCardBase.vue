@@ -6,7 +6,6 @@
 
 <style lang="scss" scoped>
 .baseCard {
-  width: 350px;
   height: max-content;
   border-radius: 15px;
   margin-bottom: 6px;

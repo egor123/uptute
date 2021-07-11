@@ -23,7 +23,7 @@
           />
           <p>{{ tutor.hours }}{{ $l("tutor.hour") }}</p>
         </div>
-        <Rating :value="tutor.rating" />
+        <Rating :value="tutor.rating" class="rating" />
         <div>
           <img
             width="20px"
@@ -85,9 +85,14 @@ export default {
 
 .tutor {
   display: flex;
-  justify-content: space-between;
+  position: relative;
   flex-wrap: wrap;
-  margin-top: 10px;
+  justify-content: space-between;
+  .rating {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
   div {
     display: flex;
   }

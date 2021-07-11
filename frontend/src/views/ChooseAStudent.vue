@@ -60,11 +60,6 @@ $inner-content-width: 350px;
   width: $inner-content-width;
 }
 
-h3 {
-  font-size: 1rem;
-  font-weight: normal;
-}
-
 .price {
   display: flex;
   *:last-child {
