@@ -247,7 +247,8 @@
     "student": {
       "header": "Pakku oma abi",
       "price": "Jooksev tunnihind",
-      "grade": "klass"
+      "grade": "klass",
+      "button": "Uuri lähedamalt"
     }
   },
   "tutor": {

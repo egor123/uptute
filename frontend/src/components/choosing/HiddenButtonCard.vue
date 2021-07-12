@@ -4,22 +4,9 @@
     <div class="moving">
       <slot name="moving" />
     </div>
-    <BookButton :tutor="tutor" />
+    <slot name="activator" />
   </div>
 </template>
-
-<script>
-import BookButton from "@/components/choosing/choosingATutor/BookButton.vue";
-
-export default {
-  components: {
-    BookButton,
-  },
-  props: {
-    tutor: Object,
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 ::v-deep {

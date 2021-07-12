@@ -46,6 +46,9 @@
           </div>
         </div>
       </template>
+      <template v-slot:activator>
+        <DetailsButton :student="student" />
+      </template>
     </HiddenButtonCard>
   </div>
 </template>
@@ -53,11 +56,13 @@
 <script>
 import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
 import Dialog from "@/components/global/Dialog.vue";
+import DetailsButton from "@/components/choosing/choosingAStudent/DetailsButton.vue";
 
 export default {
   components: {
     HiddenButtonCard,
     Dialog,
+    DetailsButton,
   },
   props: {
     students: Array,
@@ -103,9 +108,6 @@ table {
   .subject {
     @include flexbox;
     width: 100%;
-    p {
-      margin-bottom: 0;
-    }
   }
 }
 </style>

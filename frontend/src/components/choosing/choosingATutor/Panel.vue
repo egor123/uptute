@@ -35,6 +35,9 @@
         </div>
       </div>
     </template>
+    <template v-slot:activator>
+      <BookButton :tutor="tutor" />
+    </template>
   </HiddenButtonCard>
 </template>
 
@@ -42,6 +45,7 @@
 import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
 import Rating from "./Rating.vue";
 import UserImg from "@/components/choosing/choosingATutor/UserImg.vue";
+import BookButton from "@/components/choosing/choosingATutor/BookButton.vue";
 
 export default {
   data() {
@@ -53,6 +57,7 @@ export default {
     HiddenButtonCard,
     Rating,
     UserImg,
+    BookButton,
   },
   props: {
     tutor: Object,

@@ -99,6 +99,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+h1 {
+  color: var(--V-primary-base);
+}
+
 .img {
   background-image: url("../assets/images/home.jpg");
   height: 100vh;

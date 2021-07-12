@@ -244,7 +244,8 @@
     "student": {
       "header": "Offer a lesson",
       "price": "Current price per hour",
-      "grade": "grade"
+      "grade": "grade",
+      "button": "Details"
     }
   },
   "tutor": {
