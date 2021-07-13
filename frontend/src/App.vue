@@ -46,10 +46,10 @@ html {
   body {
     height: 100%;
   }
-  p {
-    font-size: 1rem;
-  }
-  h3 {
+  p,
+  h3,
+  div,
+  span {
     font-size: 1rem;
   }
   h2 {

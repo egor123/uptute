@@ -7,13 +7,13 @@
 
     <InfoTable :tutor="tutor" />
 
-    <ConfirmButton :tutor="tutor" />
+    <ConfirmButton :link="tutor.zoomLink" />
   </div>
 </template>
 
 <script>
 import InfoTable from "@/components/choosing/choosingATutor/bookTheLesson/InfoTable.vue";
-import ConfirmButton from "@/components/choosing/choosingATutor/bookTheLesson/ConfirmButton.vue";
+import ConfirmButton from "@/components/choosing/ConfirmButton.vue";
 import UserImg from "@/components/choosing/choosingATutor/UserImg.vue";
 
 export default {

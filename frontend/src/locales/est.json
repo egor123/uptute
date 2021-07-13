@@ -248,7 +248,12 @@
       "header": "Pakku oma abi",
       "price": "Jooksev tunnihind",
       "grade": "klass",
-      "button": "Uuri lähedamalt"
+      "button": "Uuri lähedamalt",
+      "dialog": {
+        "offer": "Pakku oma abi",
+        "title": "Su abipakkumine on saadetud",
+        "text": "Sind teavitatakse, kui su pakkumine võetaks vastu"
+      }
     }
   },
   "tutor": {
@@ -272,7 +277,7 @@
     "card_int": ["Kaardi number...", "KK/AA", "CVC"],
     "cost": "Hind",
     "tooltip": "Eratunni hind arvutatakse sessiooni lõpus arvestades selle pikkust",
-    "button": "Kinnita broneering",
+    "confirm": "Kinnita broneering",
     "dialog": {
       "title": "Su eratunni link",
       "here": "siit",
