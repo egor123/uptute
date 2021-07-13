@@ -16,7 +16,6 @@
       />
 
       <v-dialog v-model="expandImg" fullscreen>
-        <!-- rewrite so hat will be only one scroller -->
         <v-card>
           <v-card-text>
             <div id="outsideWrapper" ref="outsideWrapper">
@@ -29,14 +28,47 @@
                 </v-btn>
               </div>
             </div>
+            <NavButtons />
+            <div id="radio-buttons">
+              <input
+                type="radio"
+                name="radio"
+                v-for="(c, i) in imgs"
+                :key="i + 1"
+                :value="i + 1"
+                v-model="currentImg"
+                :ref="`radio${i}`"
+              />
+            </div>
           </v-card-text>
         </v-card>
       </v-dialog>
     </div>
+
+    <Dialog>
+      <template v-slot:object>
+        <v-btn rounded outlined color="accent">
+          {{ $l("choose_a.student.dialog.offer") }}
+        </v-btn>
+      </template>
+
+      <template v-slot:title>
+        {{ $l("choose_a.student.dialog.title") }}
+      </template>
+
+      <template v-slot:text>
+        {{ $l("choose_a.student.dialog.text") }}
+      </template>
+    </Dialog>
   </div>
 </template>
 
 <script>
+import NavButtons from "@/components/global/NavButtons.vue";
+import { bus } from "@/main.js";
+
+import Dialog from "@/components/global/Dialog.vue";
+
 export default {
   data() {
     return {
@@ -47,6 +79,10 @@ export default {
       xPosition: 0,
     };
   },
+  components: {
+    NavButtons,
+    Dialog,
+  },
   methods: {
     expand() {
       this.expandImg = true;
@@ -55,13 +91,15 @@ export default {
       }, 1);
     },
     swipe(e) {
-      var elem = document.getElementById("outsideWrapper");
+      if (document.getElementById("outsideWrapper") != null) {
+        var elem = document.getElementById("outsideWrapper");
 
-      this.xChange = e.x;
-      var currentPos = -1 * (this.xPosition + this.xChange);
+        this.xChange = e.x;
+        var currentPos = -1 * (this.xPosition + this.xChange);
 
-      elem.style.transition = "all 0ms";
-      elem.style.transform = "translateX(" + currentPos + "px)";
+        elem.style.transition = "all 0ms";
+        elem.style.transform = "translateX(" + currentPos + "px)";
+      }
     },
     touchend() {
       var w = Math.max(
@@ -79,14 +117,15 @@ export default {
       }
 
       this.xPosition = (this.currentImg - 1) * w;
-      console.log(this.xPosition);
 
       var elem = document.getElementById("outsideWrapper");
-      if (this.xChange != 0) {
-        elem.style.transition = "all 1s";
-      }
+      if (elem != null) {
+        if (this.xChange != 0) {
+          elem.style.transition = "all 1s";
+        }
 
-      elem.style.transform = "translateX(" + -this.xPosition + "px)";
+        elem.style.transform = "translateX(" + -this.xPosition + "px)";
+      }
 
       this.xChange = 0;
     },
@@ -114,16 +153,40 @@ export default {
         this.touchend();
       }
     },
+    navBtnClick(data) {
+      var potImg = this.currentImg - data;
+
+      if (potImg > 0 && potImg <= this.imgs.length) {
+        var w = Math.max(
+          document.documentElement.clientWidth,
+          window.innerWidth || 0
+        );
+
+        this.xChange = -data * w;
+        this.touchend();
+      }
+
+      console.log(this.currentImg);
+    },
   },
   mounted() {
     this.$mb.addSwipeListner(this.swipe, this.$refs.outsideWrapper);
     document.addEventListener("touchend", this.touchend);
     window.addEventListener("resize", this.widowResized);
+    bus.$on("currentChange", (data) => {
+      this.navBtnClick(data);
+    });
   },
   beforeDestroy() {
     document.removeEventListener("touchend", this.touchend);
     window.removeEventListener("resize", this.widowResized);
   },
+  // watch: {
+  //   currentImg: function() {
+  //     var elem = document.getElementById("outsideWrapper");
+  //     elem.style.transition = "all 1s";
+  //   },
+  // },
 };
 </script>
 
@@ -163,7 +226,73 @@ p {
   }
 }
 
+#radio-buttons {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+$buttons-offset: calc(50vw - 550px);
+$buttons-offset-at-1400px: 5%;
+$buttons-offset-at-900px: 2%;
+
 ::v-deep {
+  input[type="radio"]::after {
+    background: var(--v-accent-base);
+  }
+
+  #nav-buttons {
+    .btn {
+      position: fixed;
+
+      &[action="previous"] {
+        left: $buttons-offset;
+        @media (max-width: 1400px) {
+          left: $buttons-offset-at-1400px;
+        }
+        @media (max-width: 900px) {
+          left: $buttons-offset-at-900px;
+        }
+
+        animation: fromLeft 0.5s ease-in both;
+
+        @keyframes fromLeft {
+          from {
+            transform: translateX(-4rem);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0rem);
+            opacity: 1;
+          }
+        }
+      }
+      &[action="next"] {
+        right: $buttons-offset;
+        @media (max-width: 1400px) {
+          right: $buttons-offset-at-1400px;
+        }
+        @media (max-width: 900px) {
+          right: $buttons-offset-at-900px;
+        }
+
+        animation: fromRight 0.5s ease-in both;
+
+        @keyframes fromRight {
+          from {
+            transform: translateX(4rem);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0rem);
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
   .v-dialog {
     background: var(--v-header-base);
     @include flexbox;
@@ -180,10 +309,11 @@ p {
         overflow: hidden;
         #outsideWrapper {
           @include flexbox;
+          position: relative;
           .expandedImg {
             position: relative;
             border-right: 1px solid var(--v-header-base);
-            border-left: 1px solid var(--v-secondary-darken1);
+            border-left: 1px solid var(--v-header-base);
 
             width: 100vw;
             height: 141vw; //1.41 -- A4 ratio

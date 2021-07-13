@@ -29,7 +29,7 @@ export default {
       students: [
         {
           name: "NoName",
-          date: "07. 09. 2021",
+          date: { date: "mkm" },
           time: {
             start: "16.00",
             end: "17.30",
@@ -42,7 +42,37 @@ export default {
           },
         },
       ],
+      weekdays: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
+      months: [
+        "jan",
+        "feb",
+        "mar",
+        "apr",
+        "may",
+        "jun",
+        "jul",
+        "aug",
+        "sept",
+        "oct",
+        "nov",
+        "dec",
+      ],
     };
+  },
+  methods: {
+    settingDate() {
+      var date = new Date();
+      this.students[0].date = {
+        weekday: this.weekdays[date.getDay()],
+        day: date.getDate(),
+        month: this.months[date.getMonth()],
+        year: date.getFullYear(),
+      };
+    },
+  },
+  beforeMount() {
+    this.settingDate();
+    // console.log(this.date);
   },
   mounted() {
     for (var i = 0; i < 5; i++) {
