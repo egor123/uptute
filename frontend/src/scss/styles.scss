@@ -71,7 +71,7 @@ input[type="radio"] {
   $size: 8px;
   $margin: 6px;
   $default-amount: 92;
-  $checked-amount: 83;
+  // $checked-amount: 83;
   $transition-time: 0.4s;
 
   // --------------------
@@ -89,7 +89,8 @@ input[type="radio"] {
     cursor: pointer;
   }
   &::after {
-    background-color: lighten($color: #000000, $amount: $checked-amount);
+    // background-color: lighten($color: #000000, $amount: $checked-amount);
+    background-color: var(--v-accent-base);
     transition: all $transition-time ease-in-out;
   }
   &:not(:checked)::after {

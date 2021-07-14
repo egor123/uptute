@@ -67,6 +67,7 @@ export default {
 
 $nav-btn-size: 4rem;
 $buttons-size: 0.6;
+$nav-btn-hover-offset: 0.6rem;
 
 #nav-buttons {
   .btn {
@@ -84,25 +85,25 @@ $buttons-size: 0.6;
     &::after {
       top: 0;
       text-align: center;
-      opacity: 0.3;
+      opacity: 0.25;
       transition-property: transform opacity;
-      transition-duration: 0.6s;
+      transition-duration: 0.5s;
       transition-timing-function: ease-in-out;
       user-select: none;
     }
     &[action="previous"]::after {
       content: "\002039";
-      transform: scale($buttons-size);
+      transform: scale($buttons-size) translateX($nav-btn-hover-offset);
     }
 
     &[action="next"]::after {
       content: "\00203A";
-      transform: scale($buttons-size);
+      transform: scale($buttons-size) translateX(-$nav-btn-hover-offset);
     }
-  }
-  &:hover::after {
-    transform: scale(0.6) translateX(0);
-    opacity: 0.35;
+    &:hover::after {
+      transform: scale(0.6) translateX(0);
+      opacity: 0.35;
+    }
   }
 }
 </style>
