@@ -451,18 +451,18 @@
       }
     },
     "subjects": {
-      "math": "Maths",
-      "biol": "Biology",
-      "esl": "English",
-      "phys": "Physics",
-      "geog": "Geography",
-      "chem": "Chemestry",
-      "cis": "Computer Science"
+      "MATH": "Maths",
+      "BIOL": "Biology",
+      "ESL": "English",
+      "PHYS": "Physics",
+      "GEOG": "Geography",
+      "CHEM": "Chemestry",
+      "CIS": "Computer Science"
     },
     "languages": {
-      "en": "English",
-      "est": "Estonian",
-      "ru": "Russian"
+      "EN": "English",
+      "EST": "Estonian",
+      "RU": "Russian"
     }
   },
   "about_tutor": {

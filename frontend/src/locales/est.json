@@ -374,18 +374,18 @@
       }
     },
     "subjects": {
-      "math": "Matemaatika",
-      "biol": "Bioloogia",
-      "esl": "Inglise keel",
-      "phys": "Füüsika",
-      "geog": "Geografia",
-      "chem": "Keemia",
-      "cis": "Informaatika"
+      "MATH": "Matemaatika",
+      "BIOL": "Bioloogia",
+      "ESL": "Inglise keel",
+      "PHYS": "Füüsika",
+      "GEOG": "Geografia",
+      "CHEM": "Keemia",
+      "CIS": "Informaatika"
     },
     "languages": {
-      "en": "Inglise keel",
-      "est": "Eesti keel",
-      "ru": "Vene keel"
+      "EN": "Inglise keel",
+      "EST": "Eesti keel",
+      "RU": "Vene keel"
     }
   },
   "about_tutor": {
