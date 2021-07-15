@@ -5,7 +5,7 @@
         <UserImg :tutor="tutor" />
 
         <div>
-          <p class="pph">{{ tutor.pph }} UC/{{ $l("tutor.hour") }}</p>
+          <p class="pph">{{ pph }} UC/{{ $l("tutor.hour") }}</p>
           <h3>{{ tutor.firstName }} {{ tutor.lastName }}</h3>
           <p>{{ tutor.age }} {{ $l("find.filters.tutor_age.p") }}</p>
         </div>
@@ -51,6 +51,7 @@ export default {
   data() {
     return {
       windowTop: 0,
+      pph: 0,
     };
   },
   components: {
@@ -60,8 +61,11 @@ export default {
     BookButton,
   },
   props: {
-    tutor: Object,
     tooltipUse: String,
+    tutor: Object,
+  },
+  created() {
+    this.pph = Math.round(this.tutor.pph);
   },
 };
 </script>

@@ -84,12 +84,12 @@ export default {
       if (val === "close") next();
     });
   },
-  beforeDestroy() {
-    window.removeEventListener("beforeunload", this.preventNav);
-  },
   mounted() {
     window.addEventListener("beforeunload", this.preventNav);
     this.$store.dispatch("startSearch", null);
+  },
+  beforeDestroy() {
+    window.removeEventListener("beforeunload", this.preventNav);
   },
 };
 </script>
