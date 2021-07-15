@@ -194,6 +194,8 @@
         "h": "Subject",
         "search": "Search"
       },
+      "topic": "Topic",
+      "details": "Details",
       "language": {
         "h": "Language"
       },

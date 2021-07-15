@@ -12,7 +12,7 @@
     </tr>
     <tr>
       <th>{{ $l("find.filters.price.h") }}</th>
-      <td>{{ tutor.pph }} UC/{{ $l("tutor.hour") }}</td>
+      <td>{{ pph }} UC/{{ $l("tutor.hour") }}</td>
       <td>
         <v-tooltip content-class="priceTooltip" right>
           <template v-slot:activator="{ on, attrs }">
@@ -29,8 +29,16 @@
 
 <script>
 export default {
+  data() {
+    return {
+      pph: 0,
+    };
+  },
   props: {
     tutor: Object,
+  },
+  created() {
+    this.pph = Math.round(this.tutor.pph);
   },
 };
 </script>

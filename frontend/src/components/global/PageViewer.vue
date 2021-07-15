@@ -210,11 +210,22 @@ export default {
       }
     }
     &.addImg {
+      cursor: pointer;
       width: 70.9px;
       border: 2px dashed var(--v-accent-base);
       @include flexbox;
+
+      transition: 200ms ease-in-out;
       #plusIcon {
         color: var(--v-accent-base);
+
+        transition: 500ms ease-in-out;
+      }
+      &:hover {
+        background: var(--v-secondary-darken1);
+        #plusIcon {
+          transform: rotate(-180deg);
+        }
       }
     }
   }
@@ -230,15 +241,19 @@ export default {
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
+  ::before {
+    background-color: var(--v-secondary-base);
+  }
 }
 
-$buttons-offset: calc(50vw - 550px);
-$buttons-offset-at-1400px: 5vw;
+$buttons-offset: 5vw;
 $buttons-offset-at-900px: 2vw;
 
 ::v-deep {
   #nav-buttons {
     .btn {
+      top: 50%;
+      transform: translateY(-50%);
       @media (pointer: none), (pointer: coarse) {
         display: none;
       }
@@ -246,9 +261,6 @@ $buttons-offset-at-900px: 2vw;
 
       &[action="previous"] {
         left: $buttons-offset;
-        @media (max-width: 1400px) {
-          left: $buttons-offset-at-1400px;
-        }
         @media (max-width: 900px) {
           left: $buttons-offset-at-900px;
         }
@@ -268,9 +280,6 @@ $buttons-offset-at-900px: 2vw;
       }
       &[action="next"] {
         right: $buttons-offset;
-        @media (max-width: 1400px) {
-          right: $buttons-offset-at-1400px;
-        }
         @media (max-width: 900px) {
           right: $buttons-offset-at-900px;
         }
@@ -292,13 +301,13 @@ $buttons-offset-at-900px: 2vw;
   }
 
   .v-dialog {
-    background: var(--v-header-base);
+    overflow: hidden;
+    background: var(--v-background-base);
     @include flexbox;
     .v-card {
-      // border-radius: 0;
-      // min-width: 0;
+      //   overflow: hidden;
       min-height: 0;
-      background: var(--v-header-base);
+      background: var(--v-background-base);
 
       box-shadow: none;
       .v-card__text {
@@ -311,21 +320,23 @@ $buttons-offset-at-900px: 2vw;
           .fullScreen {
             @include flexbox;
 
-            border-right: 1px solid var(--v-header-base);
-            border-left: 1px solid var(--v-header-base);
+            border-right: 1px solid var(--v-background-base);
+            border-left: 1px solid var(--v-background-base);
 
             width: 100vw;
             height: 100vh;
 
-            background: var(--v-secondary-base);
+            background: var(--v-background-base);
 
             .imgContainer {
               position: relative;
               .expandedImg {
-                min-width: 20vw;
-                max-width: 100vw;
-                min-height: 20vh;
-                max-height: 100vh;
+                min-width: 30vw;
+                max-width: 95vw;
+                min-height: 30vh;
+                max-height: 95vh;
+                border-radius: 15px;
+                margin: 5px;
               }
               .close {
                 position: absolute;
