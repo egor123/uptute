@@ -83,9 +83,10 @@ $nav-btn-hover-offset: 0.6rem;
     align-items: center;
     z-index: 99;
     &::after {
+      color: var(--v-accent-base);
       top: 0;
       text-align: center;
-      opacity: 0.25;
+      opacity: 0.8;
       transition-property: transform opacity;
       transition-duration: 0.5s;
       transition-timing-function: ease-in-out;
@@ -102,7 +103,7 @@ $nav-btn-hover-offset: 0.6rem;
     }
     &:hover::after {
       transform: scale(0.6) translateX(0);
-      opacity: 0.35;
+      opacity: 1;
     }
   }
 }
