@@ -21,7 +21,7 @@
             class="mr-1"
             src="@/assets/icons/clock.svg"
           />
-          <p>{{ tutor.hours }}{{ $l("tutor.hour") }}</p>
+          <p>{{ hours }}{{ $l("tutor.hour") }}</p>
         </div>
         <Rating :value="tutor.rating" class="rating" />
         <div>
@@ -52,6 +52,7 @@ export default {
     return {
       windowTop: 0,
       pph: 0,
+      hours: 0,
     };
   },
   components: {
@@ -66,6 +67,7 @@ export default {
   },
   created() {
     this.pph = Math.round(this.tutor.pph);
+    this.hours = Math.round(this.tutor.hours);
   },
 };
 </script>
