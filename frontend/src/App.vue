@@ -52,6 +52,9 @@ html {
   span {
     font-size: 1rem;
   }
+  span.v-btn__content {
+    font-size: 0.9rem;
+  }
   h2 {
     font-size: 1.6rem;
   }

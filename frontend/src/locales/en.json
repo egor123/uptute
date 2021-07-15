@@ -222,7 +222,11 @@
         "h": "Sort by",
         "price": "Price",
         "rating": "Rating",
-        "hours_tought": "Hours tought"
+        "hours_tought": "Hours tought",
+
+        "time": "Time",
+        "subject": "Subject",
+        "grade": "Grade"
       },
       "native": "native speaker",
       "refresh": "Refresh filters"

@@ -1,14 +1,7 @@
 <template>
   <Background :title="$l('find.header')">
     <div id="content">
-      <v-expansion-panels
-        flat
-        hover
-        focusable
-        id="panels"
-        v-for="i in 1"
-        :key="i"
-      >
+      <v-expansion-panels flat id="panels" v-for="i in 1" :key="i">
         <Subjects ref="component" />
         <Languages ref="component" />
         <Price ref="component" />
@@ -118,10 +111,12 @@ export default {
 #refreshBtn {
   background-color: var(--v-background-base);
   color: var(--v-secondary-darken4);
-  transition: background-color 600ms;
   opacity: 0.6;
   margin-top: 0.3rem;
   margin-bottom: 1rem;
+  transform: scale(0.9);
+
+  transition: background-color 600ms;
   &:hover {
     background-color: var(--v-secondary-darken1);
   }

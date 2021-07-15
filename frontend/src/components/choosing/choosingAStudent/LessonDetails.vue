@@ -104,6 +104,7 @@ export default {
 
           this.$mb.addSwipeListner(this.swipe, this.$refs.outsideWrapper);
           document.addEventListener("touchend", this.touchend);
+          document.addEventListener("keydown", (key) => this.keyDown(key));
           window.addEventListener("resize", this.widowResized);
 
           bus.$on("currentChange", (data) => {
@@ -171,6 +172,15 @@ export default {
         this.xChange = 1;
         this.touchend();
       }, 1);
+    },
+    keyDown(key) {
+      if (key.key === "ArrowLeft") {
+        this.xChange = -this.w;
+        this.touchend();
+      } else if (key.key === "ArrowRight") {
+        this.xChange = this.w;
+        this.touchend();
+      }
     },
   },
 

@@ -6,6 +6,7 @@
         <h3>65 UC</h3>
       </InfoCardBase>
       <Searching />
+      <SortBy :filters="filters" />
       <StudentPanels id="panels" :students="students" />
     </div>
   </Background>
@@ -15,6 +16,7 @@
 import Background from "@/components/global/background/Background.vue";
 import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
 import Searching from "@/components/choosing/Searching.vue";
+import SortBy from "@/components/filterPanel/SortBy.vue";
 import StudentPanels from "@/components/choosing/choosingAStudent/StudentPanels.vue";
 
 export default {
@@ -22,10 +24,17 @@ export default {
     Background,
     InfoCardBase,
     Searching,
+    SortBy,
     StudentPanels,
   },
   data() {
     return {
+      filters: [
+        //TO DO!!!!!!!!!
+        { name: "time", dir: "up" },
+        { name: "subject", dir: "up" },
+        { name: "grade", dir: "up" },
+      ],
       students: [
         {
           name: "NoName",

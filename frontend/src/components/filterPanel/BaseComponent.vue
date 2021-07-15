@@ -4,7 +4,7 @@
     id="panel"
     :class="{ errorMovement: errorAnim }"
   >
-    <v-expansion-panel-header id="header" :class="{ errorColor: error }">
+    <v-expansion-panel-header hover="false" :class="{ errorColor: error }">
       {{ label }}
       <div
         class="text-right mr-3 secondary--text text--darken-2"
@@ -120,6 +120,14 @@ export default {
   border-radius: 0;
   margin: 0;
   background: var(--v-header-base);
+  .v-expansion-panel-header {
+    background-color: var(--v-header-base);
+
+    transition: all 300ms;
+    &:hover {
+      background-color: var(--v-headerHover-base);
+    }
+  }
   &:hover {
     transform: scale(0.95);
   }
@@ -145,9 +153,10 @@ export default {
 
 .errorColor {
   color: var(--v-error-base) !important;
+  background-color: #ffcccb1f !important;
 }
 .errorMovement {
-  animation: errorAnimation 1100ms ease-in-out;
+  animation: errorAnimation 1100ms ease-in-out both;
 }
 
 @keyframes errorAnimation {
@@ -164,6 +173,7 @@ export default {
     transform: translateX(-0.3rem);
   }
   100% {
+    transform: translateX(0rem);
   }
 }
 

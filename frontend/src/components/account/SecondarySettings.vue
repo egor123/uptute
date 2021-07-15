@@ -33,14 +33,7 @@
       </div>
     </div>
 
-    <v-expansion-panels
-      flat
-      hover
-      focusable
-      id="panels"
-      v-for="i in 1"
-      :key="i"
-    >
+    <v-expansion-panels flat id="panels" v-for="i in 1" :key="i">
       <SubjectsYouTeach ref="component" />
       <Audience ref="component" />
       <Languages ref="component" />

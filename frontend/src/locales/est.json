@@ -224,7 +224,11 @@
         "h": "Sorteeri",
         "price": "Hind",
         "rating": "Reiting",
-        "hours_tought": "Õpetamiskogemus"
+        "hours_tought": "Õpetamiskogemus",
+
+        "time": "Aeg",
+        "subject": "Aine",
+        "grade": "Klass"
       },
       "native": "emakeele kõneleja",
       "refresh": "Tühjenda filtrid"
