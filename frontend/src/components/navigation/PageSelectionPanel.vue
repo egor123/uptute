@@ -1,71 +1,54 @@
 <template>
   <div class="container">
-    <div class="wrapper">
-      <v-btn-toggle rounded id="panel">
-        <v-row justify="center" no-gutters>
-          <change-page-button :add="-1" />
-          <v-btn-toggle rounded id="main-buttons">
-            <page-selection
-              v-for="index in pages"
-              :key="index.id"
-              :index="index"
-            />
-          </v-btn-toggle>
-          <change-page-button :add="1" />
-        </v-row>
-      </v-btn-toggle>
-      <page-size-selection id="selector" />
+    <div id="buttons">
+      <ChangePageButton
+        v-for="btn in getButtons"
+        :key="btn.index"
+        :type="btn.type"
+        :active="btn.active"
+        @click="btn.action()"
+      />
     </div>
+    <PageSizeSelection v-model="value.itemsPerPage" />
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import PageSelection from "./PageSelection";
 import PageSizeSelection from "./PageSizeSelection";
 import ChangePageButton from "./ChangePageButton";
 export default {
-  data() {
-    return {
-      pages: [],
-    };
-  },
-  components: { PageSelection, PageSizeSelection, ChangePageButton },
-  computed: mapGetters(["getPage", "getPageCount", "getPageSize"]),
-  methods: {
-    setPages(page, count) {
-      this.pages = [];
-      if (count <= 5) {
-        for (var i = 0; i < count; i++) {
-          this.pages.push(i);
-        }
-      } else {
-        for (var n = 0; n < count; n++) {
-          if (n == 0 || n == count - 1 || Math.abs(n - page) <= 1) {
-            if (
-              this.pages.length &&
-              this.pages[this.pages.length - 1] != n - 1
-            ) {
-              this.pages.push(-1);
-            }
-            this.pages.push(n);
-          }
+  props: ["value"],
+  components: { PageSizeSelection, ChangePageButton },
+
+  computed: {
+    getButtons: function () {
+      let pages = [];
+      const count = this.value.pagesCount;
+      if (this.value.page > 0)
+        pages.push({ type: "previous", action: () => this.value.page-- });
+      let last = 0;
+      for (let i = 0; i < count; i++) {
+        if (i === 0 || i === count - 1 || Math.abs(this.value.page - i) <= 1) {
+          if (i - last > 1) pages.push({ type: "disabled", action: () => {} });
+          pages.push({
+            type: "" + (i + 1),
+            active: this.value.page === i,
+            action: () => (this.value.page = i),
+          });
+          last = i;
         }
       }
+      if (this.value.page + 1 < count)
+        pages.push({ type: "next", action: () => this.value.page++ });
+      return pages;
     },
   },
   watch: {
-    getPageCount: {
-      handler(count) {
-        this.setPages(this.getPage, count);
+    value: {
+      deep: true,
+      handler() {
+        this.$emit("input", this.value);
       },
-      immediate: true,
-    },
-    getPage: {
-      handler(page) {
-        this.setPages(page, this.getPageCount);
-      },
-      immediate: true,
     },
   },
 };
@@ -75,21 +58,5 @@ export default {
 .container {
   position: relative;
   height: 60px;
-  min-width: 100%;
-  padding-left: var(--side-margin);
-  padding-right: var(--side-margin);
-}
-.wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-#panel {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: transparent;
-  opacity: 0.8;
 }
 </style>

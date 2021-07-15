@@ -1,13 +1,13 @@
 <template>
     <v-menu transition="slide-y-transition" bottom>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn small v-bind="attrs" v-on="on">{{ getPageSize }}</v-btn>
+        <v-btn small v-bind="attrs" v-on="on">{{ value }}</v-btn>
       </template>
       <v-list>
         <v-list-item
           v-for="(item, index) in items"
           :key="index"
-          v-on:click="fetchPage({ _page: 0, _size: item })"
+          v-on:click="$emit('input', item)"
         >
           <v-list-item-title>{{ item }}</v-list-item-title>
         </v-list-item>
@@ -16,15 +16,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
-      items: [5, 10, 15, 25],
+      items: [2, 5, 10, 15],
     };
   },
-  computed: { ...mapGetters(["getPageSize"]) },
-  methods: mapActions(["fetchPage"]),
+  props: ["value"],
 };
 </script>
 

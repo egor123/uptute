@@ -16,7 +16,8 @@
     />
     <div>
       <h4>{{ $l("tutor.comments") }}</h4>
-      <Comments />
+      <Comments :id="tutor.uuid" v-model="commentsSettings" />
+      <PageSelectionPanel v-model="commentsSettings" />
     </div>
   </div>
 </template>
@@ -27,6 +28,7 @@ import AboutInfo from "@/components/choosing/choosingATutor/aboutTutor/AboutInfo
 import AdditionalInfo from "@/components/choosing/choosingATutor/aboutTutor/AdditionalInfo.vue";
 import Moto from "@/components/choosing/choosingATutor/aboutTutor/Moto.vue";
 import Comments from "@/components/choosing/choosingATutor/aboutTutor/Comments.vue";
+import PageSelectionPanel from "@/components/navigation/PageSelectionPanel.vue";
 
 export default {
   components: {
@@ -35,6 +37,12 @@ export default {
     AboutInfo,
     AdditionalInfo,
     Moto,
+    PageSelectionPanel,
+  },
+  data() {
+    return {
+      commentsSettings: { page: 0, itemsPerPage: 2, pagesCount: 0 },
+    };
   },
   props: {
     tutor: Object,

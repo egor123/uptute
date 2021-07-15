@@ -25,14 +25,11 @@ export default {
         addTutor(state, tutor) { state.tutors.push(tutor); },
         removeTutor(state, tutor) { state.tutors.pop(tutor); },
         updateTutors(state, tutors) { state.tutors = tutors },
-        updateActiveTutor(state, tutor) { state.activeTutor = tutor; }
     },
     state: {
         tutors: [],
-        activeTutor: {},
     },
     getters: {
         getTutors(state) { return state.tutors },
-        getActiveTutor(state) { return state.activeTutor }
     }
 }

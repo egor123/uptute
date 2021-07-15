@@ -10,7 +10,7 @@ import com.uptute.domain.Lesson;
 import com.uptute.domain.Pageable;
 import com.uptute.domain.TutorDetails;
 import com.uptute.domain.AccauntDetails;
-import com.uptute.payloads.PageableRequest;
+import com.uptute.payloads.PageableQueryParams;
 import com.uptute.payloads.PageableResponse;
 import com.uptute.payloads.TutorCommentResponse;
 import com.uptute.payloads.TutorInfoResponse;
@@ -61,7 +61,7 @@ public class TutorServiceImpl implements TutorService {
     }
 
     @Override
-    public PageableResponse<TutorCommentResponse> getComments(String UUID, PageableRequest request) {
+    public PageableResponse<TutorCommentResponse> getComments(String UUID, PageableQueryParams request) {
         TutorDetails tutDet = accauntRepository.get(UUID).getTutorDetails();
         Pageable<TutorCommentResponse> pageable = new Pageable<>(request);
         ArrayList<String> lessonsId = pageable.getClampedArray(tutDet.getLessonsId());
@@ -74,6 +74,6 @@ public class TutorServiceImpl implements TutorService {
                         acDet.getLastName(), l.getRating(), l.getReview()));
             }
         }
-        return pageable.toResponse(comments);
+        return pageable.toResponse(comments, tutDet.getLessonsId().size());
     }
 }

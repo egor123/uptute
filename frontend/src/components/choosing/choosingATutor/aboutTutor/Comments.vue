@@ -1,27 +1,61 @@
 <template>
   <div class="comments">
-    <div class="commenter">
+    <div class="commenter" v-for="comment in comments" :key="comment.lessonsId">
       <div class="tutor">
         <img width="20px" height="20px" src="@/assets/icons/user.svg" alt="" />
-        <p class="name">Captain Jack Sparrow</p>
+        <p class="name">
+          {{ comment.userFirstName }} {{ comment.userLastName }}
+        </p>
       </div>
       <p>
-        Lorem ipsum dolor sit amet! Lorem ipsum dolor sit amet.
-      </p>
-    </div>
-    <div class="commenter">
-      <div class="tutor">
-        <img width="20px" height="20px" src="@/assets/icons/user.svg" alt="" />
-        <p class="name">Bilbo Baggins</p>
-      </div>
-      <p>
-        Lorem ipsum dolor sit Lorem ipsum dolor sit amet consectetur adipisicing
-        elit. Veritatis, ex? Lorem, ipsum dolor sit amet consectetur adipisicing
-        elit.
+        {{ comment.review }}
       </p>
     </div>
   </div>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      comments: [],
+      currentSettings: {},
+    };
+  },
+  props: ["value", "id"],
+  mounted() {
+    this.fetch();
+  },
+  methods: {
+    async fetch() {
+      let { data } = await axios.get(`/api/tutor/${this.id}/comments`, {
+        params: {
+          page: this.value?.page ?? 0,
+          itemsPerPage: this.value?.itemsPerPage ?? 2,
+        },
+      });
+      this.comments = data.items;
+      this.currentSettings = {
+        page: data.page,
+        itemsPerPage: data.itemsPerPage,
+        pagesCount: data.pagesCount,
+      };
+      this.$emit("input", JSON.parse(JSON.stringify(this.currentSettings)));
+    },
+  },
+  watch: {
+    value: {
+      deep: true,
+      handler(val) {
+        if (JSON.stringify(val) != JSON.stringify(this.currentSettings))
+          this.fetch();
+      },
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";

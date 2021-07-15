@@ -7,11 +7,9 @@
             <Panel :tutor="tutor" />
           </div>
         </template>
-
         <span>
           <Moto :moto="tutor.moto" />
-
-          <Comments />
+          <Comments :id="tutor.uuid" />
         </span>
       </v-tooltip>
     </div>
