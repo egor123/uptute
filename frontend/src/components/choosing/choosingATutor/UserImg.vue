@@ -39,7 +39,7 @@ export default {
   cursor: pointer;
 
   border-radius: 50%;
-  border: 2px solid var(--v-primary-base);
+  border: 2px solid var(--v-primary-base); //will be too dark when opacity will be removed !!
   opacity: 0.2;
 
   transition: box-shadow 400ms;

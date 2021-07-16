@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     getSubjects() {
-      return ["math", "biol", "esl", "phys", "geog", "chem", "cis"]; //TO DO!!!!
+      return ["MATH", "BIOL", "ESL", "PHYS", "GEOG", "CHEM", "CIS"]; //TO DO!!!!
     },
     show(item) {
       if (this.search === "") return true;

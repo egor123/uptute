@@ -46,11 +46,14 @@ html {
   body {
     height: 100%;
   }
-  p {
+  p,
+  h3,
+  div,
+  span {
     font-size: 1rem;
   }
-  h3 {
-    font-size: 1rem;
+  span.v-btn__content {
+    font-size: 0.9rem;
   }
   h2 {
     font-size: 1.6rem;

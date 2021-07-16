@@ -35,7 +35,7 @@ export default {
   methods: {
     getLanguages() {
       //TO DO!!!!!!!!!!!!
-      return ["en", "est", "ru"];
+      return ["EN", "EST", "RU"];
     },
   },
 };

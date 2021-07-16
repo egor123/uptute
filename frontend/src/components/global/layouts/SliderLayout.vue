@@ -18,7 +18,7 @@
           />
         </div>
       </div>
-      <div v-animate="'slideInFromBottom'" id="radio-butttons">
+      <div v-animate="'slideInFromBottom'" id="radio-buttons">
         <input
           type="radio"
           name="radio"
@@ -29,26 +29,19 @@
           :ref="`radio${i}`"
         />
       </div>
-      <div id="nav-buttons" v-for="i in 1" :key="i">
-        <button
-          v-animate="'slideInFromLeft'"
-          action="previous"
-          class="btn"
-          ref="btn"
-        />
-        <button
-          v-animate="'slideInFromRight'"
-          action="next"
-          class="btn"
-          ref="btn"
-        />
-      </div>
+      <NavButtons />
     </div>
   </div>
 </template>
 
 <script>
+import NavButtons from "@/components/global/NavButtons.vue";
+import { bus } from "@/main.js";
+
 export default {
+  components: {
+    NavButtons,
+  },
   data() {
     return {
       currentValue: 0,
@@ -67,15 +60,9 @@ export default {
   mounted() {
     this.total = this.elements.length;
     this.setStyles(false);
-
-    this.$refs.btn.forEach((btn) =>
-      btn.addEventListener("click", this.btnIsPressed)
-    );
-  },
-  beforeDestroy() {
-    this.$refs.btn.forEach((btn) =>
-      btn.removeEventListener("click", this.btnIsPressed)
-    );
+    bus.$on("currentChange", (data) => {
+      this.current += data;
+    });
   },
   computed: {
     imageSize() {
@@ -99,30 +86,6 @@ export default {
     },
   },
   methods: {
-    btnIsPressed(event) {
-      const btn = event.currentTarget;
-      switch (btn.getAttribute("action")) {
-        case "next":
-          this.current--;
-          break;
-        case "previous":
-          this.current++;
-          break;
-      }
-      const ripple = document.createElement("div");
-      const d = btn.clientWidth;
-      const r = d / 2;
-      const rect = btn.getBoundingClientRect();
-      ripple.style.width = ripple.style.height = `${d}px`;
-      ripple.style.left = `${event.clientX - (rect.left + r)}px`;
-      ripple.style.top = `${event.clientY - (rect.top + r)}px`;
-      ripple.classList.add("ripple");
-      btn.appendChild(ripple);
-      setTimeout(
-        () => ripple.remove(),
-        getComputedStyle(ripple).animationDuration.replace("s", "") * 1000
-      );
-    },
     setActive(val) {
       for (var i = 0; i < this.total; i++)
         this.$refs[`radio${i}`][0].disabled = !val;
@@ -160,9 +123,6 @@ export default {
 @import "@/scss/styles.scss";
 
 $max-width-padding: 500px;
-$max-width-buttons: 1260px;
-$buttons-offset: 1rem;
-$buttons-size: 0.6;
 
 $vertical-padding: 15rem;
 
@@ -171,12 +131,15 @@ $content-height: 22rem;
 $element-width: 24ch;
 $element-height: 27ch;
 
-$nav-btn-size: 4rem;
+// $radio-size: 2rem;
+// $radio-margin: 0.5rem;
 
-$radio-size: 2rem;
-$radio-margin: 0.5rem;
+$max-width-buttons: 900px;
+$buttons-offset: calc(50vw - 450px);
+$buttons-offset-at-900px: 5%;
+
 #main {
-  padding: $vertical-padding var(--side-margin);
+  padding: $vertical-padding 0; //var(--side-margin)
   @media (max-width: $max-width-padding) {
     padding: $vertical-padding 1rem;
   }
@@ -189,58 +152,33 @@ $radio-margin: 0.5rem;
     height: 100%;
   }
 }
-#radio-butttons {
+
+#radio-buttons {
   display: flex;
   flex-direction: row-reverse;
   margin-top: 15px;
 }
-#nav-buttons {
+
+::v-deep #nav-buttons {
   @media (max-width: $max-width-buttons) {
     display: none;
   }
-  .btn {
-    display: flex;
-    position: absolute;
-    overflow: hidden;
-    font-size: $nav-btn-size;
-    height: 1em;
-    width: 1em;
-    top: 40%;
-    border-radius: 50%;
-    justify-content: center;
-    align-items: center;
-    z-index: 99;
-    &::after {
-      top: 0;
-      text-align: center;
-      opacity: 0.3;
-      transition-property: transform opacity;
-      transition-duration: 0.6s;
-      transition-timing-function: ease-in-out;
-      user-select: none;
+  [action="previous"] {
+    left: $buttons-offset;
+    @media (max-width: 900px) {
+      left: $buttons-offset-at-900px;
     }
-    &[action="previous"] {
-      left: 0;
-      &::after {
-        content: "\002039";
-        transform: translateX($buttons-offset) scale($buttons-size);
-      }
-    }
-    &[action="next"] {
-      right: 0;
-      &::after {
-        content: "\00203A";
-        transform: translateX(-$buttons-offset) scale($buttons-size);
-      }
-    }
-    &:hover::after {
-      transform: scale(0.6) translateX(0);
-      opacity: 0.35;
+  }
+  [action="next"] {
+    right: $buttons-offset;
+    @media (max-width: 900px) {
+      right: $buttons-offset-at-900px;
     }
   }
 }
+
 #content {
-  width: 100%;
+  width: 100vw;
   height: $content-height;
   overflow: hidden;
   position: relative;
@@ -251,17 +189,14 @@ $radio-margin: 0.5rem;
     position: absolute;
     width: $element-width;
     height: $element-height;
-    background-color: rgba($color: #000000, $alpha: 0.1);
     border-radius: 0.5em;
     padding: 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    @media (min-width: 1000px) {
-      backdrop-filter: blur(2px);
-      background-color: rgba($color: #000000, $alpha: 0.02);
-    }
+    backdrop-filter: blur(2px);
+    background-color: rgba($color: #000000, $alpha: 0.015);
     &.transition {
       transition: 0.6s transform ease-in-out;
     }
@@ -277,21 +212,6 @@ $radio-margin: 0.5rem;
     height: 100%;
     z-index: 99;
     box-shadow: inset 0px 0px 1rem 1rem white;
-  }
-}
-</style>
-<style lang="scss">
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  transform: scale(0);
-  background-color: rgba($color: #000000, $alpha: 0.03);
-  animation: ripple 1s ease-in;
-}
-@keyframes ripple {
-  to {
-    transform: scale(4);
-    opacity: 0;
   }
 }
 </style>

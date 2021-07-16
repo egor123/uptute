@@ -6,8 +6,8 @@
         <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
       </InfoCardBase>
       <Searching />
-      <v-expansion-panels class="panels" flat focusable hover>
-        <SortBy />
+      <v-expansion-panels class="panels" flat>
+        <SortBy :filters="filters" />
       </v-expansion-panels>
       <Panels id="panels" :tutors="$store.getters.getTutors" />
     </div>
@@ -52,6 +52,13 @@ export default {
       showAlert: false,
       closeButton: false,
       backButton: false,
+
+      filters: [
+        //TO DO!!!!!!!!!
+        { name: "rating", dir: "up" },
+        { name: "price", dir: "up" },
+        { name: "hours_tought", dir: "up" },
+      ],
     };
   },
   methods: {
@@ -77,12 +84,12 @@ export default {
       if (val === "close") next();
     });
   },
-  beforeDestroy() {
-    window.removeEventListener("beforeunload", this.preventNav);
-  },
   mounted() {
     window.addEventListener("beforeunload", this.preventNav);
     this.$store.dispatch("startSearch", null);
+  },
+  beforeDestroy() {
+    window.removeEventListener("beforeunload", this.preventNav);
   },
 };
 </script>
@@ -105,10 +112,6 @@ $inner-content-width: 350px;
 .innerContent {
   margin: calc(106px + 3rem) auto auto auto;
   width: $inner-content-width;
-}
-
-.panels {
-  border-radius: 15px;
 }
 
 #panels {

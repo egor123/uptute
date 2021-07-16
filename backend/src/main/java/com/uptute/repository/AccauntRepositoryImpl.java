@@ -58,7 +58,7 @@ public class AccauntRepositoryImpl implements AccauntRepository {
         for (int i = 0; i < randomNumber(random, 1, 15); i++)
             tLessonsId.add(faker.lorem().characters(idSize));
         String zoomLink = "http://zoom.com";
-        float pph = randomNumber(random, 2f, 10f);
+        float pph = randomNumber(random, 40f, 90f);
         ArrayList<Subjects> subjects = getRandomEnumArray(Subjects.class, random);
         ArrayList<Languages> languages = getRandomEnumArray(Languages.class, random);
         Audience audience = new Audience(randomNumber(random, 1, 12), randomNumber(random, 1, 12));
