@@ -1,18 +1,16 @@
 <template>
   <Background :title="$l('find.header')">
     <div id="content">
-      <v-expansion-panels
-        flat
-        hover
-        focusable
-        id="panels"
-        v-for="i in 1"
-        :key="i"
-      >
+      <v-expansion-panels flat id="panels" v-for="i in 1" :key="i">
         <Subjects ref="component" />
-        <Languages ref="component" />
-        <Price ref="component" />
+        <TextField id="topic" :label="$l('find.filters.topic')" />
+        <Textarea id="details" :label="$l('find.filters.details')" />
+
+        <PageViewer class="pageViewer" :imgs="imgs" :upload="true" />
+
+        <Languages class="languages" ref="component" />
         <Age ref="component" />
+        <Price ref="component" />
       </v-expansion-panels>
       <v-btn @click="refresh()" small text rounded id="refreshBtn">
         {{ $l("find.filters.refresh") }}
@@ -37,7 +35,13 @@
 
 <script>
 import Background from "@/components/global/background/Background.vue";
+
+import TextField from "@/components/global/textInput/TextField.vue";
+import Textarea from "@/components/global/textInput/Textarea.vue";
 import Subjects from "@/components/filterPanel/Subjects";
+
+import PageViewer from "@/components/global/PageViewer.vue";
+
 import Languages from "@/components/filterPanel/Languages";
 import Price from "@/components/filterPanel/Price";
 import Age from "@/components/filterPanel/Age";
@@ -49,7 +53,13 @@ export default {
   },
   components: {
     Background,
+
+    TextField,
+    Textarea,
     Subjects,
+
+    PageViewer,
+
     Languages,
     Price,
     Age,
@@ -58,6 +68,23 @@ export default {
     return {
       checkInProgress: false,
       showAlert: false,
+      imgs: [
+        {
+          name: "physics1.jpg",
+          imageUrl:
+            "https://d2vlcm61l7u1fs.cloudfront.net/media%2F8d1%2F8d1789e9-0fb5-467e-906c-7998be55dcf4%2Fphp2hhv2V.png",
+        },
+        {
+          name: "physics2.jpg",
+          imageUrl:
+            "https://slideplayer.com/slide/6196941/18/images/22/Relationships+in+this+problem%3A.jpg",
+        },
+        {
+          name: "physics3.jpg",
+          imageUrl:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROzKLzwCiWjKi4IIQVFeOvHoy2lW0ivmxVzA&usqp=CAU",
+        },
+      ],
     };
   },
   methods: {
@@ -114,14 +141,29 @@ export default {
 
 #panels {
   border-radius: 15px;
+  #topic {
+    border-radius: 0;
+  }
+  #details {
+    border-radius: 0 0 15px 15px;
+  }
+  .pageViewer {
+    margin: 2rem 0 2rem 0;
+  }
+  .languages {
+    border-radius: 15px 15px 0 0;
+  }
 }
+
 #refreshBtn {
   background-color: var(--v-background-base);
   color: var(--v-secondary-darken4);
-  transition: background-color 600ms;
   opacity: 0.6;
   margin-top: 0.3rem;
   margin-bottom: 1rem;
+  transform: scale(0.9);
+
+  transition: background-color 600ms;
   &:hover {
     background-color: var(--v-secondary-darken1);
   }

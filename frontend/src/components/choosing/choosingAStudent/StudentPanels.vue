@@ -7,16 +7,24 @@
             <td class="profile">
               <img class="userImg" src="@/assets/icons/user.svg" />
               <div class="nameAndAge">
-                <span>{{ student.name }}</span>
+                <h3>{{ student.name }}</h3>
                 <span class="age"
                   >{{ student.grade }} {{ $l("choose_a.student.grade") }}</span
                 >
               </div>
             </td>
             <td class="dateAndTime">
-              <div class="date">{{ student.date }}</div>
-              <div class="time"></div>
-              {{ student.time.start }} - {{ student.time.end }}
+              <div class="date">
+                {{ $l(`data.days.${student.date.weekday}.short`) }}
+                {{ student.date.day }}
+                <div class="lighter">
+                  {{ $l(`data.months.${student.date.month}.short`) }}
+                  {{ student.date.year }}
+                </div>
+              </div>
+              <div class="time">
+                {{ student.time.start }} - {{ student.time.end }}
+              </div>
             </td>
           </tr>
         </table>
@@ -26,25 +34,17 @@
         <div class="infoContainer">
           <div class="subject">
             {{ student.subject }}
+
             <v-spacer />
-            <Dialog>
-              <template v-slot:object>
-                <button id="dialog">
-                  {{ student.topic.title }}
-                </button>
-              </template>
 
-              <template v-slot:title id="title">
-                {{ student.topic.title }}
-              </template>
-
-              <template v-slot:text>
-                {{ student.topic.text }}
-                <!-- To be able to add photos etc later on -->
-              </template>
-            </Dialog>
+            <div class="topic">
+              {{ student.topic.title }}
+            </div>
           </div>
         </div>
+      </template>
+      <template v-slot:activator>
+        <DetailsButton :student="student" />
       </template>
     </HiddenButtonCard>
   </div>
@@ -52,12 +52,12 @@
 
 <script>
 import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
-import Dialog from "@/components/global/Dialog.vue";
+import DetailsButton from "@/components/choosing/choosingAStudent/DetailsButton.vue";
 
 export default {
   components: {
     HiddenButtonCard,
-    Dialog,
+    DetailsButton,
   },
   props: {
     students: Array,
@@ -93,8 +93,19 @@ table {
     }
     &.dateAndTime {
       text-align: right;
+      .date {
+        display: inline-flex;
+        .lighter {
+          margin-left: 0.5ch;
+          color: var(--v-secondary-darken2);
+        }
+      }
     }
   }
+}
+
+.topic {
+  color: var(--v-accent-base);
 }
 
 .infoContainer {
@@ -103,9 +114,6 @@ table {
   .subject {
     @include flexbox;
     width: 100%;
-    p {
-      margin-bottom: 0;
-    }
   }
 }
 </style>

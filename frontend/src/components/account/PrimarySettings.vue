@@ -9,8 +9,6 @@
 
     <v-expansion-panels
       flat
-      hover
-      focusable
       id="panels"
       class="nameAndAge"
       v-for="i in 1"

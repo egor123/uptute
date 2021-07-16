@@ -1,32 +1,34 @@
 <template>
-  <BaseComponent
-    ref="base"
-    v-model="filter"
-    :default="filters[0]"
-    :label="$l('find.filters.filters.h')"
-    :text="
-      `${$l('find.filters.filters.' + filter.name)} ${
-        filter.dir === 'up' ? '↑' : '↓'
-      }`
-    "
-    propURL="filter"
-  >
-    <div
-      class="filter"
-      v-for="item in filters"
-      :key="item.name"
-      :checked="filter.name === item.name"
-      :dir="item.dir"
-      @click="change(item)"
+  <v-expansion-panels class="panels" flat>
+    <BaseComponent
+      ref="base"
+      v-model="filter"
+      :default="filters[0]"
+      :label="$l('find.filters.filters.h')"
+      :text="
+        `${$l('find.filters.filters.' + filter.name)} ${
+          filter.dir === 'up' ? '↑' : '↓'
+        }`
+      "
+      propURL="filter"
     >
-      <div class="wrapper">
-        <div class="rotator">
-          <v-icon class="icon">mdi-water</v-icon>
+      <div
+        class="filter"
+        v-for="item in filters"
+        :key="item.name"
+        :checked="filter.name === item.name"
+        :dir="item.dir"
+        @click="change(item)"
+      >
+        <div class="wrapper">
+          <div class="rotator">
+            <v-icon class="icon">mdi-water</v-icon>
+          </div>
         </div>
+        <p>{{ $l("find.filters.filters." + item.name) }}</p>
       </div>
-      <p>{{ $l("find.filters.filters." + item.name) }}</p>
-    </div>
-  </BaseComponent>
+    </BaseComponent>
+  </v-expansion-panels>
 </template>
 
 <script>
@@ -36,14 +38,11 @@ export default {
   components: {
     BaseComponent,
   },
+  props: {
+    filters: Array,
+  },
   data() {
     return {
-      filters: [
-        //TO DO!!!!!!!!!
-        { name: "rating", dir: "up" },
-        { name: "price", dir: "up" },
-        { name: "hours_tought", dir: "up" },
-      ],
       filter: {},
     };
   },
@@ -66,6 +65,11 @@ $scale: 0.4;
 $transition-duration: 0.4s;
 $margin-top: 0.4rem;
 $side-margin: 0.8rem;
+
+.panels {
+  border-radius: 15px;
+}
+
 .filter {
   @include flexbox;
   justify-content: left;

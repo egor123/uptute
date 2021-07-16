@@ -2,7 +2,7 @@
   <Dialog>
     <template v-slot:object>
       <v-btn rounded outlined color="accent">
-        {{ $l("booking.button") }}
+        {{ $l("booking.confirm") }}
       </v-btn>
     </template>
 
@@ -12,7 +12,7 @@
 
     <template v-slot:text>
       {{ $l("booking.dialog.text") }}
-      <a target="_blank" :href="tutor.zoomLink">
+      <a target="_blank" :href="link">
         {{ $l("booking.dialog.here") }}
       </a>
     </template>
@@ -27,7 +27,7 @@ export default {
     Dialog,
   },
   props: {
-    tutor: Object,
+    link: String,
   },
 };
 </script>

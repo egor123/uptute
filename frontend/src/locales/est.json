@@ -196,6 +196,8 @@
         "h": "Õppeaine",
         "search": "Otsi"
       },
+      "topic": "Teema",
+      "details": "Täpsustusi",
       "language": {
         "h": "Keel"
       },
@@ -224,7 +226,11 @@
         "h": "Sorteeri",
         "price": "Hind",
         "rating": "Reiting",
-        "hours_tought": "Õpetamiskogemus"
+        "hours_tought": "Õpetamiskogemus",
+
+        "time": "Aeg",
+        "subject": "Aine",
+        "grade": "Klass"
       },
       "native": "emakeele kõneleja",
       "refresh": "Tühjenda filtrid"
@@ -247,7 +253,13 @@
     "student": {
       "header": "Pakku oma abi",
       "price": "Jooksev tunnihind",
-      "grade": "klass"
+      "grade": "klass",
+      "button": "Uuri lähedamalt",
+      "dialog": {
+        "offer": "Pakku oma abi",
+        "title": "Su abipakkumine on saadetud",
+        "text": "Sind teavitatakse, kui su pakkumine võetaks vastu"
+      }
     }
   },
   "tutor": {
@@ -271,7 +283,7 @@
     "card_int": ["Kaardi number...", "KK/AA", "CVC"],
     "cost": "Hind",
     "tooltip": "Eratunni hind arvutatakse sessiooni lõpus arvestades selle pikkust",
-    "button": "Kinnita broneering",
+    "confirm": "Kinnita broneering",
     "dialog": {
       "title": "Su eratunni link",
       "here": "siit",
@@ -364,18 +376,18 @@
       }
     },
     "subjects": {
-      "math": "Matemaatika",
-      "biol": "Bioloogia",
-      "esl": "Inglise keel",
-      "phys": "Füüsika",
-      "geog": "Geografia",
-      "chem": "Keemia",
-      "cis": "Informaatika"
+      "MATH": "Matemaatika",
+      "BIOL": "Bioloogia",
+      "ESL": "Inglise keel",
+      "PHYS": "Füüsika",
+      "GEOG": "Geografia",
+      "CHEM": "Keemia",
+      "CIS": "Informaatika"
     },
     "languages": {
-      "en": "Inglise keel",
-      "est": "Eesti keel",
-      "ru": "Vene keel"
+      "EN": "Inglise keel",
+      "EST": "Eesti keel",
+      "RU": "Vene keel"
     }
   },
   "about_tutor": {

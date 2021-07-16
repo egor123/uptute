@@ -33,18 +33,10 @@
       </div>
     </div>
 
-    <v-expansion-panels
-      flat
-      hover
-      focusable
-      id="panels"
-      v-for="i in 1"
-      :key="i"
-    >
+    <v-expansion-panels flat id="panels" v-for="i in 1" :key="i">
       <SubjectsYouTeach ref="component" />
       <Audience ref="component" />
       <Languages ref="component" />
-      <YourPrice ref="component" />
     </v-expansion-panels>
   </div>
 </template>
@@ -53,7 +45,6 @@
 import SubjectsYouTeach from "@/components/filterPanel/SubjectsYouTeach.vue";
 import Audience from "@/components/filterPanel/Audience.vue";
 import Languages from "@/components/filterPanel/Languages.vue";
-import YourPrice from "@/components/filterPanel/YourPrice.vue";
 
 import Dialog from "@/components/global/Dialog.vue";
 import Textarea from "@/components/global/textInput/Textarea.vue";
@@ -64,7 +55,6 @@ export default {
     SubjectsYouTeach,
     Audience,
     Languages,
-    YourPrice,
 
     Dialog,
     Textarea,

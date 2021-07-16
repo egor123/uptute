@@ -5,7 +5,7 @@
         <UserImg :tutor="tutor" />
 
         <div>
-          <p class="pph">{{ tutor.pph }} UC/{{ $l("tutor.hour") }}</p>
+          <p class="pph">{{ pph }} UC/{{ $l("tutor.hour") }}</p>
           <h3>{{ tutor.firstName }} {{ tutor.lastName }}</h3>
           <p>{{ tutor.age }} {{ $l("find.filters.tutor_age.p") }}</p>
         </div>
@@ -21,7 +21,7 @@
             class="mr-1"
             src="@/assets/icons/clock.svg"
           />
-          <p>{{ tutor.hours }}{{ $l("tutor.hour") }}</p>
+          <p>{{ hours }}{{ $l("tutor.hour") }}</p>
         </div>
         <Rating :value="tutor.rating" class="rating" />
         <div>
@@ -35,6 +35,9 @@
         </div>
       </div>
     </template>
+    <template v-slot:activator>
+      <BookButton :tutor="tutor" />
+    </template>
   </HiddenButtonCard>
 </template>
 
@@ -42,21 +45,29 @@
 import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
 import Rating from "./Rating.vue";
 import UserImg from "@/components/choosing/choosingATutor/UserImg.vue";
+import BookButton from "@/components/choosing/choosingATutor/BookButton.vue";
 
 export default {
   data() {
     return {
       windowTop: 0,
+      pph: 0,
+      hours: 0,
     };
   },
   components: {
     HiddenButtonCard,
     Rating,
     UserImg,
+    BookButton,
   },
   props: {
-    tutor: Object,
     tooltipUse: String,
+    tutor: Object,
+  },
+  created() {
+    this.pph = Math.round(this.tutor.pph);
+    this.hours = Math.round(this.tutor.hours);
   },
 };
 </script>
