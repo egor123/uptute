@@ -156,7 +156,7 @@ export default {
   background-color: #ffcccb1f !important;
 }
 .errorMovement {
-  animation: errorAnimation 1100ms ease-in-out both;
+  animation: errorAnimation 1100ms ease-in-out;
 }
 
 @keyframes errorAnimation {

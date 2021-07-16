@@ -32,11 +32,11 @@
             <div v-for="(img, id) in imgs" :key="id" class="fullScreen">
               <div class="imgContainer">
                 <img class="expandedImg" :src="img.imageUrl" alt="" />
-                <v-btn @click="expandImg = false" class="close" small icon text>
-                  <v-icon>
+                <button @click="expandImg = false" class="close">
+                  <v-icon class="closeIcon">
                     mdi-close
                   </v-icon>
-                </v-btn>
+                </button>
               </div>
             </div>
           </div>
@@ -79,9 +79,6 @@ export default {
       xPosition: 0,
     };
   },
-  created() {
-    console.log(this.imgs);
-  },
   props: {
     imgs: Array,
     upload: Boolean,
@@ -91,35 +88,37 @@ export default {
   },
   methods: {
     addImg(e) {
-      console.log(e.target.files);
       const file = e.target.files[0];
       this.imgs.push({
         image: file,
         imageUrl: URL.createObjectURL(file),
       });
+      this.currentImg = this.imgs.length;
+      this.xPosition = (this.currentImg - 1) * this.w;
     },
     expand() {
       this.expandImg = true;
 
-      if (!this.setUp) {
-        setTimeout(() => {
-          this.outsideWrapper = this.$refs.outsideWrapper; //is assigned every time expandImg opens
-          this.imgElems = document.getElementsByClassName("expandedImg");
-
-          this.widowResized();
+      setTimeout(() => {
+        if (!this.setUp) {
+          this.outsideWrapper = this.$refs.outsideWrapper;
 
           this.$mb.addSwipeListner(this.swipe, this.$refs.outsideWrapper);
           document.addEventListener("touchend", this.touchend);
           document.addEventListener("keydown", (key) => this.keyDown(key));
-
           window.addEventListener("resize", this.widowResized);
           bus.$on("currentChange", (data) => {
             this.xChange = -data * this.w;
             this.touchend();
           });
-        }, 1);
-        this.setUp = true;
-      }
+
+          this.setUp = true;
+        }
+
+        // this.imgElems = document.getElementsByClassName("expandedImg");
+
+        this.widowResized();
+      }, 1);
     },
     swipe(e) {
       this.xChange = e.x;
@@ -161,7 +160,7 @@ export default {
         window.innerHeight || 0
       );
 
-      if (this.currentImg != 1) this.touchend();
+      this.touchend();
     },
     radioClick() {
       setTimeout(() => {
@@ -222,7 +221,7 @@ export default {
         transition: 500ms ease-in-out;
       }
       &:hover {
-        background: var(--v-secondary-darken1);
+        background: var(--v-backgroundHover-base);
         #plusIcon {
           transform: rotate(-180deg);
         }
@@ -342,7 +341,15 @@ $buttons-offset-at-900px: 2vw;
                 position: absolute;
                 top: 10px;
                 right: 10px;
-                color: var(--v-accent-base);
+                color: none;
+                .closeIcon {
+                  color: var(--v-accent-base);
+
+                  transition: all 500ms;
+                  &:hover {
+                    transform: rotate(-180deg);
+                  }
+                }
               }
             }
           }
