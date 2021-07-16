@@ -17,7 +17,7 @@
     <div>
       <h4>{{ $l("tutor.comments") }}</h4>
       <Comments :id="tutor.uuid" v-model="commentsSettings" />
-      <PageSelectionPanel v-model="commentsSettings" />
+      <PageSelectionPanel v-model="commentsSettings" :sizes="[2,5,10]"/>
     </div>
   </div>
 </template>

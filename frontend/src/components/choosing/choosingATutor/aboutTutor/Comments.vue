@@ -1,28 +1,44 @@
 <template>
   <div class="comments">
-    <div class="commenter" v-for="comment in comments" :key="comment.lessonsId">
-      <div class="tutor">
-        <img width="20px" height="20px" src="@/assets/icons/user.svg" alt="" />
-        <p class="name">
-          {{ comment.userFirstName }} {{ comment.userLastName }}
+    <Loading :loading="loading.length > 0">
+      <div
+        class="commenter"
+        v-for="comment in comments"
+        :key="comment.lessonsId"
+      >
+        <div class="tutor">
+          <img
+            width="20px"
+            height="20px"
+            src="@/assets/icons/user.svg"
+            alt=""
+          />
+          <p class="name">
+            {{ comment.userFirstName }} {{ comment.userLastName }}
+          </p>
+        </div>
+        <p>
+          {{ comment.review }}
         </p>
       </div>
-      <p>
-        {{ comment.review }}
-      </p>
-    </div>
+    </Loading>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Loading from "@/components/global/Loading.vue";
 
 export default {
   data() {
     return {
       comments: [],
       currentSettings: {},
+      loading: [],
     };
+  },
+  components: {
+    Loading,
   },
   props: ["value", "id"],
   mounted() {
@@ -30,6 +46,9 @@ export default {
   },
   methods: {
     async fetch() {
+      this.loading.push('');
+
+      await new Promise((res) => setTimeout(() => res(), 2000)); //deleteme!!!!!!!!!
       let { data } = await axios.get(`/api/tutor/${this.id}/comments`, {
         params: {
           page: this.value?.page ?? 0,
@@ -43,6 +62,7 @@ export default {
         pagesCount: data.pagesCount,
       };
       this.$emit("input", JSON.parse(JSON.stringify(this.currentSettings)));
+      this.loading.pop();
     },
   },
   watch: {

@@ -9,7 +9,7 @@
         @click="btn.action()"
       />
     </div>
-    <PageSizeSelection v-model="value.itemsPerPage" />
+    <PageSizeSelection v-model="value.itemsPerPage" :sizes="sizes"/>
   </div>
 </template>
 
@@ -17,7 +17,7 @@
 import PageSizeSelection from "./PageSizeSelection";
 import ChangePageButton from "./ChangePageButton";
 export default {
-  props: ["value"],
+  props: ["value", "sizes"],
   components: { PageSizeSelection, ChangePageButton },
 
   computed: {

@@ -5,7 +5,7 @@
       </template>
       <v-list>
         <v-list-item
-          v-for="(item, index) in items"
+          v-for="(item, index) in sizes"
           :key="index"
           v-on:click="$emit('input', item)"
         >
@@ -17,12 +17,7 @@
 
 <script>
 export default {
-  data() {
-    return {
-      items: [2, 5, 10, 15],
-    };
-  },
-  props: ["value"],
+  props: ["value", "sizes"],
 };
 </script>
 
