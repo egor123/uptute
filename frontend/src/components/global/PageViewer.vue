@@ -1,15 +1,20 @@
 <template>
   <div class="helpImgWrapper">
-    <img
-      class="helpImg imgPage"
-      v-for="(img, index) in imgs"
-      :key="index"
-      :src="img.imageUrl"
-      @click="
-        expand();
-        currentImg = index + 1;
-      "
-    />
+    <div class="helpImgDiv" v-for="(img, index) in imgs" :key="index">
+      <img
+        class="helpImg imgPage"
+        :src="img.imageUrl"
+        @click="
+          expand();
+          currentImg = index;
+        "
+      />
+      <button @click="deleteImg(index)" class="deleteImg small">
+        <v-icon class="closeIcon">
+          mdi-close
+        </v-icon>
+      </button>
+    </div>
 
     <label v-if="upload" class="addImg imgPage" for="uploadImg">
       <v-icon id="plusIcon">
@@ -29,10 +34,11 @@
       <v-card>
         <v-card-text>
           <div id="outsideWrapper" ref="outsideWrapper">
-            <div v-for="(img, id) in imgs" :key="id" class="fullScreen">
+            <div v-for="(img, index) in imgs" :key="index" class="fullScreen">
               <div class="imgContainer">
                 <img class="expandedImg" :src="img.imageUrl" alt="" />
-                <button @click="expandImg = false" class="close">
+
+                <button @click="deleteImg(index)" class="deleteImg large">
                   <v-icon class="closeIcon">
                     mdi-close
                   </v-icon>
@@ -41,13 +47,18 @@
             </div>
           </div>
           <NavButtons />
+          <button @click="expandImg = false" class="back">
+            <v-icon class="backIcon">
+              mdi-close
+            </v-icon>
+          </button>
           <div id="radio-buttons">
             <input
               type="radio"
               name="radio"
               v-for="(c, i) in imgs"
-              :key="i + 1"
-              :value="i + 1"
+              :key="i"
+              :value="i"
               v-model="currentImg"
               @click="radioClick()"
               :ref="`radio${i}`"
@@ -74,7 +85,7 @@ export default {
       w: 0,
       h: 0,
 
-      currentImg: 1,
+      currentImg: 0,
       xChange: 0,
       xPosition: 0,
     };
@@ -89,12 +100,24 @@ export default {
   methods: {
     addImg(e) {
       const file = e.target.files[0];
+
       this.imgs.push({
         image: file,
         imageUrl: URL.createObjectURL(file),
       });
-      this.currentImg = this.imgs.length;
-      this.xPosition = (this.currentImg - 1) * this.w;
+
+      this.currentImg = this.imgs.length - 1;
+      this.xPosition = this.currentImg * this.w;
+    },
+    deleteImg(index) {
+      if (this.imgs.length - 1 === index) this.currentImg--;
+
+      this.imgs.splice(index, 1);
+
+      this.touchend();
+      if (this.imgs.length < 1) {
+        this.expandImg = false;
+      }
     },
     expand() {
       this.expandImg = true;
@@ -115,8 +138,6 @@ export default {
           this.setUp = true;
         }
 
-        // this.imgElems = document.getElementsByClassName("expandedImg");
-
         this.widowResized();
       }, 1);
     },
@@ -129,17 +150,17 @@ export default {
     },
     touchend() {
       if (Math.abs(this.xChange) > 0.1 * this.w) {
-        if (this.currentImg + this.xChange / Math.abs(this.xChange) < 1)
-          this.currentImg = this.imgs.length;
+        if (this.currentImg + this.xChange / Math.abs(this.xChange) < 0)
+          this.currentImg = this.imgs.length - 1;
         else if (
           this.currentImg + this.xChange / Math.abs(this.xChange) >
-          this.imgs.length
+          this.imgs.length - 1
         )
-          this.currentImg = 1;
+          this.currentImg = 0;
         else this.currentImg += this.xChange / Math.abs(this.xChange);
       }
 
-      this.xPosition = (this.currentImg - 1) * this.w;
+      this.xPosition = this.currentImg * this.w;
 
       if (this.xChange != 0) {
         this.outsideWrapper.style.transition = "all 400ms";
@@ -194,10 +215,11 @@ export default {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  width: 100%;
   .imgPage {
     height: 100px;
+    max-width: 100%;
     border-radius: 5px;
-    margin: 2px;
     &.helpImg {
       background: var(--v-secondary-base);
       border: none;
@@ -337,24 +359,57 @@ $buttons-offset-at-900px: 2vw;
                 border-radius: 15px;
                 margin: 5px;
               }
-              .close {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                color: none;
-                .closeIcon {
-                  color: var(--v-accent-base);
-
-                  transition: all 500ms;
-                  &:hover {
-                    transform: rotate(-180deg);
-                  }
-                }
-              }
             }
           }
         }
       }
+    }
+  }
+}
+
+.helpImgDiv {
+  position: relative;
+  height: 100px;
+  margin: 2px;
+}
+
+.deleteImg {
+  position: absolute;
+  .closeIcon {
+    transition: all 500ms;
+    &:hover {
+      transform: rotate(180deg) scale(0.8);
+      color: var(--v-accent-base) !important;
+    }
+  }
+  &.large {
+    top: 10px;
+    right: 10px;
+    .closeIcon {
+      color: var(--v-accent-base);
+    }
+  }
+  &.small {
+    transform: scale(0.7);
+    top: 0px;
+    right: 0px;
+    .closeIcon {
+      color: var(--v-secondary-darken2);
+    }
+  }
+}
+
+.back {
+  position: fixed;
+  top: 15px;
+  right: 30px;
+  .backIcon {
+    color: var(--v-accent-base);
+    transform: scale(1.2);
+
+    transition: all 500ms;
+    &:hover {
+      transform: rotate(-180deg);
     }
   }
 }
