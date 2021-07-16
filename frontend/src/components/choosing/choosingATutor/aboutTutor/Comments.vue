@@ -16,6 +16,7 @@
           <p class="name">
             {{ comment.userFirstName }} {{ comment.userLastName }}
           </p>
+          <Rating :value="comment.rating"/>
         </div>
         <p>
           {{ comment.review }}
@@ -28,6 +29,8 @@
 <script>
 import axios from "axios";
 import Loading from "@/components/global/Loading.vue";
+import Rating from "../Rating.vue";
+
 
 export default {
   data() {
@@ -39,6 +42,7 @@ export default {
   },
   components: {
     Loading,
+    Rating,
   },
   props: ["value", "id"],
   mounted() {

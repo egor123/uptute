@@ -95,6 +95,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/errorStyles.scss";
+
 #scroll {
   overflow-y: auto;
   overflow-x: visible;
@@ -148,32 +150,6 @@ export default {
       margin-top: 0;
       padding: 30px 25px 0 25px;
     }
-  }
-}
-
-.errorColor {
-  color: var(--v-error-base) !important;
-  background-color: #ffcccb1f !important;
-}
-.errorMovement {
-  animation: errorAnimation 1100ms ease-in-out;
-}
-
-@keyframes errorAnimation {
-  0% {
-    transform: translateX(0rem);
-  }
-  25% {
-    transform: translateX(-0.8rem);
-  }
-  50% {
-    transform: translateX(0.5rem);
-  }
-  75% {
-    transform: translateX(-0.3rem);
-  }
-  100% {
-    transform: translateX(0rem);
   }
 }
 

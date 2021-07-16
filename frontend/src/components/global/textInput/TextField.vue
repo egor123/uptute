@@ -18,7 +18,7 @@ export default {
     },
   },
   watch: {
-    imgName: function(newVal, oldVal) {
+    imgName: function (newVal, oldVal) {
       // watch it
       console.log("Prop changed: ", newVal, " | was: ", oldVal);
     },
@@ -36,6 +36,7 @@ export default {
     margin: 1rem 0 !important;
     height: 2.5rem;
     max-height: 2.5rem;
+    resize: horizontal;
   }
 
   .v-input__slot {
@@ -58,7 +59,7 @@ export default {
       position: absolute;
       top: 1.6rem;
       margin-left: 0.8rem;
-
+      resize: none;
       &--active {
         transform: translate(0rem, -1.15rem) scale(0.8);
       }

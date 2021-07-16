@@ -1,0 +1,27 @@
+.errorColor {
+    color: var(--v-error-base) !important;
+    background-color: #ffe4e4 !important;
+    &:hover {
+        background-color: #fae2e2 !important;
+    }
+}
+.errorMovement {
+    animation: errorAnimation 1100ms ease-in-out;
+}
+@keyframes errorAnimation {
+    0% {
+        transform: translateX(0rem);
+    }
+    25% {
+        transform: translateX(-0.8rem);
+    }
+    50% {
+        transform: translateX(0.5rem);
+    }
+    75% {
+        transform: translateX(-0.3rem);
+    }
+    100% {
+        transform: translateX(0rem);
+    }
+}
