@@ -10,14 +10,13 @@
     @search="(val) => (search = val)"
     propURL="subject"
   >
-    <div v-for="item in getSubjects()" :key="item" class="btn">
-      <input
-        type="radio"
-        :id="item"
-        :value="item"
-        v-show="show(item)"
-        v-model="subject"
-      />
+    <div
+      v-for="item in getSubjects()"
+      :key="item"
+      class="btn"
+      v-show="show(item)"
+    >
+      <input type="radio" :id="item" :value="item" v-model="subject" />
       <label :for="item">{{ $l("data.subjects." + item) }}</label>
     </div>
   </BaseComponent>

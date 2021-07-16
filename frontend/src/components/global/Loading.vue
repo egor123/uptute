@@ -98,9 +98,16 @@ export default {
     $offset-y: 23%;
     $scale: 0.2;
     $duration: 1s;
-    $transforms: translate(-$offset-x, $offset-y) scale(0),
-      translate(-$offset-x, $offset-y) scale(1-$scale), translate(0, 0) scale(1),
+    $transforms: 
+      //-------------------------------------------------//
+      translate(-$offset-x, $offset-y) scale(0),
+      //-------------------------------------------------//
+      translate(-$offset-x, $offset-y) scale(1-$scale),
+      //-------------------------------------------------//
+      translate(0, 0) scale(1),
+      //-------------------------------------------------//
       translate($offset-x, -$offset-y) scale(1 + $scale),
+      //-------------------------------------------------//
       translate($offset-x, -$offset-y) scale(0);
 
     @for $i from 1 to length($transforms) {

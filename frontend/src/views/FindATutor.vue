@@ -3,10 +3,21 @@
     <div id="content">
       <v-expansion-panels flat id="panels" v-for="i in 1" :key="i">
         <Subjects ref="component" />
-        <TextField id="topic" :label="$l('find.filters.topic')" />
-        <Textarea id="details" :label="$l('find.filters.details')" />
-
-        <PageViewer class="pageViewer" :imgs="imgs" :upload="true" />
+        <TextField
+          :label="$l('find.filters.topic')"
+          :rules="(val) => val != ''"
+          propURL="topic"
+          ref="component"
+        />
+        <TextField
+          :label="$l('find.filters.details')"
+          :rules="(val) => val != ''"
+          :area="true"
+          propURL="details"
+          id="details"
+          ref="component"
+        />
+        <PageViewer id="pageViewer" :imgs="imgs" :upload="true" />
 
         <Languages class="languages" ref="component" />
         <Age ref="component" />
@@ -36,9 +47,8 @@
 <script>
 import Background from "@/components/global/background/Background.vue";
 
-import TextField from "@/components/global/textInput/TextField.vue";
-import Textarea from "@/components/global/textInput/Textarea.vue";
 import Subjects from "@/components/filterPanel/Subjects";
+import TextField from "@/components/filterPanel/TextField";
 
 import PageViewer from "@/components/global/PageViewer.vue";
 
@@ -54,10 +64,10 @@ export default {
   components: {
     Background,
 
-    TextField,
-    Textarea,
+    // TextField,
+    // Textarea,
     Subjects,
-
+    TextField,
     PageViewer,
 
     Languages,
@@ -109,9 +119,7 @@ export default {
     },
     async request() {
       if (this.checkInProgress) return;
-      if (await this.isValid())
-        // this.$router.push({ name: "ChooseATutor", query: this.$route.query });
-        this.showAlert = true;
+      if (await this.isValid()) this.showAlert = true;
     },
   },
 };
@@ -147,7 +155,7 @@ export default {
   #details {
     border-radius: 0 0 15px 15px;
   }
-  .pageViewer {
+  #pageViewer {
     margin: 2rem 0 2rem 0;
   }
   .languages {
