@@ -22,7 +22,8 @@
       >
         <div class="wrapper">
           <div class="rotator">
-            <v-icon class="icon">mdi-water</v-icon>
+            <!-- <v-icon class="icon">mdi-water</v-icon> -->
+            <img class="icon" src="@/assets/icons/one-flame-drop.svg" alt="" />
           </div>
         </div>
         <p>{{ $l("find.filters.filters." + item.name) }}</p>
@@ -88,6 +89,7 @@ $side-margin: 0.8rem;
   }
   .icon {
     color: var(--v-secondary-darken2);
+    transform: scale(0.055); //ADDED !!!!!!!!!!!!
   }
   p {
     margin: 0 0 0 #{$icon-wrapper-size + $side-margin};

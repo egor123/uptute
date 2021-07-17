@@ -226,7 +226,7 @@
         "h": "Sorteeri",
         "price": "Hind",
         "rating": "Reiting",
-        "hours_tought": "Õpetamiskogemus",
+        "hours_taught": "Õpetamiskogemus",
 
         "time": "Aeg",
         "subject": "Aine",
@@ -248,7 +248,9 @@
       "time_left": "Aega jäänud õpetajatel, et oma teenusi pakkuda",
       "ended": "Väljudes otsing katkestub!",
       "anyway": "Siiski välju",
-      "cancel": "Tagasi"
+      "cancel": "Tagasi",
+      "hours": "õpetamiskogemus",
+      "comments": "kommentaaride arv"
     },
     "student": {
       "header": "Pakku oma abi",

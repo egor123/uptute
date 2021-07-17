@@ -57,7 +57,7 @@ export default {
         //TO DO!!!!!!!!!
         { name: "rating", dir: "up" },
         { name: "price", dir: "up" },
-        { name: "hours_tought", dir: "up" },
+        { name: "hours_taught", dir: "up" },
       ],
     };
   },

@@ -11,22 +11,24 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 button {
   position: relative;
-  @include box-size(40px);
-  border: 2px solid lighten($color: #000000, $amount: 80);
-  border-radius: 3px;
-  box-shadow: -3px 7px 20px 1px rgba(0, 0, 0, 0.7);
-  margin: 1px;
-  background: white;
+  @include box-size(2rem);
 
+  background: transparent;
+  color: darken($color: white, $amount: 50);
+
+  border-top: 1px solid darken($color: white, $amount: 16);
+  border-bottom: 1px solid darken($color: white, $amount: 16);
+
+  transition: background-color 200ms;
   &:hover {
-    background: darken($color: white, $amount: 5);
+    background-color: darken($color: white, $amount: 10);
   }
   &[active] {
-    border-color: var(--v-accent-base);
+    color: var(--v-accent-base);
   }
 
   &::after {
@@ -37,9 +39,12 @@ button {
   }
   &[type="next"]::after {
     content: "›";
+    background: none;
   }
   &[type="disabled"] {
-    background: darken($color: white, $amount: 5);
+    // background: darken($color: white, $amount: 4);
+    background: transparent;
+    cursor: auto;
     &::after {
       content: "...";
     }
@@ -52,7 +57,7 @@ button {
   &:last-child {
     border-radius: 0 50% 50% 0;
   }
-  &:only-child{
+  &:only-child {
     border-radius: 50%;
   }
 }

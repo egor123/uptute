@@ -122,7 +122,7 @@ export default {
     expand() {
       this.expandImg = true;
 
-      setTimeout(() => {
+      this.$nextTick(() => {
         if (!this.setUp) {
           this.outsideWrapper = this.$refs.outsideWrapper;
 
@@ -139,7 +139,7 @@ export default {
         }
 
         this.widowResized();
-      }, 1);
+      });
     },
     swipe(e) {
       this.xChange = e.x;
@@ -185,7 +185,6 @@ export default {
     },
     radioClick() {
       setTimeout(() => {
-        console.log(123);
         this.xChange = 1;
         this.touchend();
       }, 1);

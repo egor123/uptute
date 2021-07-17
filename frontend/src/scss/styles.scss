@@ -98,3 +98,14 @@ input[type="radio"] {
     opacity: 0;
   }
 }
+
+.tooltip {
+  min-width: 200px;
+  max-width: 350px;
+
+  color: var(--v-primary-base) !important;
+  background: var(--v-secondary-base) !important;
+
+  opacity: 0.4 !important;
+  border-radius: 15px !important;
+}

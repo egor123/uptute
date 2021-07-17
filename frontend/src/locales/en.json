@@ -224,7 +224,7 @@
         "h": "Sort by",
         "price": "Price",
         "rating": "Rating",
-        "hours_tought": "Hours tought",
+        "hours_taught": "Hours taught",
 
         "time": "Time",
         "subject": "Subject",
@@ -245,7 +245,9 @@
       "time_left": "Time left for other tutors to offer their services",
       "ended": "Sarch session will be ended!",
       "anyway": "Close anyway",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "hours": "hours taught",
+      "comments": "number of comments"
     },
     "student": {
       "header": "Offer a lesson",

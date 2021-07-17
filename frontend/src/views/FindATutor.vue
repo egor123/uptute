@@ -30,6 +30,7 @@
         {{ $l("find.request") }}
       </v-btn>
     </div>
+
     <v-snackbar max-width="800" color="accent" timeout="-1" v-model="showAlert">
       {{ $l("find.sure") }}
       <div id="snackButtons">
@@ -119,7 +120,8 @@ export default {
     },
     async request() {
       if (this.checkInProgress) return;
-      if (await this.isValid()) this.showAlert = true;
+      // if (await this.isValid()) this.showAlert = true;       //RULES DISABLED!!!!!!
+      this.showAlert = true;
     },
   },
 };
