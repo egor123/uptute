@@ -87,12 +87,12 @@ td {
   }
 }
 
-// .tooltip {
-//   margin-left: 2rem;
-//   margin-right: 2vw;
-//   @media (max-width: 950px) {
-//     opacity: 1 !important;
-//     background: var(--v-secondary-darken1);
-//   }
-// }
+.tooltip {
+  margin-left: 2rem;
+  margin-right: 2vw;
+  @media (max-width: 950px) {
+    opacity: 1 !important;
+    background: var(--v-secondary-darken1);
+  }
+}
 </style>

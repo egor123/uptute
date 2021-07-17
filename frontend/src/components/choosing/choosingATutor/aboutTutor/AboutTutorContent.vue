@@ -14,7 +14,7 @@
       :audience="tutor.audience"
       :age="tutor.age"
     />
-    <div>
+    <div id="commentsDiv">
       <h4>{{ $l("tutor.comments") }}</h4>
       <Comments
         :id="tutor.uuid"

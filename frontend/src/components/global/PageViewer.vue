@@ -126,7 +126,7 @@ export default {
         if (!this.setUp) {
           this.outsideWrapper = this.$refs.outsideWrapper;
 
-          this.$mb.addSwipeListner(this.swipe, this.$refs.outsideWrapper);
+          this.$mb.addSwipeListener(this.swipe, this.$refs.outsideWrapper);
           document.addEventListener("touchend", this.touchend);
           document.addEventListener("keydown", (key) => this.keyDown(key));
           window.addEventListener("resize", this.widowResized);

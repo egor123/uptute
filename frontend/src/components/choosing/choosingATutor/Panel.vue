@@ -27,7 +27,7 @@
             </div>
           </template>
           <span>
-            hours taught
+            {{ $l("choose_a.tutor.hours") }}
           </span>
         </v-tooltip>
 
@@ -46,7 +46,7 @@
             </div>
           </template>
           <span>
-            sdf
+            {{ $l("choose_a.tutor.comments") }}
           </span>
         </v-tooltip>
       </div>
@@ -127,7 +127,6 @@ export default {
     transition: opacity 300ms;
     &:hover {
       opacity: 1;
-      cursor: pointer;
     }
   }
   div {

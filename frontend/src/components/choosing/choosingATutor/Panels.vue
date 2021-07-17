@@ -62,10 +62,10 @@ $card-rows-margin: 5px;
   }
 }
 
-// .tooltip {
-//   margin-left: -1rem;
-//   @media (max-width: 1120px) {
-//     display: none;
-//   }
-// }
+.tooltip {
+  margin-left: -1rem;
+  @media (max-width: 1120px) {
+    display: none;
+  }
+}
 </style>

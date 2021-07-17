@@ -96,19 +96,19 @@ export default {
 
   .icon {
     position: absolute;
-    width: 1rem !important;
+    width: 0.8rem !important;
     filter: drop-shadow(2px 0px 0px $color);
 
     // color: var(--v-accent-base);
     font-size: 3em;
-    @media screen and (-webkit-min-device-pixel-ratio: 0) {
-      -webkit-text-stroke-width: 1px;
-      -webkit-text-stroke-color: $color;
-    }
-    @media not screen and (-webkit-min-device-pixel-ratio: 0) {
-      //?????????
-      text-shadow: -1px 0 $color, 0 1px $color, 1px 0 $color, 0 -1px $color;
-    }
+    // @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    //   -webkit-text-stroke-width: 1px;
+    //   -webkit-text-stroke-color: $color;
+    // }
+    // @media not screen and (-webkit-min-device-pixel-ratio: 0) {
+    //   //?????????
+    //   text-shadow: -1px 0 $color, 0 1px $color, 1px 0 $color, 0 -1px $color;
+    // }
     // $offset-x: 50%;
     // $offset-y: 23%;
     $start-multiplier: 1.5;
