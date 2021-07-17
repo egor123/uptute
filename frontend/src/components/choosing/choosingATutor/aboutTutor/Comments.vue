@@ -1,6 +1,6 @@
 <template>
   <div class="comments">
-    <Loading :loading="loading.length > 0">
+    <Loading :loading="loading.length > 0" :background="background">
       <div
         class="commenter"
         v-for="comment in comments"
@@ -16,7 +16,7 @@
           <p class="name">
             {{ comment.userFirstName }} {{ comment.userLastName }}
           </p>
-          <Rating :value="comment.rating"/>
+          <Rating :value="comment.rating" />
         </div>
         <p>
           {{ comment.review }}
@@ -31,7 +31,6 @@ import axios from "axios";
 import Loading from "@/components/global/Loading.vue";
 import Rating from "../Rating.vue";
 
-
 export default {
   data() {
     return {
@@ -44,13 +43,13 @@ export default {
     Loading,
     Rating,
   },
-  props: ["value", "id"],
+  props: ["value", "id", "background"],
   mounted() {
     this.fetch();
   },
   methods: {
     async fetch() {
-      this.loading.push('');
+      this.loading.push("");
 
       await new Promise((res) => setTimeout(() => res(), 2000)); //deleteme!!!!!!!!!
       let { data } = await axios.get(`/api/tutor/${this.id}/comments`, {

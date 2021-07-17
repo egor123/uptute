@@ -16,8 +16,12 @@
     />
     <div>
       <h4>{{ $l("tutor.comments") }}</h4>
-      <Comments :id="tutor.uuid" v-model="commentsSettings" />
-      <PageSelectionPanel v-model="commentsSettings" :sizes="[2,5,10]"/>
+      <Comments
+        :id="tutor.uuid"
+        background="var(--v-background-base)"
+        v-model="commentsSettings"
+      />
+      <PageSelectionPanel v-model="commentsSettings" :sizes="[2, 5, 10]" />
     </div>
   </div>
 </template>
@@ -41,7 +45,7 @@ export default {
   },
   data() {
     return {
-      commentsSettings: { page: 0, itemsPerPage: 2, pagesCount: 0 },
+      commentsSettings: { page: 0, itemsPerPage: 5, pagesCount: 0 },
     };
   },
   props: {

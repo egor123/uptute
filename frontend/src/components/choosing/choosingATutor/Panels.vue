@@ -9,7 +9,7 @@
         </template>
         <span>
           <Moto :moto="tutor.moto" />
-          <Comments :id="tutor.uuid" />
+          <Comments :id="tutor.uuid" background="var(--v-secondary-base)" />
         </span>
       </v-tooltip>
     </div>
@@ -62,18 +62,10 @@ $card-rows-margin: 5px;
   }
 }
 
-.tooltip {
-  margin-left: -1rem;
-  width: 350px;
-  color: var(--v-primary-base);
-  background: var(--v-secondary-base);
-  opacity: 0.4 !important;
-  border-radius: 15px;
-}
-
-@media (max-width: 1120px) {
-  .tooltip {
-    display: none;
-  }
-}
+// .tooltip {
+//   margin-left: -1rem;
+//   @media (max-width: 1120px) {
+//     display: none;
+//   }
+// }
 </style>
