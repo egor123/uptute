@@ -14,25 +14,41 @@
 
     <template v-slot:moving>
       <div class="tutor">
-        <div>
-          <img
-            width="20px"
-            height="20px"
-            class="mr-1"
-            src="@/assets/icons/clock.svg"
-          />
-          <p>{{ hours }}{{ $l("tutor.hour") }}</p>
-        </div>
+        <v-tooltip top content-class="tooltip" open-delay="300">
+          <template v-slot:activator="{ on, attrs }">
+            <div class="hoursDiv" v-bind="attrs" v-on="on">
+              <img
+                width="20px"
+                height="20px"
+                class="mr-1"
+                src="@/assets/icons/clock.svg"
+              />
+              <p>{{ hours }}{{ $l("tutor.hour") }}</p>
+            </div>
+          </template>
+          <span>
+            hours taught
+          </span>
+        </v-tooltip>
+
         <Rating :value="tutor.rating" class="rating" />
-        <div>
-          <img
-            width="20px"
-            height="20px"
-            class="mr-1"
-            src="@/assets/icons/message.svg"
-          />
-          <p>{{ tutor.comments }}</p>
-        </div>
+
+        <v-tooltip top content-class="tooltip" open-delay="300">
+          <template v-slot:activator="{ on, attrs }">
+            <div class="commentsDiv" v-bind="attrs" v-on="on">
+              <img
+                width="20px"
+                height="20px"
+                class="mr-1"
+                src="@/assets/icons/message.svg"
+              />
+              <p>{{ tutor.comments }}</p>
+            </div>
+          </template>
+          <span>
+            sdf
+          </span>
+        </v-tooltip>
       </div>
     </template>
     <template v-slot:activator>
@@ -104,11 +120,29 @@ export default {
     left: 50%;
     transform: translateX(-50%);
   }
+  .hoursDiv,
+  .commentsDiv {
+    opacity: 0.6;
+
+    transition: opacity 300ms;
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
   div {
     display: flex;
   }
   * {
     margin: auto 0;
   }
+}
+
+.tooltip {
+  opacity: 1 !important;
+  width: max-content !important;
+  min-width: 0 !important;
+  background: var(--v-secondary-darken2) !important;
+  color: white !important;
 }
 </style>
