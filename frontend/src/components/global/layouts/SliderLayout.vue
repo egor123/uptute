@@ -2,7 +2,7 @@
   <div id="main">
     <div id="container">
       <h1 v-animate="'fadeIn'">{{ title }}</h1>
-      <div v-animate="'fadeIn'" id="content">
+      <div v-animate="'fadeIn'" id="content" ref="swipable">
         <div
           class="element"
           v-for="(element, i) in elements"
@@ -29,7 +29,7 @@
           :ref="`radio${i}`"
         />
       </div>
-      <NavButtons />
+      <NavButtons v-if="!$mb.isMobileInput()" />
     </div>
   </div>
 </template>
@@ -44,6 +44,7 @@ export default {
   },
   data() {
     return {
+      SwipeX: 0,
       currentValue: 0,
       total: Number,
       enabled: true,
@@ -62,6 +63,10 @@ export default {
     this.setStyles(false);
     bus.$on("currentChange", (data) => {
       this.current += data;
+    });
+    document.addEventListener("touchend", this.touchend);
+    this.$nextTick(() => {
+      this.$mb.addSwipeListener(this.swipe, this.$refs.swipable);
     });
   },
   computed: {
@@ -86,6 +91,16 @@ export default {
     },
   },
   methods: {
+    swipe(e) {
+      this.SwipeX = e.x;
+    },
+    touchend() {
+      if (this.SwipeX > 30) {
+        this.current++;
+      } else if (this.SwipeX < -30) {
+        this.current--;
+      }
+    },
     setActive(val) {
       for (var i = 0; i < this.total; i++)
         this.$refs[`radio${i}`][0].disabled = !val;
