@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <div v-for="tutor in tutors" :key="tutor.id">
+    <div v-for="(tutor, index) in tutors" :key="index">
       <v-tooltip left content-class="tooltip" open-delay="300">
         <template v-slot:activator="{ on, attrs }">
           <div v-bind="attrs" v-on="on">
@@ -60,12 +60,13 @@ $card-rows-margin: 5px;
   #moto {
     margin: 1rem 0 2.5rem 0;
   }
-}
-
-.tooltip {
-  margin-left: -1rem;
-  @media (max-width: 1120px) {
-    display: none;
+  &.tooltip {
+    // margin-left: -1rem;
+    @media (max-width: 1120px) {
+      display: none;
+    }
+    position: absolute !important;
+    transform: translateY(calc(50% - 93.5px));
   }
 }
 </style>
