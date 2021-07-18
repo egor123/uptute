@@ -4,8 +4,8 @@
     <Rating :value="rating" />
     <div>
       <img src="@/assets/icons/clock.svg" />
-      <div>{{ hours }}{{ $l("tutor.hour") }}</div>
-      <div>{{ pph }}&euro;/{{ $l("tutor.hour") }}</div>
+      <div>{{ Math.round(hours) }}{{ $l("tutor.hour") }}</div>
+      <div>{{ Math.round(pph) }}UC/{{ $l("tutor.hour") }}</div>
     </div>
   </div>
 </template>

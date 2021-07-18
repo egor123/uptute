@@ -5,7 +5,9 @@
         <UserImg :tutor="tutor" />
 
         <div>
-          <p class="pph">{{ pph }} UC/{{ $l("tutor.hour") }}</p>
+          <p class="pph">
+            {{ Math.round(tutor.pph) }} UC/{{ $l("tutor.hour") }}
+          </p>
           <h3>{{ tutor.firstName }} {{ tutor.lastName }}</h3>
           <p>{{ tutor.age }} {{ $l("find.filters.tutor_age.p") }}</p>
         </div>
@@ -23,7 +25,7 @@
                 class="mr-1"
                 src="@/assets/icons/clock.svg"
               />
-              <p>{{ hours }}{{ $l("tutor.hour") }}</p>
+              <p>{{ Math.round(tutor.hours) }}{{ $l("tutor.hour") }}</p>
             </div>
           </template>
           <span>
@@ -67,8 +69,6 @@ export default {
   data() {
     return {
       windowTop: 0,
-      pph: 0,
-      hours: 0,
     };
   },
   components: {
@@ -80,10 +80,6 @@ export default {
   props: {
     tooltipUse: String,
     tutor: Object,
-  },
-  created() {
-    this.pph = Math.round(this.tutor.pph);
-    this.hours = Math.round(this.tutor.hours);
   },
 };
 </script>
