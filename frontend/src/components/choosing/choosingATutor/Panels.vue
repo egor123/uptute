@@ -60,13 +60,13 @@ $card-rows-margin: 5px;
   #moto {
     margin: 1rem 0 2.5rem 0;
   }
-  &.tooltip {
-    // margin-left: -1rem;
-    @media (max-width: 1120px) {
-      display: none;
-    }
-    position: absolute !important;
-    transform: translateY(calc(50% - 93.5px));
+}
+
+.tooltip {
+  // margin-left: -1rem;
+  @media (max-width: 1120px) {
+    display: none;
   }
+  transform: translateY(calc(50% - 93.5px));
 }
 </style>
