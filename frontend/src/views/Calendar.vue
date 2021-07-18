@@ -165,18 +165,14 @@ export default {
     document.addEventListener("touchend", this.touchend);
     this.$nextTick(() => {
       this.$mb.addSwipeListener(this.swipe, this.$refs.calendarDiv);
-    });
-    this.$nextTick(() => {
       this.fadeIn();
     });
   },
   methods: {
     swipe(e) {
       this.SwipeX = e.x;
-      console.log("swipe");
     },
     touchend() {
-      console.log("touchend");
       if (this.SwipeX > 30) {
         this.next();
       } else if (this.SwipeX < -30) {
