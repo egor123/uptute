@@ -20,9 +20,9 @@
           <v-btn rounded v-if="getStatus" :to="{ name: 'Account' }">
             {{ $l("app.pages.account") }}
           </v-btn>
-          <v-btn rounded v-if="!getStatus" :to="{ name: 'LogIn' }">
+          <!-- <v-btn rounded v-if="!getStatus" :to="{ name: 'LogIn' }">
             {{ $l("app.pages.log_in") }}
-          </v-btn>
+          </v-btn> -->
           <!-- <v-btn rounded v-if="!getStatus" :to="{ name: 'Register' }">
             {{ $l("app.pages.register") }}
           </v-btn> -->
@@ -31,7 +31,7 @@
             {{ $l("app.pages.why_us") }}
           </v-btn>
 
-          <v-btn
+          <!-- <v-btn
             rounded
             text
             color="accent"
@@ -39,19 +39,36 @@
             :to="{ name: 'FindATutor' }"
           >
             {{ $l("app.pages.find_tutor") }}
-          </v-btn>
+          </v-btn> -->
+
+          <v-menu
+            offset-y
+            bottom
+            open-on-hover
+            :close-on-content-click="closeOnContentClick"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                rounded
+                text
+                color="accent"
+                v-if="!getStatus"
+                v-bind="attrs"
+                v-on="on"
+              >
+                {{ $l("app.pages.begin") }}
+              </v-btn>
+            </template>
+
+            <v-list class="authList mt-6">
+              <RegisterList />
+            </v-list>
+          </v-menu>
         </div>
         <div id="locales" ref="locales">
           <v-menu offset-y open-on-hover hide-on-scroll attach="#locales">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                text
-                v-bind="attrs"
-                v-on="on"
-                color="secondary"
-                class="ma-0"
-                width="10px"
-              >
+              <v-btn text v-bind="attrs" v-on="on" class="ma-0" width="10px">
                 <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
               </v-btn>
             </template>
@@ -71,17 +88,33 @@
       </div>
     </div>
     <div id="subHeader" ref="subHeader" />
+    <v-snackbar
+      max-width="800"
+      color="error"
+      timeout="15000"
+      v-model="showSnackbar"
+      content-class="errorSnackbar"
+      bottom
+      app
+    >
+      <p class="ma-0" v-html="$l('auth.allow_cookies')"></p>
+    </v-snackbar>
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import RegisterList from "@/components/account/RegisterList.vue";
 
 export default {
   data() {
     return {
       locales: [],
       locale: String,
+      showSnackbar: false,
     };
+  },
+  components: {
+    RegisterList,
   },
   computed: mapGetters(["getStatus", "getNavBar"]),
   methods: {
@@ -158,6 +191,7 @@ export default {
     this.resize();
     this.scroll();
     this.subHeader();
+    this.$root.$on("cookiesError", () => (this.showSnackbar = true));
   },
 };
 </script>
@@ -233,14 +267,21 @@ $header-height: 56px;
     #nav a.router-link-active {
       color: var(--v-active-base);
     }
-    .languageList {
-      background-color: #00000033 !important;
-    }
+
     .listItem {
       padding: 0;
     }
   }
 }
+
+.v-menu__content {
+  background: #00000033 !important;
+  border-radius: 0 0 15px 15px;
+  .v-list {
+    background: none;
+  }
+}
+
 #subHeader {
   z-index: -1;
   width: 100vw;

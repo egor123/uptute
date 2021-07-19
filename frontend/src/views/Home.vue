@@ -6,7 +6,7 @@
           <div class="img-content">
             <h1>{{ $l("home.landing.title") }}</h1>
             <h2>{{ $l("home.landing.subtitle") }}</h2>
-            <v-btn
+            <!-- <v-btn
               elevation="3"
               rounded
               class="btn orangeBackground"
@@ -23,7 +23,7 @@
               :to="{ name: 'Register' }"
             >
               {{ $l("home.landing.btn_become") }}
-            </v-btn>
+            </v-btn> -->
           </div>
         </div>
       </div>
@@ -152,10 +152,10 @@ h1 {
   backdrop-filter: blur(5px);
 }
 
-.btn {
-  text-transform: none;
-  margin: 10px 5px;
-  background-color: transparent;
-  color: var(--v-secondary-base);
-}
+// .btn {
+//   text-transform: none;
+//   margin: 10px 5px;
+//   background-color: transparent;
+//   color: var(--v-secondary-base);
+// }
 </style>
