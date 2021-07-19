@@ -23,15 +23,15 @@ p {
 #moto {
   position: relative;
   height: content;
-  text-align: center;
   @include flexbox();
-  margin: auto;
+  max-width: max-content;
+  margin: 0 auto;
   img {
     position: absolute;
     @include box-size(50px);
     opacity: 0.1;
-    top: -30%;
-    left: 12%;
+    top: -0.8rem;
+    left: 3rem;
   }
 }
 </style>

@@ -58,15 +58,15 @@ $card-rows-margin: 5px;
     margin-top: 1rem;
   }
   #moto {
-    margin: 1rem 0 2.5rem 0;
+    margin: 1rem auto 2.5rem auto;
   }
 }
 
 .tooltip {
-  // margin-left: -1rem;
+  margin-left: -0.4rem; // hard-cocded
   @media (max-width: 1120px) {
     display: none;
   }
-  transform: translateY(calc(50% - 93.5px));
+  // transform: translateY(calc(50% - 93.5px));
 }
 </style>
