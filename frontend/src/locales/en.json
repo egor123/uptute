@@ -52,6 +52,7 @@
   "app": {
     "pages": {
       "home": "Home",
+      "begin": "Begin your journey",
       "find_tutor": "Find your tutor",
       "become_tutor": "Become a tutor",
       "blog": "Our blog",

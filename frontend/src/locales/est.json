@@ -53,6 +53,7 @@
   "app": {
     "pages": {
       "home": "Avaleht",
+      "begin": "Alusta oma seiklus",
       "find_tutor": "Leia õpetaja",
       "become_tutor": "Tule õpetajaks!",
       "blog": "Blogi",
