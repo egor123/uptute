@@ -41,12 +41,7 @@
             {{ $l("app.pages.find_tutor") }}
           </v-btn> -->
 
-          <v-menu
-            offset-y
-            bottom
-            open-on-hover
-            :close-on-content-click="closeOnContentClick"
-          >
+          <v-menu offset-y open-on-hover hide-on-scroll>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 rounded
@@ -55,12 +50,13 @@
                 v-if="!getStatus"
                 v-bind="attrs"
                 v-on="on"
+                class="ma-0"
               >
                 {{ $l("app.pages.begin") }}
               </v-btn>
             </template>
 
-            <v-list class="authList mt-6">
+            <v-list class="mt-6">
               <RegisterList />
             </v-list>
           </v-menu>
@@ -72,7 +68,7 @@
                 <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
               </v-btn>
             </template>
-            <v-list class="languageList mt-6">
+            <v-list class="mt-6">
               <v-list-item
                 v-for="(l, index) in locales"
                 :key="index"
@@ -276,7 +272,7 @@ $header-height: 56px;
 
 .v-menu__content {
   background: #00000033 !important;
-  border-radius: 0 0 15px 15px;
+  border-radius: 15px;
   .v-list {
     background: none;
   }

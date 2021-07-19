@@ -3,10 +3,22 @@
     <PrimarySettings />
 
     <div id="buttons">
-      <v-btn id="student" rounded outlined color="accent">
+      <v-btn
+        @click="routerPush('FindATutor')"
+        id="student"
+        rounded
+        outlined
+        color="accent"
+      >
         {{ $l("set_up.as_student") }}
       </v-btn>
-      <v-btn id="tutor" rounded outlined color="accent">
+      <v-btn
+        @click="routerPush('SecondarySettingUp')"
+        id="tutor"
+        rounded
+        outlined
+        color="accent"
+      >
         {{ $l("set_up.as_tutor") }}</v-btn
       >
     </div>
@@ -25,6 +37,11 @@ export default {
     PrimarySettings,
     AccountBase,
   },
+  methods: {
+    routerPush(to) {
+      this.$router.push({ name: to });
+    },
+  },
 };
 </script>
 
@@ -40,7 +57,7 @@ export default {
   margin-top: 3rem;
   #student {
     border-radius: 15px 0 0 15px;
-    border-right: none;
+    border-right: 0px;
   }
   #tutor {
     border-radius: 0 15px 15px 0;

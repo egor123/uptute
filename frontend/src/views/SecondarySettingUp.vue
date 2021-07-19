@@ -1,9 +1,14 @@
 <template>
   <AccountBase :title="$l('set_up.subheader')">
     <SecondarySettings />
-    <v-btn id="done" rounded outlined color="accent">{{
-      $l("set_up.button")
-    }}</v-btn>
+    <v-btn
+      @click="routerPush('ChooseAStudent')"
+      id="done"
+      rounded
+      outlined
+      color="accent"
+      >{{ $l("set_up.button") }}</v-btn
+    >
   </AccountBase>
 </template>
 
@@ -18,6 +23,11 @@ export default {
   components: {
     SecondarySettings,
     AccountBase,
+  },
+  methods: {
+    routerPush(to) {
+      this.$router.push({ name: to });
+    },
   },
 };
 </script>
