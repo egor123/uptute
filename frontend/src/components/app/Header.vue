@@ -278,6 +278,7 @@ $header-height: 56px;
       #name {
         font-size: 32px;
         color: var(--v-secondary-base);
+        // font-weight: 500;
       }
       & > * {
         transition: opacity 0.3s ease-in-out;

@@ -150,6 +150,7 @@ h1 {
     rgba(0, 0, 0, 0) 100%
   );
   backdrop-filter: blur(5px);
+  background-color: rgba($color: #fff, $alpha: 0.4);
 }
 
 // .btn {

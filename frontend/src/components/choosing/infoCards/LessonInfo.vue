@@ -63,5 +63,6 @@ th {
 
 td {
   text-align: right;
+  // min-width: max-content;
 }
 </style>

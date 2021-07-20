@@ -20,13 +20,14 @@
       </div>
       <div v-animate="'slideInFromBottom'" id="radio-buttons">
         <input
-          type="radio"
-          name="radio"
           v-for="(c, i) in elements"
           :key="i"
+          type="radio"
+          name="radio"
           :value="i"
           v-model="current"
           :ref="`radio${i}`"
+          :id="`radio${i}`"
         />
       </div>
       <NavButtons v-if="!$mb.isMobileInput()" />
