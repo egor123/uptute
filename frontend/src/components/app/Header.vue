@@ -56,11 +56,11 @@
               <v-btn
                 rounded
                 text
-                color="accent"
                 v-if="!getStatus"
                 v-bind="attrs"
                 v-on="on"
-                class="ma-0"
+                color="accent"
+                class="ma-0 registerBtn"
               >
                 {{ $l("app.pages.begin") }}
               </v-btn>
@@ -84,7 +84,13 @@
             attach="#locales"
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn text v-bind="attrs" v-on="on" class="ma-0" width="10px">
+              <v-btn
+                text
+                v-bind="attrs"
+                v-on="on"
+                class="ma-0 flagBtn"
+                width="10px"
+              >
                 <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
               </v-btn>
             </template>
@@ -307,15 +313,21 @@ $header-height: 56px;
 // .register {
 //   opacity: 0.8; // Compensates being outside of the parent and not inheriting opacity
 // }
+.registerBtn,
+.flagBtn {
+  cursor: auto;
+}
 
 .v-menu__content {
-  // background: blue;
   background: #00000000;
   border-radius: 0 0 15px 15px;
   padding-top: 10px;
   transition: all 0.3s !important;
   .v-list {
     background: #000 !important;
+    .v-btn {
+      border-radius: 50px;
+    }
   }
 }
 
