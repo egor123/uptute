@@ -249,11 +249,6 @@ export default {
       }
     }
   }
-  #uploadImg {
-    opacity: 0;
-    position: fixed;
-    z-index: -1;
-  }
 }
 
 #radio-buttons {
