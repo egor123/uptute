@@ -40,8 +40,18 @@
           >
             {{ $l("app.pages.find_tutor") }}
           </v-btn> -->
+        </div>
 
-          <v-menu offset-y open-on-hover hide-on-scroll>
+        <div id="locales" ref="locales">
+          <v-menu
+            content-class="register"
+            offset-y
+            open-on-hover
+            hide-on-scroll
+            transition="scale-transition"
+            origin="top center"
+            attach="#locales"
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 rounded
@@ -56,19 +66,29 @@
               </v-btn>
             </template>
 
-            <v-list class="mt-6">
-              <RegisterList />
+            <v-list>
+              <v-list-item>
+                <v-btn text id="google" @click="logIn()">
+                  <v-icon>mdi-google</v-icon>Sign in
+                </v-btn>
+              </v-list-item>
             </v-list>
           </v-menu>
-        </div>
-        <div id="locales" ref="locales">
-          <v-menu offset-y open-on-hover hide-on-scroll attach="#locales">
+
+          <v-menu
+            offset-y
+            open-on-hover
+            hide-on-scroll
+            transition="scale-transition"
+            origin="top center"
+            attach="#locales"
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn text v-bind="attrs" v-on="on" class="ma-0" width="10px">
                 <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
               </v-btn>
             </template>
-            <v-list class="mt-6">
+            <v-list>
               <v-list-item
                 v-for="(l, index) in locales"
                 :key="index"
@@ -99,7 +119,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import RegisterList from "@/components/account/RegisterList.vue";
+import { GoogleAuthService } from "@/services/index";
 
 export default {
   data() {
@@ -108,9 +128,6 @@ export default {
       locale: String,
       showSnackbar: false,
     };
-  },
-  components: {
-    RegisterList,
   },
   computed: mapGetters(["getStatus", "getNavBar"]),
   methods: {
@@ -178,6 +195,24 @@ export default {
       this.$root.$on("removeSubHeader", () => {
         subHeader.innerHTML = "";
       });
+    },
+    logIn() {
+      GoogleAuthService.signIn()
+        .then(() => {
+          this.$router.push({ name: "PrimarySettingUp" });
+        })
+        .catch((e) => {
+          if (e.error === "idpiframe_initialization_failed")
+            this.$root.$emit("cookiesError");
+        });
+
+      //   new Promise((resolve, reject) => {
+      //     resolve("Success!");
+      //     reject("Fail!");
+      //   });
+    },
+    logOut() {
+      GoogleAuthService.signOut();
     },
   },
   created() {
@@ -269,12 +304,18 @@ $header-height: 56px;
     }
   }
 }
+// .register {
+//   opacity: 0.8; // Compensates being outside of the parent and not inheriting opacity
+// }
 
 .v-menu__content {
-  background: #00000033 !important;
-  border-radius: 15px;
+  // background: blue;
+  background: #00000000;
+  border-radius: 0 0 15px 15px;
+  padding-top: 10px;
+  transition: all 0.3s !important;
   .v-list {
-    background: none;
+    background: #000 !important;
   }
 }
 
@@ -292,5 +333,14 @@ $header-height: 56px;
 
 .flagImg {
   border-radius: 1.5px;
+}
+
+#google {
+  width: 100%;
+  color: var(--v-secondary-base);
+  .v-icon {
+    margin-right: 10px;
+    color: var(--v-accent-base);
+  }
 }
 </style>
