@@ -27,7 +27,7 @@ export default {
 <style scoped lang="scss">
 @import "@/scss/mixins.scss";
 // ----- Settings -----
-$size: 16px;
+$size: 12px;
 $padding: 2px;
 $margin: 4px;
 $color: #c5c5c5;
