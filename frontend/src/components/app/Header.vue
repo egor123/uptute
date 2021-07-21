@@ -22,12 +22,12 @@
           </v-btn>
           <!-- <v-btn rounded v-if="!getStatus" :to="{ name: 'LogIn' }">
             {{ $l("app.pages.log_in") }}
-          </v-btn> -->
-          <!-- <v-btn rounded v-if="!getStatus" :to="{ name: 'Register' }">
+          </v-btn>
+          <v-btn rounded v-if="!getStatus" :to="{ name: 'Register' }">
             {{ $l("app.pages.register") }}
-          </v-btn> -->
+          </v-btn>
 
-          <!-- <v-btn rounded :to="{ name: 'WhyUs' }">
+          <v-btn rounded :to="{ name: 'WhyUs' }">
             {{ $l("app.pages.why_us") }}
           </v-btn> -->
 
@@ -62,32 +62,39 @@
             </v-list>
           </v-menu>
         </div>
-          <v-menu
-            offset-y
-            open-on-hover
-            hide-on-scroll
-            transition="scale-transition"
-            origin="top center"
-            attach="#container"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn text v-bind="attrs" v-on="on" id="flagBtn" width="10px">
-                <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                v-for="(l, index) in locales"
-                :key="index"
-                v-on:change="changeLocale(l)"
-              >
-                <button>
-                  <img :src="getImgUrl(l)" :alt="l" class="flagImg" />
-                </button>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </div>
+        <v-menu
+          offset-y
+          open-on-hover
+          hide-on-scroll
+          transition="scale-transition"
+          origin="top center"
+          attach="#container"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              text
+              v-bind="attrs"
+              v-on="on"
+              id="flagBtn"
+              width="10px"
+              ref="locales"
+            >
+              <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(l, index) in locales"
+              :key="index"
+              v-on:change="changeLocale(l)"
+            >
+              <button>
+                <img :src="getImgUrl(l)" :alt="l" class="flagImg" />
+              </button>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
     </div>
     <div id="subHeader" ref="subHeader" />
     <v-snackbar
@@ -123,7 +130,6 @@ export default {
         params: { locale: val },
       });
       this.updateLocales(val);
-      this.resize();
     },
     goToHomePage() {
       if (this.$route.name !== "Home") this.$router.push({ name: "Home" });
@@ -142,10 +148,10 @@ export default {
       const container = this.$refs.container;
       const buttons = this.$refs.buttons;
       const title = this.$refs.title;
-      const locales = this.$refs.locales;
+      const locales = this.$refs.locales.$el;
       const navIcon = this.$refs.navIcon;
 
-      new ResizeObserver(() => {
+      const observer = new ResizeObserver(() => {
         buttons.style.display = "flex";
         var mv =
           container.offsetWidth - title.offsetWidth - locales.offsetWidth <
@@ -153,7 +159,9 @@ export default {
         buttons.style.display = mv ? "none" : "flex";
         navIcon.style.display = mv ? "inline" : "none";
         this.setMobileView(mv);
-      }).observe(document.documentElement);
+      });
+      observer.observe(document.documentElement);
+      observer.observe(container);
     },
     scroll() {
       const wrapper = this.$refs.wrapper;
