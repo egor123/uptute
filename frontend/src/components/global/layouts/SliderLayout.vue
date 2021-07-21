@@ -63,7 +63,7 @@ export default {
     this.total = this.elements.length;
     this.setStyles(false);
     bus.$on("currentChange", (data) => {
-      this.current += data;
+      this.current -= data;
     });
     document.addEventListener("touchend", this.touchend);
     this.$nextTick(() => {
@@ -171,7 +171,7 @@ $buttons-offset-at-900px: 5%;
 
 #radio-buttons {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   margin-top: 15px;
 }
 
