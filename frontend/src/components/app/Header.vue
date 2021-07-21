@@ -49,9 +49,9 @@
             attach="#container"
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn text v-bind="attrs" v-on="on" color="accent" id="beginBtn">
+              <div v-bind="attrs" v-on="on" id="begin">
                 {{ $l("app.pages.begin") }}
-              </v-btn>
+              </div>
             </template>
             <v-list>
               <v-list-item>
@@ -71,16 +71,9 @@
           attach="#container"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              text
-              v-bind="attrs"
-              v-on="on"
-              id="flagBtn"
-              width="10px"
-              ref="locales"
-            >
+            <div v-bind="attrs" v-on="on" id="flag" ref="locales">
               <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
-            </v-btn>
+            </div>
           </template>
           <v-list>
             <v-list-item
@@ -153,6 +146,7 @@ export default {
 
       const observer = new ResizeObserver(() => {
         buttons.style.display = "flex";
+
         var mv =
           container.offsetWidth - title.offsetWidth - locales.offsetWidth <
           buttons.offsetWidth;
@@ -298,10 +292,26 @@ $header-height: 56px;
   }
 }
 
+#begin,
+#flag {
+  height: 100%;
+  width: max-content;
+  cursor: default;
+  @include flexbox();
+  padding: 0 1rem;
+}
+
+#begin {
+  color: var(--v-accent-base) !important;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
 .v-menu__content {
   background: transparent;
   border-radius: 0 0 15px 15px;
-  padding-top: 9px;
   transition: all 0.3s !important;
   .v-list {
     background: #000 !important;
@@ -313,6 +323,7 @@ $header-height: 56px;
 
 .flagImg {
   border-radius: 1.5px;
+  // margin: auto;
 }
 
 #google {
