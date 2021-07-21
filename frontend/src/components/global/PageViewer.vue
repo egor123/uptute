@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import { bus } from "@/main.js";
 import NavButtons from "@/components/global/NavButtons.vue";
 
 export default {
@@ -130,7 +129,7 @@ export default {
           document.addEventListener("touchend", this.touchend);
           document.addEventListener("keydown", (key) => this.keyDown(key));
           window.addEventListener("resize", this.widowResized);
-          bus.$on("currentChange", (data) => {
+          this.$root.$on("currentChange", (data) => {
             this.xChange = -data * this.w;
             this.touchend();
           });

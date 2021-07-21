@@ -57,7 +57,6 @@ import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
 import Rating from "./Rating.vue";
 import UserImg from "@/components/choosing/choosingATutor/UserImg.vue";
 import BookButton from "@/components/choosing/choosingATutor/BookButton.vue";
-// import { bus } from "@/main.js";
 
 export default {
   data() {
@@ -83,7 +82,6 @@ export default {
   },
   methods: {
     openComments() {
-      //     bus.$emit("scrollToComments");
       this.toComments = !this.toComments;
     },
   },

@@ -66,39 +66,39 @@
   border-radius: 0 !important;
 }
 
-input[type="radio"] {
-  // ----- Settings -----
+// input[type="radio"] {
+//   // ----- Settings -----
 
-  $size: 8px;
-  $margin: 6px;
-  $default-amount: 92;
-  // $checked-amount: 83;
-  $transition-time: 0.4s;
+//   $size: 8px;
+//   $margin: 6px;
+//   $default-amount: 92;
+//   // $checked-amount: 83;
+//   $transition-time: 0.4s;
 
-  // --------------------
-  @include box-size($size);
-  position: relative;
-  margin: $margin;
-  @include pseudo-elements {
-    @include fill-parent(-1px);
-    border-radius: 50%;
-  }
-  &::before {
-    background-color: lighten($color: #000000, $amount: $default-amount);
-  }
-  &:hover::before {
-    cursor: pointer;
-  }
-  &::after {
-    // background-color: lighten($color: #000000, $amount: $checked-amount);
-    background-color: var(--v-accent-base);
-    transition: all $transition-time ease-in-out;
-  }
-  &:not(:checked)::after {
-    transform: scale(0);
-    opacity: 0;
-  }
-}
+//   // --------------------
+//   @include box-size($size);
+//   position: relative;
+//   margin: $margin;
+//   @include pseudo-elements {
+//     @include fill-parent(-1px);
+//     border-radius: 50%;
+//   }
+//   &::before {
+//     background-color: lighten($color: #000000, $amount: $default-amount);
+//   }
+//   &:hover::before {
+//     cursor: pointer;
+//   }
+//   &::after {
+//     // background-color: lighten($color: #000000, $amount: $checked-amount);
+//     background-color: var(--v-accent-base);
+//     transition: all $transition-time ease-in-out;
+//   }
+//   &:not(:checked)::after {
+//     transform: scale(0);
+//     opacity: 0;
+//   }
+// }
 
 .tooltip {
   // min-width: 200px;

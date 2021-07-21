@@ -19,15 +19,22 @@
         </div>
       </div>
       <div v-animate="'slideInFromBottom'" id="radio-buttons">
-        <input
+        <!-- <label type="radio" v-for="(c, i) in elements" :key="i">
+          <input
+            type="radio"
+            name="radio"
+            :value="i"
+            v-model="current"
+            :ref="`radio${i}`"
+            :id="`radio${i}`"
+          />
+        </label> -->
+        <RadioButton
           v-for="(c, i) in elements"
           :key="i"
-          type="radio"
-          name="radio"
           :value="i"
           v-model="current"
           :ref="`radio${i}`"
-          :id="`radio${i}`"
         />
       </div>
       <NavButtons v-if="!$mb.isMobileInput()" />
@@ -37,11 +44,11 @@
 
 <script>
 import NavButtons from "@/components/global/NavButtons.vue";
-import { bus } from "@/main.js";
-
+import RadioButton from "@/components/global/RadioButton.vue";
 export default {
   components: {
     NavButtons,
+    RadioButton,
   },
   data() {
     return {
@@ -62,7 +69,7 @@ export default {
   mounted() {
     this.total = this.elements.length;
     this.setStyles(false);
-    bus.$on("currentChange", (data) => {
+    this.$root.$on("currentChange", (data) => {
       this.current -= data;
     });
     document.addEventListener("touchend", this.touchend);
@@ -83,10 +90,6 @@ export default {
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
         else if (this.current >= this.total) this.currentValue = 0;
-        this.setActive(false);
-        setTimeout(() => {
-          this.setActive(true);
-        }, 600);
         this.setStyles();
       },
     },
@@ -104,13 +107,19 @@ export default {
     },
     setActive(val) {
       for (var i = 0; i < this.total; i++)
-        this.$refs[`radio${i}`][0].disabled = !val;
+        this.$refs[`radio${i}`][0].$el.querySelector("input").disabled = !val;
       this.enabled = val;
     },
     getImgUrl(img) {
       return require(`@/assets/icons/${img}.svg`);
     },
     setStyles(transition = true) {
+      let c = this.currentValue;
+      this.setActive(false);
+      setTimeout(() => {
+        this.setActive(true);
+        if (c != this.currentValue) this.setStyles();
+      }, 600);
       for (var i = 0; i < this.total; i++) {
         const element = this.$refs[`element${i}`][0];
         var position = i - this.current;

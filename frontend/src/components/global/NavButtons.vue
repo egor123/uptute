@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import { bus } from "@/main.js";
-
 export default {
   methods: {
     btnIsPressed(event) {
@@ -27,11 +25,11 @@ export default {
       switch (btn.getAttribute("action")) {
         case "next":
           //   this.current--;
-          bus.$emit("currentChange", -1);
+          this.$root.$emit("currentChange", -1);
           break;
         case "previous":
           //   this.current++;
-          bus.$emit("currentChange", 1);
+          this.$root.$emit("currentChange", 1);
           break;
       }
       const ripple = document.createElement("div");
