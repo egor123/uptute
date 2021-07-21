@@ -301,7 +301,6 @@ $header-height: 56px;
 .v-menu__content {
   background: transparent;
   border-radius: 0 0 15px 15px;
-  padding-top: 9px;
   transition: all 0.3s !important;
   .v-list {
     background: #000 !important;
