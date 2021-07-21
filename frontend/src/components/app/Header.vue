@@ -322,7 +322,7 @@ $header-height: 56px;
 .v-menu__content {
   background: #00000000;
   border-radius: 0 0 15px 15px;
-  padding-top: 10px;
+  padding-top: 9px;
   transition: all 0.3s !important;
   .v-list {
     background: #000 !important;
@@ -354,6 +354,11 @@ $header-height: 56px;
   .v-icon {
     margin-right: 10px;
     color: var(--v-accent-base);
+  }
+}
+::v-deep {
+  .v-snack__wrapper {
+    border-radius: 15px !important;
   }
 }
 </style>
