@@ -1,11 +1,12 @@
 <template>
-  <div id="content">
+  <div id="content" ref="content">
     <MainInfo
       :age="tutor.age"
       :rating="tutor.rating"
       :hours="tutor.hours"
       :pph="tutor.pph"
     />
+
     <Moto :moto="tutor.moto" />
     <AboutInfo :about="tutor.about" />
     <AdditionalInfo
@@ -14,7 +15,7 @@
       :audience="tutor.audience"
       :age="tutor.age"
     />
-    <div id="commentsDiv">
+    <div id="commentsDiv" ref="commentsDiv">
       <h4>{{ $l("tutor.comments") }}</h4>
       <Comments
         :id="tutor.uuid"
@@ -50,9 +51,33 @@ export default {
   },
   props: {
     tutor: Object,
+    toComments: Boolean,
   },
+  // mounted() {
+  //   this.$root.$on("dialogOpened", () => {
+  //     setTimeout(() => {
+  //       this.$refs.content.scrollIntoView();
+  //     }, 1);
+  //   });
+  // },
   mounted() {
-    console.log(this.tutor);
+    this.$root.$on("loadingEnded", () => {
+      this.$nextTick(() => {
+        this.$refs.commentsDiv.scrollIntoView({
+          behavior: "smooth",
+        });
+      });
+    });
+  },
+
+  watch: {
+    toComments: function() {
+      setTimeout(() => {
+        this.$refs.commentsDiv.scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 10);
+    },
   },
 };
 </script>

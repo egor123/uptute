@@ -63,7 +63,6 @@ export default {
   },
   methods: {
     preventNav(event) {
-      console.log(event);
       event.preventDefault();
       event.returnValue = "";
     },
@@ -79,7 +78,6 @@ export default {
   beforeRouteLeave(to, from, next) {
     this.showAlert = true;
     this.untilClick().then((val) => {
-      console.log(val);
       this.showAlert = false;
       if (val === "close") next();
     });

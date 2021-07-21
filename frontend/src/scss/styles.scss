@@ -118,3 +118,9 @@ input[type="radio"] {
   position: fixed;
   z-index: -1;
 }
+
+.v-slider__thumb-label {
+  span {
+    font-size: 14px;
+  }
+}

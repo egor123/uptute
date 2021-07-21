@@ -64,8 +64,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.value);
-    console.log(123);
     if (this.value.comments > 5) {
       this.show = true;
     }

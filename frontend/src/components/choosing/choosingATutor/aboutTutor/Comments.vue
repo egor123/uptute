@@ -98,8 +98,10 @@ export default {
       display: flex;
       flex: row;
       align-content: center;
-      opacity: 0.6;
       margin: 1.2rem 0 0.5rem 0;
+      & > *:not(.rating) {
+        opacity: 0.6;
+      }
       img {
         border: solid black 1px;
         border-radius: 50%;

@@ -37,6 +37,7 @@ export default {
       // this.enableIconAnim(false);
       this.$refs.holder.classList.toggle("disabled", true);
       this.$refs.slot.classList.toggle("disabled", false);
+      this.$root.$emit("loadingEnded");
     },
     // waitIconAnim() {
     //   return new Promise((res) =>
