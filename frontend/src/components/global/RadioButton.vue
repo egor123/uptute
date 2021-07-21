@@ -1,7 +1,9 @@
 <template>
   <span>
     <input type="radio" :id="`radio${value}`" :value="value" v-model="input" />
-    <label :for="`radio${value}`" :style="getStyles()"> <slot /> </label>
+    <label :for="`radio${value}`" :style="getStyles()" @click="$emit('click')">
+      <slot />
+    </label>
   </span>
 </template>
 
@@ -23,7 +25,9 @@ export default {
   },
   methods: {
     getStyles() {
-      return `--size: ${this.size ?? 12}px; --padding: ${ this.$slots.default ? 1 : 0 }ch`;
+      return `--size: ${this.size ?? 12}px; --padding: ${
+        this.$slots.default ? 1 : 0
+      }ch`;
     },
   },
 };
