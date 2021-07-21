@@ -5,12 +5,11 @@
       "log_in": "Logi sisse",
       "register": "Registreeru"
     },
+    "allow_cookies": "Kasutamaks Google autorisatsiooni palun luba <b>Kolmandate Isikute Küpsiste</b> kasutamist",
     "btn": {
       "log_in": "Logi sisse",
       "register": "Registreeru"
     },
-    "allow_cookies": "Kasutamaks Google autorisatsiooni palun luba <b>Kolmandate Isikute Küpsiste</b> kasutamist",
-    "name": "Ees- ja perekonnanimi..",
     "email": "Emaili aadress...",
     "password": "Salasõna...",
     "forgot": "Unustasid salasõna?",
@@ -18,7 +17,7 @@
     "create": "Loo salasõna",
     "repeat": "Korda salasõna...",
     "must_agree": "Jätkamiseks vajame su nõusolekut",
-    "privacy": "Nõustun  UpTute'i ",
+    "privacy": "Nõustun ",
     "receive": "Soovin saada UpTute'i uudiskirju.",
     "like_to": {
       "parameter": "Sooviksin",
@@ -62,7 +61,9 @@
       "register": "Regitreeru",
       "about_us": "Meist",
       "privacy_policy": "Privaatsuspoliitika",
-      "terms": "Kasutustingimused"
+      "and": "ja",
+      "terms": "Kasutustingimused",
+      "with_terms": "Kasutustingimustega"
     },
     "footer": {
       "pages_title": "Mõned leheküljed:"
@@ -190,7 +191,6 @@
   },
   "find": {
     "header": "Leia õpetaja ",
-
     "search": "Trüki õpetaja nimi...",
     "filters": {
       "subject": {
@@ -292,6 +292,62 @@
       "here": "siit",
       "text": "Oma eratunni leiad"
     }
+  },
+  "set_up": {
+    "subheader": "Konto seadmine",
+
+    "name": "Eesnimi",
+    "surname": "Perekonnanimi",
+    "birth": "Sünnikuupäev",
+    "grade": "Klass",
+    "year_holder": "PP/KK/AAAA",
+    "subjects": "Ained, mida õpetad",
+    "zoom": "Zoomi link",
+    "dialog": {
+      "title": "Pole kindel, mis see on?",
+      "text": "Loe",
+      "link": "siit"
+    },
+    "motto": "Moto",
+    "about": "Veidi endast",
+    "as_student": "Õpilasena",
+    "as_tutor": "Õpetajana",
+    "button": "Valmis"
+  },
+
+  "acc_pages": {
+    "settings": "Seaded",
+    "calendar": "Kalender"
+  },
+  "settings": {
+    "password": "Muuda salasõna",
+    "old": "Vana salasõna",
+    "new": "Uus salasõna",
+    "repeat": "Korda uut salasõna",
+    "delete": "Kustuta konto",
+    "save": "Salvesta muudatused"
+  },
+  "past": {
+    "statement": "Avaldus",
+    "date": "Kuupäev",
+    "payer": "Maksja",
+    "payee": "Maksesaaja",
+    "method": "Meetod",
+    "ammount": "Kogus",
+    "status": "Staatus"
+  },
+  "calendar": {
+    "cancel": "Jätta eratund ära",
+    "sure": "Kindel, et tahad eratundi ära jätta?",
+    "why": "Miks?",
+    "yes": "Jah, jätta ära",
+    "no": "Eip, tagasi"
+  },
+  "feedback": {
+    "title": "Kuidas sulle tund meeldis?",
+    "comment": "Kommentaar",
+    "button1": "Jätta vahele",
+    "button2": "Salvesta"
   },
   "data": {
     "actions": {
