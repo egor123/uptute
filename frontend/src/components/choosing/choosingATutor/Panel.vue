@@ -2,7 +2,7 @@
   <HiddenButtonCard :tutor="tutor">
     <template v-slot:static>
       <div class="profile">
-        <UserImg :tutor="tutor" />
+        <UserImg :tutor="tutor" :toComments="toComments" />
 
         <div>
           <p class="pph">
@@ -35,22 +35,15 @@
 
         <Rating :value="tutor.rating" class="rating" />
 
-        <v-tooltip top content-class="tooltip" open-delay="300">
-          <template v-slot:activator="{ on, attrs }">
-            <div class="commentsDiv" v-bind="attrs" v-on="on">
-              <img
-                width="20px"
-                height="20px"
-                class="mr-1"
-                src="@/assets/icons/message.svg"
-              />
-              <p>{{ tutor.comments }}</p>
-            </div>
-          </template>
-          <span>
-            {{ $l("choose_a.tutor.comments") }}
-          </span>
-        </v-tooltip>
+        <div class="commentsDiv" @click="openComments()">
+          <img
+            width="20px"
+            height="20px"
+            class="mr-1"
+            src="@/assets/icons/message.svg"
+          />
+          <p>{{ tutor.comments }}</p>
+        </div>
       </div>
     </template>
     <template v-slot:activator>
@@ -64,11 +57,13 @@ import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
 import Rating from "./Rating.vue";
 import UserImg from "@/components/choosing/choosingATutor/UserImg.vue";
 import BookButton from "@/components/choosing/choosingATutor/BookButton.vue";
+// import { bus } from "@/main.js";
 
 export default {
   data() {
     return {
       windowTop: 0,
+      toComments: false,
     };
   },
   components: {
@@ -80,6 +75,17 @@ export default {
   props: {
     tooltipUse: String,
     tutor: Object,
+  },
+  mounted() {
+    this.$root.$on("dialogClosed", () => {
+      this.toComments = false;
+    });
+  },
+  methods: {
+    openComments() {
+      //     bus.$emit("scrollToComments");
+      this.toComments = !this.toComments;
+    },
   },
 };
 </script>
@@ -119,6 +125,7 @@ export default {
   .hoursDiv,
   .commentsDiv {
     opacity: 0.6;
+    cursor: pointer;
 
     transition: opacity 300ms;
     &:hover {

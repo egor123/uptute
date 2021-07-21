@@ -1,5 +1,5 @@
 <template>
-  <Dialog class="dialog">
+  <Dialog class="dialog" :toComments="toComments">
     <template v-slot:object>
       <img class="userImg" src="@/assets/icons/user.svg" />
     </template>
@@ -8,7 +8,7 @@
       <AboutTutorTitle :tutor="tutor" />
     </template>
     <template v-slot:text>
-      <AboutTutorContent :tutor="tutor" />
+      <AboutTutorContent :tutor="tutor" :toComments="toComments" />
     </template>
   </Dialog>
 </template>
@@ -26,6 +26,7 @@ export default {
   },
   props: {
     tutor: Object,
+    toComments: Boolean,
   },
 };
 </script>

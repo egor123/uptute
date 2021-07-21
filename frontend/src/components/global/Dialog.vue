@@ -1,5 +1,5 @@
 <template>
-  <v-dialog>
+  <v-dialog v-model="showDialog">
     <template v-slot:activator="{ on, attrs }">
       <div class="activator" v-bind="attrs" v-on="on">
         <slot name="object" />
@@ -7,7 +7,14 @@
     </template>
 
     <v-card class="card">
+      <div ref="start" />
       <v-card-title id="cardTitle" class="justify-center text-h5 background">
+        <button class="cross" @click="crossClick()">
+          <v-icon class="backIcon">
+            mdi-close
+          </v-icon>
+        </button>
+
         <slot name="title" />
       </v-card-title>
 
@@ -18,7 +25,46 @@
   </v-dialog>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      showDialog: false,
+    };
+  },
+  props: {
+    toComments: Boolean,
+  },
+  created() {
+    this.showDialog = this.toComments;
+  },
+  methods: {
+    crossClick() {
+      this.showDialog = false;
+    },
+  },
+  watch: {
+    toComments: function(val) {
+      this.showDialog = val;
+    },
+    showDialog: function() {
+      console.log(this.showDialog);
+      if (this.showDialog === true) {
+        this.$root.$emit("dialogOpened");
+        this.$nextTick(() => {
+          this.$refs.start.scrollIntoView({ block: "start" });
+        });
+      } else {
+        this.$root.$emit("dialogClosed");
+      }
+    },
+  },
+};
+</script>
+
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
 #cardText {
   padding: 2rem;
   background: var(--v-background-base);
@@ -30,6 +76,7 @@
 
 ::v-deep {
   .v-card {
+    // overflow-x: hidden;
     #cardTitle {
       z-index: 10;
       font-family: Comfortaa !important;
@@ -64,6 +111,24 @@
 
   ::-webkit-scrollbar {
     width: 0px;
+  }
+}
+
+.cross {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  @include box-size(max-content);
+  @include flexbox;
+
+  &:hover .backIcon {
+    transform: rotate(-180deg) scale(0.8);
+  }
+  .backIcon {
+    color: var(--v-accent-base);
+    // padding: 5px;
+    z-index: 11;
+    transition: all 500ms;
   }
 }
 </style>
