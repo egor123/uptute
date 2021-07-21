@@ -40,32 +40,19 @@
           >
             {{ $l("app.pages.find_tutor") }}
           </v-btn> -->
-        </div>
-
-        <div id="locales" ref="locales">
           <v-menu
-            content-class="register"
             offset-y
             open-on-hover
             hide-on-scroll
             transition="scale-transition"
             origin="top center"
-            attach="#locales"
+            attach="#container"
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                rounded
-                text
-                v-if="!getStatus"
-                v-bind="attrs"
-                v-on="on"
-                color="accent"
-                class="ma-0 registerBtn"
-              >
+              <v-btn text v-bind="attrs" v-on="on" color="accent" id="beginBtn">
                 {{ $l("app.pages.begin") }}
               </v-btn>
             </template>
-
             <v-list>
               <v-list-item>
                 <v-btn text id="google" @click="logIn()">
@@ -74,23 +61,17 @@
               </v-list-item>
             </v-list>
           </v-menu>
-
+        </div>
           <v-menu
             offset-y
             open-on-hover
             hide-on-scroll
             transition="scale-transition"
             origin="top center"
-            attach="#locales"
+            attach="#container"
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                text
-                v-bind="attrs"
-                v-on="on"
-                class="ma-0 flagBtn"
-                width="10px"
-              >
+              <v-btn text v-bind="attrs" v-on="on" id="flagBtn" width="10px">
                 <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
               </v-btn>
             </template>
@@ -107,7 +88,6 @@
             </v-list>
           </v-menu>
         </div>
-      </div>
     </div>
     <div id="subHeader" ref="subHeader" />
     <v-snackbar
@@ -211,11 +191,6 @@ export default {
           if (e.error === "idpiframe_initialization_failed")
             this.$root.$emit("cookiesError");
         });
-
-      //   new Promise((resolve, reject) => {
-      //     resolve("Success!");
-      //     reject("Fail!");
-      //   });
     },
     logOut() {
       GoogleAuthService.signOut();
@@ -267,10 +242,10 @@ $header-height: 56px;
     position: absolute;
     left: var(--side-margin);
     right: var(--side-margin);
+
     #title {
       @include flexbox();
       text-transform: none;
-      background-color: transparent;
       color: var(--v-secondary-darken2);
       #logo {
         height: 70px;
@@ -280,67 +255,50 @@ $header-height: 56px;
         color: var(--v-secondary-base);
         // font-weight: 500;
       }
-      & > * {
+      * {
         transition: opacity 0.3s ease-in-out;
-      }
-      & > *:hover {
-        opacity: 0.7;
+        &:hover {
+          opacity: 0.7;
+        }
       }
     }
     #buttons {
       @include flexbox();
       margin-left: auto;
-      * {
-        background-color: inherit;
+      & > * {
+        background-color: transparent;
         color: var(--secondary-base);
         margin-right: 0.5rem;
       }
+      #beginBtn {
+        height: 100%;
+      }
     }
+    #flagBtn {
+      height: 100%;
+    }
+
     #nav a {
       margin: 2px;
       background-color: var(--v-primary-base);
       font-weight: bold;
       color: var(--v-secondary-base);
-    }
-    #nav a.router-link-active {
-      color: var(--v-active-base);
-    }
-
-    .listItem {
-      padding: 0;
+      &.router-link-active {
+        color: var(--v-active-base);
+      }
     }
   }
 }
-// .register {
-//   opacity: 0.8; // Compensates being outside of the parent and not inheriting opacity
-// }
-.registerBtn,
-.flagBtn {
-  cursor: auto;
-}
 
 .v-menu__content {
-  background: #00000000;
+  background: transparent;
   border-radius: 0 0 15px 15px;
-  padding-top: 10px;
   transition: all 0.3s !important;
   .v-list {
     background: #000 !important;
     .v-btn {
       border-radius: 50px;
     }
-  }
-}
-
-#subHeader {
-  z-index: -1;
-  width: 100vw;
-  opacity: 0.7;
-  background-color: var(--v-header-base);
-  padding: 10px;
-  box-shadow: 0px 2px 6px var(--v-secondary-darken1);
-  &.empty {
-    display: none;
   }
 }
 
@@ -354,6 +312,18 @@ $header-height: 56px;
   .v-icon {
     margin-right: 10px;
     color: var(--v-accent-base);
+  }
+}
+
+#subHeader {
+  z-index: -1;
+  width: 100vw;
+  opacity: 0.7;
+  background-color: var(--v-header-base);
+  padding: 10px;
+  box-shadow: 0px 2px 6px var(--v-secondary-darken1);
+  &.empty {
+    display: none;
   }
 }
 </style>
