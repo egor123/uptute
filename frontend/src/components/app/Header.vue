@@ -27,9 +27,9 @@
             {{ $l("app.pages.register") }}
           </v-btn> -->
 
-          <v-btn rounded :to="{ name: 'WhyUs' }">
+          <!-- <v-btn rounded :to="{ name: 'WhyUs' }">
             {{ $l("app.pages.why_us") }}
-          </v-btn>
+          </v-btn> -->
 
           <!-- <v-btn
             rounded

@@ -77,12 +77,14 @@
         },
       ]"
     />
+    <WhyUs />
   </div>
 </template>
 
 <script>
 import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
+import WhyUs from "@/components/WhyUs.vue";
 
 export default {
   name: "Home",
@@ -94,6 +96,7 @@ export default {
   components: {
     CheckerLayout,
     SliderLayout,
+    WhyUs,
   },
 };
 </script>
