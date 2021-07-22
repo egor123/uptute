@@ -37,7 +37,11 @@
           :ref="`radio${i}`"
         />
       </div>
-      <NavButtons v-if="!$mb.isMobileInput()" />
+      <NavButtons
+        v-if="!$mb.isMobileInput()"
+        offset="10vw"
+        @click="(val) => current += val"
+      />
     </div>
   </div>
 </template>
@@ -82,10 +86,10 @@ export default {
       return this.imgSize ?? 100;
     },
     current: {
-      get: function() {
+      get: function () {
         return this.currentValue;
       },
-      set: function(value) {
+      set: function (value) {
         if (!this.enabled) return;
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
@@ -136,8 +140,9 @@ export default {
         const distance = Math.abs(position);
 
         element.classList.toggle("transition", transition);
-        element.style.transform = `perspective(200px) translate3d(${position *
-          330}px, 0, ${distance * -120}px)`;
+        element.style.transform = `perspective(200px) translate3d(${
+          position * 330
+        }px, 0, ${distance * -120}px)`;
       }
     },
   },
@@ -184,23 +189,23 @@ $buttons-offset-at-900px: 5%;
   margin-top: 15px;
 }
 
-::v-deep #nav-buttons {
-  @media (max-width: $max-width-buttons) {
-    display: none;
-  }
-  [action="previous"] {
-    left: $buttons-offset;
-    @media (max-width: 900px) {
-      left: $buttons-offset-at-900px;
-    }
-  }
-  [action="next"] {
-    right: $buttons-offset;
-    @media (max-width: 900px) {
-      right: $buttons-offset-at-900px;
-    }
-  }
-}
+// ::v-deep #nav-buttons {
+//   @media (max-width: $max-width-buttons) {
+//     display: none;
+//   }
+//   [action="previous"] {
+//     left: $buttons-offset;
+//     @media (max-width: 900px) {
+//       left: $buttons-offset-at-900px;
+//     }
+//   }
+//   [action="next"] {
+//     right: $buttons-offset;
+//     @media (max-width: 900px) {
+//       right: $buttons-offset-at-900px;
+//     }
+//   }
+// }
 
 #content {
   width: 100vw;

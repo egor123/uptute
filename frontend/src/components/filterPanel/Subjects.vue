@@ -16,18 +16,21 @@
       class="btn"
       v-show="show(item)"
     >
-      <input type="radio" :id="item" :value="item" v-model="subject" />
-      <label :for="item">{{ $l("data.subjects." + item) }}</label>
+      <RadioButton :value="item" v-model="subject" size="16">
+      {{ $l("data.subjects." + item) }}
+      </RadioButton>
     </div>
   </BaseComponent>
 </template>
 
 <script>
 import BaseComponent from "./BaseComponent.vue";
+import RadioButton from "@/components/global/RadioButton.vue";
 
 export default {
   components: {
     BaseComponent,
+    RadioButton,
   },
   data() {
     return {

@@ -10,16 +10,12 @@
         "
       />
       <button @click="deleteImg(index)" class="deleteImg small">
-        <v-icon class="closeIcon">
-          mdi-close
-        </v-icon>
+        <v-icon class="closeIcon"> mdi-close </v-icon>
       </button>
     </div>
 
     <label v-if="upload" class="addImg imgPage" for="uploadImg">
-      <v-icon id="plusIcon">
-        mdi-plus
-      </v-icon>
+      <v-icon id="plusIcon"> mdi-plus </v-icon>
     </label>
     <input
       v-if="upload"
@@ -31,7 +27,7 @@
     />
 
     <v-dialog v-model="expandImg" fullscreen>
-      <v-card>
+      <v-card id="card">
         <v-card-text>
           <div id="outsideWrapper" ref="outsideWrapper">
             <div v-for="(img, index) in imgs" :key="index" class="fullScreen">
@@ -39,21 +35,17 @@
                 <img class="expandedImg" :src="img.imageUrl" alt="" />
 
                 <button @click="deleteImg(index)" class="deleteImg large">
-                  <v-icon class="closeIcon">
-                    mdi-close
-                  </v-icon>
+                  <v-icon class="closeIcon"> mdi-close </v-icon>
                 </button>
               </div>
             </div>
           </div>
-          <NavButtons />
+          <NavButtons offset="2vw" animated @click="navClick" />
           <button @click="expandImg = false" class="back">
-            <v-icon class="backIcon">
-              mdi-close
-            </v-icon>
+            <v-icon class="backIcon"> mdi-close </v-icon>
           </button>
           <div id="radio-buttons">
-            <input
+            <!-- <input
               type="radio"
               name="radio"
               v-for="(c, i) in imgs"
@@ -61,7 +53,13 @@
               :value="i"
               v-model="currentImg"
               @click="radioClick()"
-              :ref="`radio${i}`"
+            /> -->
+            <RadioButton
+              v-for="(c, i) in imgs"
+              :key="i"
+              :value="i"
+              v-model="currentImg"
+              @click="radioClick()"
             />
           </div>
         </v-card-text>
@@ -72,7 +70,7 @@
 
 <script>
 import NavButtons from "@/components/global/NavButtons.vue";
-
+import RadioButton from "@/components/global/RadioButton.vue";
 export default {
   data() {
     return {
@@ -95,6 +93,7 @@ export default {
   },
   components: {
     NavButtons,
+    RadioButton,
   },
   methods: {
     addImg(e) {
@@ -129,10 +128,10 @@ export default {
           document.addEventListener("touchend", this.touchend);
           document.addEventListener("keydown", (key) => this.keyDown(key));
           window.addEventListener("resize", this.widowResized);
-          this.$root.$on("currentChange", (data) => {
-            this.xChange = -data * this.w;
-            this.touchend();
-          });
+          // this.$root.$on("currentChange", (data) => {
+          //   this.xChange = -data * this.w;
+          //   this.touchend();
+          // });
 
           this.setUp = true;
         }
@@ -187,6 +186,10 @@ export default {
         this.xChange = 1;
         this.touchend();
       }, 1);
+    },
+    navClick(val) {
+      this.xChange = -val * this.w;
+      this.touchend();
     },
     keyDown(key) {
       if (key.key === "ArrowLeft") {
@@ -255,6 +258,7 @@ export default {
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
   ::before {
     background-color: var(--v-secondary-base);
   }
@@ -264,55 +268,55 @@ $buttons-offset: 5vw;
 $buttons-offset-at-900px: 2vw;
 
 ::v-deep {
-  #nav-buttons {
-    .btn {
-      top: 50%;
-      transform: translateY(-50%);
-      @media (pointer: none), (pointer: coarse) {
-        display: none;
-      }
-      position: fixed;
+  // #nav-buttons {
+  //   .btn {
+  //     top: 50%;
+  //     transform: translateY(-50%);
+  //     @media (pointer: none), (pointer: coarse) {
+  //       display: none;
+  //     }
+  //     position: fixed;
 
-      &[action="previous"] {
-        left: $buttons-offset;
-        @media (max-width: 900px) {
-          left: $buttons-offset-at-900px;
-        }
+  //     &[action="previous"] {
+  //       left: $buttons-offset;
+  //       @media (max-width: 900px) {
+  //         left: $buttons-offset-at-900px;
+  //       }
 
-        animation: fromLeft 0.5s ease-in both;
+  //       animation: fromLeft 0.5s ease-in both;
 
-        @keyframes fromLeft {
-          from {
-            transform: translateX(-4rem);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0rem);
-            opacity: 1;
-          }
-        }
-      }
-      &[action="next"] {
-        right: $buttons-offset;
-        @media (max-width: 900px) {
-          right: $buttons-offset-at-900px;
-        }
+  //       @keyframes fromLeft {
+  //         from {
+  //           transform: translateX(-4rem);
+  //           opacity: 0;
+  //         }
+  //         to {
+  //           transform: translateX(0rem);
+  //           opacity: 1;
+  //         }
+  //       }
+  //     }
+  //     &[action="next"] {
+  //       right: $buttons-offset;
+  //       @media (max-width: 900px) {
+  //         right: $buttons-offset-at-900px;
+  //       }
 
-        animation: fromRight 0.5s ease-in both;
+  //       animation: fromRight 0.5s ease-in both;
 
-        @keyframes fromRight {
-          from {
-            transform: translateX(4rem);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0rem);
-            opacity: 1;
-          }
-        }
-      }
-    }
-  }
+  //       @keyframes fromRight {
+  //         from {
+  //           transform: translateX(4rem);
+  //           opacity: 0;
+  //         }
+  //         to {
+  //           transform: translateX(0rem);
+  //           opacity: 1;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   .v-dialog {
     overflow: hidden;
@@ -405,5 +409,8 @@ $buttons-offset-at-900px: 2vw;
       transform: rotate(-180deg);
     }
   }
+}
+#card {
+  position: relative;
 }
 </style>
