@@ -45,6 +45,9 @@
         },
       ]"
     />
+    <div id="howItWorks">
+      <BubbleLayout />
+    </div>
     <Checker-layout
       inversed
       color="background"
@@ -84,6 +87,7 @@
 <script>
 import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
+import BubbleLayout from "@/components/global/layouts/BubbleLayout.vue";
 import WhyUs from "@/components/WhyUs.vue";
 
 export default {
@@ -96,6 +100,7 @@ export default {
   components: {
     CheckerLayout,
     SliderLayout,
+    BubbleLayout,
     WhyUs,
   },
 };
@@ -156,10 +161,10 @@ h1 {
   background-color: rgba($color: #fff, $alpha: 0.4);
 }
 
-// .btn {
-//   text-transform: none;
-//   margin: 10px 5px;
-//   background-color: transparent;
-//   color: var(--v-secondary-base);
-// }
+#howItWorks {
+  height: 100vh;
+  width: 100vw;
+  background: yellowgreen;
+  position: relative;
+}
 </style>
