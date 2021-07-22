@@ -41,6 +41,7 @@
             {{ $l("app.pages.find_tutor") }}
           </v-btn> -->
           <v-menu
+            v-if="!getStatus"
             offset-y
             open-on-hover
             hide-on-scroll
@@ -55,9 +56,11 @@
             </template>
             <v-list>
               <v-list-item>
-                <v-btn text id="google" @click="logIn()">
-                  <v-icon>mdi-google</v-icon>Sign in
-                </v-btn>
+                <GoogleSignIn>
+                  <v-btn text id="google">
+                    <v-icon>mdi-google</v-icon>Sign in
+                  </v-btn>
+                </GoogleSignIn>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -104,8 +107,8 @@
   </div>
 </template>
 <script>
+import GoogleSignIn from "@/components/account/GoogleSignIn.vue";
 import { mapGetters, mapActions } from "vuex";
-import { GoogleAuthService } from "@/services/index";
 
 export default {
   data() {
@@ -114,6 +117,9 @@ export default {
       locale: String,
       showSnackbar: false,
     };
+  },
+  components: {
+    GoogleSignIn,
   },
   computed: mapGetters(["getStatus", "getNavBar"]),
   methods: {
@@ -141,7 +147,7 @@ export default {
       const container = this.$refs.container;
       const buttons = this.$refs.buttons;
       const title = this.$refs.title;
-      const locales = this.$refs.locales.$el;
+      const locales = this.$refs.locales;
       const navIcon = this.$refs.navIcon;
 
       const observer = new ResizeObserver(() => {
@@ -183,19 +189,6 @@ export default {
       this.$root.$on("removeSubHeader", () => {
         subHeader.innerHTML = "";
       });
-    },
-    logIn() {
-      GoogleAuthService.signIn()
-        .then(() => {
-          this.$router.push({ name: "PrimarySettingUp" });
-        })
-        .catch((e) => {
-          if (e.error === "idpiframe_initialization_failed")
-            this.$root.$emit("cookiesError");
-        });
-    },
-    logOut() {
-      GoogleAuthService.signOut();
     },
   },
   created() {
@@ -306,7 +299,7 @@ $header-height: 56px;
   font-weight: 500;
   text-transform: uppercase;
   text-align: center;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
 }
 
 .v-menu__content {
@@ -315,6 +308,9 @@ $header-height: 56px;
   transition: all 0.3s !important;
   .v-list {
     background: #000 !important;
+    .v-list-item > * {
+      margin: 0 auto;
+    }
     .v-btn {
       border-radius: 50px;
     }
@@ -323,17 +319,8 @@ $header-height: 56px;
 
 .flagImg {
   border-radius: 1.5px;
-  // margin: auto;
 }
 
-#google {
-  width: 100%;
-  color: var(--v-secondary-base);
-  .v-icon {
-    margin-right: 10px;
-    color: var(--v-accent-base);
-  }
-}
 ::v-deep {
   .v-snack__wrapper {
     border-radius: 15px !important;
@@ -348,6 +335,16 @@ $header-height: 56px;
   box-shadow: 0px 2px 6px var(--v-secondary-darken1);
   &.empty {
     display: none;
+  }
+}
+
+#google {
+  width: 100%;
+  color: var(--v-secondary-base);
+  // margin: 0 auto !important;
+  .v-icon {
+    margin-right: 10px;
+    color: var(--v-accent-base);
   }
 }
 </style>
