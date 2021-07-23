@@ -10,7 +10,6 @@
       "log_in": "Log in",
       "register": "Register"
     },
-    "name": "Your full name...",
     "email": "Your email...",
     "password": "Your password...",
     "forgot": "Forgot your password?",
@@ -18,7 +17,7 @@
     "create": "Create a passwrod",
     "repeat": "Repeat the password...",
     "must_agree": "We need your agreement to continue",
-    "privacy": "I agree with UpTute's ",
+    "privacy": "Agree to ",
     "receive": "I'd like to receive UpTute's news and promotions.",
     "like_to": {
       "parameter": "I'd like to",
@@ -52,6 +51,7 @@
   "app": {
     "pages": {
       "home": "Home",
+      "begin": "Begin your journey",
       "find_tutor": "Find your tutor",
       "become_tutor": "Become a tutor",
       "blog": "Our blog",
@@ -59,8 +59,10 @@
       "log_in": "Log In",
       "register": "Register",
       "about_us": "About us",
-      "privacy_policy": "Privacy policy",
-      "terms": "Terms & conditions"
+      "privacy_policy": "Privacy Policy",
+      "and": "and",
+      "terms": "Terms",
+      "with_terms": "Terms"
     },
     "footer": {
       "pages_title": "Some pages:"
@@ -224,7 +226,7 @@
         "h": "Sort by",
         "price": "Price",
         "rating": "Rating",
-        "hours_tought": "Hours tought",
+        "hours_taught": "Hours taught",
 
         "time": "Time",
         "subject": "Subject",
@@ -245,7 +247,9 @@
       "time_left": "Time left for other tutors to offer their services",
       "ended": "Sarch session will be ended!",
       "anyway": "Close anyway",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "hours": "hours taught",
+      "comments": "number of comments"
     },
     "student": {
       "header": "Offer a lesson",
@@ -295,18 +299,8 @@
     "surname": "Surname",
     "birth": "Date of birth",
     "grade": "Your grade",
-    "choises": [
-      "DD/MM/YYYY",
-      ["Male", "Female", "Other", "I'd like not to say"],
-      "Type your country...",
-      "Type your city...",
-      "Type your school..."
-    ],
-    "button_tutor": "Next",
-    "button_student": "Done",
-    "parameters (copy)": ["Your audience", "Schools you cover"],
+    "year_holder": "DD/MM/YYYY",
     "subjects": "Subjects you tech",
-    "choises2": ["Type a subject...", "Grades", "Type a school..."],
     "zoom": "Your Zoom meeting link",
     "dialog": {
       "title": "Not sure what it is?",
@@ -321,8 +315,6 @@
   },
 
   "acc_pages": {
-    "subheader": "Account",
-    "main": "Main view",
     "settings": "Settings",
     "calendar": "Calendar"
   },
@@ -469,6 +461,9 @@
   },
   "about_tutor": {
     "me": "About me",
-    "languages": "Languages"
+    "subjects": "Subjects",
+    "languages": "Languages",
+    "age": "Age",
+    "audience": "Audience"
   }
 }

@@ -2,10 +2,12 @@
   <HiddenButtonCard :tutor="tutor">
     <template v-slot:static>
       <div class="profile">
-        <UserImg :tutor="tutor" />
+        <UserImg :tutor="tutor" :toComments="toComments" />
 
         <div>
-          <p class="pph">{{ pph }} UC/{{ $l("tutor.hour") }}</p>
+          <p class="pph">
+            {{ Math.round(tutor.pph) }} UC/{{ $l("tutor.hour") }}
+          </p>
           <h3>{{ tutor.firstName }} {{ tutor.lastName }}</h3>
           <p>{{ tutor.age }} {{ $l("find.filters.tutor_age.p") }}</p>
         </div>
@@ -14,17 +16,26 @@
 
     <template v-slot:moving>
       <div class="tutor">
-        <div>
-          <img
-            width="20px"
-            height="20px"
-            class="mr-1"
-            src="@/assets/icons/clock.svg"
-          />
-          <p>{{ hours }}{{ $l("tutor.hour") }}</p>
-        </div>
+        <v-tooltip top content-class="tooltip" open-delay="300">
+          <template v-slot:activator="{ on, attrs }">
+            <div class="hoursDiv" v-bind="attrs" v-on="on">
+              <img
+                width="20px"
+                height="20px"
+                class="mr-1"
+                src="@/assets/icons/clock.svg"
+              />
+              <p>{{ Math.round(tutor.hours) }}{{ $l("tutor.hour") }}</p>
+            </div>
+          </template>
+          <span>
+            {{ $l("choose_a.tutor.hours") }}
+          </span>
+        </v-tooltip>
+
         <Rating :value="tutor.rating" class="rating" />
-        <div>
+
+        <div class="commentsDiv" @click="openComments()">
           <img
             width="20px"
             height="20px"
@@ -51,8 +62,7 @@ export default {
   data() {
     return {
       windowTop: 0,
-      pph: 0,
-      hours: 0,
+      toComments: false,
     };
   },
   components: {
@@ -65,9 +75,15 @@ export default {
     tooltipUse: String,
     tutor: Object,
   },
-  created() {
-    this.pph = Math.round(this.tutor.pph);
-    this.hours = Math.round(this.tutor.hours);
+  mounted() {
+    this.$root.$on("dialogClosed", () => {
+      this.toComments = false;
+    });
+  },
+  methods: {
+    openComments() {
+      this.toComments = !this.toComments;
+    },
   },
 };
 </script>
@@ -104,11 +120,29 @@ export default {
     left: 50%;
     transform: translateX(-50%);
   }
+  .hoursDiv,
+  .commentsDiv {
+    opacity: 0.6;
+    cursor: pointer;
+
+    transition: opacity 300ms;
+    &:hover {
+      opacity: 1;
+    }
+  }
   div {
     display: flex;
   }
   * {
     margin: auto 0;
   }
+}
+
+.tooltip {
+  opacity: 1 !important;
+  width: max-content !important;
+  min-width: 0 !important;
+  background: var(--v-secondary-darken2) !important;
+  color: white !important;
 }
 </style>

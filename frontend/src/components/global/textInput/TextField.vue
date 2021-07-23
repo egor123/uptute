@@ -18,7 +18,7 @@ export default {
     },
   },
   watch: {
-    imgName: function (newVal, oldVal) {
+    imgName: function(newVal, oldVal) {
       // watch it
       console.log("Prop changed: ", newVal, " | was: ", oldVal);
     },

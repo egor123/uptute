@@ -14,7 +14,7 @@
           <v-list-item exact active-class="active" :to="{ name: 'Home' }">
             {{ $l("app.pages.home") }}
           </v-list-item>
-          <v-list-item link active-class="active" :to="{ name: 'WhyUs' }">
+          <!-- <v-list-item link active-class="active" :to="{ name: 'WhyUs' }">
             {{ $l("app.pages.why_us") }}
           </v-list-item>
           <v-list-item link active-class="active" :to="{ name: 'LogIn' }">
@@ -22,10 +22,10 @@
           </v-list-item>
           <v-list-item link active-class="active" :to="{ name: 'Register' }">
             {{ $l("app.pages.register") }}
-          </v-list-item>
-          <v-list-item link active-class="active" :to="{ name: 'FindATutor' }">
+          </v-list-item> -->
+          <!-- <v-list-item link active-class="active" :to="{ name: 'FindATutor' }">
             {{ $l("app.pages.find_tutor") }}
-          </v-list-item>
+          </v-list-item> -->
         </v-list-item-group>
       </v-list>
     </v-card>

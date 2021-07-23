@@ -1,18 +1,32 @@
 <template>
   <AccountBase>
-    <div class="sheetWrapper">
+    <div class="sheetWrapper" ref="calendarDiv">
       <v-sheet class="toolbar">
         <v-toolbar flat>
           <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
             Today
           </v-btn>
 
-          <v-btn fab text small color="grey darken-2" @click="prev">
+          <v-btn
+            fab
+            text
+            small
+            color="grey darken-2"
+            @click="prev"
+            v-if="!$mb.isMobileInput()"
+          >
             <v-icon small>
               mdi-chevron-left
             </v-icon>
           </v-btn>
-          <v-btn fab text small color="grey darken-2" @click="next">
+          <v-btn
+            fab
+            text
+            small
+            color="grey darken-2"
+            @click="next"
+            v-if="!$mb.isMobileInput()"
+          >
             <v-icon small>
               mdi-chevron-right
             </v-icon>
@@ -20,7 +34,7 @@
 
           <v-spacer class="onPhone" />
 
-          <v-toolbar-title v-if="$refs.calendar">
+          <v-toolbar-title v-if="$refs.calendar" ref="toolbarTitle">
             {{ $refs.calendar.title }}
           </v-toolbar-title>
 
@@ -121,13 +135,12 @@ export default {
   },
   data() {
     return {
+      SwipeX: 0,
       focus: "",
       type: "month",
       typeToLabel: {
         month: "Month",
-        //   week: "Week",
         day: "Day",
-        //   "4day": "4 Days",
       },
       selectedEvent: {},
       selectedElement: null,
@@ -149,8 +162,23 @@ export default {
   },
   mounted() {
     this.$refs.calendar.checkChange();
+    document.addEventListener("touchend", this.touchend);
+    this.$nextTick(() => {
+      this.$mb.addSwipeListener(this.swipe, this.$refs.calendarDiv);
+      this.fadeIn();
+    });
   },
   methods: {
+    swipe(e) {
+      this.SwipeX = e.x;
+    },
+    touchend() {
+      if (this.SwipeX > 30) {
+        this.next();
+      } else if (this.SwipeX < -30) {
+        this.prev();
+      }
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
@@ -162,11 +190,28 @@ export default {
       this.focus = "";
     },
     prev() {
-      this.$refs.calendar.prev();
+      this.fadeOut();
+      setTimeout(() => {
+        this.$refs.calendar.prev();
+        this.fadeIn();
+      }, 500);
     },
     next() {
-      this.$refs.calendar.next();
+      this.fadeOut();
+      setTimeout(() => {
+        this.$refs.calendar.next();
+        this.fadeIn();
+      }, 500);
     },
+    fadeOut() {
+      this.$refs.calendar.$el.style.opacity = 0;
+      this.$refs.toolbarTitle.style.opacity = 0;
+    },
+    fadeIn() {
+      this.$refs.calendar.$el.style.opacity = 1;
+      this.$refs.toolbarTitle.style.opacity = 1;
+    },
+
     showEvent({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event;
@@ -226,6 +271,13 @@ export default {
       return Math.floor((b - a + 1) * Math.random()) + a;
     },
   },
+  beforeDestroy() {
+    if (this.type === "day") {
+      this.type = "month";
+      window.history.forward(1);
+    }
+    document.removeEventListener("touchend", this.touchend);
+  },
 };
 </script>
 
@@ -269,6 +321,10 @@ $border: 1px solid var(--v-background-base);
     &.v-toolbar,
     &.v-toolbar__content {
       background: #ffffff00;
+      .v-toolbar__title {
+        opacity: 0;
+        transition: opacity 400ms ease-in-out;
+      }
     }
 
     .v-btn__content {
@@ -277,8 +333,9 @@ $border: 1px solid var(--v-background-base);
     &.calendar {
       width: max-content;
       height: max-content;
-
       .v-calendar {
+        opacity: 0;
+        transition: opacity 400ms ease-in-out;
         border: none;
         border-top: $border;
         &.v-calendar-daily {
@@ -373,7 +430,7 @@ $border: 1px solid var(--v-background-base);
           }
         }
         .v-present .v-btn--fab {
-          background: var(--v-header-base) !important;
+          background-color: var(--v-header-base) !important;
         }
       }
     }
@@ -398,9 +455,7 @@ $border: 1px solid var(--v-background-base);
         margin: auto 2px;
       }
 
-      // !!!!!!!!!!!!!!!!!!! swipable for phone; back to month from day by clicking "back" button
-      @media (max-width: 800px) {
-        .v-btn--fab,
+      @media (max-width: 400px) {
         .menuBtn {
           display: none;
         }

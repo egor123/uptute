@@ -6,7 +6,7 @@
           <div class="img-content">
             <h1>{{ $l("home.landing.title") }}</h1>
             <h2>{{ $l("home.landing.subtitle") }}</h2>
-            <v-btn
+            <!-- <v-btn
               elevation="3"
               rounded
               class="btn orangeBackground"
@@ -23,7 +23,7 @@
               :to="{ name: 'Register' }"
             >
               {{ $l("home.landing.btn_become") }}
-            </v-btn>
+            </v-btn> -->
           </div>
         </div>
       </div>
@@ -77,12 +77,14 @@
         },
       ]"
     />
+    <WhyUs />
   </div>
 </template>
 
 <script>
 import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
+import WhyUs from "@/components/WhyUs.vue";
 
 export default {
   name: "Home",
@@ -94,6 +96,7 @@ export default {
   components: {
     CheckerLayout,
     SliderLayout,
+    WhyUs,
   },
 };
 </script>
@@ -150,12 +153,13 @@ h1 {
     rgba(0, 0, 0, 0) 100%
   );
   backdrop-filter: blur(5px);
+  background-color: rgba($color: #fff, $alpha: 0.4);
 }
 
-.btn {
-  text-transform: none;
-  margin: 10px 5px;
-  background-color: transparent;
-  color: var(--v-secondary-base);
-}
+// .btn {
+//   text-transform: none;
+//   margin: 10px 5px;
+//   background-color: transparent;
+//   color: var(--v-secondary-base);
+// }
 </style>

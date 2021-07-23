@@ -2,7 +2,7 @@
   <div id="main">
     <div id="container">
       <h1 v-animate="'fadeIn'">{{ title }}</h1>
-      <div v-animate="'fadeIn'" id="content">
+      <div v-animate="'fadeIn'" id="content" ref="swipable">
         <div
           class="element"
           v-for="(element, i) in elements"
@@ -19,9 +19,17 @@
         </div>
       </div>
       <div v-animate="'slideInFromBottom'" id="radio-buttons">
-        <input
-          type="radio"
-          name="radio"
+        <!-- <label type="radio" v-for="(c, i) in elements" :key="i">
+          <input
+            type="radio"
+            name="radio"
+            :value="i"
+            v-model="current"
+            :ref="`radio${i}`"
+            :id="`radio${i}`"
+          />
+        </label> -->
+        <RadioButton
           v-for="(c, i) in elements"
           :key="i"
           :value="i"
@@ -29,21 +37,26 @@
           :ref="`radio${i}`"
         />
       </div>
-      <NavButtons />
+      <NavButtons
+        v-if="!$mb.isMobileInput()"
+        offset="10vw"
+        @click="(val) => current += val"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import NavButtons from "@/components/global/NavButtons.vue";
-import { bus } from "@/main.js";
-
+import RadioButton from "@/components/global/RadioButton.vue";
 export default {
   components: {
     NavButtons,
+    RadioButton,
   },
   data() {
     return {
+      SwipeX: 0,
       currentValue: 0,
       total: Number,
       enabled: true,
@@ -60,8 +73,12 @@ export default {
   mounted() {
     this.total = this.elements.length;
     this.setStyles(false);
-    bus.$on("currentChange", (data) => {
-      this.current += data;
+    this.$root.$on("currentChange", (data) => {
+      this.current -= data;
+    });
+    document.addEventListener("touchend", this.touchend);
+    this.$nextTick(() => {
+      this.$mb.addSwipeListener(this.swipe, this.$refs.swipable);
     });
   },
   computed: {
@@ -69,32 +86,44 @@ export default {
       return this.imgSize ?? 100;
     },
     current: {
-      get: function() {
+      get: function () {
         return this.currentValue;
       },
-      set: function(value) {
+      set: function (value) {
         if (!this.enabled) return;
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
         else if (this.current >= this.total) this.currentValue = 0;
-        this.setActive(false);
-        setTimeout(() => {
-          this.setActive(true);
-        }, 600);
         this.setStyles();
       },
     },
   },
   methods: {
+    swipe(e) {
+      this.SwipeX = e.x;
+    },
+    touchend() {
+      if (this.SwipeX > 30) {
+        this.current++;
+      } else if (this.SwipeX < -30) {
+        this.current--;
+      }
+    },
     setActive(val) {
       for (var i = 0; i < this.total; i++)
-        this.$refs[`radio${i}`][0].disabled = !val;
+        this.$refs[`radio${i}`][0].$el.querySelector("input").disabled = !val;
       this.enabled = val;
     },
     getImgUrl(img) {
       return require(`@/assets/icons/${img}.svg`);
     },
     setStyles(transition = true) {
+      let c = this.currentValue;
+      this.setActive(false);
+      setTimeout(() => {
+        this.setActive(true);
+        if (c != this.currentValue) this.setStyles();
+      }, 600);
       for (var i = 0; i < this.total; i++) {
         const element = this.$refs[`element${i}`][0];
         var position = i - this.current;
@@ -111,8 +140,9 @@ export default {
         const distance = Math.abs(position);
 
         element.classList.toggle("transition", transition);
-        element.style.transform = `perspective(200px) translate3d(${position *
-          330}px, 0, ${distance * -120}px)`;
+        element.style.transform = `perspective(200px) translate3d(${
+          position * 330
+        }px, 0, ${distance * -120}px)`;
       }
     },
   },
@@ -155,27 +185,27 @@ $buttons-offset-at-900px: 5%;
 
 #radio-buttons {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   margin-top: 15px;
 }
 
-::v-deep #nav-buttons {
-  @media (max-width: $max-width-buttons) {
-    display: none;
-  }
-  [action="previous"] {
-    left: $buttons-offset;
-    @media (max-width: 900px) {
-      left: $buttons-offset-at-900px;
-    }
-  }
-  [action="next"] {
-    right: $buttons-offset;
-    @media (max-width: 900px) {
-      right: $buttons-offset-at-900px;
-    }
-  }
-}
+// ::v-deep #nav-buttons {
+//   @media (max-width: $max-width-buttons) {
+//     display: none;
+//   }
+//   [action="previous"] {
+//     left: $buttons-offset;
+//     @media (max-width: 900px) {
+//       left: $buttons-offset-at-900px;
+//     }
+//   }
+//   [action="next"] {
+//     right: $buttons-offset;
+//     @media (max-width: 900px) {
+//       right: $buttons-offset-at-900px;
+//     }
+//   }
+// }
 
 #content {
   width: 100vw;

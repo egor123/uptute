@@ -1,20 +1,21 @@
 <template>
   <div class="helpImgWrapper">
-    <img
-      class="helpImg imgPage"
-      v-for="(img, index) in imgs"
-      :key="index"
-      :src="img.imageUrl"
-      @click="
-        expand();
-        currentImg = index + 1;
-      "
-    />
+    <div class="helpImgDiv" v-for="(img, index) in imgs" :key="index">
+      <img
+        class="helpImg imgPage"
+        :src="img.imageUrl"
+        @click="
+          expand();
+          currentImg = index;
+        "
+      />
+      <button @click="deleteImg(index)" class="deleteImg small">
+        <v-icon class="closeIcon"> mdi-close </v-icon>
+      </button>
+    </div>
 
     <label v-if="upload" class="addImg imgPage" for="uploadImg">
-      <v-icon id="plusIcon">
-        mdi-plus
-      </v-icon>
+      <v-icon id="plusIcon"> mdi-plus </v-icon>
     </label>
     <input
       v-if="upload"
@@ -26,31 +27,39 @@
     />
 
     <v-dialog v-model="expandImg" fullscreen>
-      <v-card>
+      <v-card id="card">
         <v-card-text>
           <div id="outsideWrapper" ref="outsideWrapper">
-            <div v-for="(img, id) in imgs" :key="id" class="fullScreen">
+            <div v-for="(img, index) in imgs" :key="index" class="fullScreen">
               <div class="imgContainer">
                 <img class="expandedImg" :src="img.imageUrl" alt="" />
-                <button @click="expandImg = false" class="close">
-                  <v-icon class="closeIcon">
-                    mdi-close
-                  </v-icon>
+
+                <button @click="deleteImg(index)" class="deleteImg large">
+                  <v-icon class="closeIcon"> mdi-close </v-icon>
                 </button>
               </div>
             </div>
           </div>
-          <NavButtons />
+          <NavButtons offset="2vw" animated @click="navClick" />
+          <button @click="expandImg = false" class="back">
+            <v-icon class="backIcon"> mdi-close </v-icon>
+          </button>
           <div id="radio-buttons">
-            <input
+            <!-- <input
               type="radio"
               name="radio"
               v-for="(c, i) in imgs"
-              :key="i + 1"
-              :value="i + 1"
+              :key="i"
+              :value="i"
               v-model="currentImg"
               @click="radioClick()"
-              :ref="`radio${i}`"
+            /> -->
+            <RadioButton
+              v-for="(c, i) in imgs"
+              :key="i"
+              :value="i"
+              v-model="currentImg"
+              @click="radioClick()"
             />
           </div>
         </v-card-text>
@@ -60,9 +69,8 @@
 </template>
 
 <script>
-import { bus } from "@/main.js";
 import NavButtons from "@/components/global/NavButtons.vue";
-
+import RadioButton from "@/components/global/RadioButton.vue";
 export default {
   data() {
     return {
@@ -74,7 +82,7 @@ export default {
       w: 0,
       h: 0,
 
-      currentImg: 1,
+      currentImg: 0,
       xChange: 0,
       xPosition: 0,
     };
@@ -85,40 +93,51 @@ export default {
   },
   components: {
     NavButtons,
+    RadioButton,
   },
   methods: {
     addImg(e) {
       const file = e.target.files[0];
+
       this.imgs.push({
         image: file,
         imageUrl: URL.createObjectURL(file),
       });
-      this.currentImg = this.imgs.length;
-      this.xPosition = (this.currentImg - 1) * this.w;
+
+      this.currentImg = this.imgs.length - 1;
+      this.xPosition = this.currentImg * this.w;
+    },
+    deleteImg(index) {
+      if (this.imgs.length - 1 === index) this.currentImg--;
+
+      this.imgs.splice(index, 1);
+
+      this.touchend();
+      if (this.imgs.length < 1) {
+        this.expandImg = false;
+      }
     },
     expand() {
       this.expandImg = true;
 
-      setTimeout(() => {
+      this.$nextTick(() => {
         if (!this.setUp) {
           this.outsideWrapper = this.$refs.outsideWrapper;
 
-          this.$mb.addSwipeListner(this.swipe, this.$refs.outsideWrapper);
+          this.$mb.addSwipeListener(this.swipe, this.$refs.outsideWrapper);
           document.addEventListener("touchend", this.touchend);
           document.addEventListener("keydown", (key) => this.keyDown(key));
           window.addEventListener("resize", this.widowResized);
-          bus.$on("currentChange", (data) => {
-            this.xChange = -data * this.w;
-            this.touchend();
-          });
+          // this.$root.$on("currentChange", (data) => {
+          //   this.xChange = -data * this.w;
+          //   this.touchend();
+          // });
 
           this.setUp = true;
         }
 
-        // this.imgElems = document.getElementsByClassName("expandedImg");
-
         this.widowResized();
-      }, 1);
+      });
     },
     swipe(e) {
       this.xChange = e.x;
@@ -129,17 +148,17 @@ export default {
     },
     touchend() {
       if (Math.abs(this.xChange) > 0.1 * this.w) {
-        if (this.currentImg + this.xChange / Math.abs(this.xChange) < 1)
-          this.currentImg = this.imgs.length;
+        if (this.currentImg + this.xChange / Math.abs(this.xChange) < 0)
+          this.currentImg = this.imgs.length - 1;
         else if (
           this.currentImg + this.xChange / Math.abs(this.xChange) >
-          this.imgs.length
+          this.imgs.length - 1
         )
-          this.currentImg = 1;
+          this.currentImg = 0;
         else this.currentImg += this.xChange / Math.abs(this.xChange);
       }
 
-      this.xPosition = (this.currentImg - 1) * this.w;
+      this.xPosition = this.currentImg * this.w;
 
       if (this.xChange != 0) {
         this.outsideWrapper.style.transition = "all 400ms";
@@ -164,10 +183,13 @@ export default {
     },
     radioClick() {
       setTimeout(() => {
-        console.log(123);
         this.xChange = 1;
         this.touchend();
       }, 1);
+    },
+    navClick(val) {
+      this.xChange = -val * this.w;
+      this.touchend();
     },
     keyDown(key) {
       if (key.key === "ArrowLeft") {
@@ -194,10 +216,11 @@ export default {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  width: 100%;
   .imgPage {
     height: 100px;
+    max-width: 100%;
     border-radius: 5px;
-    margin: 2px;
     &.helpImg {
       background: var(--v-secondary-base);
       border: none;
@@ -228,11 +251,6 @@ export default {
       }
     }
   }
-  #uploadImg {
-    opacity: 0;
-    position: fixed;
-    z-index: -1;
-  }
 }
 
 #radio-buttons {
@@ -240,6 +258,7 @@ export default {
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
   ::before {
     background-color: var(--v-secondary-base);
   }
@@ -249,55 +268,55 @@ $buttons-offset: 5vw;
 $buttons-offset-at-900px: 2vw;
 
 ::v-deep {
-  #nav-buttons {
-    .btn {
-      top: 50%;
-      transform: translateY(-50%);
-      @media (pointer: none), (pointer: coarse) {
-        display: none;
-      }
-      position: fixed;
+  // #nav-buttons {
+  //   .btn {
+  //     top: 50%;
+  //     transform: translateY(-50%);
+  //     @media (pointer: none), (pointer: coarse) {
+  //       display: none;
+  //     }
+  //     position: fixed;
 
-      &[action="previous"] {
-        left: $buttons-offset;
-        @media (max-width: 900px) {
-          left: $buttons-offset-at-900px;
-        }
+  //     &[action="previous"] {
+  //       left: $buttons-offset;
+  //       @media (max-width: 900px) {
+  //         left: $buttons-offset-at-900px;
+  //       }
 
-        animation: fromLeft 0.5s ease-in both;
+  //       animation: fromLeft 0.5s ease-in both;
 
-        @keyframes fromLeft {
-          from {
-            transform: translateX(-4rem);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0rem);
-            opacity: 1;
-          }
-        }
-      }
-      &[action="next"] {
-        right: $buttons-offset;
-        @media (max-width: 900px) {
-          right: $buttons-offset-at-900px;
-        }
+  //       @keyframes fromLeft {
+  //         from {
+  //           transform: translateX(-4rem);
+  //           opacity: 0;
+  //         }
+  //         to {
+  //           transform: translateX(0rem);
+  //           opacity: 1;
+  //         }
+  //       }
+  //     }
+  //     &[action="next"] {
+  //       right: $buttons-offset;
+  //       @media (max-width: 900px) {
+  //         right: $buttons-offset-at-900px;
+  //       }
 
-        animation: fromRight 0.5s ease-in both;
+  //       animation: fromRight 0.5s ease-in both;
 
-        @keyframes fromRight {
-          from {
-            transform: translateX(4rem);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0rem);
-            opacity: 1;
-          }
-        }
-      }
-    }
-  }
+  //       @keyframes fromRight {
+  //         from {
+  //           transform: translateX(4rem);
+  //           opacity: 0;
+  //         }
+  //         to {
+  //           transform: translateX(0rem);
+  //           opacity: 1;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   .v-dialog {
     overflow: hidden;
@@ -337,25 +356,61 @@ $buttons-offset-at-900px: 2vw;
                 border-radius: 15px;
                 margin: 5px;
               }
-              .close {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                color: none;
-                .closeIcon {
-                  color: var(--v-accent-base);
-
-                  transition: all 500ms;
-                  &:hover {
-                    transform: rotate(-180deg);
-                  }
-                }
-              }
             }
           }
         }
       }
     }
   }
+}
+
+.helpImgDiv {
+  position: relative;
+  height: 100px;
+  margin: 2px;
+}
+
+.deleteImg {
+  position: absolute;
+  .closeIcon {
+    transition: all 500ms;
+    &:hover {
+      transform: rotate(180deg) scale(0.8);
+      color: var(--v-accent-base) !important;
+    }
+  }
+  &.large {
+    top: 10px;
+    right: 10px;
+    .closeIcon {
+      color: var(--v-accent-base);
+    }
+  }
+  &.small {
+    transform: scale(0.7);
+    top: 0px;
+    right: 0px;
+    .closeIcon {
+      color: var(--v-secondary-darken2);
+    }
+  }
+}
+
+.back {
+  position: fixed;
+  top: 15px;
+  right: 30px;
+  .backIcon {
+    color: var(--v-accent-base);
+    transform: scale(1.2);
+
+    transition: all 500ms;
+    &:hover {
+      transform: rotate(-180deg);
+    }
+  }
+}
+#card {
+  position: relative;
 }
 </style>

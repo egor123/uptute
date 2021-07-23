@@ -37,9 +37,18 @@ export default {
 @import "./scss/styles.scss";
 @import "./scss/mixins.scss";
 
+@font-face {
+  font-family: "Comfortaa";
+  src: url(//fonts.googleapis.com/css?family=Comfortaa);
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+}
+
 :root {
   --side-margin: clamp(0.5rem, 18vw, 22rem);
 }
+
 html {
   scroll-behavior: smooth;
   @include font-size();
@@ -65,7 +74,7 @@ html {
   h3,
   h2,
   h1 {
-    font-weight: 600;
+    font-weight: 800;
   }
 }
 

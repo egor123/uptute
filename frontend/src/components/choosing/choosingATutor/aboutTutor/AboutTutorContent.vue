@@ -1,11 +1,12 @@
 <template>
-  <div id="content">
+  <div id="content" ref="content">
     <MainInfo
       :age="tutor.age"
       :rating="tutor.rating"
       :hours="tutor.hours"
       :pph="tutor.pph"
     />
+
     <Moto :moto="tutor.moto" />
     <AboutInfo :about="tutor.about" />
     <AdditionalInfo
@@ -14,10 +15,14 @@
       :audience="tutor.audience"
       :age="tutor.age"
     />
-    <div>
+    <div id="commentsDiv" ref="commentsDiv">
       <h4>{{ $l("tutor.comments") }}</h4>
-      <Comments :id="tutor.uuid" v-model="commentsSettings" />
-      <PageSelectionPanel v-model="commentsSettings" :sizes="[2,5,10]"/>
+      <Comments
+        :id="tutor.uuid"
+        background="var(--v-background-base)"
+        v-model="commentsSettings"
+      />
+      <PageSelectionPanel v-model="commentsSettings" :sizes="[2, 5, 10]" />
     </div>
   </div>
 </template>
@@ -41,14 +46,38 @@ export default {
   },
   data() {
     return {
-      commentsSettings: { page: 0, itemsPerPage: 2, pagesCount: 0 },
+      commentsSettings: { page: 0, itemsPerPage: 5, pagesCount: 0 },
     };
   },
   props: {
     tutor: Object,
+    toComments: Boolean,
   },
+  // mounted() {
+  //   this.$root.$on("dialogOpened", () => {
+  //     setTimeout(() => {
+  //       this.$refs.content.scrollIntoView();
+  //     }, 1);
+  //   });
+  // },
   mounted() {
-    console.log(this.tutor);
+    this.$root.$on("loadingEnded", () => {
+      this.$nextTick(() => {
+        this.$refs.commentsDiv.scrollIntoView({
+          behavior: "smooth",
+        });
+      });
+    });
+  },
+
+  watch: {
+    toComments: function() {
+      setTimeout(() => {
+        this.$refs.commentsDiv.scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 10);
+    },
   },
 };
 </script>

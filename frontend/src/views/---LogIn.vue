@@ -103,7 +103,6 @@ export default {
   },
   mounted() {
     // GoogleAuthService.currentUser();
-    // console.log(GoogleAuthService.isSignedIn());
   },
   //methods: mapActions(["signin"]),
   methods: {

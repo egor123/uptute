@@ -1,7 +1,17 @@
 <template>
   <div id="wrapper">
-    <img id="userImg" src="@/assets/icons/user.svg" alt="" />
-
+    <div>
+      <label for="uploadImg">
+        <img id="userImg" :src="img.imageUrl" alt="" />
+      </label>
+      <input
+        type="file"
+        accept="image/*"
+        @change="addImg"
+        name="uploadImg"
+        id="uploadImg"
+      />
+    </div>
     <div id="fullName">
       <TextField id="name" :label="$l('set_up.name')" />
       <TextField id="surname" :label="$l('set_up.surname')" />
@@ -31,6 +41,25 @@ export default {
     Birth,
     Grade,
   },
+  data() {
+    return {
+      img: {
+        name: "profile",
+        imageUrl:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9tbe0h9I_HCaMS2lyCsdTRXmznpSg9Rn5iA&usqp=CAU",
+      },
+    };
+  },
+  methods: {
+    addImg(e) {
+      const file = e.target.files[0];
+
+      this.img = {
+        image: file,
+        imageUrl: URL.createObjectURL(file),
+      };
+    },
+  },
 };
 </script>
 
@@ -57,13 +86,14 @@ export default {
   @include box-size(100px);
 
   border-radius: 50%;
-  border: 2px solid var(--v-primary-base);
-  opacity: 0.2;
+  border: 2px solid var(--v-secondary-darken2);
+
+  opacity: 0.99; // bug - input desn't allow to select with full opacity
   cursor: pointer;
 
   transition: box-shadow 400ms;
   &:hover {
-    box-shadow: 1px 2px 5px 2.5px var(--v-primary-lighten4);
+    box-shadow: 1px 2px 8px 0px var(--v-card-darken2);
   }
 }
 

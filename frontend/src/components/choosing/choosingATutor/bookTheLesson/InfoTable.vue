@@ -14,7 +14,7 @@
       <th>{{ $l("find.filters.price.h") }}</th>
       <td>{{ pph }} UC/{{ $l("tutor.hour") }}</td>
       <td>
-        <v-tooltip content-class="priceTooltip" right>
+        <v-tooltip content-class="tooltip" right>
           <template v-slot:activator="{ on, attrs }">
             <div id="priceQuestionMark" v-bind="attrs" v-on="on">
               ?
@@ -87,15 +87,9 @@ td {
   }
 }
 
-.priceTooltip {
+.tooltip {
   margin-left: 2rem;
   margin-right: 2vw;
-  min-width: 200px;
-  max-width: 350px;
-  color: var(--v-primary-base);
-  background: var(--v-secondary-base);
-  opacity: 0.4 !important;
-  border-radius: 15px;
   @media (max-width: 950px) {
     opacity: 1 !important;
     background: var(--v-secondary-darken1);

@@ -20,18 +20,18 @@
           <v-btn rounded v-if="getStatus" :to="{ name: 'Account' }">
             {{ $l("app.pages.account") }}
           </v-btn>
-          <v-btn rounded v-if="!getStatus" :to="{ name: 'LogIn' }">
+          <!-- <v-btn rounded v-if="!getStatus" :to="{ name: 'LogIn' }">
             {{ $l("app.pages.log_in") }}
           </v-btn>
-          <!-- <v-btn rounded v-if="!getStatus" :to="{ name: 'Register' }">
+          <v-btn rounded v-if="!getStatus" :to="{ name: 'Register' }">
             {{ $l("app.pages.register") }}
-          </v-btn> -->
+          </v-btn>
 
           <v-btn rounded :to="{ name: 'WhyUs' }">
             {{ $l("app.pages.why_us") }}
-          </v-btn>
+          </v-btn> -->
 
-          <v-btn
+          <!-- <v-btn
             rounded
             text
             color="accent"
@@ -39,48 +39,87 @@
             :to="{ name: 'FindATutor' }"
           >
             {{ $l("app.pages.find_tutor") }}
-          </v-btn>
-        </div>
-        <div id="locales" ref="locales">
-          <v-menu offset-y open-on-hover hide-on-scroll attach="#locales">
+          </v-btn> -->
+          <v-menu
+            offset-y
+            open-on-hover
+            hide-on-scroll
+            transition="scale-transition"
+            origin="top center"
+            attach="#container"
+          >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                text
-                v-bind="attrs"
-                v-on="on"
-                color="secondary"
-                class="ma-0"
-                width="10px"
-              >
-                <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
+              <v-btn text v-bind="attrs" v-on="on" color="accent" id="beginBtn">
+                {{ $l("app.pages.begin") }}
               </v-btn>
             </template>
-            <v-list class="languageList mt-6">
-              <v-list-item
-                v-for="(l, index) in locales"
-                :key="index"
-                v-on:change="changeLocale(l)"
-              >
-                <button>
-                  <img :src="getImgUrl(l)" :alt="l" class="flagImg" />
-                </button>
+            <v-list>
+              <v-list-item>
+                <v-btn text id="google" @click="logIn()">
+                  <v-icon>mdi-google</v-icon>Sign in
+                </v-btn>
               </v-list-item>
             </v-list>
           </v-menu>
         </div>
+        <v-menu
+          offset-y
+          open-on-hover
+          hide-on-scroll
+          transition="scale-transition"
+          origin="top center"
+          attach="#container"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              text
+              v-bind="attrs"
+              v-on="on"
+              id="flagBtn"
+              width="10px"
+              ref="locales"
+            >
+              <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(l, index) in locales"
+              :key="index"
+              v-on:change="changeLocale(l)"
+            >
+              <button>
+                <img :src="getImgUrl(l)" :alt="l" class="flagImg" />
+              </button>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
     </div>
     <div id="subHeader" ref="subHeader" />
+    <v-snackbar
+      max-width="800"
+      color="error"
+      timeout="15000"
+      v-model="showSnackbar"
+      content-class="errorSnackbar"
+      bottom
+      app
+    >
+      <p class="ma-0" v-html="$l('auth.allow_cookies')"></p>
+    </v-snackbar>
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { GoogleAuthService } from "@/services/index";
 
 export default {
   data() {
     return {
       locales: [],
       locale: String,
+      showSnackbar: false,
     };
   },
   computed: mapGetters(["getStatus", "getNavBar"]),
@@ -91,7 +130,6 @@ export default {
         params: { locale: val },
       });
       this.updateLocales(val);
-      this.resize();
     },
     goToHomePage() {
       if (this.$route.name !== "Home") this.$router.push({ name: "Home" });
@@ -110,10 +148,10 @@ export default {
       const container = this.$refs.container;
       const buttons = this.$refs.buttons;
       const title = this.$refs.title;
-      const locales = this.$refs.locales;
+      const locales = this.$refs.locales.$el;
       const navIcon = this.$refs.navIcon;
 
-      new ResizeObserver(() => {
+      const observer = new ResizeObserver(() => {
         buttons.style.display = "flex";
         var mv =
           container.offsetWidth - title.offsetWidth - locales.offsetWidth <
@@ -121,7 +159,9 @@ export default {
         buttons.style.display = mv ? "none" : "flex";
         navIcon.style.display = mv ? "inline" : "none";
         this.setMobileView(mv);
-      }).observe(document.documentElement);
+      });
+      observer.observe(document.documentElement);
+      observer.observe(container);
     },
     scroll() {
       const wrapper = this.$refs.wrapper;
@@ -150,6 +190,19 @@ export default {
         subHeader.innerHTML = "";
       });
     },
+    logIn() {
+      GoogleAuthService.signIn()
+        .then(() => {
+          this.$router.push({ name: "PrimarySettingUp" });
+        })
+        .catch((e) => {
+          if (e.error === "idpiframe_initialization_failed")
+            this.$root.$emit("cookiesError");
+        });
+    },
+    logOut() {
+      GoogleAuthService.signOut();
+    },
   },
   created() {
     this.updateLocales(this.$route.params.locale);
@@ -158,6 +211,7 @@ export default {
     this.resize();
     this.scroll();
     this.subHeader();
+    this.$root.$on("cookiesError", () => (this.showSnackbar = true));
   },
 };
 </script>
@@ -196,10 +250,10 @@ $header-height: 56px;
     position: absolute;
     left: var(--side-margin);
     right: var(--side-margin);
+
     #title {
       @include flexbox();
       text-transform: none;
-      background-color: transparent;
       color: var(--v-secondary-darken2);
       #logo {
         height: 70px;
@@ -207,38 +261,70 @@ $header-height: 56px;
       #name {
         font-size: 32px;
         color: var(--v-secondary-base);
+        // font-weight: 500;
       }
-      & > * {
+      * {
         transition: opacity 0.3s ease-in-out;
-      }
-      & > *:hover {
-        opacity: 0.7;
+        &:hover {
+          opacity: 0.7;
+        }
       }
     }
     #buttons {
       @include flexbox();
       margin-left: auto;
-      * {
-        background-color: inherit;
+      & > * {
+        background-color: transparent;
         color: var(--secondary-base);
         margin-right: 0.5rem;
       }
+      #beginBtn {
+        height: 100%;
+      }
     }
+    #flagBtn {
+      height: 100%;
+    }
+
     #nav a {
       margin: 2px;
       background-color: var(--v-primary-base);
       font-weight: bold;
       color: var(--v-secondary-base);
+      &.router-link-active {
+        color: var(--v-active-base);
+      }
     }
-    #nav a.router-link-active {
-      color: var(--v-active-base);
+  }
+}
+
+.v-menu__content {
+  background: transparent;
+  border-radius: 0 0 15px 15px;
+  transition: all 0.3s !important;
+  .v-list {
+    background: #000 !important;
+    .v-btn {
+      border-radius: 50px;
     }
-    .languageList {
-      background-color: #00000033 !important;
-    }
-    .listItem {
-      padding: 0;
-    }
+  }
+}
+
+.flagImg {
+  border-radius: 1.5px;
+}
+
+#google {
+  width: 100%;
+  color: var(--v-secondary-base);
+  .v-icon {
+    margin-right: 10px;
+    color: var(--v-accent-base);
+  }
+}
+::v-deep {
+  .v-snack__wrapper {
+    border-radius: 15px !important;
   }
 }
 #subHeader {
@@ -251,9 +337,5 @@ $header-height: 56px;
   &.empty {
     display: none;
   }
-}
-
-.flagImg {
-  border-radius: 1.5px;
 }
 </style>

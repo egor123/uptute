@@ -14,7 +14,7 @@
       max="21"
       step="1"
       thumb-label="always"
-      :thumb-size="20"
+      :thumb-size="25"
       color="accent"
     />
   </BaseComponent>

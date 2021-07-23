@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <div v-for="tutor in tutors" :key="tutor.id">
+    <div v-for="(tutor, index) in tutors" :key="index">
       <v-tooltip left content-class="tooltip" open-delay="300">
         <template v-slot:activator="{ on, attrs }">
           <div v-bind="attrs" v-on="on">
@@ -9,7 +9,7 @@
         </template>
         <span>
           <Moto :moto="tutor.moto" />
-          <Comments :id="tutor.uuid" />
+          <Comments :id="tutor.uuid" background="var(--v-secondary-base)" />
         </span>
       </v-tooltip>
     </div>
@@ -58,22 +58,15 @@ $card-rows-margin: 5px;
     margin-top: 1rem;
   }
   #moto {
-    margin: 1rem 0 2.5rem 0;
+    margin: 1rem auto 2.5rem auto;
   }
 }
 
 .tooltip {
-  margin-left: -1rem;
-  width: 350px;
-  color: var(--v-primary-base);
-  background: var(--v-secondary-base);
-  opacity: 0.4 !important;
-  border-radius: 15px;
-}
-
-@media (max-width: 1120px) {
-  .tooltip {
+  margin-left: -0.4rem; // hard-cocded
+  @media (max-width: 1120px) {
     display: none;
   }
+  // transform: translateY(calc(50% - 93.5px));
 }
 </style>

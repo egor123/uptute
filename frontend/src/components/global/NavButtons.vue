@@ -1,37 +1,39 @@
 <template>
-  <div>
-    <div id="nav-buttons" v-for="i in 1" :key="i">
-      <button
-        v-animate="'slideInFromLeft'"
-        action="previous"
-        class="btn"
-        ref="btn"
-      />
-      <button
-        v-animate="'slideInFromRight'"
-        action="next"
-        class="btn"
-        ref="btn"
-      />
-    </div>
+  <div id="nav-buttons">
+    <button
+      v-animate="'slideInFromLeft'"
+      action="previous"
+      class="btn"
+      ref="btnPrev"
+      :style="getStyles()"
+      :animated="animated"
+    />
+    <button
+      v-animate="'slideInFromRight'"
+      action="next"
+      class="btn"
+      ref="btnNext"
+      :style="getStyles()"
+      :animated="animated"
+    />
   </div>
 </template>
 
 <script>
-import { bus } from "@/main.js";
-
 export default {
+  props: {
+    offset: String,
+    animated: Boolean,
+  },
   methods: {
     btnIsPressed(event) {
       const btn = event.currentTarget;
       switch (btn.getAttribute("action")) {
         case "next":
-          //   this.current--;
-          bus.$emit("currentChange", -1);
+          this.$emit("click", 1);
           break;
         case "previous":
-          //   this.current++;
-          bus.$emit("currentChange", 1);
+          this.$emit("click", -1);
           break;
       }
       const ripple = document.createElement("div");
@@ -48,63 +50,91 @@ export default {
         getComputedStyle(ripple).animationDuration.replace("s", "") * 1000
       );
     },
+    getStyles() {
+      return `--offset: ${this.offset ?? 0}`;
+    },
   },
   mounted() {
-    this.$refs.btn.forEach((btn) =>
-      btn.addEventListener("click", this.btnIsPressed)
-    );
+    this.$refs.btnPrev.addEventListener("click", this.btnIsPressed);
+    this.$refs.btnNext.addEventListener("click", this.btnIsPressed);
   },
   beforeDestroy() {
-    this.$refs.btn.forEach((btn) =>
-      btn.removeEventListener("click", this.btnIsPressed)
-    );
+    this.$refs.btnPrev.removeEventListener("click", this.btnIsPressed);
+    this.$refs.btnNext.removeEventListener("click", this.btnIsPressed);
   },
 };
 </script>
 
 <style lang="scss" scoped>
-// $max-width-buttons: 1260px;
+@import "@/scss/mixins.scss";
 
 $nav-btn-size: 4rem;
 $buttons-size: 0.6;
-$nav-btn-hover-offset: 0.6rem;
+$nav-btn-hover-offset: 5px;
 
-#nav-buttons {
-  .btn {
-    display: flex;
-    position: absolute;
-    overflow: hidden;
-    font-size: $nav-btn-size;
-    height: 1em;
-    width: 1em;
-    top: 40%;
-    border-radius: 50%;
-    justify-content: center;
-    align-items: center;
-    z-index: 99;
-    &::after {
-      color: var(--v-accent-base);
-      top: 0;
-      text-align: center;
-      opacity: 0.8;
-      transition-property: transform opacity;
-      transition-duration: 0.5s;
-      transition-timing-function: ease-in-out;
-      user-select: none;
+.btn {
+  z-index: 10;
+  position: absolute;
+  overflow: hidden;
+  font-size: $nav-btn-size;
+  @include box-size(1em);
+  @include flexbox;
+  top: 40%;
+  border-radius: 50%;
+  &::after {
+    color: var(--v-accent-base);
+    top: 0;
+    text-align: center;
+    opacity: 0.8;
+    transition-property: transform opacity;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
+    user-select: none;
+  }
+  &[action="previous"] {
+    left: var(--offset);
+    &[animated] {
+      animation: fromLeft 0.5s ease-in both;
+      @keyframes fromLeft {
+        from {
+          transform: translateX(-4rem);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0rem);
+          opacity: 1;
+        }
+      }
     }
-    &[action="previous"]::after {
+    &::after {
       content: "\002039";
       transform: scale($buttons-size) translateX($nav-btn-hover-offset);
     }
+  }
 
-    &[action="next"]::after {
+  &[action="next"] {
+    right: var(--offset);
+    &[animated] {
+      animation: fromRight 0.5s ease-in both;
+      @keyframes fromRight {
+        from {
+          transform: translateX(4rem);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0rem);
+          opacity: 1;
+        }
+      }
+    }
+    &::after {
       content: "\00203A";
       transform: scale($buttons-size) translateX(-$nav-btn-hover-offset);
     }
-    &:hover::after {
-      transform: scale(0.6) translateX(0);
-      opacity: 1;
-    }
+  }
+  &:hover::after {
+    transform: scale(0.6) translateX(0);
+    opacity: 1;
   }
 }
 </style>

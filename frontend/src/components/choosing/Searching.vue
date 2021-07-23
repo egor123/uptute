@@ -49,9 +49,11 @@ export default {};
 @keyframes scaleChange {
   from {
     transform: scale(1);
+    -moz-transform: scale(1);
   }
   to {
     transform: scale(0.75);
+    -moz-transform: scale(0.75);
   }
 }
 
