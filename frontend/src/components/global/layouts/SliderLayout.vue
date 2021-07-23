@@ -40,7 +40,7 @@
       <NavButtons
         v-if="!$mb.isMobileInput()"
         offset="10vw"
-        @click="(val) => current += val"
+        @click="(val) => (current += val)"
       />
     </div>
   </div>
@@ -73,9 +73,6 @@ export default {
   mounted() {
     this.total = this.elements.length;
     this.setStyles(false);
-    this.$root.$on("currentChange", (data) => {
-      this.current -= data;
-    });
     document.addEventListener("touchend", this.touchend);
     this.$nextTick(() => {
       this.$mb.addSwipeListener(this.swipe, this.$refs.swipable);
@@ -86,10 +83,10 @@ export default {
       return this.imgSize ?? 100;
     },
     current: {
-      get: function () {
+      get: function() {
         return this.currentValue;
       },
-      set: function (value) {
+      set: function(value) {
         if (!this.enabled) return;
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
@@ -140,9 +137,8 @@ export default {
         const distance = Math.abs(position);
 
         element.classList.toggle("transition", transition);
-        element.style.transform = `perspective(200px) translate3d(${
-          position * 330
-        }px, 0, ${distance * -120}px)`;
+        element.style.transform = `perspective(200px) translate3d(${position *
+          330}px, 0, ${distance * -120}px)`;
       }
     },
   },

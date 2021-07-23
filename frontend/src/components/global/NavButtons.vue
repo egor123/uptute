@@ -79,7 +79,8 @@ $nav-btn-hover-offset: 5px;
   font-size: $nav-btn-size;
   @include box-size(1em);
   @include flexbox;
-  top: 40%;
+  top: 50%;
+  transform: translateY(-50%);
   border-radius: 50%;
   &::after {
     color: var(--v-accent-base);
