@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import Stripe from "stripe";
+
 export default {
   data() {
     return {
