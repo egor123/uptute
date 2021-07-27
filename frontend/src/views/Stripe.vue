@@ -3,12 +3,7 @@
 </template>
 
 <script>
-import AccountBase from "@/components/account/AccountBase.vue";
-
 export default {
-  components: {
-    AccountBase,
-  },
   data() {
     return {
       stripe: null,
