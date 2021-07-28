@@ -61,8 +61,8 @@ $spacing-width: 15ch;
 $spacing-height: 2ch;
 
 $padding: 15rem 10vw;
-$vertical-margin: 10ch;
-$title-margin-bottom: 1rem;
+$vertical-margin: 2rem;
+$title-margin-bottom: 2rem;
 
 #main {
   padding: $padding;
@@ -81,15 +81,26 @@ $title-margin-bottom: 1rem;
 .row {
   display: grid;
   grid-auto-rows: $element-height;
+  padding: 3rem 1rem;
+
+  border-radius: 15px;
+  box-shadow: 3px 4px 8px 2px var(--v-secondary-darken1);
+
+  &:hover {
+    transition: box-shadow 300ms ease-in-out;
+    box-shadow: 1px 2px 5px 1px var(--v-secondary-darken1);
+  }
+
   .text-field {
     grid-area: text;
     text-align: left;
     hyphens: auto;
     h2 {
-      margin-bottom: 1em;
+      text-align: center;
+      margin-bottom: 0.8em;
     }
     p {
-      text-align: justify;
+      text-align: center;
     }
   }
   .image-field {
