@@ -164,13 +164,17 @@ $max-width-buttons: 900px;
 $buttons-offset: calc(50vw - 450px);
 $buttons-offset-at-900px: 5%;
 
+$background: var(--v-header-base);
+
 #main {
   padding: $vertical-padding 0; //var(--side-margin)
+  background: $background;
   @media (max-width: $max-width-padding) {
     padding: $vertical-padding 1rem;
   }
   #container {
     position: relative;
+    background: #ffffff00; //!!
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -185,26 +189,10 @@ $buttons-offset-at-900px: 5%;
   margin-top: 15px;
 }
 
-// ::v-deep #nav-buttons {
-//   @media (max-width: $max-width-buttons) {
-//     display: none;
-//   }
-//   [action="previous"] {
-//     left: $buttons-offset;
-//     @media (max-width: 900px) {
-//       left: $buttons-offset-at-900px;
-//     }
-//   }
-//   [action="next"] {
-//     right: $buttons-offset;
-//     @media (max-width: 900px) {
-//       right: $buttons-offset-at-900px;
-//     }
-//   }
-// }
-
 #content {
   width: 100vw;
+  background: #ffffff00; //!!
+
   height: $content-height;
   overflow: hidden;
   position: relative;
@@ -213,31 +201,39 @@ $buttons-offset-at-900px: 5%;
   align-items: center;
   & > * {
     position: absolute;
+    cursor: default;
     width: $element-width;
     height: $element-height;
-    border-radius: 0.5em;
+    border-radius: 15px;
     padding: 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     backdrop-filter: blur(2px);
-    background-color: rgba($color: #000000, $alpha: 0.015);
+    // background-color: rgba($color: #000000, $alpha: 0.015);
+    // background: var(--v-background-base);
+    // border-bottom: solid 2px var(--v-secondary-darken1);
+    // border-right: solid 2px var(--v-secondary-darken1);
+
+    box-shadow: 3px 4px 8px 2px var(--v-secondary-darken1);
+    transition: box-shadow 300ms ease-in-out;
     &.transition {
-      transition: 0.6s transform ease-in-out;
+      transition: transform 0.6s ease-in-out, box-shadow 300ms ease-in-out; //????
     }
     &:hover {
-      box-shadow: 0px 0px 16px 2px var(--v-secondary-darken1);
+      box-shadow: 1px 2px 5px 1px var(--v-secondary-darken1);
     }
   }
   &::after {
+    background: #ffffff00; //!!!!
     content: "";
     position: absolute;
     pointer-events: none;
     width: 100%;
     height: 100%;
     z-index: 99;
-    box-shadow: inset 0px 0px 1rem 1rem white;
+    box-shadow: inset 0px 0px 1rem 1rem $background;
   }
 }
 </style>
