@@ -40,30 +40,12 @@
           >
             {{ $l("app.pages.find_tutor") }}
           </v-btn> -->
-          <v-menu
-            v-if="!getStatus"
-            offset-y
-            open-on-hover
-            hide-on-scroll
-            transition="scale-transition"
-            origin="top center"
-            attach="#container"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <div v-bind="attrs" v-on="on" id="begin">
-                {{ $l("app.pages.begin") }}
-              </div>
-            </template>
-            <v-list>
-              <v-list-item>
-                <GoogleSignIn>
-                  <v-btn text id="google">
-                    <v-icon>mdi-google</v-icon>Sign in
-                  </v-btn>
-                </GoogleSignIn>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+          <Begin
+            color="rgba(0, 0, 0, 0.8)"
+            textColor="white"
+            borderRadius="0 0 15px 15px"
+            border="none"
+          />
         </div>
         <v-menu
           offset-y
@@ -107,8 +89,8 @@
   </div>
 </template>
 <script>
-import GoogleSignIn from "@/components/account/GoogleSignIn.vue";
 import { mapGetters, mapActions } from "vuex";
+import Begin from "@/components/global/Begin.vue";
 
 export default {
   data() {
@@ -119,7 +101,7 @@ export default {
     };
   },
   components: {
-    GoogleSignIn,
+    Begin,
   },
   computed: mapGetters(["getStatus", "getNavBar"]),
   methods: {
@@ -265,9 +247,6 @@ $header-height: 56px;
         color: var(--secondary-base);
         margin-right: 0.5rem;
       }
-      #beginBtn {
-        height: 100%;
-      }
     }
     #flagBtn {
       height: 100%;
@@ -285,7 +264,6 @@ $header-height: 56px;
   }
 }
 
-#begin,
 #flag {
   height: 100%;
   width: max-content;
@@ -294,13 +272,13 @@ $header-height: 56px;
   padding: 0 1rem;
 }
 
-#begin {
-  color: var(--v-accent-base) !important;
-  font-weight: 500;
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 3px;
-}
+// #begin {
+//   color: var(--v-accent-base) !important;
+//   font-weight: 500;
+//   text-transform: uppercase;
+//   text-align: center;
+//   letter-spacing: 3px;
+// }
 
 .v-menu__content {
   background: transparent;
@@ -335,16 +313,6 @@ $header-height: 56px;
   box-shadow: 0px 2px 6px var(--v-secondary-darken1);
   &.empty {
     display: none;
-  }
-}
-
-#google {
-  width: 100%;
-  color: var(--v-secondary-base);
-  // margin: 0 auto !important;
-  .v-icon {
-    margin-right: 10px;
-    color: var(--v-accent-base);
   }
 }
 </style>

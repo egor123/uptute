@@ -4,7 +4,7 @@
       <h1 v-animate="'fadeIn'">{{ title }}</h1>
       <div v-animate="'fadeIn'" id="content" ref="swipable">
         <div
-          class="element"
+          class="element boxShadow"
           v-for="(element, i) in elements"
           :key="i"
           :ref="`element${i}`"
@@ -49,6 +49,7 @@
 <script>
 import NavButtons from "@/components/global/NavButtons.vue";
 import RadioButton from "@/components/global/RadioButton.vue";
+
 export default {
   components: {
     NavButtons,
@@ -139,6 +140,8 @@ export default {
         element.classList.toggle("transition", transition);
         element.style.transform = `perspective(200px) translate3d(${position *
           330}px, 0, ${distance * -120}px)`;
+        if (i === c) element.style.cursor = "default";
+        else element.style.cursor = "pointer";
       }
     },
   },
@@ -155,7 +158,7 @@ $vertical-padding: 15rem;
 $content-height: 22rem;
 
 $element-width: 24ch;
-$element-height: 27ch;
+$element-height: max-content;
 
 // $radio-size: 2rem;
 // $radio-margin: 0.5rem;
@@ -201,7 +204,6 @@ $background: var(--v-header-base);
   align-items: center;
   & > * {
     position: absolute;
-    cursor: default;
     width: $element-width;
     height: $element-height;
     border-radius: 15px;
@@ -211,13 +213,11 @@ $background: var(--v-header-base);
     justify-content: space-between;
     align-items: center;
     backdrop-filter: blur(2px);
-    // background-color: rgba($color: #000000, $alpha: 0.015);
-    // background: var(--v-background-base);
-    // border-bottom: solid 2px var(--v-secondary-darken1);
-    // border-right: solid 2px var(--v-secondary-darken1);
 
-    box-shadow: 3px 4px 8px 2px var(--v-secondary-darken1);
     transition: box-shadow 300ms ease-in-out;
+    img {
+      margin: 1rem 0;
+    }
     &.transition {
       transition: transform 0.6s ease-in-out, box-shadow 300ms ease-in-out; //????
     }
