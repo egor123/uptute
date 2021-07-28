@@ -45,6 +45,7 @@
             textColor="white"
             borderRadius="0 0 15px 15px"
             border="none"
+            v-if="!getStatus"
           />
         </div>
         <v-menu

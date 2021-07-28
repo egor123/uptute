@@ -1,6 +1,5 @@
 <template>
   <v-menu
-    v-if="!getStatus"
     offset-y
     open-on-hover
     hide-on-scroll

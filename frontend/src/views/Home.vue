@@ -10,7 +10,6 @@
         </div>
       </div>
     </div> -->
-
     <div id="hero">
       <div id="heroWrapper" class="boxShadow">
         <div class="iframeWrapper">
@@ -36,25 +35,27 @@
       </div>
     </div>
 
-    <SliderLayout
-      :title="$l('home.mission.title')"
-      :elements="[
-        {
-          img: 'happiness',
-          txt: $l('home.mission.list.0'),
-        },
-        {
-          img: 'heart',
-          txt: $l('home.mission.list.1'),
-        },
-        {
-          img: 'coins',
-          txt: $l('home.mission.list.2'),
-        },
-      ]"
-    />
-    <HowItWorks />
-    <WhyUpTute />
+    <div id="innerContainer">
+      <SliderLayout
+        :title="$l('home.mission.title')"
+        :elements="[
+          {
+            img: 'happiness',
+            txt: $l('home.mission.list.0'),
+          },
+          {
+            img: 'heart',
+            txt: $l('home.mission.list.1'),
+          },
+          {
+            img: 'coins',
+            txt: $l('home.mission.list.2'),
+          },
+        ]"
+      />
+      <HowItWorks />
+      <WhyUpTute />
+    </div>
   </div>
 </template>
 
@@ -85,6 +86,9 @@ export default {
 
 #container {
   overflow: hidden;
+  #innerContainer {
+    margin-top: 100vh;
+  }
 }
 
 h1 {
@@ -92,7 +96,7 @@ h1 {
 }
 
 #hero {
-  position: relative;
+  position: fixed;
   background: var(--v-background-base);
   top: 0;
   width: 100vw;
@@ -109,7 +113,7 @@ h1 {
 
       iframe {
         --videoWidth: calc(55vh * 16 / 9);
-        @media (max-width: "1000px") {
+        @media (max-width: "900px") {
           --videoWidth: 85vw;
         }
 

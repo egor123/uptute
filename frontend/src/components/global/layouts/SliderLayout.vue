@@ -175,14 +175,17 @@ $background: var(--v-header-base);
   @media (max-width: $max-width-padding) {
     padding: $vertical-padding 1rem;
   }
+  position: relative;
+  // width: 100vw;
+  // height: 100vh;
   #container {
     position: relative;
     background: #ffffff00; //!!
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
+    // width: 100%;
+    // height: 100%;
   }
 }
 
