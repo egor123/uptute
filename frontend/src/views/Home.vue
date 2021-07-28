@@ -15,9 +15,11 @@
       <div id="heroWrapper" class="boxShadow">
         <div class="iframeWrapper">
           <iframe
-            src="https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&controls=1"
+            src="https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500"
             frameborder="0"
             allow="autoplay"
+            webkitallowfullscreen
+            mozallowfullscreen
             allowfullscreen
           ></iframe>
         </div>
@@ -51,122 +53,14 @@
         },
       ]"
     />
-    <Checker-layout
-      inversed
-      color="background"
-      :title="$l('home.how_it_works.title')"
-      :rows="[
-        {
-          img: 'start',
-          title: $l('home.how_it_works.list.0.h'),
-          txt: $l('home.how_it_works.list.0.p'),
-        },
-        {
-          img: 'choosing',
-          title: $l('home.how_it_works.list.1.h'),
-          txt: $l('home.how_it_works.list.1.p'),
-        },
-        {
-          img: 'calendar',
-          title: $l('home.how_it_works.list.2.h'),
-          txt: $l('home.how_it_works.list.2.p'),
-        },
-        {
-          img: 'notebook',
-          title: $l('home.how_it_works.list.3.h'),
-          txt: $l('home.how_it_works.list.3.p'),
-        },
-        {
-          img: 'rating',
-          title: $l('home.how_it_works.list.4.h'),
-          txt: $l('home.how_it_works.list.4.p'),
-        },
-      ]"
-    />
-
-    <CheckerLayout
-      inversed
-      color="header"
-      :title="$l('why_us.student.title')"
-      :rows="[
-        {
-          img: 'piggy-bank',
-          title: $l('why_us.student.list.0.h'),
-          txt: $l('why_us.student.list.0.p'),
-        },
-        {
-          img: 'save-time',
-          title: $l('why_us.student.list.1.h'),
-          txt: $l('why_us.student.list.1.p'),
-        },
-        {
-          img: 'fast',
-          title: $l('why_us.student.list.2.h'),
-          txt: $l('why_us.student.list.2.p'),
-        },
-        {
-          img: 'friend',
-          title: $l('why_us.student.list.3.h'),
-          txt: $l('why_us.student.list.3.p'),
-        },
-        {
-          img: 'laugh',
-          title: $l('why_us.student.list.4.h'),
-          txt: $l('why_us.student.list.4.p'),
-        },
-        {
-          img: 'house',
-          title: $l('why_us.student.list.5.h'),
-          txt: $l('why_us.student.list.5.p'),
-        },
-      ]"
-    />
-    <CheckerLayout
-      color="background"
-      :title="$l('why_us.tutor.title')"
-      :rows="[
-        {
-          img: 'skills',
-          title: $l('why_us.tutor.list.0.h'),
-          txt: $l('why_us.tutor.list.0.p'),
-        },
-        {
-          img: 'goal',
-          title: $l('why_us.tutor.list.1.h'),
-          txt: $l('why_us.tutor.list.1.p'),
-        },
-        {
-          img: 'profits',
-          title: $l('why_us.tutor.list.2.h'),
-          txt: $l('why_us.tutor.list.2.p'),
-        },
-        {
-          img: 'money-bag',
-          title: $l('why_us.tutor.list.3.h'),
-          txt: $l('why_us.tutor.list.3.p'),
-        },
-        {
-          img: 'time-management',
-          title: $l('why_us.tutor.list.4.h'),
-          txt: $l('why_us.tutor.list.4.p'),
-        },
-        {
-          img: 'save-time',
-          title: $l('why_us.tutor.list.5.h'),
-          txt: $l('why_us.tutor.list.5.p'),
-        },
-        {
-          img: 'house',
-          title: $l('why_us.tutor.list.6.h'),
-          txt: $l('why_us.tutor.list.6.p'),
-        },
-      ]"
-    />
+    <HowItWorks />
+    <WhyUpTute />
   </div>
 </template>
 
 <script>
-import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
+import WhyUpTute from "@/components/global/layouts/WhyUpTute.vue";
+import HowItWorks from "@/components/global/layouts/HowItWorks.vue";
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
 import Begin from "@/components/global/Begin.vue";
 
@@ -178,7 +72,8 @@ export default {
     redirect: "Home",
   },
   components: {
-    CheckerLayout,
+    WhyUpTute,
+    HowItWorks,
     SliderLayout,
     Begin,
   },
@@ -196,6 +91,44 @@ h1 {
   color: var(--v-primary-base);
 }
 
+#hero {
+  position: relative;
+  background: var(--v-background-base);
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  @include flexbox();
+  #heroWrapper {
+    border-radius: 15px;
+    padding: 1rem;
+
+    .iframeWrapper {
+      @include box-size(fit-content);
+      border-radius: 15px;
+      overflow: hidden;
+
+      iframe {
+        --videoWidth: calc(55vh * 16 / 9);
+        @media (max-width: "1000px") {
+          --videoWidth: 85vw;
+        }
+
+        width: var(--videoWidth);
+        height: calc(var(--videoWidth) / 16 * 9);
+        margin-bottom: -7px;
+      }
+    }
+    #heroText {
+      padding: 3rem 0 2rem 0;
+      @include flexbox();
+
+      #beginWrapper {
+        width: max-content;
+      }
+    }
+  }
+}
+
 // .img {
 //   background-image: url("../assets/images/home.jpg");
 //   height: 100vh;
@@ -206,46 +139,6 @@ h1 {
 //   background-position: 41%;
 //   position: relative;
 // }
-
-#hero {
-  position: relative;
-  background: var(--v-background-base);
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  @include flexbox();
-  #heroWrapper {
-    // @include flexbox();
-    border-radius: 15px;
-    padding: 1rem;
-
-    .iframeWrapper {
-      @include box-size(fit-content);
-      // background: green;
-      border-radius: 15px;
-      overflow: hidden;
-
-      iframe {
-        width: 54rem;
-        height: 30.45rem;
-        // width: 100vw;
-        // height: 100vh;
-        margin-bottom: -7px;
-      }
-    }
-    #heroText {
-      // padding: 0 1rem 0 2rem;
-      padding: 3rem 0 2rem 0;
-      @include flexbox();
-
-      #beginWrapper {
-        // border-radius: 15px 15px 0 0;
-        width: max-content;
-      }
-    }
-  }
-}
-
 // .img-container {
 //   position: absolute;
 //   width: 100%;
@@ -284,19 +177,5 @@ h1 {
 //   );
 //   backdrop-filter: blur(5px);
 //   background-color: rgba($color: #fff, $alpha: 0.4);
-// }
-
-// #begin {
-//   // height: 100%;
-//   width: max-content;
-//   // @include flexbox();
-//   padding: 0 1rem;
-//   color: var(--v-accent-base) !important;
-//   font-weight: 500;
-//   text-transform: uppercase;
-//   // background: red;
-//   // text-align: center;
-//   letter-spacing: 3px;
-//   border-radius: 30px;
 // }
 </style>

@@ -15,13 +15,28 @@
     </template>
     <v-list
       :style="
-        `--color: ${color}; --textColor: ${textColor}; --borderRadius: ${borderRadius}; --border: ${border}`
+        `--color: ${color}; 
+        --textColor: ${textColor}; 
+        --borderRadius: ${borderRadius}; 
+        --border: ${border}`
       "
     >
       <v-list-item>
         <GoogleSignIn>
-          <v-btn text id="google"> <v-icon>mdi-google</v-icon>Sign in</v-btn>
+          <v-btn text id="google">
+            <img src="@/assets/icons/signIn/google.svg" alt="" />
+            {{ $l("auth.google") }}
+          </v-btn>
         </GoogleSignIn>
+      </v-list-item>
+      <v-list-item>
+        <GoogleSignIn>
+          <v-btn text id="facebook">
+            <img src="@/assets/icons/signIn/facebook.svg" alt="" />
+            {{ $l("auth.facebook") }}
+          </v-btn>
+        </GoogleSignIn>
+        <!-- INSTEAD FACEBOOK SIGN IN !!!!!!!!!!!!!! -->
       </v-list-item>
     </v-list>
   </v-menu>
@@ -62,20 +77,13 @@ export default {
 }
 
 .v-menu__content {
-  //   background: transparent;
-  //   border-radius: 0 0 15px 15px;
-
-  //   box-shadow: 2px 4px 8px -3px var(--v-secondary-darken1);
   box-shadow: none;
   border-radius: 0px;
 
   transition: all 0.3s !important;
   .v-list {
-    // background: rgba(0, 0, 0, 0.8) !important;
     background: var(--color) !important;
-    // border-radius: 15px;
     border-radius: var(--borderRadius);
-    // border: dashed 2px var(--v-accent-base);
     border: var(--border);
 
     .v-list-item > * {
@@ -85,17 +93,14 @@ export default {
         border-radius: 50px;
         width: 100%;
         color: var(--textColor) !important;
+        text-transform: none;
+        img {
+          margin-right: 10px;
+          @include box-size(1.5rem);
+          color: var(--v-accent-base);
+        }
       }
     }
-  }
-}
-
-#google {
-  color: var(--v-secondary-base);
-  // margin: 0 auto !important;
-  .v-icon {
-    margin-right: 10px;
-    color: var(--v-accent-base);
   }
 }
 </style>
