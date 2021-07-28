@@ -58,7 +58,7 @@ export default {
   top: $offset;
   bottom: $offset; //padding-bottom: $offset; ????
   margin-left: auto;
-  width: fit-content;
+  width: max-content;
   & > * {
     pointer-events: auto;
     display: flex;
@@ -75,17 +75,20 @@ export default {
 
 ::v-deep {
   .v-btn {
-    // background: var(--v-secondary-darken1);
     background: var(--v-accent-base);
-
+    max-width: max-content;
     margin-bottom: 0.8rem;
     box-shadow: 1px 2px 4px 0px var(--v-secondary-darken3);
-    // color: var(--v-secondary-darken3);
     color: var(--v-header-base);
   }
-  .v-btn__content .v-icon {
-    // color: var(--v-secondary-darken3);
-    color: var(--v-header-base);
+  .v-btn__content {
+    // @include flexbox();
+    // justify-content: center;
+    max-width: max-content;
+    height: max-content;
+    .v-icon {
+      color: var(--v-header-base);
+    }
   }
 }
 </style>
