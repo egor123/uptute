@@ -17,8 +17,14 @@
           <GoogleSignIn>
             <img id="google" src="@/assets/icons/signIn/google.svg" alt="" />
           </GoogleSignIn>
-
-          <img id="facebook" src="@/assets/icons/signIn/facebook.svg" alt="" />
+          <GoogleSignIn>
+            <img
+              id="facebook"
+              src="@/assets/icons/signIn/facebook.svg"
+              alt=""
+            />
+          </GoogleSignIn>
+          <!-- INSTEAD FACEBOOK SIGN IN !!!!!!!!!!!!!! -->
         </div>
       </div>
 

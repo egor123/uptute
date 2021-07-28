@@ -5,6 +5,8 @@
       "log_in": "Log in",
       "register": "Register"
     },
+    "google": "Use Google",
+    "facebook": "Use Facebook",
     "allow_cookies": "To use Google authorisation please allow <b>Third-Party Cookies</b> ",
     "btn": {
       "log_in": "Log in",

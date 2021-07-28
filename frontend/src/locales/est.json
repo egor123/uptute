@@ -5,6 +5,8 @@
       "log_in": "Logi sisse",
       "register": "Registreeru"
     },
+    "google": "Sisene Google'iga",
+    "facebook": "Sisene Facebook'iga",
     "allow_cookies": "Kasutamaks Google autorisatsiooni palun luba <b>Kolmandate Isikute Küpsiste</b> kasutamist",
     "btn": {
       "log_in": "Logi sisse",
