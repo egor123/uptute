@@ -3,7 +3,7 @@
     <h1 v-animate="'fadeIn'" id="title" v-if="title">{{ title }}</h1>
     <div
       v-animate="'slideInFromBottom'"
-      class="row"
+      class="row boxShadow"
       v-for="(row, i) in rows"
       :key="i"
       :inversed="isInvesed(i)"
@@ -58,7 +58,7 @@ $max-width: 800px;
 $element-width: 28ch;
 $element-height: 12ch;
 $spacing-width: 15ch;
-$spacing-height: 2ch;
+$spacing-height: 0ch;
 
 $padding: 15rem 10vw;
 $vertical-margin: 2rem;
@@ -80,16 +80,11 @@ $title-margin-bottom: 2rem;
 }
 .row {
   display: grid;
-  grid-auto-rows: $element-height;
+  grid-auto-rows: max-content;
   padding: 3rem 1rem;
+  height: max-content;
 
   border-radius: 15px;
-  box-shadow: 3px 4px 8px 2px var(--v-secondary-darken1);
-
-  &:hover {
-    transition: box-shadow 300ms ease-in-out;
-    box-shadow: 1px 2px 5px 1px var(--v-secondary-darken1);
-  }
 
   .text-field {
     grid-area: text;
@@ -106,6 +101,7 @@ $title-margin-bottom: 2rem;
   .image-field {
     grid-area: image;
     margin: auto;
+    padding: 1rem 0;
   }
 
   grid-template-columns: $element-width;
