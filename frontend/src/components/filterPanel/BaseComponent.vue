@@ -98,11 +98,16 @@ export default {
 @import "@/scss/errorStyles.scss";
 
 #scroll {
+  @-moz-document url-prefix() {
+    scrollbar-width: none;
+  }
+
   overflow-y: auto;
   overflow-x: visible;
   max-height: 150px;
   margin-top: 1rem;
   padding: 0 0.6rem 0 0.6rem;
+
   &::-webkit-scrollbar-track {
     background: var(--v-header-base);
   }
