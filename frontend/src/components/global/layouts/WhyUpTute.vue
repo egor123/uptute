@@ -6,34 +6,19 @@
       :title="$l('why_us.student.title')"
       :rows="[
         {
-          img: 'piggy-bank',
+          img: 'whyUpTute/forStudent/piggy-bank',
           title: $l('why_us.student.list.0.h'),
           txt: $l('why_us.student.list.0.p'),
         },
         {
-          img: 'save-time',
+          img: 'whyUpTute/forStudent/fast',
           title: $l('why_us.student.list.1.h'),
           txt: $l('why_us.student.list.1.p'),
         },
         {
-          img: 'fast',
+          img: 'whyUpTute/forStudent/friend',
           title: $l('why_us.student.list.2.h'),
           txt: $l('why_us.student.list.2.p'),
-        },
-        {
-          img: 'friend',
-          title: $l('why_us.student.list.3.h'),
-          txt: $l('why_us.student.list.3.p'),
-        },
-        {
-          img: 'laugh',
-          title: $l('why_us.student.list.4.h'),
-          txt: $l('why_us.student.list.4.p'),
-        },
-        {
-          img: 'house',
-          title: $l('why_us.student.list.5.h'),
-          txt: $l('why_us.student.list.5.p'),
         },
       ]"
     />
@@ -42,39 +27,24 @@
       :title="$l('why_us.tutor.title')"
       :rows="[
         {
-          img: 'skills',
+          img: 'whyUpTute/forTutor/goal',
           title: $l('why_us.tutor.list.0.h'),
           txt: $l('why_us.tutor.list.0.p'),
         },
         {
-          img: 'goal',
+          img: 'whyUpTute/forTutor/money-bag',
           title: $l('why_us.tutor.list.1.h'),
           txt: $l('why_us.tutor.list.1.p'),
         },
         {
-          img: 'profits',
+          img: 'whyUpTute/forTutor/algorithm',
           title: $l('why_us.tutor.list.2.h'),
           txt: $l('why_us.tutor.list.2.p'),
         },
         {
-          img: 'money-bag',
+          img: 'whyUpTute/forTutor/time-management',
           title: $l('why_us.tutor.list.3.h'),
           txt: $l('why_us.tutor.list.3.p'),
-        },
-        {
-          img: 'time-management',
-          title: $l('why_us.tutor.list.4.h'),
-          txt: $l('why_us.tutor.list.4.p'),
-        },
-        {
-          img: 'save-time',
-          title: $l('why_us.tutor.list.5.h'),
-          txt: $l('why_us.tutor.list.5.p'),
-        },
-        {
-          img: 'house',
-          title: $l('why_us.tutor.list.6.h'),
-          txt: $l('why_us.tutor.list.6.p'),
         },
       ]"
     />
