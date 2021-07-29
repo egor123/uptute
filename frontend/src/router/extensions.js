@@ -1,7 +1,7 @@
 const ROLES = ["USER"]; //TO DO!!!!!!!!
 
 /* EXAMPLE:
-
+import SubRoute from "@src/...";
 export default {
   name: "ChooseATutor",              // page's name; default - file's name
   path: "/choose_a_tutor",           // page's URL; default - modified name
@@ -10,6 +10,13 @@ export default {
     allowedOrigins: "FindATutor",    // redirects if last page not valid; can be array; default - undefined
     redirect: "FindATutor",          // default - "Home"
   },
+  children: [                        // nested routes
+    {
+        compunent: SubRoute,
+        path: "/sub_route",
+        ...
+    },
+  ]
 }
 
 */
@@ -21,15 +28,18 @@ export function createRoutes(prefix = '') {
         const name = component.name ?? key.replace(/.\/|.vue/g, '');
         const path = prefix + (component.path ?? name.replace(/^.|[A-Z]/g, (c, i) => (i === 0 ? '/' : '_') + c.toLowerCase()));
         const beforeEnter = configurePermissions(component.permisions);
-        return { name, path, beforeEnter, component };
+        const children = component.children;
+        return { name, path, beforeEnter, component, children };
     });
 }
+
 function configurePermissions(permissions) {
     return (to, from, next) => {
         if (isPermisionsValid(ROLES, getRoles(permissions?.roles)) && isOriginValid(from?.name, permissions?.allowedOrigins)) next();
         else next(getRedirect(permissions?.redirect));
     }
 }
+
 function getRoles(roles) {
     if (roles == undefined) return ["ALL"];
     if (Array.isArray(roles)) return roles;

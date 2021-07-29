@@ -1,5 +1,6 @@
 <template>
-  <AccountBase :title="$l('set_up.subheader')">
+<div>
+  <!-- <AccountBase :title="$l('set_up.subheader')"> -->
     <SecondarySettings />
     <v-btn
       @click="routerPush('ChooseAStudent')"
@@ -9,12 +10,11 @@
       color="accent"
       >{{ $l("set_up.button") }}</v-btn
     >
-  </AccountBase>
+  </div>
 </template>
 
 <script>
 import SecondarySettings from "@/components/account/SecondarySettings.vue";
-import AccountBase from "@/components/account/AccountBase.vue";
 
 export default {
   permisions: {
@@ -22,7 +22,6 @@ export default {
   },
   components: {
     SecondarySettings,
-    AccountBase,
   },
   methods: {
     routerPush(to) {

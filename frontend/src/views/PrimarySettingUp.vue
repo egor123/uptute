@@ -1,5 +1,6 @@
 <template>
-  <AccountBase :title="$l('set_up.subheader')">
+  <!-- <AccountBase :title="$l('set_up.subheader')"> -->
+  <div>
     <PrimarySettings />
 
     <div class="checkbox">
@@ -42,12 +43,11 @@
         {{ $l("set_up.as_tutor") }}</v-btn
       >
     </div>
-  </AccountBase>
+  </div>
 </template>
 
 <script>
 import PrimarySettings from "@/components/account/PrimarySettings.vue";
-import AccountBase from "@/components/account/AccountBase.vue";
 
 export default {
   permisions: {
@@ -55,7 +55,6 @@ export default {
   },
   components: {
     PrimarySettings,
-    AccountBase,
   },
   data() {
     return {

@@ -108,9 +108,7 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--v-secondary-darken4);
 }
-</style>
 
-<style scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition-duration: 0.3s;
