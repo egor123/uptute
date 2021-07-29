@@ -75,6 +75,9 @@ export default {
 }
 
 ::v-deep {
+  .v-dialog {
+    scrollbar-width: none;
+  }
   .v-card {
     // overflow-x: hidden;
     #cardTitle {

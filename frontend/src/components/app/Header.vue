@@ -40,27 +40,12 @@
           >
             {{ $l("app.pages.find_tutor") }}
           </v-btn> -->
-          <v-menu
-            offset-y
-            open-on-hover
-            hide-on-scroll
-            transition="scale-transition"
-            origin="top center"
-            attach="#container"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn text v-bind="attrs" v-on="on" color="accent" id="beginBtn">
-                {{ $l("app.pages.begin") }}
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item>
-                <v-btn text id="google" @click="logIn()">
-                  <v-icon>mdi-google</v-icon>Sign in
-                </v-btn>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+          <Begin
+            color="rgba(0, 0, 0, 0.8)"
+            textColor="white"
+            borderRadius="0 0 15px 15px"
+            border="none"
+          />
         </div>
         <v-menu
           offset-y
@@ -71,16 +56,9 @@
           attach="#container"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              text
-              v-bind="attrs"
-              v-on="on"
-              id="flagBtn"
-              width="10px"
-              ref="locales"
-            >
+            <div v-bind="attrs" v-on="on" id="flag" ref="locales">
               <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
-            </v-btn>
+            </div>
           </template>
           <v-list>
             <v-list-item
@@ -112,7 +90,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { GoogleAuthService } from "@/services/index";
+import Begin from "@/components/global/Begin.vue";
 
 export default {
   data() {
@@ -121,6 +99,9 @@ export default {
       locale: String,
       showSnackbar: false,
     };
+  },
+  components: {
+    Begin,
   },
   computed: mapGetters(["getStatus", "getNavBar"]),
   methods: {
@@ -148,11 +129,12 @@ export default {
       const container = this.$refs.container;
       const buttons = this.$refs.buttons;
       const title = this.$refs.title;
-      const locales = this.$refs.locales.$el;
+      const locales = this.$refs.locales;
       const navIcon = this.$refs.navIcon;
 
       const observer = new ResizeObserver(() => {
         buttons.style.display = "flex";
+
         var mv =
           container.offsetWidth - title.offsetWidth - locales.offsetWidth <
           buttons.offsetWidth;
@@ -189,19 +171,6 @@ export default {
       this.$root.$on("removeSubHeader", () => {
         subHeader.innerHTML = "";
       });
-    },
-    logIn() {
-      GoogleAuthService.signIn()
-        .then(() => {
-          this.$router.push({ name: "PrimarySettingUp" });
-        })
-        .catch((e) => {
-          if (e.error === "idpiframe_initialization_failed")
-            this.$root.$emit("cookiesError");
-        });
-    },
-    logOut() {
-      GoogleAuthService.signOut();
     },
   },
   created() {
@@ -278,9 +247,6 @@ $header-height: 56px;
         color: var(--secondary-base);
         margin-right: 0.5rem;
       }
-      #beginBtn {
-        height: 100%;
-      }
     }
     #flagBtn {
       height: 100%;
@@ -298,12 +264,31 @@ $header-height: 56px;
   }
 }
 
+#flag {
+  height: 100%;
+  width: max-content;
+  cursor: default;
+  @include flexbox();
+  padding: 0 1rem;
+}
+
+// #begin {
+//   color: var(--v-accent-base) !important;
+//   font-weight: 500;
+//   text-transform: uppercase;
+//   text-align: center;
+//   letter-spacing: 3px;
+// }
+
 .v-menu__content {
   background: transparent;
   border-radius: 0 0 15px 15px;
   transition: all 0.3s !important;
   .v-list {
     background: #000 !important;
+    .v-list-item > * {
+      margin: 0 auto;
+    }
     .v-btn {
       border-radius: 50px;
     }
@@ -314,14 +299,6 @@ $header-height: 56px;
   border-radius: 1.5px;
 }
 
-#google {
-  width: 100%;
-  color: var(--v-secondary-base);
-  .v-icon {
-    margin-right: 10px;
-    color: var(--v-accent-base);
-  }
-}
 ::v-deep {
   .v-snack__wrapper {
     border-radius: 15px !important;

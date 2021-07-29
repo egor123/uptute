@@ -2,6 +2,7 @@
   <div>
     <CheckerLayout
       inversed
+      color="header"
       :title="$l('why_us.student.title')"
       :rows="[
         {

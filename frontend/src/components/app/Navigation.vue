@@ -9,11 +9,33 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list class="pr-0" flat dense nav>
+      <div class="dividor" />
+
+      <div id="signInOuter">
+        Sign in
+        <div id="signIn">
+          <GoogleSignIn>
+            <img id="google" src="@/assets/icons/signIn/google.svg" alt="" />
+          </GoogleSignIn>
+          <GoogleSignIn>
+            <img
+              id="facebook"
+              src="@/assets/icons/signIn/facebook.svg"
+              alt=""
+            />
+          </GoogleSignIn>
+          <!-- INSTEAD FACEBOOK SIGN IN !!!!!!!!!!!!!! -->
+        </div>
+      </div>
+
+      <div class="dividor" />
+
+      <v-list class="pr-0 buttonsList" flat dense nav>
         <v-list-item-group active-class="chosenPage">
           <v-list-item exact active-class="active" :to="{ name: 'Home' }">
             {{ $l("app.pages.home") }}
           </v-list-item>
+
           <!-- <v-list-item link active-class="active" :to="{ name: 'WhyUs' }">
             {{ $l("app.pages.why_us") }}
           </v-list-item>
@@ -34,11 +56,16 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import GoogleSignIn from "@/components/account/GoogleSignIn.vue";
+
 export default {
   data() {
     return {
       value: false,
     };
+  },
+  components: {
+    GoogleSignIn,
   },
   watch: {
     value: function(val) {
@@ -54,6 +81,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
 $drawer-background: #fafafa;
 #card,
 #nav {
@@ -86,14 +115,62 @@ $drawer-background: #fafafa;
   }
 }
 
-.chosenPage {
+.dividor {
+  height: 1px;
+  width: 80%;
   background: var(--v-secondary-darken1);
-  border-radius: 5px 0 0 5px;
+  margin: 0 auto;
 }
 
-.active {
-  color: var(--v-secondary-darken3) !important;
-  background: var(--v-secondary-darken1) !important;
+#signInOuter {
+  @include flexbox();
+  // position: relative;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  color: var(--v-secondary-darken3);
+  #signIn {
+    @include flexbox();
+    // justify-content: space-evenly;
+    // position: absolute;
+    // left: 50%;
+    // transform: translateX(-50%);
+    #google,
+    #facebook {
+      @include flexbox();
+      margin-left: 16px;
+
+      @include box-size(30px);
+    }
+  }
+}
+
+.v-list {
+  padding: 1.5rem 0.5rem;
+  .buttonsList .v-list-item {
+    border-radius: 5px 0 0 5px !important;
+    &.active {
+      color: var(--v-secondary-darken3) !important;
+      background: var(--v-secondary-darken1) !important;
+    }
+
+    &:not(.active) {
+      color: var(--v-secondary-darken3) !important;
+      // background: var(--v-background-base) !important;
+      // border: 1px dotted var(--v-secondary-darken1);
+    }
+  }
+}
+.buttonsList .v-list-item {
   border-radius: 5px 0 0 5px !important;
+  &.active {
+    color: var(--v-secondary-darken3) !important;
+    background: var(--v-secondary-darken1) !important;
+  }
+
+  &:not(.active) {
+    color: var(--v-secondary-darken3) !important;
+    // background: var(--v-background-base) !important;
+    // border: 1px dotted var(--v-secondary-darken1);
+  }
 }
 </style>

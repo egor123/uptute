@@ -4,7 +4,7 @@
       <h1 v-animate="'fadeIn'">{{ title }}</h1>
       <div v-animate="'fadeIn'" id="content" ref="content">
         <div
-          class="element"
+          class="element boxShadow"
           v-for="(element, i) in elements"
           :key="i"
           :ref="`element${i}`"
@@ -39,6 +39,7 @@
 <script>
 import NavButtons from "@/components/global/NavButtons.vue";
 import RadioButton from "@/components/global/RadioButton.vue";
+
 export default {
   components: {
     NavButtons,
@@ -69,10 +70,10 @@ export default {
       return this.imgSize ?? 100;
     },
     current: {
-      get: function () {
+      get: function() {
         return this.currentValue;
       },
-      set: function (value) {
+      set: function(value) {
         if (!this.enabled) return;
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
@@ -117,9 +118,10 @@ export default {
         const distance = Math.abs(position);
 
         element.classList.toggle("transition", transition);
-        element.style.transform = `perspective(200px) translate3d(${
-          position * 330
-        }px, 0, ${distance * -120}px)`;
+        element.style.transform = `perspective(200px) translate3d(${position *
+          330}px, 0, ${distance * -120}px)`;
+        if (i === c) element.style.cursor = "default";
+        else element.style.cursor = "pointer";
       }
     },
   },
@@ -136,19 +138,23 @@ $vertical-padding: 15rem;
 $content-height: 22rem;
 
 $element-width: 24ch;
-$element-height: 27ch;
+$element-height: max-content;
 
 $max-width-buttons: 900px;
 $buttons-offset: calc(50vw - 450px);
 $buttons-offset-at-900px: 5%;
 
+$background: var(--v-header-base);
+
 #main {
   padding: $vertical-padding 0; //var(--side-margin)
+  background: $background;
   @media (max-width: $max-width-padding) {
     padding: $vertical-padding 1rem;
   }
   #container {
     position: relative;
+    background: #ffffff00; //!!
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -165,6 +171,8 @@ $buttons-offset-at-900px: 5%;
 
 #content {
   width: 100vw;
+  background: #ffffff00; //!!
+
   height: $content-height;
   overflow: hidden;
   position: relative;
@@ -175,29 +183,34 @@ $buttons-offset-at-900px: 5%;
     position: absolute;
     width: $element-width;
     height: $element-height;
-    border-radius: 0.5em;
+    border-radius: 15px;
     padding: 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     backdrop-filter: blur(2px);
-    background-color: rgba($color: #000000, $alpha: 0.015);
+
+    transition: box-shadow 300ms ease-in-out;
+    img {
+      margin: 1rem 0;
+    }
     &.transition {
-      transition: 0.6s transform ease-in-out;
+      transition: transform 0.6s ease-in-out, box-shadow 300ms ease-in-out; //????
     }
     &:hover {
-      box-shadow: 0px 0px 16px 2px var(--v-secondary-darken1);
+      box-shadow: 1px 2px 5px 1px var(--v-secondary-darken1);
     }
   }
   &::after {
+    background: #ffffff00; //!!!!
     content: "";
     position: absolute;
     pointer-events: none;
     width: 100%;
     height: 100%;
     z-index: 99;
-    box-shadow: inset 0px 0px 1rem 1rem white;
+    box-shadow: inset 0px 0px 1rem 1rem $background;
   }
 }
 </style>

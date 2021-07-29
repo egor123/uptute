@@ -1,33 +1,41 @@
 <template>
-  <div>
-    <div class="img">
+  <div id="container">
+    <!-- <div class="img">
       <div class="img-container">
         <div class="img-blur">
           <div class="img-content">
             <h1>{{ $l("home.landing.title") }}</h1>
             <h2>{{ $l("home.landing.subtitle") }}</h2>
-            <!-- <v-btn
-              elevation="3"
-              rounded
-              class="btn orangeBackground"
-              :to="{ name: 'FindATutor' }"
-            >
-              {{ $l("home.landing.btn_find") }}
-            </v-btn>
-            <v-btn
-              outlined
-              elevation="3"
-              rounded
-              color="primary"
-              class="btn"
-              :to="{ name: 'Register' }"
-            >
-              {{ $l("home.landing.btn_become") }}
-            </v-btn> -->
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div id="hero">
+      <div id="heroWrapper" class="boxShadow">
+        <div class="iframeWrapper">
+          <iframe
+            src="https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500"
+            frameborder="0"
+            allow="autoplay"
+            webkitallowfullscreen
+            mozallowfullscreen
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div id="heroText" ref="container">
+          <div id="beginWrapper">
+            <Begin
+              color="var(--v-background-base)"
+              textColor="var(--v-secondary-darken3)"
+              borderRadius="15px"
+              border="dashed 2px var(--v-accent-base)"
+            />
           </div>
         </div>
       </div>
     </div>
+
     <SliderLayout
       :title="$l('home.mission.title')"
       :elements="[
@@ -45,46 +53,16 @@
         },
       ]"
     />
-    <Checker-layout
-      inversed
-      color="background"
-      :title="$l('home.how_it_works.title')"
-      :rows="[
-        {
-          img: 'start',
-          title: $l('home.how_it_works.list.0.h'),
-          txt: $l('home.how_it_works.list.0.p'),
-        },
-        {
-          img: 'choosing',
-          title: $l('home.how_it_works.list.1.h'),
-          txt: $l('home.how_it_works.list.1.p'),
-        },
-        {
-          img: 'calendar',
-          title: $l('home.how_it_works.list.2.h'),
-          txt: $l('home.how_it_works.list.2.p'),
-        },
-        {
-          img: 'notebook',
-          title: $l('home.how_it_works.list.3.h'),
-          txt: $l('home.how_it_works.list.3.p'),
-        },
-        {
-          img: 'rating',
-          title: $l('home.how_it_works.list.4.h'),
-          txt: $l('home.how_it_works.list.4.p'),
-        },
-      ]"
-    />
-    <WhyUs />
+    <HowItWorks />
+    <WhyUpTute />
   </div>
 </template>
 
 <script>
-import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
+import WhyUpTute from "@/components/global/layouts/WhyUpTute.vue";
+import HowItWorks from "@/components/global/layouts/HowItWorks.vue";
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
-import WhyUs from "@/components/WhyUs.vue";
+import Begin from "@/components/global/Begin.vue";
 
 export default {
   name: "Home",
@@ -94,72 +72,110 @@ export default {
     redirect: "Home",
   },
   components: {
-    CheckerLayout,
+    WhyUpTute,
+    HowItWorks,
     SliderLayout,
-    WhyUs,
+    Begin,
   },
 };
 </script>
 
 <style scoped lang="scss">
-h1 {
-  color: var(--V-primary-base);
+@import "@/scss/mixins.scss";
+
+#container {
+  overflow: hidden;
 }
 
-.img {
-  background-image: url("../assets/images/home.jpg");
-  height: 100vh;
-  width: 100vw;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 41%;
+h1 {
+  color: var(--v-primary-base);
+}
+
+#hero {
   position: relative;
-}
-.img-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  clip: rect(0, auto, auto, 0);
-}
-.img-blur {
-  top: 40%;
-  position: sticky;
-  max-width: fit-content;
-  float: right;
-  margin: 20px var(--side-margin);
-}
-@media (min-width: 700px) {
-  .img-content h2,
-  .img-content h1 {
-    text-align: center;
+  background: var(--v-background-base);
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  @include flexbox();
+  #heroWrapper {
+    border-radius: 15px;
+    padding: 1rem;
+
+    .iframeWrapper {
+      @include box-size(fit-content);
+      border-radius: 15px;
+      overflow: hidden;
+
+      iframe {
+        --videoWidth: calc(55vh * 16 / 9);
+        @media (max-width: "1000px") {
+          --videoWidth: 85vw;
+        }
+
+        width: var(--videoWidth);
+        height: calc(var(--videoWidth) / 16 * 9);
+        margin-bottom: -7px;
+      }
+    }
+    #heroText {
+      padding: 3rem 0 2rem 0;
+      @include flexbox();
+
+      #beginWrapper {
+        width: max-content;
+      }
+    }
   }
 }
-.img-content::before {
-  position: absolute;
-  content: "";
 
-  $size: calc(100% + 2 * var(--side-margin));
-  width: $size;
-  height: $size;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-  mask: rgba(0, 0, 0, 1);
-  mask: radial-gradient(
-    closest-side,
-    rgba(0, 0, 0, 1) max(40%, 130px),
-    rgba(0, 0, 0, 0) 100%
-  );
-  backdrop-filter: blur(5px);
-  background-color: rgba($color: #fff, $alpha: 0.4);
-}
+// .img {
+//   background-image: url("../assets/images/home.jpg");
+//   height: 100vh;
+//   width: 100vw;
+//   background-attachment: fixed;
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background-position: 41%;
+//   position: relative;
+// }
+// .img-container {
+//   position: absolute;
+//   width: 100%;
+//   height: 100%;
+//   clip: rect(0, auto, auto, 0);
+// }
+// .img-blur {
+//   top: 5%;
+//   position: sticky;
+//   max-width: fit-content;
+//   float: right;
+//   margin: 20px var(--side-margin);
+// }
+// @media (min-width: 700px) {
+//   .img-content h2,
+//   .img-content h1 {
+//     text-align: center;
+//   }
+// }
+// .img-content::before {
+//   position: absolute;
+//   content: "";
 
-// .btn {
-//   text-transform: none;
-//   margin: 10px 5px;
-//   background-color: transparent;
-//   color: var(--v-secondary-base);
+//   $size: calc(100% + 2 * var(--side-margin));
+//   width: $size;
+//   height: $size;
+//   left: 50%;
+//   top: 50%;
+//   transform: translate(-50%, -50%);
+//   z-index: -1;
+//   mask: rgba(0, 0, 0, 1);
+//   mask: radial-gradient(
+//     closest-side,
+//     rgba(0, 0, 0, 1) max(40%, 130px),
+//     rgba(0, 0, 0, 0) 100%
+//   );
+//   backdrop-filter: blur(5px);
+//   background-color: rgba($color: #fff, $alpha: 0.4);
 // }
 </style>

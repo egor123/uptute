@@ -71,6 +71,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
 ::v-deep {
   #buttonWrapper {
     display: none;
@@ -94,14 +96,13 @@ export default {
   //   padding: 0 1rem !important;
   // }
   .checkbox {
-    display: flex;
-
     margin-top: 3rem;
     // max-width: 400px;
+    @include flexbox();
 
     .checboxBox {
       height: max-content;
-      margin: auto 0.5rem auto 0;
+      margin: auto 0;
       padding-top: 0;
       .v-input__slot {
         margin-bottom: 0 !important;
@@ -112,9 +113,12 @@ export default {
     }
     p {
       // margin-left: 2rem;
+      height: max-content;
       text-align: left;
       margin-bottom: 0;
       position: relative;
+      color: var(--v-primary-lighten3);
+      font-size: 0.9rem;
     }
   }
 }
