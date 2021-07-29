@@ -1,28 +1,59 @@
 <template>
   <Background :title="$l('find.header')">
     <div id="content">
-      <v-expansion-panels flat id="panels" v-for="i in 1" :key="i">
-        <Subjects ref="component" />
+      <FilterPanel
+        ref="panel"
+        @next="(action) => $refs.panel2[action]()"
+      >
+        <ExpandableListSelector
+          v-model="subject"
+          :label="$l('find.filters.subject.h')"
+          :text="$l('data.subjects.' + subject)"
+          :list="['MATH', 'BIOL', 'ESL', 'PHYS', 'GEOG', 'CHEM', 'CIS']"
+          :convertor="(item) => $l('data.subjects.' + item)"
+          :searchLabel="$l('find.filters.subject.search')"
+          :rules="(item) => item != null"
+        />
         <TextField
+          v-model="topic"
           :label="$l('find.filters.topic')"
-          :rules="(val) => val != ''"
-          propURL="topic"
-          ref="component"
+          :rules="(val) => val != '' && val != null"
         />
         <TextField
+          v-model="details"
           :label="$l('find.filters.details')"
-          :rules="(val) => val != ''"
+          :rules="(val) => val != '' && val != null"
           :area="true"
-          propURL="details"
-          id="details"
-          ref="component"
         />
-        <PageViewer id="pageViewer" :imgs="imgs" :upload="true" />
+      </FilterPanel>
 
-        <Languages class="languages" ref="component" />
-        <Age ref="component" />
-        <Price ref="component" />
-      </v-expansion-panels>
+      <PageViewer id="pageViewer" :imgs="imgs" :upload="true" />
+
+      <FilterPanel ref="panel2">
+        <ExpandableListSelector
+          v-model="languages"
+          :label="$l('find.filters.language.h')"
+          :text="languages.map((l) => $l('data.languages.' + l)).join(', ')"
+          :list="['EN', 'EST', 'RU']"
+          :convertor="(item) => $l('data.languages.' + item)"
+          :multiple="true"
+          :rules="(item) => item.length > 0"
+        />
+        <ExpandableSlider
+          v-model="age"
+          :label="$l('find.filters.tutor_age.h')"
+          :text="age.join(' - ')"
+          :min="14"
+          :max="21"
+        />
+        <ExpandableSlider
+          v-model="price"
+          :label="$l('find.filters.price.h')"
+          :text="`${price[0]} - ${price[1]} UC/${$l('find.filters.price.p')}`"
+          :min="0"
+          :max="150"
+        />
+      </FilterPanel>
       <v-btn @click="refresh()" small text rounded id="refreshBtn">
         {{ $l("find.filters.refresh") }}
       </v-btn>
@@ -48,14 +79,12 @@
 <script>
 import Background from "@/components/global/background/Background.vue";
 
-import Subjects from "@/components/filterPanel/Subjects";
+import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
+import ExpandableListSelector from "@/components/filterPanel/ExpandableListSelector.vue";
+import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 import TextField from "@/components/filterPanel/TextField";
 
 import PageViewer from "@/components/global/PageViewer.vue";
-
-import Languages from "@/components/filterPanel/Languages";
-import Price from "@/components/filterPanel/Price";
-import Age from "@/components/filterPanel/Age";
 
 export default {
   permisions: {
@@ -64,19 +93,22 @@ export default {
   },
   components: {
     Background,
-
-    // TextField,
-    // Textarea,
-    Subjects,
+    FilterPanel,
+    ExpandableListSelector,
+    ExpandableSlider,
     TextField,
     PageViewer,
-
-    Languages,
-    Price,
-    Age,
   },
   data() {
     return {
+      subject: "Math", // null
+      topic: "123", // ""
+      details: "123", // ""
+      languages: ["EN"], // []
+
+      age: [16, 18],
+      price: [0, 150],
+
       checkInProgress: false,
       showAlert: false,
       imgs: [
@@ -99,29 +131,12 @@ export default {
     };
   },
   methods: {
-    async isValid() {
-      this.checkInProgress = true;
-      var value = true;
-      for (const e of this.$refs.component) {
-        if (!e.$refs.base.isValid()) {
-          value = false;
-          await this.delay(100);
-        }
-      }
-      if (!value) await this.delay(1100);
-      this.checkInProgress = false;
-      return value;
-    },
-    delay(time) {
-      return new Promise((res) => setTimeout(res, time));
-    },
     refresh() {
-      this.$refs.component.forEach((e) => e.$refs.base.refresh());
+      this.$refs.panel.refresh();
     },
     async request() {
       if (this.checkInProgress) return;
-      // if (await this.isValid()) this.showAlert = true;       //RULES DISABLED!!!!!!
-      this.showAlert = true;
+      if (await this.$refs.panel.isValid()) this.showAlert = true;
     },
   },
 };
@@ -130,16 +145,16 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-::v-deep .v-snack__wrapper {
-  border-radius: 15px !important;
-  .v-snack__content {
-    @include flexbox(column);
-  }
-  #snackButtons .v-btn {
-    border-radius: 15px !important;
-    margin: 0.5rem 0.5rem 0 0.5rem;
-  }
-}
+// ::v-deep .v-snack__wrapper {
+//   border-radius: 15px !important;
+//   .v-snack__content {
+//     @include flexbox(column);
+//   }
+//   #snackButtons .v-btn {
+//     border-radius: 15px !important;
+//     margin: 0.5rem 0.5rem 0 0.5rem;
+//   }
+// }
 
 #content {
   @include flexbox(column);
@@ -148,23 +163,9 @@ export default {
   height: max-content;
   margin: calc(106px + 6rem) 1rem 6rem 1rem;
 }
-
-#panels {
-  border-radius: 15px;
-  #topic {
-    border-radius: 0;
-  }
-  #details {
-    border-radius: 0 0 15px 15px;
-  }
-  #pageViewer {
-    margin: 2rem 0 2rem 0;
-  }
-  .languages {
-    border-radius: 15px 15px 0 0;
-  }
+#pageViewer {
+  margin: 2rem 0 2rem 0;
 }
-
 #refreshBtn {
   background-color: var(--v-background-base);
   color: var(--v-secondary-darken4);

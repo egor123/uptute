@@ -2,7 +2,6 @@
   <div
     class="textInput"
     :class="{ errorMovement: errorAnim, errorColor: error }"
-    ref="base"
   >
     <div class="slot">
       <textarea
@@ -10,7 +9,7 @@
         type="text"
         class="input"
         rows="1"
-        :class="{ active: input != '' }"
+        :class="{ active: input != '' && input != null }"
         v-model="input"
         ref="textarea"
       />
@@ -18,7 +17,7 @@
         v-else
         type="text"
         class="input"
-        :class="{ active: input != '' }"
+        :class="{ active: input != '' && input != null }"
         v-model="input"
       />
       <label>{{ label }}</label>
@@ -27,26 +26,22 @@
 </template>
 
 <script>
+import { refresh } from "./store.js";
 export default {
-  data: () => ({
-    error: false,
-    errorAnim: false,
-    input: "",
-  }),
+  data() {
+    return {
+      error: false,
+      errorAnim: false,
+      input: this.value,
+      def: JSON.parse(JSON.stringify(this.value ?? "")),
+    };
+  },
   props: [
+    "value",
     "rules", // validation, always true if undef
     "label", // panel's label
     "area", // changes to textarea
-    "propURL", // prop's name in URL query
   ],
-  mounted() {
-    this.$refs.base.refresh = this.refresh;
-    this.$refs.base.isValid = this.isValid;
-
-    var val = this.$route.query[this.propURL];
-    if (val !== undefined) this.input = JSON.parse(val);
-    else this.input = "";
-  },
   watch: {
     input: function (val) {
       if (this.area) {
@@ -54,31 +49,24 @@ export default {
         el.style.height = "auto";
         this.$nextTick(() => (el.style.height = el.scrollHeight + "px"));
       }
-
-      var params = JSON.parse(JSON.stringify(this.$route.query));
-      params[this.propURL] = JSON.stringify(val);
-      this.$router.replace({ query: params }).catch(() => {});
-      if (this.verify()) this.error = false;
+      if (this.rules != undefined && this.rules(this.input)) this.error = false;
+      this.$emit("input", val);
+    },
+    value: function (val) {
+      this.input = val;
     },
   },
   methods: {
-    refresh() {
-      // refresh value
-      this.input = "";
-    },
+    refresh,
     isValid() {
-      // check if value is valid
-      const val = this.verify();
+      let val = true;
+      if (this.rules !== undefined) val = this.rules(this.input);
       this.errorAnim = false;
       setTimeout(() => {
         this.errorAnim = !val;
       }, 50);
       this.error = !val;
       return val;
-    },
-    verify() {
-      if (this.rules === undefined) return true;
-      return this.rules(this.input);
     },
   },
 };
@@ -102,13 +90,13 @@ export default {
   .slot {
     background: inherit;
     position: relative;
-    width: fit-content;
+    width: 90%;
     margin: auto;
 
     .input {
       border: 1px $color-sec solid;
       border-radius: 15px;
-      width: 19rem;
+      width: 100%;
       margin-top: 1em;
       margin-bottom: 1em;
       padding: 10px;

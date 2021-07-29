@@ -6,9 +6,21 @@
         <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
       </InfoCardBase>
       <Searching />
-      <v-expansion-panels class="panels" flat>
-        <SortBy :filters="filters" />
-      </v-expansion-panels>
+      <FilterPanel>
+        <ExpandableSortBy
+          v-model="filter"
+          :filters="[
+            { name: 'rating', dir: 'up' },
+            { name: 'price', dir: 'up' },
+            { name: 'hours_taught', dir: 'up' },
+          ]"
+          :label="$l('find.filters.filters.h')"
+          :text="`${$l('find.filters.filters.' + filter.name)} ${
+            filter.dir === 'up' ? '↑' : '↓'
+          }`"
+          :convertor="(item) => $l('find.filters.filters.' + item.name)"
+        />
+      </FilterPanel>
       <Panels id="panels" :tutors="$store.getters.getTutors" />
     </div>
     <v-snackbar max-width="800" color="error" timeout="-1" v-model="showAlert">
@@ -31,7 +43,8 @@ import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
 import Panels from "@/components/choosing/choosingATutor/Panels";
 import Searching from "@/components/choosing/Searching.vue";
 import LessonInfo from "@/components/choosing/infoCards/LessonInfo.vue";
-import SortBy from "@/components/filterPanel/SortBy.vue";
+import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
+import ExpandableSortBy from "@/components/filterPanel/ExpandableSortBy.vue";
 
 export default {
   permisions: {
@@ -45,20 +58,15 @@ export default {
     Panels,
     Searching,
     LessonInfo,
-    SortBy,
+    FilterPanel,
+    ExpandableSortBy,
   },
   data() {
     return {
+      filter: { name: "rating", dir: "up" },
       showAlert: false,
       closeButton: false,
       backButton: false,
-
-      filters: [
-        //TO DO!!!!!!!!!
-        { name: "rating", dir: "up" },
-        { name: "price", dir: "up" },
-        { name: "hours_taught", dir: "up" },
-      ],
     };
   },
   methods: {

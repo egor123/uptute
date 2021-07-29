@@ -1,45 +1,52 @@
 <template>
   <div id="wrapper">
-    <div>
-      <label for="uploadImg">
-        <img id="userImg" :src="img.imageUrl" alt="" />
-      </label>
-      <input
-        type="file"
-        accept="image/*"
-        @change="addImg"
-        name="uploadImg"
-        id="uploadImg"
+    <label id="imgLabel">
+      <img :src="img.imageUrl" alt="" />
+      <input type="file" accept="image/*" @change="addImg" />
+    </label>
+    <FilterPanel ref="panel" @next="(action) => $refs.panel2[action]()">
+      <TextField
+        v-model="name"
+        :label="$l('set_up.name')"
+        :rules="(val) => val != '' && val != null"
       />
-    </div>
-    <div id="fullName">
-      <TextField id="name" :label="$l('set_up.name')" />
-      <TextField id="surname" :label="$l('set_up.surname')" />
-    </div>
+      <TextField
+        v-model="surname"
+        :label="$l('set_up.surname')"
+        :rules="(val) => val != '' && val != null"
+      />
+    </FilterPanel>
 
-    <v-expansion-panels
-      flat
-      id="panels"
-      class="nameAndAge"
-      v-for="i in 1"
-      :key="i"
-    >
-      <Birth ref="component" />
-      <Grade ref="component" />
-    </v-expansion-panels>
+    <FilterPanel ref="panel2">
+      <ExpandableCalendar
+        v-model="birthday"
+        :label="$l('set_up.birth')"
+        :text="birthday"
+        :rules="(item) => item != null"
+      />
+      <ExpandableSlider
+        v-model="grade"
+        :label="$l('set_up.grade')"
+        :text="grade"
+        :min="1"
+        :max="12"
+      />
+    </FilterPanel>
   </div>
 </template>
 
 <script>
-import TextField from "@/components/global/textInput/TextField.vue";
-import Birth from "@/components/filterPanel/Birth.vue";
-import Grade from "@/components/filterPanel/Grade.vue";
+import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
+import ExpandableCalendar from "@/components/filterPanel/ExpandableCalendar.vue";
+import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
+import TextField from "@/components/filterPanel/TextField";
 
 export default {
   components: {
+    FilterPanel,
+    ExpandableCalendar,
+    ExpandableSlider,
     TextField,
-    Birth,
-    Grade,
   },
   data() {
     return {
@@ -48,6 +55,10 @@ export default {
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9tbe0h9I_HCaMS2lyCsdTRXmznpSg9Rn5iA&usqp=CAU",
       },
+      name: "",
+      surname: "",
+      birthday: null,
+      grade: 1,
     };
   },
   methods: {
@@ -58,6 +69,9 @@ export default {
         image: file,
         imageUrl: URL.createObjectURL(file),
       };
+    },
+    async isValid() {
+      await this.$refs.panel.isValid();
     },
   },
 };
@@ -72,38 +86,25 @@ export default {
     width: 100%;
     padding: 0 1rem;
   }
-
-  & > *:not(:last-child) {
+  & > * {
     margin-bottom: 2rem;
   }
 }
-
-#panels {
-  border-radius: 15px;
-}
-
-#userImg {
-  @include box-size(100px);
-
-  border-radius: 50%;
-  border: 2px solid var(--v-secondary-darken2);
-
-  opacity: 0.99; // bug - input desn't allow to select with full opacity
-  cursor: pointer;
-
-  transition: box-shadow 400ms;
-  &:hover {
-    box-shadow: 1px 2px 8px 0px var(--v-card-darken2);
+#imgLabel {
+  @include flexbox;
+  input {
+    display: none;
   }
-}
+  img {
+    @include box-size(100px);
+    border-radius: 50%;
+    opacity: 0.99; // bug - input desn't allow to select with full opacity
 
-::v-deep {
-  .v-text-field {
-    &#name {
-      border-radius: 15px 15px 0 0;
-    }
-    &#surname {
-      border-radius: 0 0 15px 15px;
+    border: 2px solid var(--v-secondary-darken2);
+    cursor: pointer;
+    transition: box-shadow 400ms;
+    &:hover {
+      box-shadow: 1px 2px 8px 0px var(--v-card-darken2);
     }
   }
 }

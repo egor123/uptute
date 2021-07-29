@@ -1,19 +1,28 @@
 <template>
   <div id="wrapper">
-    <div>
-      <Textarea class="motto" :label="$l('set_up.motto')" />
-      <Textarea class="about" :label="$l('set_up.about')" />
-    </div>
+    <FilterPanel ref="panel" @next="(action) => $refs.panel2[action]()">
+      <TextField
+        v-model="moto"
+        :label="$l('set_up.motto')"
+        :rules="(val) => val != '' && val != null"
+      />
+      <TextField
+        v-model="about"
+        :label="$l('set_up.about')"
+        :rules="(val) => val != '' && val != null"
+      />
+    </FilterPanel>
 
-    <div id="zoomDiv">
+    <FilterPanel
+      ref="panel2"
+      @next="(action) => $refs.panel3[action]()"
+      id="zoomDiv"
+    >
       <TextField class="zoom" :label="$l('set_up.zoom')" imgName="zoom-icon" />
-
       <div id="dialogContainer">
         <Dialog>
           <template v-slot:object>
-            <button id="dialog">
-              ?
-            </button>
+            <button id="dialog">?</button>
           </template>
 
           <template v-slot:title id="title">
@@ -31,34 +40,69 @@
           </template>
         </Dialog>
       </div>
-    </div>
+    </FilterPanel>
 
-    <v-expansion-panels flat id="panels" v-for="i in 1" :key="i">
-      <SubjectsYouTeach ref="component" />
-      <Audience ref="component" />
-      <Languages ref="component" />
-    </v-expansion-panels>
+    <FilterPanel ref="panel3">
+      <ExpandableListSelector
+        v-model="subjects"
+        :label="$l('set_up.subjects')"
+        :text="subjects.map((l) => $l('data.subjects.' + l)).join(', ')"
+        :list="['MATH', 'BIOL', 'ESL', 'PHYS', 'GEOG', 'CHEM', 'CIS']"
+        :convertor="(item) => $l('data.subjects.' + item)"
+        :searchLabel="$l('find.filters.subject.search')"
+        :rules="(item) => item.length > 0"
+      />
+      <ExpandableSlider
+        v-model="audience"
+        :label="$l('find.filters.audience.h')"
+        :text="audience.join(' - ')"
+        :min="1"
+        :max="12"
+      />
+      <ExpandableListSelector
+        v-model="languages"
+        :label="$l('find.filters.language.h')"
+        :text="languages.map((l) => $l('data.languages.' + l)).join(', ')"
+        :list="['EN', 'EST', 'RU']"
+        :convertor="(item) => $l('data.languages.' + item)"
+        :multiple="true"
+        :rules="(item) => item.length > 0"
+      />
+    </FilterPanel>
   </div>
 </template>
 
 <script>
-import SubjectsYouTeach from "@/components/filterPanel/SubjectsYouTeach.vue";
-import Audience from "@/components/filterPanel/Audience.vue";
-import Languages from "@/components/filterPanel/Languages.vue";
+import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
+import ExpandableListSelector from "@/components/filterPanel/ExpandableListSelector.vue";
+import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
+import TextField from "@/components/filterPanel/TextField";
 
 import Dialog from "@/components/global/Dialog.vue";
-import Textarea from "@/components/global/textInput/Textarea.vue";
-import TextField from "@/components/global/textInput/TextField.vue";
 
 export default {
   components: {
-    SubjectsYouTeach,
-    Audience,
-    Languages,
+    FilterPanel,
+    ExpandableListSelector,
+    ExpandableSlider,
+    TextField,
 
     Dialog,
-    Textarea,
-    TextField,
+  },
+  data() {
+    return {
+      moto: "",
+      about: "",
+      zoomLink: "",
+      subjects: [],
+      audience: [1, 12],
+      languages: [],
+    };
+  },
+  methods: {
+    async isValid() {
+      await this.$refs.panel.isValid();
+    },
   },
 };
 </script>
