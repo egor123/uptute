@@ -5,29 +5,24 @@
     :title="$l('home.how_it_works.title')"
     :rows="[
       {
-        img: 'start',
+        img: 'howItWorks/filter',
         title: $l('home.how_it_works.list.0.h'),
         txt: $l('home.how_it_works.list.0.p'),
       },
       {
-        img: 'choosing',
+        img: 'howItWorks/choosing',
         title: $l('home.how_it_works.list.1.h'),
         txt: $l('home.how_it_works.list.1.p'),
       },
       {
-        img: 'calendar',
+        img: 'howItWorks/notebook',
         title: $l('home.how_it_works.list.2.h'),
         txt: $l('home.how_it_works.list.2.p'),
       },
       {
-        img: 'notebook',
+        img: 'howItWorks/rating',
         title: $l('home.how_it_works.list.3.h'),
         txt: $l('home.how_it_works.list.3.p'),
-      },
-      {
-        img: 'rating',
-        title: $l('home.how_it_works.list.4.h'),
-        txt: $l('home.how_it_works.list.4.p'),
       },
     ]"
   />

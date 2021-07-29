@@ -90,20 +90,16 @@
       "title": "How it works",
       "list": [
         {
-          "h": "Get started",
-          "p": "Press \"Find a tutor\" and adjust filters so that they fit your need."
+          "h": "Filters",
+          "p": "Fill a few fields with info about what you are looking for. (Time, price, etc.)"
         },
         {
           "h": "Choose",
-          "p": "Compare offered tutors and choose the one that is just right for you."
-        },
-        {
-          "h": "Schedule",
-          "p": "Book your lesson with just a few clicks."
+          "p": "Wait a bit for tutors to offer their help and choose the one that is just right."
         },
         {
           "h": "The lesson",
-          "p": "Have a great time learning and revising either offline or online."
+          "p": "Enjoy your lesson!"
         },
         {
           "h": "Rate",
@@ -132,27 +128,15 @@
       "list": [
         {
           "h": "An excellent price",
-          "p": "Get a tutor from as affordable as 4 euros per hour."
+          "p": "Your peers won't charge you far as much as a guy with doctors degree."
         },
         {
-          "h": "Save your time",
-          "p": "Have your lesson right after the school. Your tutor is already in the classroom next to yours after all."
+          "h": "Now, not tomorrow",
+          "p": "With us you can get help whenever you need it. Need it today? So be it!"
         },
         {
-          "h": "Today, not tomorrow",
-          "p": "With us you can get help when you need it. Need it today? So be it."
-        },
-        {
-          "h": "Fast and clear",
-          "p": "We know your hurdles. We have just the same ones after all. We know how to explain what you want to understand."
-        },
-        {
-          "h": "Have a good time",
-          "p": "With us you will not only gain\nyour wanted knowledge but\nalso learn how to enjoy your\nstudying. Lets make it fun!"
-        },
-        {
-          "h": "Place included",
-          "p": "No need to worry about where the lesson will be held. Just choose from multiple we already offer you! And yeah, they all are close to you."
+          "h": "We understand",
+          "p": "We know your hurdles. We have just the same ones after all. And so do our young tutors."
         }
       ]
     },
@@ -160,32 +144,20 @@
       "title": "For a tutor",
       "list": [
         {
-          "h": "You are more",
-          "p": "You have your strengths, we know that. So lets take advantage of them! Share what you love, teach to enjoy."
-        },
-        {
           "h": "Not just a job",
-          "p": "Develop your communication and empathy skills. Become more self-confident."
-        },
-        {
-          "h": "Progressive pay",
-          "p": "You decide what is the price per hour! And the better ranked you are, the higher price is justified."
+          "p": "Let's develop communication and empathy skills and become even more self-confident!"
         },
         {
           "h": "Substantial salary",
           "p": "With us you do the thing you do the best. And so the wage is corresponding. Get the most out of your time!"
         },
         {
+          "h": "The perfect price",
+          "p": "Algorithm takes care of your price per hour so that you'll have the most lessons with a highest price."
+        },
+        {
           "h": "Flexible work hours",
           "p": "You choose when to work and how much to work."
-        },
-        {
-          "h": "Save your time",
-          "p": "Give a lesson right after the school and in the very same building."
-        },
-        {
-          "h": "Place included",
-          "p": "No need to worry about where the lesson will be held. Just choose from multiple we already offer you! And yeah, they all are close to you."
         }
       ]
     }

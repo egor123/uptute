@@ -91,24 +91,20 @@
       "title": "Kuidas see käib?",
       "list": [
         {
-          "h": "Alusta",
-          "p": "Kliki \"Leia õpetaja\" kohanda filtreid, et tulemus oleks Sinu vajadustele vastav"
+          "h": "Filtreeri",
+          "p": "Täida paar välja infoga soovitud tunni kohta. (Aeg, hind, jne)"
         },
         {
           "h": "Vali",
-          "p": "Võrdle pakutavaid eraõpetajaid ja vali Sulle meelepäraseim"
-        },
-        {
-          "h": "Planeeri",
-          "p": "Broneeri tund vaid mõne klikiga!"
+          "p": "Oota veidi kuni õpetajad pakkuvad oma abi ning vali neist sobivaima."
         },
         {
           "h": "Tund",
-          "p": "Veeda õppides toredalt aega nii kontaktõppes kui ka videosilla vahendusel!."
+          "p": "Naudi tundi!"
         },
         {
           "h": "Tagasiside",
-          "p": "Jaga ka meiega, kuidas tund möödus ning anna õpetajale hinnang!"
+          "p": "Jäta kommentaar tunni kohta ja anna õpetajale hinnang."
         }
       ],
       "btn": "Miks valida meid?"
@@ -132,28 +128,16 @@
       "title": "Õpilasele",
       "list": [
         {
-          "h": "Taskukohane hind",
-          "p": "Eraõpetajate tunnihinnad alates 4 eurost!"
-        },
-        {
-          "h": "Säästa aega",
-          "p": "Ole kaval, säti enda eratund vahetult kooli järgsele ajale! Ning ega sa õpetajat kaua ootama ei pea. Ta on ju kõrvalklassis."
+          "h": "Erakordne hind",
+          "p": "Meie alaealistest eakaaslased ei kasseri kaugeltki sama palju kui mõni õpetaja doktori kraadiga."
         },
         {
           "h": "Täna, mitte homme",
-          "p": "Abi on saadaval iga kell! Vajad seda juba täna? Pole probleemi! Asume tegudele!"
+          "p": "Abi on saadaval just siis kui seda vaja. Vajad täna? Olgu nii!"
         },
         {
-          "h": "Kiire ja selge",
-          "p": "Me teame Su raskusi. Meil on ju samad. Me teame, mida selgitada, kuidas selgitada ja kui pikalt."
-        },
-        {
-          "h": "Veeda toredalt aega!",
-          "p": "Meiega ei kogu Sa vaid teadmisi, vaid õpid ka seda, kuidas õppeprotsessist rõõmu tunda!"
-        },
-        {
-          "h": "Klassiruum ei ole mure",
-          "p": "Meie pakume, Sina valid. Nii lihtne see ongi!"
+          "h": "Me mõistame",
+          "p": "Me teame su raskusi. Meil on ju samad. Ning on ka meie noortel õpetajatel."
         }
       ]
     },
@@ -161,32 +145,20 @@
       "title": "Õpetajale",
       "list": [
         {
-          "h": "Oskused särama",
-          "p": "Sinus peitub palju rohkem kui arvatagi võid! Leidkem koos kasutust Su oskustele!"
-        },
-        {
           "h": "Rohkem kui töö",
           "p": "Suhtlusoskus, õpetamisoskus, enesekindlus. Koos viime me need täiesti uuele tasemele!"
         },
         {
-          "h": "Kasvav tulu",
-          "p": "Oled ise enda õnne sepp! Sina valid, kui palju enda tunni eest küsid! Ning, mida parem õpetaja oled, seda väärtuslikum õpilase silmis."
+          "h": "Kopsakas palk",
+          "p": "Meiega teed just seda, mida oskad. Ning vastav on ka palk!"
         },
         {
-          "h": "Õiglane palk",
-          "p": "Meiega teed just seda, mida oskad. Ja vastav on ka palk!"
+          "h": "Perfektne hind",
+          "p": "Algoritm võtab tunnihinna mured enda peale. Nii saad sa võimalikult palju tunde kõrgeima hinna eest!"
         },
         {
           "h": "Paindlik töögraafik",
-          "p": "Ole iseenda tööandja! Sina valid, kui palju ja millal töötada tahad!"
-        },
-        {
-          "h": "Säästa enda aega!",
-          "p": "Vii enda tunnid läbi kohe peale kooli, ilma koolimajast lahkumata!"
-        },
-        {
-          "h": "Klassiruum ei ole mure",
-          "p": "Meie pakume, Sina valid. Nii lihtne see ongi!"
+          "p": "Ole iseenda tööandja! Sina valid, kui palju ja millal töötada."
         }
       ]
     }
