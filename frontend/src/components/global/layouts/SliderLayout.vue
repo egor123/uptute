@@ -2,7 +2,7 @@
   <div id="main">
     <div id="container">
       <h1 v-animate="'fadeIn'">{{ title }}</h1>
-      <div v-animate="'fadeIn'" id="content" ref="swipable">
+      <div v-animate="'fadeIn'" id="content" ref="content">
         <div
           class="element"
           v-for="(element, i) in elements"
@@ -19,16 +19,6 @@
         </div>
       </div>
       <div v-animate="'slideInFromBottom'" id="radio-buttons">
-        <!-- <label type="radio" v-for="(c, i) in elements" :key="i">
-          <input
-            type="radio"
-            name="radio"
-            :value="i"
-            v-model="current"
-            :ref="`radio${i}`"
-            :id="`radio${i}`"
-          />
-        </label> -->
         <RadioButton
           v-for="(c, i) in elements"
           :key="i"
@@ -40,7 +30,7 @@
       <NavButtons
         v-if="!$mb.isMobileInput()"
         offset="10vw"
-        @click="(val) => current += val"
+        @click="(val) => (current += val)"
       />
     </div>
   </div>
@@ -56,7 +46,6 @@ export default {
   },
   data() {
     return {
-      SwipeX: 0,
       currentValue: 0,
       total: Number,
       enabled: true,
@@ -73,13 +62,7 @@ export default {
   mounted() {
     this.total = this.elements.length;
     this.setStyles(false);
-    this.$root.$on("currentChange", (data) => {
-      this.current -= data;
-    });
-    document.addEventListener("touchend", this.touchend);
-    this.$nextTick(() => {
-      this.$mb.addSwipeListener(this.swipe, this.$refs.swipable);
-    });
+    this.$mb.addSwipedListener(this.swipe, this.$refs.content);
   },
   computed: {
     imageSize() {
@@ -99,15 +82,9 @@ export default {
     },
   },
   methods: {
-    swipe(e) {
-      this.SwipeX = e.x;
-    },
-    touchend() {
-      if (this.SwipeX > 30) {
-        this.current++;
-      } else if (this.SwipeX < -30) {
-        this.current--;
-      }
+    swipe(data) {
+      if (data === "left") this.current--;
+      if (data === "right") this.current++;
     },
     setActive(val) {
       for (var i = 0; i < this.total; i++)
@@ -161,9 +138,6 @@ $content-height: 22rem;
 $element-width: 24ch;
 $element-height: 27ch;
 
-// $radio-size: 2rem;
-// $radio-margin: 0.5rem;
-
 $max-width-buttons: 900px;
 $buttons-offset: calc(50vw - 450px);
 $buttons-offset-at-900px: 5%;
@@ -188,24 +162,6 @@ $buttons-offset-at-900px: 5%;
   flex-direction: row;
   margin-top: 15px;
 }
-
-// ::v-deep #nav-buttons {
-//   @media (max-width: $max-width-buttons) {
-//     display: none;
-//   }
-//   [action="previous"] {
-//     left: $buttons-offset;
-//     @media (max-width: 900px) {
-//       left: $buttons-offset-at-900px;
-//     }
-//   }
-//   [action="next"] {
-//     right: $buttons-offset;
-//     @media (max-width: 900px) {
-//       right: $buttons-offset-at-900px;
-//     }
-//   }
-// }
 
 #content {
   width: 100vw;
