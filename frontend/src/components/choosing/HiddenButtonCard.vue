@@ -9,12 +9,15 @@
 </template>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
 ::v-deep {
   &.hiddenButtonCard {
     cursor: auto;
     display: flex;
     flex-direction: column;
-    background: var(--v-header-base);
+    background: var(--v-card-base);
+    @include box-shadow();
 
     animation: slideInFromLeft 0.6s ease-in-out;
 

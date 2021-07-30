@@ -32,8 +32,7 @@ export default {
 #panel {
   transition: transform 400ms;
   margin: 0;
-  // background: var(--v-header-base);
-  background: var(--v-background-base);
+  background: var(--v-card-base);
 
   border-radius: 0;
   &::before {

@@ -64,8 +64,10 @@ $icon-wrapper-size: 1.5rem;
 $scale: 0.4;
 $transition-duration: 0.4s;
 $margin-top: 0.4rem;
+
 $side-margin: 0.8rem;
 $icon-offset: -8%;
+
 .filter {
   overflow: hidden;
   @include flexbox;

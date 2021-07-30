@@ -15,10 +15,10 @@ export default {
   },
   computed: {
     input: {
-      get: function () {
+      get: function() {
         return this.model;
       },
-      set: function (value) {
+      set: function(value) {
         this.$emit("input", value);
       },
     },
@@ -38,7 +38,7 @@ export default {
 // ----- Settings -----
 $padding: 1ch;
 $margin: 5px;
-$color: #c5c5c5;
+$color: #ddd;
 $active-color: var(--v-accent-base);
 $transition-time: 0.4s;
 // --------------------
@@ -53,7 +53,9 @@ label {
   position: relative;
   padding-left: calc(var(--size) + var(--padding));
   margin: $margin;
+  cursor: pointer;
   @include flexbox;
+
   &::before,
   &::after {
     content: "";

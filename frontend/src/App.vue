@@ -102,11 +102,11 @@ html {
   background: var(--v-background-base);
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--v-secondary-darken3);
+  background-color: var(--v-thumb-base);
   border-radius: 15px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--v-secondary-darken4);
+  background-color: var(--v-thumbHover-base);
 }
 
 .fade-enter-active,

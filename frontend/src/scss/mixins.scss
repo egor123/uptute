@@ -2,6 +2,11 @@
 
 @mixin box-shadow() {
   box-shadow: 3px 4px 8px 2px #ccc;
+
+  //   transition: box-shadow 300ms;
+  //   &:hover {
+  //     box-shadow: 2px 3px 4px 1px #ccc;
+  //   }
 }
 
 @mixin flexbox($direction: row) {
