@@ -1,9 +1,5 @@
 @import "./mixins.scss";
 
-.boxShadow {
-  box-shadow: 3px 4px 8px 2px #ccc;
-}
-
 .orangeBackground {
   background: var(--v-accent-base) !important;
   color: var(--v-secondary-base) !important;

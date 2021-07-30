@@ -1,10 +1,7 @@
 <template>
   <Background :title="$l('find.header')">
     <div id="content">
-      <FilterPanel
-        ref="panel"
-        @next="(action) => $refs.panel2[action]()"
-      >
+      <FilterPanel ref="panel" @next="(action) => $refs.panel2[action]()">
         <ExpandableListSelector
           v-model="subject"
           :label="$l('find.filters.subject.h')"
@@ -36,7 +33,6 @@
           :text="languages.map((l) => $l('data.languages.' + l)).join(', ')"
           :list="['EN', 'EST', 'RU']"
           :convertor="(item) => $l('data.languages.' + item)"
-          :multiple="true"
           :rules="(item) => item.length > 0"
         />
         <ExpandableSlider
