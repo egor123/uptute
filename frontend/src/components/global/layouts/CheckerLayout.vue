@@ -3,7 +3,7 @@
     <h1 v-animate="'fadeIn'" id="title" v-if="title">{{ title }}</h1>
     <div
       v-animate="'slideInFromBottom'"
-      class="row boxShadow"
+      class="row"
       v-for="(row, i) in rows"
       :key="i"
       :inversed="isInvesed(i)"
@@ -53,6 +53,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/scss/mixins.scss";
+
 $max-width: 800px;
 
 $element-width: 28ch;
@@ -83,6 +85,8 @@ $title-margin-bottom: 2rem;
   grid-auto-rows: max-content;
   padding: 3rem 1rem;
   height: max-content;
+
+  @include box-shadow();
 
   border-radius: 15px;
 

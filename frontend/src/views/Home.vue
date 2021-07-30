@@ -105,6 +105,7 @@ h1 {
   #heroWrapper {
     border-radius: 15px;
     padding: 1rem;
+    @include box-shadow();
 
     .iframeWrapper {
       @include box-size(fit-content);

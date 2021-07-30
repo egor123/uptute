@@ -1,32 +1,36 @@
 @import "./config.scss";
 
+@mixin box-shadow() {
+  box-shadow: 3px 4px 8px 2px #ccc;
+}
+
 @mixin flexbox($direction: row) {
-    display: flex;
-    flex-direction: $direction;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
 }
 @mixin box-size($size) {
-    width: $size;
-    height: $size;
+  width: $size;
+  height: $size;
 }
 @mixin pseudo-elements() {
-    &::before,
-    &::after {
-        content: "";
-        @content;
-    }
+  &::before,
+  &::after {
+    content: "";
+    @content;
+  }
 }
 @mixin fill-parent($offset: 0) {
-    position: absolute;
-    top: $offset;
-    bottom: $offset;
-    left: $offset;
-    right: $offset;
+  position: absolute;
+  top: $offset;
+  bottom: $offset;
+  left: $offset;
+  right: $offset;
 }
 @mixin font-size() {
-    font-size: map-get($font-sizes, normal);
-    @media (max-width: $font-size-breakpoint) {
-        font-size: map-get($font-sizes, small);
-    }
+  font-size: map-get($font-sizes, normal);
+  @media (max-width: $font-size-breakpoint) {
+    font-size: map-get($font-sizes, small);
+  }
 }

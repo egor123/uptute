@@ -43,7 +43,7 @@ export default {
     "area", // changes to textarea
   ],
   watch: {
-    input: function (val) {
+    input: function(val) {
       if (this.area) {
         const el = this.$refs.textarea;
         el.style.height = "auto";
@@ -52,7 +52,7 @@ export default {
       if (this.rules != undefined && this.rules(this.input)) this.error = false;
       this.$emit("input", val);
     },
-    value: function (val) {
+    value: function(val) {
       this.input = val;
     },
   },
@@ -74,16 +74,37 @@ export default {
 
 <style scoped lang="scss">
 @import "@/scss/errorStyles.scss";
+@import "@/scss/mixins.scss";
 
 .textInput {
-  $color-main: var(--v-header-base);
+  $color-main: var(--v-background-base);
   $color-sec: var(--v-secondary-darken2);
+  border-radius: 0;
+  position: relative;
+
+  &:first-of-type {
+    border-top-right-radius: inherit;
+    border-top-left-radius: inherit;
+  }
+  &:last-of-type {
+    border-bottom-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+  }
+
+  &::before {
+    @include box-shadow();
+    content: "";
+    @include fill-parent(0);
+    border-radius: inherit;
+    z-index: -1;
+  }
   background: $color-main;
   width: 100%;
   height: fit-content;
+
   transition: all 300ms;
+
   &:hover {
-    background: var(--v-headerHover-base);
     transform: scale(0.95);
   }
 

@@ -14,9 +14,9 @@
         },
       ]"
     />
-      <transition name="fade" mode="out-in">
-        <router-view />
-      </transition>
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
   </Background>
 </template>
 
@@ -34,7 +34,7 @@ export default {
     },
     {
       name: "Settings",
-      path: "settings",
+      path: "",
       component: Settings,
     },
   ],
@@ -44,6 +44,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-</style>
