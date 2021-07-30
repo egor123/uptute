@@ -4,7 +4,7 @@
       <h1 v-animate="'fadeIn'">{{ title }}</h1>
       <div v-animate="'fadeIn'" id="content" ref="content">
         <div
-          class="element boxShadow"
+          class="element "
           v-for="(element, i) in elements"
           :key="i"
           :ref="`element${i}`"
@@ -130,6 +130,7 @@ export default {
 
 <style scoped lang="scss">
 @import "@/scss/styles.scss";
+@import "@/scss/mixins.scss";
 
 $max-width-padding: 500px;
 
@@ -159,6 +160,9 @@ $background: var(--v-header-base);
     display: flex;
     align-items: center;
     flex-direction: column;
+    .element {
+      @include box-shadow();
+    }
   }
 }
 

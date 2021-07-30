@@ -6,9 +6,7 @@
         {{ text }}
       </div>
     </v-expansion-panel-header>
-    <v-expansion-panel-content
-      id="expPanelContent"
-    >
+    <v-expansion-panel-content id="expPanelContent">
       <slot />
     </v-expansion-panel-content>
   </v-expansion-panel>
@@ -29,17 +27,30 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/errorStyles.scss";
+@import "@/scss/mixins.scss";
 
 #panel {
   transition: transform 400ms;
   margin: 0;
-  background: var(--v-header-base);
+  // background: var(--v-header-base);
+  background: var(--v-background-base);
+
+  border-radius: 0;
+  &::before {
+    @include box-shadow();
+  }
+  &:first-child {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+  }
+  &:last-child {
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
   .v-expansion-panel-header {
-    background-color: var(--v-header-base);
-    transition: all 300ms;
-    &:hover {
-      background-color: var(--v-headerHover-base);
-    }
+    background-color: transparent;
+
+    border-radius: inherit;
   }
   &:hover {
     transform: scale(0.95);
