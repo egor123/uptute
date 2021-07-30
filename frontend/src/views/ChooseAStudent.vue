@@ -101,6 +101,7 @@ $inner-content-width: 350px;
 
 .price {
   display: flex;
+  color: var(--v-primary-lighten4);
   *:last-child {
     margin-left: auto;
   }

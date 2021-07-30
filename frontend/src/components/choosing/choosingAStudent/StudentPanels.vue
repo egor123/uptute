@@ -93,6 +93,8 @@ table {
     }
     &.dateAndTime {
       text-align: right;
+      vertical-align: top;
+
       .date {
         display: inline-flex;
         .lighter {

@@ -9,7 +9,7 @@
           currentImg = index;
         "
       />
-      <button @click="deleteImg(index)" class="deleteImg small">
+      <button v-if="upload" @click="deleteImg(index)" class="deleteImg small">
         <v-icon class="closeIcon"> mdi-close </v-icon>
       </button>
     </div>
@@ -34,7 +34,11 @@
               <div class="imgContainer">
                 <img class="expandedImg" :src="img.imageUrl" alt="" />
 
-                <button @click="deleteImg(index)" class="deleteImg large">
+                <button
+                  v-if="upload"
+                  @click="deleteImg(index)"
+                  class="deleteImg large"
+                >
                   <v-icon class="closeIcon"> mdi-close </v-icon>
                 </button>
               </div>
@@ -188,7 +192,7 @@ export default {
       }, 1);
     },
     navClick(val) {
-      this.xChange = -val * this.w;
+      this.xChange = val * this.w;
       this.touchend();
     },
     keyDown(key) {
