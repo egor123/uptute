@@ -77,7 +77,7 @@ export default {
 @import "@/scss/mixins.scss";
 
 .textInput {
-  $color-main: var(--v-background-base);
+  $color-main: var(--v-card-base);
   $color-sec: var(--v-secondary-darken2);
   border-radius: 0;
   position: relative;

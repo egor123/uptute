@@ -83,15 +83,15 @@ export default {
   padding: 0 0.6rem 0 0.6rem;
 
   &::-webkit-scrollbar-track {
-    background: var(--v-header-base);
+    background: transparent;
   }
   &::-webkit-scrollbar {
     width: 10px;
   }
   &::-webkit-scrollbar-thumb {
-    background: var(--v-secondary-darken2);
+    background: var(--v-innerThumb-base);
     &:hover {
-      background: var(--v-secondary-darken3);
+      background: var(--v-innerThumbHover-base);
     }
   }
 }
