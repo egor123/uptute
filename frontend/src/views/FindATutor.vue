@@ -145,16 +145,16 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-// ::v-deep .v-snack__wrapper {
-//   border-radius: 15px !important;
-//   .v-snack__content {
-//     @include flexbox(column);
-//   }
-//   #snackButtons .v-btn {
-//     border-radius: 15px !important;
-//     margin: 0.5rem 0.5rem 0 0.5rem;
-//   }
-// }
+::v-deep .v-snack__wrapper {
+  border-radius: 15px !important;
+  .v-snack__content {
+    @include flexbox(column);
+  }
+  #snackButtons .v-btn {
+    border-radius: 15px !important;
+    margin: 0.5rem 0.5rem 0 0.5rem;
+  }
+}
 
 #content {
   @include flexbox(column);
