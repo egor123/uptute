@@ -63,6 +63,6 @@ th {
 
 td {
   text-align: right;
-  // min-width: max-content;
+  color: var(--v-primary-lighten4);
 }
 </style>

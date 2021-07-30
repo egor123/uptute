@@ -9,7 +9,7 @@
         </template>
         <span>
           <Moto :moto="tutor.moto" />
-          <Comments :id="tutor.uuid" background="var(--v-secondary-base)" />
+          <Comments :id="tutor.uuid" :background="tooltipBackground" />
         </span>
       </v-tooltip>
     </div>
@@ -30,10 +30,25 @@ export default {
     Moto,
     Comments,
   },
+  data() {
+    return {
+      tooltipBackground: "var(--v-background-base)",
+    };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      document.styleSheets[0].insertRule(`:root{
+      --tooltipBackground: ${this.tooltipBackground};
+      }`);
+      console.log(this.tooltipBackground);
+    });
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
 $button-height: 36px;
 $card-rows-margin: 5px;
 
@@ -63,7 +78,9 @@ $card-rows-margin: 5px;
 }
 
 .tooltip {
-  margin-left: -0.4rem; // hard-cocded
+  margin-left: -1.5rem; // hard-cocded
+  background: var(--tooltipBackground) !important;
+  @include box-shadow();
   @media (max-width: 1120px) {
     display: none;
   }

@@ -6,7 +6,7 @@
         <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
       </InfoCardBase>
       <Searching />
-      <FilterPanel>
+      <FilterPanel id="filterPanel">
         <ExpandableSortBy
           v-model="filter"
           :filters="[
@@ -15,9 +15,11 @@
             { name: 'hours_taught', dir: 'up' },
           ]"
           :label="$l('find.filters.filters.h')"
-          :text="`${$l('find.filters.filters.' + filter.name)} ${
-            filter.dir === 'up' ? '↑' : '↓'
-          }`"
+          :text="
+            `${$l('find.filters.filters.' + filter.name)} ${
+              filter.dir === 'up' ? '↑' : '↓'
+            }`
+          "
           :convertor="(item) => $l('find.filters.filters.' + item.name)"
         />
       </FilterPanel>
@@ -120,6 +122,10 @@ $inner-content-width: 350px;
   width: $inner-content-width;
 }
 
+#filterPanel {
+  margin-bottom: 2rem;
+}
+
 #panels {
   margin-bottom: 3rem;
 }
@@ -158,9 +164,7 @@ $inner-content-width: 350px;
 .chooseOne {
   font-size: 1rem;
   font-weight: normal;
-}
-
-.timeLeft {
-  margin: 1rem 0;
+  color: var(--v-primary-lighten4);
+  text-align: center;
 }
 </style>
