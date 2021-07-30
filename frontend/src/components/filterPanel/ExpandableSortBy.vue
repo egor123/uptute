@@ -65,7 +65,7 @@ $scale: 0.4;
 $transition-duration: 0.4s;
 $margin-top: 0.4rem;
 $side-margin: 0.8rem;
-
+$icon-offset: -8%;
 .filter {
   overflow: hidden;
   @include flexbox;
@@ -85,6 +85,7 @@ $side-margin: 0.8rem;
   }
   .icon {
     color: var(--v-secondary-darken2);
+    transform: translateY($icon-offset);
   }
   p {
     margin: 0 0 0 #{$icon-wrapper-size + $side-margin};
