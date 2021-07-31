@@ -1,7 +1,8 @@
 <template>
-  <div class="helpImgWrapper">
+  <div class="helpImgWrapper" ref="helpImgWrapper">
     <div class="helpImgDiv" v-for="(img, index) in imgs" :key="index">
       <img
+        :ref="`imgPage${index}`"
         class="helpImg imgPage"
         :src="img.imageUrl"
         @click="
@@ -14,7 +15,12 @@
       </button>
     </div>
 
-    <label v-if="upload" class="addImg imgPage" for="uploadImg">
+    <label
+      v-if="upload"
+      :ref="`imgPage${imgs.length}`"
+      class="addImg imgPage"
+      for="uploadImg"
+    >
       <v-icon id="plusIcon"> mdi-plus </v-icon>
     </label>
     <input
@@ -75,6 +81,7 @@
 <script>
 import NavButtons from "@/components/global/NavButtons.vue";
 import RadioButton from "@/components/global/RadioButton.vue";
+
 export default {
   data() {
     return {
@@ -82,6 +89,7 @@ export default {
       expandImg: false,
 
       imgElems: [],
+      imgSizes: [],
 
       w: 0,
       h: 0,
@@ -110,6 +118,8 @@ export default {
 
       this.currentImg = this.imgs.length - 1;
       this.xPosition = this.currentImg * this.w;
+
+      this.getSizes();
     },
     deleteImg(index) {
       if (this.imgs.length - 1 === index) this.currentImg--;
@@ -131,7 +141,6 @@ export default {
           this.$mb.addSwipeListener(this.swipe, this.$refs.outsideWrapper);
           document.addEventListener("touchend", this.touchend);
           document.addEventListener("keydown", (key) => this.keyDown(key));
-          window.addEventListener("resize", this.widowResized);
           // this.$root.$on("currentChange", (data) => {
           //   this.xChange = -data * this.w;
           //   this.touchend();
@@ -139,7 +148,6 @@ export default {
 
           this.setUp = true;
         }
-
         this.widowResized();
       });
     },
@@ -204,11 +212,99 @@ export default {
         this.touchend();
       }
     },
-  },
+    getSizes() {
+      setTimeout(() => {
+        this.imgSizes = [];
 
+        for (var i = 0; i < this.imgs.length + 1; i++) {
+          var img = this.$refs[`imgPage${i}`];
+          if (Array.isArray(img)) img = img[0];
+
+          img.style.height = "100px";
+
+          this.imgSizes.push({
+            width: img.getBoundingClientRect().width,
+            height: img.getBoundingClientRect().height,
+          });
+        }
+
+        this.newImgSizes();
+      }, 1);
+    },
+    // getSize() {
+    //   setTimeout(() => {
+
+    //     var currentImg = this.$refs[`imgPage${this.imgs.length - 1}`][0];
+    //     currentImg.style.height = "100px";
+
+    //     this.imgSizes.push({
+    //       width: currentImg.getBoundingClientRect().width,
+    //       height: currentImg.getBoundingClientRect().height,
+    //     });
+
+    //     this.newImgSizes();
+    //   }, 10);
+    // },
+    newImgSizes() {
+      var wrapperWidth = this.$refs.helpImgWrapper.getBoundingClientRect()
+        .width;
+
+      var row = [];
+      var widthSum = 0;
+
+      for (var i = 0; i < this.imgs.length + 1; i++) {
+        var img = this.$refs[`imgPage${i}`];
+        if (Array.isArray(img)) img = img[0];
+
+        var imgParams = this.imgSizes[i];
+
+        if (
+          widthSum + imgParams.width > wrapperWidth ||
+          img.nodeName === "LABEL"
+        ) {
+          if (img.nodeName === "LABEL") {
+            row.push(img);
+            widthSum += imgParams.width;
+          }
+
+          var mult = wrapperWidth / widthSum;
+          var newHeight = imgParams.height * mult - 4;
+          var newWidth = imgParams.width * mult - 4;
+
+          row.forEach((img) => {
+            if (img.nodeName === "LABEL") {
+              img.style.width = `${newWidth}px`;
+              img.style.marginBottom = `${newHeight - imgParams.height + 4}px`;
+            } else {
+              img.parentNode.style.marginBottom = `${newHeight -
+                imgParams.height +
+                4}px`;
+            }
+
+            img.style.height = `${newHeight}px`;
+          });
+          row = [];
+          widthSum = 0;
+        }
+
+        if (img.nodeName != "LABEL") {
+          row.push(img);
+          widthSum += imgParams.width;
+        }
+      }
+    },
+    checkIfExpanded() {
+      if (this.expandImg) this.widowResized();
+      else this.newImgSizes();
+    },
+  },
+  mounted() {
+    this.getSizes();
+    window.addEventListener("resize", this.checkIfExpanded);
+  },
   beforeDestroy() {
     document.removeEventListener("touchend", this.touchend);
-    window.removeEventListener("resize", this.widowResized);
+    window.removeEventListener("resize", this.checkIfExpanded);
   },
 };
 </script>
@@ -221,10 +317,13 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
   width: 100%;
+
   .imgPage {
-    height: 100px;
-    max-width: 100%;
+    // height: 100px;
+    // max-width: 100%;
     border-radius: 5px;
+    margin: 2px 2px !important;
+
     &.helpImg {
       background: var(--v-secondary-base);
       border: none;
@@ -232,13 +331,15 @@ export default {
       transition: box-shadow 400ms;
       &:hover {
         cursor: pointer;
-        box-shadow: 1px 2px 5px 0px var(--v-secondary-darken2);
+        // box-shadow: 1px 2px 5px 0px var(--v-secondary-darken2);
       }
     }
     &.addImg {
       cursor: pointer;
+      height: 100px;
       width: 70.9px;
       border: 2px dashed var(--v-accent-base);
+
       @include flexbox;
 
       transition: 200ms ease-in-out;
@@ -371,7 +472,6 @@ $buttons-offset-at-900px: 2vw;
 .helpImgDiv {
   position: relative;
   height: 100px;
-  margin: 2px;
 }
 
 .deleteImg {
