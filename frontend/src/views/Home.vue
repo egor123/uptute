@@ -35,8 +35,9 @@
       </div>
     </div>
 
-    <div id="innerContainer">
+    <div id="innerContainer" ref="innerContainer">
       <SliderLayout
+        ref="block0"
         :title="$l('home.mission.title')"
         :elements="[
           {
@@ -53,17 +54,92 @@
           },
         ]"
       />
-      <HowItWorks />
-      <WhyUpTute />
+      <CheckerLayout
+        inversed
+        ref="block1"
+        color="background"
+        :title="$l('home.how_it_works.title')"
+        :rows="[
+          {
+            img: 'howItWorks/filter',
+            title: $l('home.how_it_works.list.0.h'),
+            txt: $l('home.how_it_works.list.0.p'),
+          },
+          {
+            img: 'howItWorks/choosing',
+            title: $l('home.how_it_works.list.1.h'),
+            txt: $l('home.how_it_works.list.1.p'),
+          },
+          {
+            img: 'howItWorks/notebook',
+            title: $l('home.how_it_works.list.2.h'),
+            txt: $l('home.how_it_works.list.2.p'),
+          },
+          {
+            img: 'howItWorks/rating',
+            title: $l('home.how_it_works.list.3.h'),
+            txt: $l('home.how_it_works.list.3.p'),
+          },
+        ]"
+      />
+      <CheckerLayout
+        ref="block2"
+        inversed
+        color="header"
+        :title="$l('why_us.student.title')"
+        :rows="[
+          {
+            img: 'whyUpTute/forStudent/piggy-bank',
+            title: $l('why_us.student.list.0.h'),
+            txt: $l('why_us.student.list.0.p'),
+          },
+          {
+            img: 'whyUpTute/forStudent/fast',
+            title: $l('why_us.student.list.1.h'),
+            txt: $l('why_us.student.list.1.p'),
+          },
+          {
+            img: 'whyUpTute/forStudent/friend',
+            title: $l('why_us.student.list.2.h'),
+            txt: $l('why_us.student.list.2.p'),
+          },
+        ]"
+      />
+      <CheckerLayout
+        ref="block3"
+        color="background"
+        :title="$l('why_us.tutor.title')"
+        :rows="[
+          {
+            img: 'whyUpTute/forTutor/goal',
+            title: $l('why_us.tutor.list.0.h'),
+            txt: $l('why_us.tutor.list.0.p'),
+          },
+          {
+            img: 'whyUpTute/forTutor/money-bag',
+            title: $l('why_us.tutor.list.1.h'),
+            txt: $l('why_us.tutor.list.1.p'),
+          },
+          {
+            img: 'whyUpTute/forTutor/algorithm',
+            title: $l('why_us.tutor.list.2.h'),
+            txt: $l('why_us.tutor.list.2.p'),
+          },
+          {
+            img: 'whyUpTute/forTutor/time-management',
+            title: $l('why_us.tutor.list.3.h'),
+            txt: $l('why_us.tutor.list.3.p'),
+          },
+        ]"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import WhyUpTute from "@/components/global/layouts/WhyUpTute.vue";
-import HowItWorks from "@/components/global/layouts/HowItWorks.vue";
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
 import Begin from "@/components/global/Begin.vue";
+import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
 
 export default {
   name: "Home",
@@ -73,10 +149,118 @@ export default {
     redirect: "Home",
   },
   components: {
-    WhyUpTute,
-    HowItWorks,
     SliderLayout,
+    CheckerLayout,
     Begin,
+  },
+  data() {
+    return {
+      currentBlock: 0,
+      oldScrollPos: 0,
+      tryUpTime: 0,
+      tryDownTime: 0,
+    };
+  },
+  mounted() {
+    document.addEventListener("scroll", this.scrolled);
+  },
+  destroyed() {
+    document.removeEventListener("scroll", this.scrolled);
+  },
+  methods: {
+    async scrolled() {
+      var dom = this.$refs[
+        `block${this.currentBlock}`
+      ].$el.getBoundingClientRect();
+      var newScrollPos = window.scrollY;
+
+      // console.log("new:" + newScrollPos);
+      // console.log("old:" + this.oldScrollPos);
+      // console.log("------------------------");
+
+      var offsetY = 0;
+      console.log(document.documentElement.scrollTop);
+      if (
+        dom.top < window.innerHeight - dom.height &&
+        this.currentBlock != 3 &&
+        newScrollPos > this.oldScrollPos
+      ) {
+        if (
+          this.tryDownTime === 0 ||
+          new Date().getTime() - this.tryDownTime < 300
+        ) {
+          for (var i = 0; i <= this.currentBlock; i++) {
+            offsetY += this.$refs[`block${i}`].$el.getBoundingClientRect()
+              .height;
+          }
+
+          document.documentElement.scrollTop = offsetY; //innerHeight for Hero
+
+          // event.preventDefault();
+          // event.stopImmediatePropagation();
+
+          // console.log("here");
+
+          if (this.tryDownTime === 0) {
+            this.tryDownTime = new Date().getTime();
+          }
+        } else {
+          for (var l = 0; l <= this.currentBlock; l++) {
+            offsetY += this.$refs[`block${l}`].$el.getBoundingClientRect()
+              .height;
+          }
+
+          window.scrollTo(0, offsetY + window.innerHeight, "smooth"); //innerHeight for Hero
+
+          this.currentBlock++;
+        }
+      }
+
+      // -------------
+      else if (
+        dom.top > 0 &&
+        this.currentBlock != 0 &&
+        newScrollPos < this.oldScrollPos
+      ) {
+        if (
+          this.tryUpTime === 0 ||
+          new Date().getTime() - this.tryUpTime < 300
+        ) {
+          for (var n = 0; n < this.currentBlock; n++) {
+            offsetY += this.$refs[`block${n}`].$el.getBoundingClientRect()
+              .height;
+          }
+
+          window.scrollTo(0, offsetY + window.innerHeight); //innerHeight for Hero
+          if (this.tryUpTime === 0) {
+            this.tryUpTime = new Date().getTime();
+          }
+        } else {
+          if (this.currentBlock > 1) {
+            for (var k = 0; k <= this.currentBlock - 1; k++) {
+              offsetY += this.$refs[`block${k}`].$el.getBoundingClientRect()
+                .height;
+            }
+          }
+
+          window.scrollTo(0, offsetY, "smooth"); //innerHeight for Hero
+
+          this.currentBlock--;
+        }
+      }
+
+      // -------------
+      else if (dom.top > window.innerHeight - dom.height + 1) {
+        this.tryDownTime = 0;
+
+        console.log("tryDownTime = 0");
+      } else if (dom.top < 0) {
+        this.tryUpTime = 0;
+
+        console.log("tryUpTime = 0");
+      }
+      this.oldScrollPos = newScrollPos;
+    },
   },
 };
 </script>
@@ -85,7 +269,6 @@ export default {
 @import "@/scss/mixins.scss";
 
 #container {
-  overflow: hidden;
   #innerContainer {
     margin-top: 100vh;
   }

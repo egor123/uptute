@@ -148,7 +148,9 @@ $buttons-offset-at-900px: 5%;
 $background: var(--v-header-base);
 
 #main {
-  padding: $vertical-padding 0; //var(--side-margin)
+  // padding: $vertical-padding 0; //var(--side-margin)
+  @include flexbox(0);
+  height: 100vh;
   background: $background;
   @media (max-width: $max-width-padding) {
     padding: $vertical-padding 1rem;
