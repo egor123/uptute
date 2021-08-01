@@ -41,7 +41,7 @@
             {{ $l("app.pages.find_tutor") }}
           </v-btn> -->
           <Begin
-            color="rgba(0, 0, 0, 0.8)"
+            color="#000"
             textColor="white"
             borderRadius="0 0 15px 15px"
             border="none"
@@ -54,7 +54,7 @@
           hide-on-scroll
           transition="scale-transition"
           origin="top center"
-          attach="#container"
+          attach="#flag"
         >
           <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" v-on="on" id="flag" ref="locales">
@@ -220,7 +220,7 @@ $header-height: 56px;
     position: absolute;
     left: var(--side-margin);
     right: var(--side-margin);
-
+    height: $header-height;
     #title {
       @include flexbox();
       text-transform: none;
@@ -272,14 +272,6 @@ $header-height: 56px;
   @include flexbox();
   padding: 0 1rem;
 }
-
-// #begin {
-//   color: var(--v-accent-base) !important;
-//   font-weight: 500;
-//   text-transform: uppercase;
-//   text-align: center;
-//   letter-spacing: 3px;
-// }
 
 .v-menu__content {
   background: transparent;
