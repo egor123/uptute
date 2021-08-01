@@ -12,7 +12,7 @@ export default {
     logIn() {
       GoogleAuthService.signIn()
         .then(() => {
-          this.$router.push({ name: "PrimarySettingUp" });
+          this.$router.push({ name: "PrimarySettingsUp" });
         })
         .catch((e) => {
           if (e.error === "idpiframe_initialization_failed")
