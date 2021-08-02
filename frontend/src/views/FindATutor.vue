@@ -161,6 +161,7 @@ export default {
 }
 #pageViewer {
   margin: 2rem 0 2rem 0;
+  width: 100%;
 }
 #refreshBtn {
   background-color: var(--v-background-base);
