@@ -153,115 +153,71 @@ export default {
     CheckerLayout,
     Begin,
   },
-  data() {
-    return {
-      currentBlock: 0,
-      oldScrollPos: 0,
-      tryUpTime: 0,
-      tryDownTime: 0,
-    };
-  },
-  mounted() {
-    document.addEventListener("scroll", this.scrolled);
-  },
-  destroyed() {
-    document.removeEventListener("scroll", this.scrolled);
-  },
-  methods: {
-    async scrolled() {
-      var dom = this.$refs[
-        `block${this.currentBlock}`
-      ].$el.getBoundingClientRect();
-      var newScrollPos = window.scrollY;
+  //   data() {
+  //     return {
+  //       currentBlock: 0,
+  //       oldScrollPos: 0,
+  //     };
+  //   },
+  //   mounted() {
+  //     document.addEventListener("scroll", this.scrolled);
+  //   },
+  //   destroyed() {
+  //     document.removeEventListener("scroll", this.scrolled);
+  //   },
+  //   methods: {
+  //     scrolled() {
+  //       var dom = this.$refs[
+  //         `block${this.currentBlock}`
+  //       ].$el.getBoundingClientRect();
+  //       var newScrollPos = window.scrollY;
 
-      // console.log("new:" + newScrollPos);
-      // console.log("old:" + this.oldScrollPos);
-      // console.log("------------------------");
+  //       var offsetY = 0;
+  //       console.log(document.documentElement.scrollTop);
 
-      var offsetY = 0;
-      console.log(document.documentElement.scrollTop);
-      if (
-        dom.top < window.innerHeight - dom.height &&
-        this.currentBlock != 3 &&
-        newScrollPos > this.oldScrollPos
-      ) {
-        if (
-          this.tryDownTime === 0 ||
-          new Date().getTime() - this.tryDownTime < 300
-        ) {
-          for (var i = 0; i <= this.currentBlock; i++) {
-            offsetY += this.$refs[`block${i}`].$el.getBoundingClientRect()
-              .height;
-          }
+  //       if (
+  //         dom.top < window.innerHeight - dom.height &&
+  //         this.currentBlock != 3 &&
+  //         newScrollPos > this.oldScrollPos
+  //       ) {
+  //         for (var i = 0; i <= this.currentBlock; i++) {
+  //           offsetY += this.$refs[`block${i}`].$el.getBoundingClientRect().height;
+  //         }
 
-          document.documentElement.scrollTop = offsetY; //innerHeight for Hero
+  //         console.log("TRIED DOWN");
 
-          // event.preventDefault();
-          // event.stopImmediatePropagation();
+  //         window.scrollTo(0, offsetY + window.innerHeight, "smooth"); //innerHeight for Hero
 
-          // console.log("here");
+  //         this.currentBlock++;
+  //         // }
+  //       }
 
-          if (this.tryDownTime === 0) {
-            this.tryDownTime = new Date().getTime();
-          }
-        } else {
-          for (var l = 0; l <= this.currentBlock; l++) {
-            offsetY += this.$refs[`block${l}`].$el.getBoundingClientRect()
-              .height;
-          }
+  //       // -------------
+  //       else if (
+  //         dom.top > 0 &&
+  //         this.currentBlock != 0 &&
+  //         newScrollPos < this.oldScrollPos
+  //       ) {
+  //         if (this.currentBlock > 0) {
+  //           for (var l = 0; l <= this.currentBlock - 1; l++) {
+  //             offsetY += this.$refs[`block${l}`].$el.getBoundingClientRect()
+  //               .height;
+  //           }
+  //         }
 
-          window.scrollTo(0, offsetY + window.innerHeight, "smooth"); //innerHeight for Hero
+  //         console.log("TRIED UP");
+  //         console.log("domTop:" + dom.top);
+  //         console.log("new: " + newScrollPos);
+  //         console.log("old: " + this.oldScrollPos);
 
-          this.currentBlock++;
-        }
-      }
+  //         document.documentElement.scrollTop = offsetY;
 
-      // -------------
-      else if (
-        dom.top > 0 &&
-        this.currentBlock != 0 &&
-        newScrollPos < this.oldScrollPos
-      ) {
-        if (
-          this.tryUpTime === 0 ||
-          new Date().getTime() - this.tryUpTime < 300
-        ) {
-          for (var n = 0; n < this.currentBlock; n++) {
-            offsetY += this.$refs[`block${n}`].$el.getBoundingClientRect()
-              .height;
-          }
-
-          window.scrollTo(0, offsetY + window.innerHeight); //innerHeight for Hero
-          if (this.tryUpTime === 0) {
-            this.tryUpTime = new Date().getTime();
-          }
-        } else {
-          if (this.currentBlock > 1) {
-            for (var k = 0; k <= this.currentBlock - 1; k++) {
-              offsetY += this.$refs[`block${k}`].$el.getBoundingClientRect()
-                .height;
-            }
-          }
-
-          window.scrollTo(0, offsetY, "smooth"); //innerHeight for Hero
-
-          this.currentBlock--;
-        }
-      }
-
-      // -------------
-      else if (dom.top > window.innerHeight - dom.height + 1) {
-        this.tryDownTime = 0;
-
-        console.log("tryDownTime = 0");
-      } else if (dom.top < 0) {
-        this.tryUpTime = 0;
-
-        console.log("tryUpTime = 0");
-      }
-      this.oldScrollPos = newScrollPos;
-    },
-  },
+  //         this.currentBlock--;
+  //         // }
+  //       }
+  //       this.oldScrollPos = newScrollPos;
+  //     },
+  //   },
 };
 </script>
 
