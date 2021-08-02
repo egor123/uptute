@@ -5,8 +5,8 @@
     hide-on-scroll
     transition="scale-transition"
     origin="top center"
+    attach="#begin"
   >
-    <!-- attach="#container" -->
     <template v-slot:activator="{ on, attrs }">
       <div v-bind="attrs" v-on="on" id="begin">
         {{ $l("app.pages.begin") }}

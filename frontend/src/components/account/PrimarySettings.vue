@@ -100,8 +100,10 @@ export default {
     border-radius: 50%;
     opacity: 0.99; // bug - input desn't allow to select with full opacity
 
-    border: 2px solid var(--v-secondary-darken2);
+    @include box-shadow();
+    // border: 2px solid var(--v-secondary-darken2);
     cursor: pointer;
+
     transition: box-shadow 400ms;
     &:hover {
       box-shadow: 1px 2px 8px 0px var(--v-card-darken2);

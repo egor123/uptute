@@ -18,7 +18,7 @@
       @next="(action) => $refs.panel3[action]()"
       id="zoomDiv"
     >
-      <TextField class="zoom" :label="$l('set_up.zoom')" imgName="zoom-icon" />
+      <TextField class="zoom" :label="$l('set_up.zoom')" img="zoom-icon" />
       <div id="dialogContainer">
         <Dialog>
           <template v-slot:object>

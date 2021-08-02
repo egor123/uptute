@@ -3,7 +3,7 @@
     class="textInput"
     :class="{ errorMovement: errorAnim, errorColor: error }"
   >
-    <div class="slot">
+    <div class="slot" ref="slot">
       <textarea
         v-if="area"
         type="text"
@@ -21,6 +21,7 @@
         v-model="input"
       />
       <label>{{ label }}</label>
+      <img v-if="img" :src="getImg(img)" alt="" />
     </div>
   </div>
 </template>
@@ -41,6 +42,7 @@ export default {
     "rules", // validation, always true if undef
     "label", // panel's label
     "area", // changes to textarea
+    "img",
   ],
   watch: {
     input: function(val) {
@@ -68,6 +70,14 @@ export default {
       this.error = !val;
       return val;
     },
+    getImg(img) {
+      return require(`@/assets/icons/${img}.svg`);
+    },
+  },
+  mounted() {
+    if (this.img) {
+      this.$refs.slot.style.paddingRight = "30px";
+    }
   },
 };
 </script>
@@ -144,6 +154,14 @@ export default {
       transform-origin: bottom left;
       transform: translateY(111%);
       transition: transform 0.25s ease-in-out;
+    }
+    img {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
     }
   }
 }

@@ -11,7 +11,7 @@
         ref="button"
       >
         <v-icon class="mr-2">{{ btn.icon }}</v-icon>
-        {{ btn.label }}
+        <p>{{ btn.label }}</p>
       </v-btn>
     </div>
   </div>
@@ -30,7 +30,10 @@ export default {
       });
       el.addEventListener("click", () => {
         let name = el.getAttribute("path");
-        if (!this.$mb.isMobileInput() || btn.opened && this.$route.name != name)
+        if (
+          !this.$mb.isMobileInput() ||
+          (btn.opened && this.$route.name != name)
+        )
           this.$router.push({ name });
       });
     });
@@ -59,6 +62,7 @@ export default {
   bottom: $offset;
   margin-left: auto;
   width: max-content;
+
   & > * {
     pointer-events: auto;
     display: flex;
@@ -66,6 +70,7 @@ export default {
     padding: 15px;
     border-radius: 15px 0 0 15px !important;
     transition: transform 400ms ease-in-out;
+
     &:not(:hover) {
       transform: translateX(calc(100% - 35px));
     }
@@ -83,6 +88,11 @@ export default {
   .v-btn__content {
     max-width: max-content;
     height: max-content;
+    p {
+      text-transform: none;
+      margin: auto 0;
+    }
+
     .v-icon {
       color: var(--v-header-base);
     }
