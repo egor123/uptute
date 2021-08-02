@@ -156,7 +156,7 @@ export default {
       return rows;
     },
     getAspectRatio(el) {
-      if (el.aspectRatio === undefined)
+      if (el.aspectRatio === undefined || el.aspectRatio === Infinity)
         el.aspectRatio = el.offsetHeight / el.offsetWidth;
       return el.aspectRatio;
     },
@@ -180,10 +180,14 @@ export default {
     },
     waitUntilImgsReady(res) {
       setTimeout(() => {
-        const imgs = this.$refs.imgContainer.children;
-        if (this.getAspectRatio(imgs[imgs.length - 2]) !== Infinity) res();
+        if (this.isImgsReady()) res();
         else this.waitUntilImgsReady(res);
       }, 0);
+    },
+    isImgsReady() {
+      for (const img of this.$refs.imgContainer.children)
+        if (this.getAspectRatio(img) === Infinity) return false;
+      return true;
     },
   },
   watch: {
