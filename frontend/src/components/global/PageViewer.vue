@@ -156,13 +156,9 @@ export default {
       return rows;
     },
     getAspectRatio(el) {
-      // if (el.aspectRatio === undefined)
-      //   el.aspectRatio = el.offsetHeight / el.offsetWidth;
-      // if (el.aspectRatio === Infinity) {
-      //   console.log(el.getBoundingClientRect());
-      // }
-      //return el.aspectRatio;
-      return el.offsetHeight / el.offsetWidth;
+      if (el.aspectRatio === undefined)
+        el.aspectRatio = el.offsetHeight / el.offsetWidth;
+      return el.aspectRatio;
     },
     getEstimatedRowWidth(row, estimatedHeight) {
       return row.reduce(
