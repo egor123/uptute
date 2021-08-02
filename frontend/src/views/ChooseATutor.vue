@@ -94,8 +94,10 @@ export default {
           100 >
         ww
       ) {
-        lessonInfo.style = "position: static; border-radius: 15px 15px 0 0;";
-        infoCard.style = "position: static; border-radius:  0 0 15px 15px;";
+        lessonInfo.style =
+          "position: static; border-radius: 15px 15px 5px 5px;";
+        infoCard.style =
+          "position: static; border-radius:  5px 5px 15px 15px;  margin-top: 0.8rem;";
       } else {
         lessonInfo.style =
           "position: fixed; right: 2rem; top: 8rem; border-radius: 15px;";
@@ -164,23 +166,23 @@ $inner-content-width: 350px;
 @media (max-width: 300px) {
 }
 
-::v-deep {
-  @media (max-width: 1200px) {
-    .lessonInfo {
-      &#wrapper {
-        border-radius: 15px 15px 0 0;
-        // position: static;
-      }
+// ::v-deep {
+//   @media (max-width: 1200px) {
+//     .lessonInfo {
+//       &#wrapper {
+//         border-radius: 15px 15px 0 0;
+//         // position: static;
+//       }
 
-      // position: static;
-    }
-    .infoCard {
-      &.baseCard {
-        border-radius: 0 0 15px 15px;
-      }
-    }
-  }
-}
+//       // position: static;
+//     }
+//     .infoCard {
+//       &.baseCard {
+//         border-radius: 0 0 15px 15px;
+//       }
+//     }
+//   }
+// }
 
 .chooseOne {
   font-size: 1rem;

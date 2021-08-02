@@ -15,18 +15,19 @@ export default {};
 
 #wrapper {
   border-radius: inherit;
+  z-index: 1;
+  position: relative;
 
   .baseCard {
     height: max-content;
     border-radius: inherit;
-    background: var(--v-accent-base);
+    background: var(--v-background-base);
 
     flex-wrap: wrap;
     padding: 15px;
     text-align: left;
     cursor: default;
     position: relative;
-    z-index: 10;
 
     &::before {
       content: "";
@@ -41,7 +42,7 @@ export default {};
     opacity: 0.4;
     transition: opacity 300ms;
     &:hover {
-      opacity: 1;
+      opacity: 0.99;
     }
   }
 }
