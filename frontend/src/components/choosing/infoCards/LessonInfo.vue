@@ -32,14 +32,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep {
-  &.baseCard {
-    position: fixed;
-    right: 2rem;
-    top: 8rem;
-  }
-}
-
 table {
   width: 100%;
 }
