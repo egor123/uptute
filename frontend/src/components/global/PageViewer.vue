@@ -60,7 +60,7 @@ export default {
       expandImg: false,
       currentImg: 0,
       // settings //
-      gapSize: 4, //px
+      gapSize: 8, //px
       estimatedHeight: 100, //px
       labelAspectRatio: 1.41,
     };
@@ -128,21 +128,26 @@ export default {
     setWrapperOffset(imgs, px = 0) {
       const wrapper = this.$refs.outsideWrapper;
       if (wrapper)
-        wrapper.style.transform = `translateX(${
-          imgs * -window.innerWidth - px
-        }px)`;
+        wrapper.style.transform = `translateX(${imgs * -window.innerWidth -
+          px}px)`;
     },
     calculateSizes() {
-      const maxWidth = this.$refs.imgContainer.getBoundingClientRect().width;
+      const container = this.$refs.imgContainer;
+      const maxWidth = container.getBoundingClientRect().width;
+
       this.waitUntilImgsReady(() =>
-        this.getRows(maxWidth, this.estimatedHeight, this.gapSize)?.forEach(
-          (row) =>
-            this.calculateRowSize(
-              row,
-              maxWidth,
-              this.estimatedHeight,
-              this.gapSize
-            )
+        this.getRows(
+          maxWidth,
+          this.estimatedHeight,
+          this.gapSize
+        )?.forEach((row, i) =>
+          this.calculateRowSize(
+            row,
+            maxWidth,
+            this.estimatedHeight,
+            this.gapSize,
+            i === 0
+          )
         )
       );
     },
@@ -156,7 +161,7 @@ export default {
         const rowWidth =
           this.getEstimatedRowWidth(row, estimatedHeight) +
           elWidth +
-          row.length * gapSize;
+          (row.length + 2) * gapSize;
         if (row.length === 0 || rowWidth <= maxWidth) row.push(el);
         else rows.push([el]);
       }
@@ -173,12 +178,16 @@ export default {
         0
       );
     },
-    calculateRowSize(row, maxWidth, estimatedHeight, gapSize) {
+    calculateRowSize(row, maxWidth, estimatedHeight, gapSize, firstRow) {
       let estimatedRowSize = this.getEstimatedRowWidth(row, estimatedHeight);
-      estimatedRowSize += (row.length - 1) * gapSize;
+      estimatedRowSize += (row.length + 1) * gapSize;
       const n = maxWidth / estimatedRowSize;
+
       row.forEach((el) => {
         console.log(this.getAspectRatio(el));
+        el.style.marginBottom = gapSize + "px";
+        if (firstRow) el.style.marginTop = gapSize + "px";
+
         el.style.height = estimatedHeight * n + "px";
         if (el.nodeName === "LABEL") {
           el.style.width =
@@ -200,15 +209,16 @@ export default {
     },
   },
   watch: {
-    currentImg: function (val) {
+    currentImg: function(val) {
       const size = this.$refs.imgContainer.children.length;
       if (val < 0) return (this.currentImg = size - 2);
       if (val > size - 2) return (this.currentImg = 0);
       this.setWrapperOffset(val);
     },
-    imgs: function () {
+    imgs: function() {
       this.expandImg = false;
       this.calculateSizes();
+      this.calculateSizes(); // ?!?!?!?!?!???!!??! WTF
     },
   },
   mounted() {
@@ -230,20 +240,26 @@ export default {
 
 #imgContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
+  @include box-shadow();
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .imgCard {
   display: block;
   @include flexbox;
+  width: fit-content;
   position: relative;
   cursor: pointer;
-  margin-bottom: 10px;
+
   &.addImg {
     @include flexbox;
     border: 2px dashed var(--v-accent-base);
     transition: 200ms ease-in-out;
+    border-radius: 15px;
+
     #plusIcon {
       color: var(--v-accent-base);
       transition: 500ms ease-in-out;
@@ -260,13 +276,16 @@ export default {
   }
   &:not(.addImg) {
     transition: box-shadow 400ms;
+
     img {
-      border-radius: 5px;
       height: 100%;
+      border-radius: 15px;
+      // width: 100%;
+      // overflow: hidden;
     }
-    &:hover {
-      box-shadow: 1px 2px 5px 0px var(--v-secondary-darken2);
-    }
+    // &:hover {
+    //   box-shadow: 1px 2px 5px 0px var(--v-secondary-darken2);
+    // }
   }
 }
 
