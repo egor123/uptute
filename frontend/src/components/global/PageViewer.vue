@@ -59,6 +59,10 @@ export default {
     return {
       expandImg: false,
       currentImg: 0,
+      // settings //
+      gapSize: 4, //px
+      estimatedHeight: 100, //px
+      labelAspectRatio: 1.41,
     };
   },
   props: {
@@ -129,12 +133,16 @@ export default {
         }px)`;
     },
     calculateSizes() {
-      const gapSize = 8; //px
-      const estimatedHeight = 100; //px
       const maxWidth = this.$refs.imgContainer.getBoundingClientRect().width;
       this.waitUntilImgsReady(() =>
-        this.getRows(maxWidth, estimatedHeight, gapSize)?.forEach((row) =>
-          this.calculateRowSize(row, maxWidth, estimatedHeight, gapSize)
+        this.getRows(maxWidth, this.estimatedHeight, this.gapSize)?.forEach(
+          (row) =>
+            this.calculateRowSize(
+              row,
+              maxWidth,
+              this.estimatedHeight,
+              this.gapSize
+            )
         )
       );
     },
@@ -156,9 +164,8 @@ export default {
       return rows;
     },
     getAspectRatio(el) {
-      if (el.aspectRatio === undefined || el.aspectRatio === Infinity)
-        el.aspectRatio = el.offsetHeight / el.offsetWidth;
-      return el.aspectRatio;
+      if (el.nodeName === "LABEL") return this.labelAspectRatio;
+      return el.offsetHeight / el.offsetWidth;
     },
     getEstimatedRowWidth(row, estimatedHeight) {
       return row.reduce(
@@ -173,9 +180,11 @@ export default {
       row.forEach((el) => {
         console.log(this.getAspectRatio(el));
         el.style.height = estimatedHeight * n + "px";
-        if (el.nodeName === "LABEL")
+        if (el.nodeName === "LABEL") {
           el.style.width =
             (estimatedHeight / this.getAspectRatio(el)) * n + "px";
+          if (row.length === 1) el.style.height = estimatedHeight + "px";
+        }
       });
     },
     waitUntilImgsReady(res) {
@@ -233,8 +242,6 @@ export default {
   margin-bottom: 10px;
   &.addImg {
     @include flexbox;
-    height: 100px;
-    width: 70.9px;
     border: 2px dashed var(--v-accent-base);
     transition: 200ms ease-in-out;
     #plusIcon {
