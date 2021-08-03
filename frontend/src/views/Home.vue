@@ -14,7 +14,8 @@
       <div id="heroWrapper" class="boxShadow">
         <div class="iframeWrapper">
           <iframe
-            src="https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500"
+            ref="iframe"
+            :src="url"
             frameborder="0"
             allow="autoplay"
             webkitallowfullscreen
@@ -152,6 +153,25 @@ export default {
     SliderLayout,
     CheckerLayout,
     Begin,
+  },
+  data() {
+    return {
+      url:
+        "https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500&enablejsapi=1",
+    };
+  },
+  mounted() {
+    document.addEventListener("scroll", this.checkOffset);
+  },
+  methods: {
+    checkOffset() {
+      console.log(this.$refs.iframe.src);
+      if (window.scrollY > window.innerHeight) {
+        this.$refs.iframe.src = "";
+      } else if (this.$refs.iframe.src !== this.url) {
+        this.$refs.iframe.src = this.url;
+      }
+    },
   },
   //   data() {
   //     return {
