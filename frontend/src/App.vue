@@ -13,9 +13,9 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Header from "@/components/app/Header";
-import Footer from "@/components/app/Footer";
-import Navigation from "@/components/app/Navigation";
+import Header from "@/components/app/Header.vue";
+import Footer from "@/components/app/Footer.vue";
+import Navigation from "@/components/app/Navigation.vue";
 
 export default {
   data: () => ({

@@ -115,13 +115,6 @@ $drawer-background: #fafafa;
   }
 }
 
-.dividor {
-  height: 1px;
-  width: 80%;
-  background: var(--v-secondary-darken1);
-  margin: 0 auto;
-}
-
 #signInOuter {
   @include flexbox();
   // position: relative;
