@@ -73,8 +73,8 @@ export default {
   right: 25px;
   bottom: -20px;
   @media (pointer: none), (pointer: coarse) {
-    right: 10px;
-    bottom: -10px;
+    right: 15px;
+    bottom: -15px;
   }
   transform: translateY(100%);
   height: var(--widthMin);
@@ -85,6 +85,7 @@ export default {
 .v-icon#important {
   margin-left: auto;
   color: var(--v-secondary-base);
+  cursor: default;
 
   background: var(--v-accent-base);
   z-index: 10;
