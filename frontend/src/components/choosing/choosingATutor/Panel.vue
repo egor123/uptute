@@ -33,7 +33,7 @@
           </span>
         </v-tooltip>
 
-        <Rating :value="tutor.rating" class="rating" />
+        <Rating :valueProp="tutor.rating" class="rating" />
 
         <div class="commentsDiv" @click="openComments()">
           <img

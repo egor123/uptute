@@ -29,11 +29,12 @@
 export default {
   data() {
     return {
-      showDialog: false,
+      showDialog: this.showDialogProp,
     };
   },
   props: {
     toComments: Boolean,
+    showDialogProp: Boolean,
   },
   created() {
     this.showDialog = this.toComments;
@@ -48,7 +49,6 @@ export default {
       this.showDialog = val;
     },
     showDialog: function() {
-      console.log(this.showDialog);
       if (this.showDialog === true) {
         this.$root.$emit("dialogOpened");
         this.$nextTick(() => {
@@ -57,6 +57,9 @@ export default {
       } else {
         this.$root.$emit("dialogClosed");
       }
+    },
+    showDialogProp: function() {
+      this.showDialog = this.showDialogProp;
     },
   },
 };
@@ -68,6 +71,9 @@ export default {
 #cardText {
   padding: 2rem;
   background: var(--v-background-base);
+  @include flexbox(column);
+  position: relative;
+  z-index: 1;
 }
 
 [role="button"] {

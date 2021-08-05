@@ -1,9 +1,10 @@
 <template>
   <div
     class="textInput"
+    ref="textInput"
     :class="{ errorMovement: errorAnim, errorColor: error }"
   >
-    <div class="slot">
+    <div class="slot" ref="slot">
       <textarea
         v-if="area"
         type="text"
@@ -21,6 +22,7 @@
         v-model="input"
       />
       <label>{{ label }}</label>
+      <img v-if="img" :src="getImg(img)" alt="" />
     </div>
   </div>
 </template>
@@ -41,6 +43,8 @@ export default {
     "rules", // validation, always true if undef
     "label", // panel's label
     "area", // changes to textarea
+    "img",
+    "flat",
   ],
   watch: {
     input: function(val) {
@@ -68,6 +72,22 @@ export default {
       this.error = !val;
       return val;
     },
+    getImg(img) {
+      return require(`@/assets/icons/${img}.svg`);
+    },
+  },
+  mounted() {
+    if (this.img) {
+      this.$refs.slot.style.paddingRight = "30px";
+    }
+    if (this.flat) {
+      console.log(this.$refs.textInput);
+      this.$refs.textInput.style.setProperty("--displayShadow", "none");
+      this.$refs.textInput.style.setProperty(
+        "background",
+        "var(--v-background-base)"
+      );
+    } else this.$refs.textInput.style.setProperty("--displayShadow", "flex");
   },
 };
 </script>
@@ -93,14 +113,16 @@ export default {
 
   &::before {
     @include box-shadow();
+    display: var(--displayShadow);
     content: "";
     @include fill-parent(0);
     border-radius: inherit;
     z-index: -1;
   }
+
   background: $color-main;
   width: 100%;
-  height: fit-content;
+  height: max-content;
 
   transition: all 300ms;
 
@@ -112,9 +134,11 @@ export default {
     background: inherit;
     position: relative;
     width: 90%;
+    height: max-content;
     margin: auto;
 
     .input {
+      display: block;
       border: 1px $color-sec solid;
       border-radius: 15px;
       width: 100%;
@@ -126,7 +150,8 @@ export default {
       }
       &:focus ~ label,
       &.active ~ label {
-        transform: scale(0.8);
+        transform: scale(0.8) translateY(-50%);
+        top: 0;
       }
     }
     textarea {
@@ -141,9 +166,19 @@ export default {
       left: 0.75em;
       color: $color-sec;
       pointer-events: none;
-      transform-origin: bottom left;
-      transform: translateY(111%);
-      transition: transform 0.25s ease-in-out;
+      transform-origin: top left;
+      transform: translateY(-50%);
+      top: 50%;
+
+      transition: all 0.25s ease-in-out;
+    }
+    img {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
     }
   }
 }

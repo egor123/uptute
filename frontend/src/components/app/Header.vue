@@ -87,11 +87,13 @@
     >
       <p class="ma-0" v-html="$l('auth.allow_cookies')"></p>
     </v-snackbar>
+    <Important />
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Begin from "@/components/global/Begin.vue";
+import Important from "@/components/app/Important.vue";
 
 export default {
   data() {
@@ -103,6 +105,7 @@ export default {
   },
   components: {
     Begin,
+    Important,
   },
   computed: mapGetters(["getStatus", "getNavBar"]),
   methods: {

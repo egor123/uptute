@@ -1,5 +1,12 @@
 @import "./mixins.scss";
 
+.dividor {
+  height: 1px;
+  width: 80%;
+  background: var(--v-secondary-darken1);
+  margin: 0 auto;
+}
+
 .orangeBackground {
   background: var(--v-accent-base) !important;
   color: var(--v-secondary-base) !important;

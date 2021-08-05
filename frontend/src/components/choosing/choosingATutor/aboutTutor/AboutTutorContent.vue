@@ -60,15 +60,6 @@ export default {
   //     }, 1);
   //   });
   // },
-  mounted() {
-    this.$root.$on("loadingEnded", () => {
-      this.$nextTick(() => {
-        this.$refs.commentsDiv.scrollIntoView({
-          behavior: "smooth",
-        });
-      });
-    });
-  },
 
   watch: {
     toComments: function() {
@@ -78,6 +69,17 @@ export default {
         });
       }, 10);
     },
+  },
+  mounted() {
+    this.$root.$on("loadingEnded", () => {
+      if (this.toComments) {
+        this.$nextTick(() => {
+          this.$refs.commentsDiv.scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      }
+    });
   },
 };
 </script>

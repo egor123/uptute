@@ -1,8 +1,8 @@
 <template>
   <Background :title="$l('choose_a.tutor.header')">
     <div class="innerContent">
-      <LessonInfo class="lessonInfo" />
-      <InfoCardBase class="infoCard">
+      <LessonInfo ref="lessonInfo" class="lessonInfo" />
+      <InfoCardBase ref="infoCard" class="infoCard">
         <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
       </InfoCardBase>
       <Searching />
@@ -84,6 +84,26 @@ export default {
         closeBtn.onclick = () => res("close");
       });
     },
+    resized() {
+      var ww = window.innerWidth;
+      var lessonInfo = this.$refs.lessonInfo.$el;
+      var infoCard = this.$refs.infoCard.$el;
+      if (
+        infoCard.getBoundingClientRect().width +
+          2 * lessonInfo.getBoundingClientRect().width +
+          100 >
+        ww
+      ) {
+        lessonInfo.style =
+          "position: static; border-radius: 15px 15px 5px 5px;";
+        infoCard.style =
+          "position: static; border-radius:  5px 5px 15px 15px;  margin-top: 0.8rem;";
+      } else {
+        lessonInfo.style =
+          "position: fixed; right: 2rem; top: 8rem; border-radius: 15px;";
+        infoCard.style = "position: static; border-radius: 15px;";
+      }
+    },
   },
   beforeRouteLeave(to, from, next) {
     this.showAlert = true;
@@ -95,9 +115,12 @@ export default {
   mounted() {
     window.addEventListener("beforeunload", this.preventNav);
     this.$store.dispatch("startSearch", null);
+    window.addEventListener("resize", this.resized);
+    this.resized();
   },
   beforeDestroy() {
     window.removeEventListener("beforeunload", this.preventNav);
+    window.removeEventListener("resize", this.resized);
   },
 };
 </script>
@@ -143,23 +166,23 @@ $inner-content-width: 350px;
 @media (max-width: 300px) {
 }
 
-::v-deep {
-  @media (max-width: 1200px) {
-    .lessonInfo {
-      &.baseCard {
-        border-radius: 15px 15px 0 0;
-        position: static;
-      }
+// ::v-deep {
+//   @media (max-width: 1200px) {
+//     .lessonInfo {
+//       &#wrapper {
+//         border-radius: 15px 15px 0 0;
+//         // position: static;
+//       }
 
-      position: static;
-    }
-    .infoCard {
-      &.baseCard {
-        border-radius: 0 0 15px 15px;
-      }
-    }
-  }
-}
+//       // position: static;
+//     }
+//     .infoCard {
+//       &.baseCard {
+//         border-radius: 0 0 15px 15px;
+//       }
+//     }
+//   }
+// }
 
 .chooseOne {
   font-size: 1rem;

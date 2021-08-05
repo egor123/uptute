@@ -40,7 +40,6 @@ export default {
       document.styleSheets[0].insertRule(`:root{
       --tooltipBackground: ${this.tooltipBackground};
       }`);
-      console.log(this.tooltipBackground);
     });
   },
 };

@@ -4,7 +4,7 @@
     <div>
       <div>{{ Math.round(pph) }}UC/{{ $l("tutor.hour") }}</div>
     </div>
-    <Rating :value="rating" />
+    <Rating :valueProp="rating" />
     <div>
       <img src="@/assets/icons/clock.svg" />
       <div>{{ Math.round(hours) }}{{ $l("tutor.hour") }}</div>

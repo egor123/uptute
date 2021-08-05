@@ -1,18 +1,44 @@
 <template>
-  <div class="container">
+  <div class="container" ref="container">
     <div
       v-for="i in 5"
       :key="i"
       class="star"
+      :ref="`star${i}`"
       :style="`--value: ${(value - i + 1) * 100}%`"
+      @click="choose(i)"
     />
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      value: this.valueProp,
+    };
+  },
   props: {
-    value: Number,
+    valueProp: {
+      type: Number,
+      default: 0,
+    },
+    choosable: Boolean,
+  },
+  mounted() {
+    if (this.choosable) {
+      this.$refs.container.children.forEach((child) => {
+        child.style.cursor = "pointer";
+      });
+    }
+  },
+  methods: {
+    choose(i) {
+      if (this.choosable) {
+        this.value = i;
+        this.$forceUpdate();
+      }
+    },
   },
 };
 </script>

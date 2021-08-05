@@ -13,7 +13,7 @@
             <p class="name">
               {{ comment.userFirstName }} {{ comment.userLastName }}
             </p>
-            <Rating class="rating" :value="comment.rating" />
+            <Rating class="rating" :valueProp="comment.rating" />
           </div>
           <p>
             {{ comment.review }}
