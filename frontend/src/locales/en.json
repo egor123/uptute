@@ -287,6 +287,12 @@
     "button": "Done"
   },
 
+  "lesson": {
+    "feedback": {
+      "comment": "Comment"
+    }
+  },
+
   "acc_pages": {
     "settings": "Settings",
     "calendar": "Calendar"

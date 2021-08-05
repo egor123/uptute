@@ -289,6 +289,12 @@
     "button": "Valmis"
   },
 
+  "lesson": {
+    "feedback": {
+      "comment": "Kommentaar"
+    }
+  },
+
   "acc_pages": {
     "settings": "Seaded",
     "calendar": "Kalender"

@@ -12,6 +12,7 @@
     </div> -->
     <div id="hero">
       <div id="heroWrapper" class="boxShadow">
+        <Feedback />
         <div class="iframeWrapper">
           <iframe
             ref="iframe"
@@ -141,6 +142,7 @@
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
 import Begin from "@/components/global/Begin.vue";
 import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
+import Feedback from "@/components/lesson/Feedback.vue";
 
 export default {
   name: "Home",
@@ -153,6 +155,7 @@ export default {
     SliderLayout,
     CheckerLayout,
     Begin,
+    Feedback,
   },
   data() {
     return {

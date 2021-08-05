@@ -36,8 +36,8 @@ export default {
     return {
       menuActive: null,
       notices: [
-        "<div style='color: var(--v-primary-lighten3)'>NoName accepted your offer. Your lesson will be held&nbsp<a style='display: inline' href='https://zoom.us/'>here</a>.</div>",
-        "<div style='color: var(--v-primary-lighten3)'>NoName accepted your offer. Your lesson will be held&nbsp<a style='display: inline' href='https://zoom.us/'>here</a>.</div>",
+        "<div style='color: var(--v-primary-lighten3)'>NoName accepted your offer. Your lesson will be held&nbsp<a target='_blank' style='display: inline' href='https://zoom.us/'>here</a>.</div>",
+        "<div style='color: var(--v-primary-lighten3)'>NoName accepted your offer. Your lesson will be held&nbsp<a target='_blank' style='display: inline' href='https://zoom.us/'>here</a>.</div>",
       ],
       widthMax: 300,
       widthMin: 50,
