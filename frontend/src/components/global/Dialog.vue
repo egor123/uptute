@@ -56,6 +56,7 @@ export default {
         });
       } else {
         this.$root.$emit("dialogClosed");
+        this.$emit("dialogClosed");
       }
     },
     showDialogProp: function() {

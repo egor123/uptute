@@ -93,7 +93,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Begin from "@/components/global/Begin.vue";
-import Important from "@/components/app/Important.vue";
+import Important from "@/components/notifications/Important.vue";
 
 export default {
   data() {
