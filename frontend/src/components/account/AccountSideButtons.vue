@@ -50,6 +50,7 @@ export default {
 @import "@/scss/mixins.scss";
 #container {
   @include fill-parent;
+  pointer-events: none;
 }
 
 #buttonWrapper {

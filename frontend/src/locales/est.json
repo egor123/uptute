@@ -297,7 +297,8 @@
 
   "acc_pages": {
     "settings": "Seaded",
-    "calendar": "Kalender"
+    "calendar": "Kalender",
+    "logs": "Varemad tunnid"
   },
   "settings": {
     "password": "Muuda salasõna",
@@ -309,12 +310,15 @@
   },
   "past": {
     "statement": "Avaldus",
+    "subject": "Aine",
     "date": "Kuupäev",
+    "start_time": "Algus",
+    "duration": "Pikkus",
+    "price": "Hind",
     "payer": "Maksja",
     "payee": "Maksesaaja",
-    "method": "Meetod",
-    "ammount": "Kogus",
-    "status": "Staatus"
+    "satisfaction": "Rahulolu",
+    "comment": "Kommentaar"
   },
   "calendar": {
     "cancel": "Jätta eratund ära",

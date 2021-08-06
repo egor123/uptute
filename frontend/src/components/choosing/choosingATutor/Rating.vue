@@ -51,7 +51,7 @@ export default {
   height: fit-content;
   display: flex;
   flex: row;
-  margin: 0;
+  margin: 0 auto;
 }
 .star {
   & + & {

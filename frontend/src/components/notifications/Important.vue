@@ -48,8 +48,8 @@ export default {
       menuActive: null,
       notices: [
         "<div style='color: var(--v-primary-lighten3)'>NoName accepted your offer. Your lesson will be held&nbsp<a target='_blank' style='display: inline' href='https://zoom.us/'>here</a>.</div>",
-        "<div class='feedback' style='color: var(--v-primary-lighten3)'>NoName gave you a&nbsp<a style='display: inline'>feedback</a>.</div>",
-        "<div class='feedback' style='color: var(--v-primary-lighten3)'>NoName2 gave you a&nbsp<a style='display: inline'>feedback</a>.</div>",
+        "<div class='feedback' style='color: var(--v-primary-lighten3)'>NoName gave you a&nbsp<a href='#' style='display: inline'>feedback</a>.</div>",
+        "<div class='feedback' style='color: var(--v-primary-lighten3)'>NoName2 gave you a&nbsp<a href='#' style='display: inline'>feedback</a>.</div>",
       ],
       feedbacks: [
         {
@@ -92,7 +92,8 @@ export default {
           const aTag = item.$el.querySelector(".feedback a");
           if (aTag != null) {
             let index = feedbackId;
-            aTag.addEventListener("click", () => {
+            aTag.addEventListener("click", (hrefEvent) => {
+              hrefEvent.preventDefault();
               this.openFeedback(index);
             });
             feedbackId++;
