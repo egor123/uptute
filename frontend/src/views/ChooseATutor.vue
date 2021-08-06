@@ -1,8 +1,12 @@
 <template>
   <Background :title="$l('choose_a.tutor.header')">
     <div class="innerContent">
-      <LessonInfo ref="lessonInfo" class="lessonInfo" />
-      <InfoCardBase ref="infoCard" class="infoCard">
+      <LessonInfo
+        ref="lessonInfo"
+        :radius="radiusUpperInfo"
+        class="lessonInfo"
+      />
+      <InfoCardBase ref="infoCard" :radius="radiusLowerInfo" class="infoCard">
         <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
       </InfoCardBase>
       <Searching />
@@ -69,6 +73,8 @@ export default {
       showAlert: false,
       closeButton: false,
       backButton: false,
+      radiusUpperInfo: "15px",
+      radiusLowerInfo: "15px",
     };
   },
   methods: {
@@ -94,14 +100,15 @@ export default {
           100 >
         ww
       ) {
-        lessonInfo.style =
-          "position: static; border-radius: 15px 15px 5px 5px;";
-        infoCard.style =
-          "position: static; border-radius:  5px 5px 15px 15px;  margin-top: 0.8rem;";
+        lessonInfo.style = "position: static;";
+        infoCard.style = "position: static; margin-top: 0.8rem;";
+        this.radiusUpperInfo = "15px 15px 5px 5px";
+        this.radiusLowerInfo = "5px 5px 15px 15px";
       } else {
-        lessonInfo.style =
-          "position: fixed; right: 2rem; top: 8rem; border-radius: 15px;";
-        infoCard.style = "position: static; border-radius: 15px;";
+        lessonInfo.style = "position: fixed; right: 2rem; top: 8rem;";
+        infoCard.style = "position: static;";
+        this.radiusUpperInfo = "15px";
+        this.radiusLowerInfo = "15px";
       }
     },
   },

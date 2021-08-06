@@ -2,7 +2,7 @@
   <Background>
     <Subheader :title="$l('choose_a.student.header')" />
     <div class="innerContent">
-      <InfoCardBase class="price">
+      <InfoCardBase class="price" radius="15px">
         <h3>{{ $l("choose_a.student.price") }}</h3>
         <h3>65 UC</h3>
       </InfoCardBase>
@@ -105,10 +105,15 @@ $inner-content-width: 350px;
 }
 
 .price {
-  display: flex;
   color: var(--v-primary-lighten4);
-  *:last-child {
-    margin-left: auto;
+  border-radius: 15px;
+  // overflow: hidden;
+  * {
+    display: inline;
+    margin: 0;
+  }
+  & *:last-child {
+    float: right;
   }
 }
 </style>
