@@ -54,6 +54,7 @@ export default {
   margin: 0 auto;
 }
 .star {
+  position: relative;
   & + & {
     margin-left: 5px;
   }
