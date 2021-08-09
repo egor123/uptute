@@ -24,6 +24,10 @@
   //   }
 }
 
+@mixin box-shadow-raised() {
+  box-shadow: 3px 4px 12px 2px #ccc;
+}
+
 @mixin flexbox($direction: row) {
   display: flex;
   flex-direction: $direction;
