@@ -16,6 +16,7 @@
             <h1 id="name">UpTute</h1>
           </button>
         </div>
+        <!-- <div id="mobileSpacer" ref="mobileSpacer"></div> -->
         <div id="buttons" ref="buttons">
           <v-btn rounded v-if="getStatus" :to="{ name: 'Account' }">
             {{ $l("app.pages.account") }}
@@ -133,6 +134,7 @@ export default {
       const container = this.$refs.container;
       const buttons = this.$refs.buttons;
       const title = this.$refs.title;
+      // const mobileSpacer = this.$refs.mobileSpacer;
       const locales = this.$refs.locales;
       const navIcon = this.$refs.navIcon;
 
@@ -142,8 +144,12 @@ export default {
         var mv =
           container.offsetWidth - title.offsetWidth - locales.offsetWidth <
           buttons.offsetWidth;
+        // console.log("mobile spacer: " + mobileSpacer.offsetWidth);
+
         buttons.style.display = mv ? "none" : "flex";
         navIcon.style.display = mv ? "inline" : "none";
+        container.classList.toggle("fullWidth", mv);
+        // mobileSpacer.classList.toggle("mobile", mv);
         this.setMobileView(mv);
       });
       observer.observe(document.documentElement);
@@ -224,6 +230,17 @@ $header-height: 56px;
     left: var(--side-margin);
     right: var(--side-margin);
     height: $header-height;
+    &.fullWidth {
+      $offset: 3rem;
+      #title {
+        position: absolute;
+        left: calc(#{$offset} - var(--side-margin));
+      }
+      #flag {
+        position: absolute;
+        right: calc(#{$offset} - var(--side-margin));
+      }
+    }
     #title {
       @include flexbox();
       text-transform: none;
@@ -243,6 +260,13 @@ $header-height: 56px;
         }
       }
     }
+    // #mobileSpacer {
+    //   &.mobile {
+    //     width: calc(1.4 * var(--side-margin));
+    //     height: 1px;
+    //     background: red;
+    //   }
+    // }
     #buttons {
       @include flexbox();
       margin-left: auto;
