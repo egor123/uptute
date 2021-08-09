@@ -99,6 +99,7 @@ import Important from "@/components/notifications/Important.vue";
 export default {
   data() {
     return {
+      minOffset: 30,
       locales: [],
       locale: String,
       showSnackbar: false,
@@ -142,13 +143,16 @@ export default {
         buttons.style.display = "flex";
 
         var mv =
-          container.offsetWidth - title.offsetWidth - locales.offsetWidth <
+          container.offsetWidth -
+            title.offsetWidth -
+            locales.offsetWidth -
+            this.minOffset <
           buttons.offsetWidth;
         // console.log("mobile spacer: " + mobileSpacer.offsetWidth);
 
         buttons.style.display = mv ? "none" : "flex";
         navIcon.style.display = mv ? "inline" : "none";
-        container.classList.toggle("fullWidth", mv);
+        container.classList.toggle("drawerActive", mv);
         // mobileSpacer.classList.toggle("mobile", mv);
         this.setMobileView(mv);
       });
@@ -229,18 +233,19 @@ $header-height: 56px;
     position: absolute;
     left: var(--side-margin);
     right: var(--side-margin);
+    // left: 1rem;
+    // right: 1rem;
     height: $header-height;
-    &.fullWidth {
-      $offset: 3rem;
-      #title {
-        position: absolute;
-        left: calc(#{$offset} - var(--side-margin));
-      }
-      #flag {
-        position: absolute;
-        right: calc(#{$offset} - var(--side-margin));
-      }
+
+    @media (max-width: 1000px) {
+      left: 1rem;
+      right: 1rem;
     }
+
+    &.drawerActive {
+      left: 55px;
+    }
+
     #title {
       @include flexbox();
       text-transform: none;
