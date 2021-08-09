@@ -128,9 +128,8 @@ export default {
     setWrapperOffset(imgs, px = 0) {
       const wrapper = this.$refs.outsideWrapper;
       if (wrapper)
-        wrapper.style.transform = `translateX(${
-          imgs * -window.innerWidth - px
-        }px)`;
+        wrapper.style.transform = `translateX(${imgs * -window.innerWidth -
+          px}px)`;
     },
     calculateSizes() {
       this.waitUntilImgsReady(() =>
@@ -147,7 +146,7 @@ export default {
           row.push(el);
         else rows.push([el]);
       }
-      console.log(rows);
+      // console.log(rows);
       return rows;
     },
     getAspectRatio(el) {
@@ -156,7 +155,10 @@ export default {
     },
     getSizeMultiplier(row) {
       const maxWidth = this.$refs.imgContainer.getBoundingClientRect().width;
-      const minRowWidth = row.reduce((n, el) => n + this.minHeight / this.getAspectRatio(el), 0);
+      const minRowWidth = row.reduce(
+        (n, el) => n + this.minHeight / this.getAspectRatio(el),
+        0
+      );
       const gaps = (row.length + 1) * this.gapSize;
       const availableWidth = maxWidth - gaps;
       const multiplier = availableWidth / minRowWidth;
@@ -165,7 +167,7 @@ export default {
     calculateRowSize(row, firstRow) {
       const n = this.getSizeMultiplier(row);
       row.forEach((el) => {
-        console.log(this.getAspectRatio(el));
+        // console.log(this.getAspectRatio(el));
         el.style.marginBottom = this.gapSize + "px";
         if (firstRow) el.style.marginTop = this.gapSize + "px";
 
@@ -190,13 +192,13 @@ export default {
     },
   },
   watch: {
-    currentImg: function (val) {
+    currentImg: function(val) {
       const size = this.$refs.imgContainer.children.length;
       if (val < 0) return (this.currentImg = size - 2);
       if (val > size - 2) return (this.currentImg = 0);
       this.setWrapperOffset(val);
     },
-    imgs: function () {
+    imgs: function() {
       this.expandImg = false;
       this.calculateSizes();
       this.calculateSizes(); // ?!?!?!?!?!???!!??! WTF
