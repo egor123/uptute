@@ -128,8 +128,9 @@ export default {
     setWrapperOffset(imgs, px = 0) {
       const wrapper = this.$refs.outsideWrapper;
       if (wrapper)
-        wrapper.style.transform = `translateX(${imgs * -window.innerWidth -
-          px}px)`;
+        wrapper.style.transform = `translateX(${(imgs +
+          px / window.innerWidth) *
+          -100}vw)`;
     },
     calculateSizes() {
       this.waitUntilImgsReady(() =>
@@ -287,44 +288,65 @@ $buttons-offset: 5vw;
 $buttons-offset-at-900px: 2vw;
 
 ::v-deep {
-  .v-dialog {
-    overflow: hidden;
-    background: var(--v-background-base);
-    @include flexbox;
-    .v-card {
-      min-height: 0;
-      background: var(--v-background-base);
+  &.v-dialog__content {
+    $background: rgba(
+      $color: #000,
+      $alpha: 0.7,
+    );
+    background-color: transparent;
 
+    transition: background-color 0.8s;
+    &.v-dialog__content--active {
+      background-color: $background;
+      .imgContainer {
+        transform: scale(1) !important;
+        opacity: 1 !important;
+      }
+    }
+    .v-dialog {
+      overflow: hidden;
+      // background: var(--v-background-base);
+      // background: transparent;
+      // @include flexbox;
       box-shadow: none;
-      .v-card__text {
-        padding: 0;
-        display: flex;
-        overflow: hidden;
-        #outsideWrapper {
-          @include flexbox;
-          &.transition {
-            transition: all 400ms;
-          }
-          .fullScreen {
+      background-color: transparent;
+      border-radius: 15px;
+      transition: opacity 0.45s, transform 0.6s;
+      // transform: scale(1);
+      // opacity: 1;
+
+      .v-card {
+        min-height: 0;
+        // background: var(--v-background-base);
+        border-radius: 0;
+        background: transparent;
+
+        box-shadow: none;
+        .v-card__text {
+          padding: 0;
+          display: flex;
+          overflow: hidden;
+          #outsideWrapper {
             @include flexbox;
+            &.transition {
+              transition: all 400ms;
+            }
+            .fullScreen {
+              @include flexbox;
 
-            border-right: 1px solid var(--v-background-base);
-            border-left: 1px solid var(--v-background-base);
+              width: 100vw;
+              height: 100vh;
 
-            width: 100vw;
-            height: 100vh;
-
-            background: var(--v-background-base);
-
-            .imgContainer {
-              position: relative;
-              .expandedImg {
-                min-width: 30vw;
-                max-width: 95vw;
-                min-height: 30vh;
-                max-height: 95vh;
-                border-radius: 15px;
-                margin: 5px;
+              .imgContainer {
+                position: relative;
+                .expandedImg {
+                  min-width: 30vw;
+                  max-width: 95vw;
+                  min-height: 30vh;
+                  max-height: 95vh;
+                  border-radius: 15px;
+                  margin: 5px;
+                }
               }
             }
           }
@@ -333,11 +355,6 @@ $buttons-offset-at-900px: 2vw;
     }
   }
 }
-
-// .helpImgDiv {
-//   position: relative;
-//   height: 100px;
-// }
 
 .deleteImg {
   position: absolute;
