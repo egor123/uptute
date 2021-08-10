@@ -239,7 +239,7 @@ export default {
 }
 
 #imgContainer {
-  animation: fadeIn 1000ms 200ms both;
+  animation: fadeIn 4000ms 200ms both;
   overflow: hidden;
 
   @keyframes fadeIn {
@@ -248,10 +248,12 @@ export default {
       transform: scale(0.5);
       max-height: 0px;
     }
-    99% {
-      max-height: 1000px;
+    25% {
       opacity: 1;
       transform: scale(1);
+    }
+    99% {
+      max-height: 1000px;
     }
     100% {
       max-height: fit-content;
