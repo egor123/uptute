@@ -7,6 +7,7 @@
         :rules="(val) => val != '' && val != null"
       />
       <TextField
+        :area="true"
         v-model="about"
         :label="$l('set_up.about')"
         :rules="(val) => val != '' && val != null"
