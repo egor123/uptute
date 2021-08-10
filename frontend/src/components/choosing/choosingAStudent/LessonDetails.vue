@@ -60,6 +60,7 @@ export default {
 
 <style lang="scss" scoped>
 .content {
+  width: 100%;
   & > *:not(:last-child) {
     margin-bottom: 5rem;
   }

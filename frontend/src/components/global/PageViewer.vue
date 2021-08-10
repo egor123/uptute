@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="container" ref="container">
     <div id="imgContainer" ref="imgContainer">
       <div class="imgCard" v-for="(img, index) in imgs" :key="index">
         <img :src="img.imageUrl" @click="expand(index)" />
@@ -132,30 +132,35 @@ export default {
           px / window.innerWidth) *
           -100}vw)`;
     },
-    calculateSizes() {
+    calculateSizes(maxWidth) {
+      maxWidth =
+        maxWidth ?? this.$refs.imgContainer.getBoundingClientRect().width;
       this.waitUntilImgsReady(() =>
-        this.getRows()?.forEach((row, i) => this.calculateRowSize(row, i === 0))
+        this.getRows(maxWidth)?.forEach((row, i) =>
+          this.calculateRowSize(row, maxWidth, i)
+        )
       );
     },
-    getRows() {
+    getRows(maxWidth) {
       const imgs = Array.from(this.$refs.imgContainer.children);
       const rows = [[]];
       while (imgs.length > 0) {
         let el = imgs.shift();
         var row = rows[rows.length - 1];
-        if (row.length === 0 || this.getSizeMultiplier([...row, el]) >= 1)
+        if (
+          row.length === 0 ||
+          this.getSizeMultiplier([...row, el], maxWidth) >= 1
+        )
           row.push(el);
         else rows.push([el]);
       }
-      // console.log(rows);
       return rows;
     },
     getAspectRatio(el) {
       if (el.nodeName === "LABEL") return this.labelAspectRatio;
       return el.offsetHeight / el.offsetWidth;
     },
-    getSizeMultiplier(row) {
-      const maxWidth = this.$refs.imgContainer.getBoundingClientRect().width;
+    getSizeMultiplier(row, maxWidth) {
       const minRowWidth = row.reduce(
         (n, el) => n + this.minHeight / this.getAspectRatio(el),
         0
@@ -165,12 +170,11 @@ export default {
       const multiplier = availableWidth / minRowWidth;
       return multiplier;
     },
-    calculateRowSize(row, firstRow) {
-      const n = this.getSizeMultiplier(row);
+    calculateRowSize(row, maxWidth, index) {
+      const n = this.getSizeMultiplier(row, maxWidth);
       row.forEach((el) => {
-        // console.log(this.getAspectRatio(el));
         el.style.marginBottom = this.gapSize + "px";
-        if (firstRow) el.style.marginTop = this.gapSize + "px";
+        el.style.marginTop = (index === 0 ? this.gapSize : 0) + "px";
 
         el.style.height = this.minHeight * n + "px";
         if (el.nodeName === "LABEL") {
@@ -184,7 +188,7 @@ export default {
       setTimeout(() => {
         if (this.isImgsReady()) res();
         else this.waitUntilImgsReady(res);
-      }, 0);
+      }, 100);
     },
     isImgsReady() {
       for (const img of this.$refs.imgContainer.children)
@@ -194,9 +198,11 @@ export default {
   },
   watch: {
     currentImg: function(val) {
-      const size = this.$refs.imgContainer.children.length;
-      if (val < 0) return (this.currentImg = size - 2);
-      if (val > size - 2) return (this.currentImg = 0);
+      const imgs = this.$refs.imgContainer.children;
+      let size = imgs.length;
+      if (imgs[size - 1].nodeName === "LABEL") size--;
+      if (val < 0) return (this.currentImg = size - 1);
+      if (val > size - 1) return (this.currentImg = 0);
       this.setWrapperOffset(val);
     },
     imgs: function() {
@@ -206,13 +212,19 @@ export default {
     },
   },
   mounted() {
-    this.calculateSizes();
-    window.addEventListener("resize", this.calculateSizes);
+    let width = 0;
+    console.log(this.$refs.imgContainer);
+    new ResizeObserver((e) => {
+      let currentWidth = e[0].contentRect.width;
+      if (Math.abs(width - currentWidth) > 1) {
+        width = currentWidth;
+        this.calculateSizes(width);
+      }
+    }).observe(this.$refs.imgContainer);
     document.addEventListener("keydown", this.keyDown);
     this.$mb.addSwipeListener(this.swipe, this.$refs.outsideWrapper);
   },
   beforeDestroy() {
-    window.removeEventListener("resize", this.calculateSizes);
     document.removeEventListener("keydown", this.keyDown);
     this.$mb.removeSwipeListener(this.swipe, this.$refs.outsideWrapper);
   },
@@ -221,14 +233,37 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
+#container {
+  width: 100%;
+  max-width: 100%;
+}
 
 #imgContainer {
+  animation: fadeIn 1000ms 200ms both;
+  overflow: hidden;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+      max-height: 0px;
+    }
+    99% {
+      max-height: 1000px;
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      max-height: fit-content;
+    }
+  }
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
   @include box-shadow();
   border-radius: 15px;
   overflow: hidden;
+  width: 100%;
 }
 
 .imgCard {
