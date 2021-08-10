@@ -175,6 +175,7 @@ export default {
     },
     subHeader() {
       const subHeader = this.$refs.subHeader;
+
       subHeader.classList.toggle("empty", true);
       new MutationObserver(() => {
         subHeader.classList.toggle("empty", subHeader.innerHTML === "");
@@ -334,7 +335,7 @@ $header-height: 56px;
   width: 100vw;
   opacity: 0.7;
   background-color: var(--v-header-base);
-  padding: 10px;
+  padding: 10px 0;
   box-shadow: 0px 2px 6px var(--v-secondary-darken1);
   &.empty {
     display: none;
