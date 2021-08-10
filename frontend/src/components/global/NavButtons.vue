@@ -141,6 +141,12 @@ $nav-btn-hover-offset: 5px;
 </style>
 
 <style lang="scss">
+@media (pointer: none), (pointer: coarse) {
+  #nav-buttons {
+    display: none;
+  }
+}
+
 .ripple {
   position: absolute;
   border-radius: 50%;
