@@ -134,6 +134,7 @@ export default {
   position: absolute;
   right: 25px;
   bottom: -20px;
+  // pointer-events: none;
   @media (pointer: none), (pointer: coarse) {
     right: 15px;
     bottom: -15px;
@@ -142,9 +143,11 @@ export default {
   height: var(--widthMin);
   width: 300px;
   display: flex;
+  pointer-events: none;
 }
 
 .v-icon#important {
+  pointer-events: initial;
   margin-left: auto;
   color: var(--v-secondary-base);
   cursor: default;
