@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     checkOffset() {
-      console.log(this.$refs.iframe.src);
+      // console.log(this.$refs.iframe.src);
       if (window.scrollY > window.innerHeight) {
         this.$refs.iframe.src = "";
       } else if (this.$refs.iframe.src !== this.url) {

@@ -16,6 +16,7 @@
             <h1 id="name">UpTute</h1>
           </button>
         </div>
+        <!-- <div id="mobileSpacer" ref="mobileSpacer"></div> -->
         <div id="buttons" ref="buttons">
           <v-btn rounded v-if="getStatus" :to="{ name: 'Account' }">
             {{ $l("app.pages.account") }}
@@ -98,6 +99,7 @@ import Important from "@/components/notifications/Important.vue";
 export default {
   data() {
     return {
+      minOffset: 30,
       locales: [],
       locale: String,
       showSnackbar: false,
@@ -133,6 +135,7 @@ export default {
       const container = this.$refs.container;
       const buttons = this.$refs.buttons;
       const title = this.$refs.title;
+      // const mobileSpacer = this.$refs.mobileSpacer;
       const locales = this.$refs.locales;
       const navIcon = this.$refs.navIcon;
 
@@ -140,10 +143,17 @@ export default {
         buttons.style.display = "flex";
 
         var mv =
-          container.offsetWidth - title.offsetWidth - locales.offsetWidth <
+          container.offsetWidth -
+            title.offsetWidth -
+            locales.offsetWidth -
+            this.minOffset <
           buttons.offsetWidth;
+        // console.log("mobile spacer: " + mobileSpacer.offsetWidth);
+
         buttons.style.display = mv ? "none" : "flex";
         navIcon.style.display = mv ? "inline" : "none";
+        container.classList.toggle("drawerActive", mv);
+        // mobileSpacer.classList.toggle("mobile", mv);
         this.setMobileView(mv);
       });
       observer.observe(document.documentElement);
@@ -165,6 +175,7 @@ export default {
     },
     subHeader() {
       const subHeader = this.$refs.subHeader;
+
       subHeader.classList.toggle("empty", true);
       new MutationObserver(() => {
         subHeader.classList.toggle("empty", subHeader.innerHTML === "");
@@ -223,7 +234,19 @@ $header-height: 56px;
     position: absolute;
     left: var(--side-margin);
     right: var(--side-margin);
+    // left: 1rem;
+    // right: 1rem;
     height: $header-height;
+
+    @media (max-width: 1000px) {
+      left: 1rem;
+      right: 1rem;
+    }
+
+    &.drawerActive {
+      left: 55px;
+    }
+
     #title {
       @include flexbox();
       text-transform: none;
@@ -243,6 +266,13 @@ $header-height: 56px;
         }
       }
     }
+    // #mobileSpacer {
+    //   &.mobile {
+    //     width: calc(1.4 * var(--side-margin));
+    //     height: 1px;
+    //     background: red;
+    //   }
+    // }
     #buttons {
       @include flexbox();
       margin-left: auto;
@@ -305,7 +335,7 @@ $header-height: 56px;
   width: 100vw;
   opacity: 0.7;
   background-color: var(--v-header-base);
-  padding: 10px;
+  padding: 10px 0;
   box-shadow: 0px 2px 6px var(--v-secondary-darken1);
   &.empty {
     display: none;

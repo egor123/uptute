@@ -1,5 +1,5 @@
 <template>
-  <InfoCardBase>
+  <InfoCardBase :radius="radius">
     <table>
       <tr>
         <th>{{ $l("find.filters.subject.h") }}</th>
@@ -27,6 +27,9 @@ import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
 export default {
   components: {
     InfoCardBase,
+  },
+  props: {
+    radius: String,
   },
 };
 </script>

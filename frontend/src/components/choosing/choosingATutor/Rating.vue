@@ -45,15 +45,16 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  line-height: 1rem;
-  padding: 2px;
+  // line-height: 1rem;
+  padding: 0px;
   width: fit-content;
   height: fit-content;
   display: flex;
   flex: row;
-  margin: 0;
+  margin: 0 auto;
 }
 .star {
+  position: relative;
   & + & {
     margin-left: 5px;
   }
@@ -73,7 +74,7 @@ export default {
     @include star-style("\2605", var(--v-secondary-darken1));
   }
   &::after {
-    @include star-style("\2605", white);
+    @include star-style("\2605", var(--v-secondary-darken1));
   }
 }
 </style>

@@ -1,19 +1,25 @@
 <template>
-  <div id="main" :style="backgroundColor">
+  <div id="main" ref="block" :style="backgroundColor">
     <h1 v-animate="'fadeIn'" id="title" v-if="title">{{ title }}</h1>
-    <div
-      v-animate="'slideInFromBottom'"
-      class="row"
-      v-for="(row, i) in rows"
-      :key="i"
-      :inversed="isInvesed(i)"
-    >
-      <div class="text-field">
-        <h2>{{ row.title }}</h2>
-        <p>{{ row.txt }}</p>
-      </div>
-      <div class="image-field">
-        <img :width="imageSize" :height="imageSize" :src="getImgUrl(row.img)" />
+
+    <div class="row" ref="row" v-for="(row, i) in rows" :key="i">
+      <div
+        class="rowInner"
+        ref="rowInner"
+        v-animate="'slideInFromBottom'"
+        :inversed="isInvesed(i)"
+      >
+        <div class="text-field">
+          <h2>{{ row.title }}</h2>
+          <p>{{ row.txt }}</p>
+        </div>
+        <div class="image-field">
+          <img
+            :width="imageSize"
+            :height="imageSize"
+            :src="getImgUrl(row.img)"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -21,6 +27,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      verticalMargin: 2.5,
+    };
+  },
   props: {
     title: String,
     rows: Array,
@@ -41,12 +52,38 @@ export default {
       return `--color: ${color};`;
     },
   },
+  mounted() {
+    window.addEventListener("scroll", this.scrolled);
+    document.documentElement.style.setProperty(
+      "--vertical-margin",
+      this.verticalMargin + "rem"
+    );
+  },
   methods: {
     isInvesed(index) {
       return (index % 2 == this.inversed).toString();
     },
     getImgUrl(img) {
       return require(`@/assets/icons/${img}.svg`);
+    },
+    scrolled() {
+      if (
+        this.$refs.block.getBoundingClientRect().y +
+          this.$refs.block.offsetHeight >
+          0 &&
+        this.$refs.block.getBoundingClientRect().y < window.innerHeight
+      )
+        this.$refs.row.forEach((row) => {
+          row.classList.toggle(
+            "raised",
+            row.getBoundingClientRect().y + row.offsetHeight / 2 <
+              (window.innerHeight + row.offsetHeight + this.verticalMargin) /
+                2 &&
+              row.getBoundingClientRect().y + row.offsetHeight / 2 >
+                (window.innerHeight - row.offsetHeight - this.verticalMargin) /
+                  2
+          );
+        });
     },
   },
 };
@@ -63,7 +100,6 @@ $spacing-width: 15ch;
 $spacing-height: 0ch;
 
 $padding: 15rem 10vw;
-$vertical-margin: 2rem;
 $title-margin-bottom: 2rem;
 
 #main {
@@ -74,53 +110,61 @@ $title-margin-bottom: 2rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: $vertical-margin;
+  gap: var(--vertical-margin);
 }
 #title {
   color: var(--v-accent-base);
   margin-bottom: $title-margin-bottom;
 }
 .row {
-  display: grid;
-  grid-auto-rows: max-content;
+  @include box-size(fit-content);
   padding: 3rem 1rem;
-  height: max-content;
-
-  @include box-shadow();
-
   border-radius: 15px;
 
-  .text-field {
-    grid-area: text;
-    text-align: left;
-    hyphens: auto;
-    h2 {
-      text-align: center;
-      margin-bottom: 0.8em;
+  @include box-shadow();
+  transform: scale(1);
+
+  transition: all 1s;
+  &.raised {
+    @include box-shadow-raised();
+    transform: scale(1.08);
+  }
+  .rowInner {
+    display: grid;
+    grid-auto-rows: max-content;
+    @include box-size(100%);
+    .text-field {
+      grid-area: text;
+      text-align: left;
+      hyphens: auto;
+      h2 {
+        text-align: center;
+        margin-bottom: 0.8em;
+      }
+      p {
+        text-align: center;
+        margin-bottom: 0;
+      }
     }
-    p {
-      text-align: center;
+    grid-template-columns: $element-width;
+    grid-template-rows: auto;
+    grid-template-areas: "text" "image";
+    gap: $spacing-height;
+    @media (min-width: $max-width) {
+      grid-template-columns: $element-width $spacing-width $element-width;
+      gap: 0px;
+      &[inversed="false"] {
+        grid-template-areas: "text . image";
+      }
+      &[inversed="true"] {
+        grid-template-areas: "image . text";
+      }
     }
   }
   .image-field {
     grid-area: image;
     margin: auto;
     padding: 1rem 0;
-  }
-
-  grid-template-columns: $element-width;
-  grid-template-rows: auto;
-  grid-template-areas: "text" "image";
-  gap: $spacing-height;
-  @media (min-width: $max-width) {
-    grid-template-columns: $element-width $spacing-width $element-width;
-    gap: 0px;
-    &[inversed="false"] {
-      grid-template-areas: "text . image";
-    }
-    &[inversed="true"] {
-      grid-template-areas: "image . text";
-    }
   }
 }
 </style>

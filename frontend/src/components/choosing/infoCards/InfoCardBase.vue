@@ -1,26 +1,41 @@
 <template>
-  <div id="wrapper">
-    <div class="baseCard">
+  <div id="wrapper" ref="wrapper">
+    <div class="baseCard" ref="card">
       <slot />
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    radius: {
+      type: String,
+      default: "15px",
+    },
+  },
+  watch: {
+    radius: function(val) {
+      this.$refs.card.style.borderRadius = val;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
 #wrapper {
-  border-radius: inherit;
   z-index: 1;
   position: relative;
+  // --radius: 15px;
+  min-width: 350px;
 
   .baseCard {
     height: max-content;
-    border-radius: inherit;
+    width: 100%;
+    // border-radius: var(--radius);
+
     background: var(--v-background-base);
 
     flex-wrap: wrap;

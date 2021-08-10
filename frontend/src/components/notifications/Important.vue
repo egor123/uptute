@@ -2,12 +2,13 @@
   <div>
     <v-menu
       transition="scale-transition"
-      origin="top right"
+      origin="right 50px"
       v-model="menuActive"
       bottom
       open-on-hover
       offset-y
       v-if="notices.length > 0"
+      attach="#wrapper"
     >
       <template v-slot:activator="{ on, attrs }">
         <div id="wrapper">
@@ -22,7 +23,7 @@
         </div>
       </template>
 
-      <v-list>
+      <v-list :style="`--widthMin: ${widthMin}px`">
         <div v-for="(notice, index) in notices" :key="index">
           <v-list-item ref="listItem" v-html="notice" />
           <div class="dividor" v-if="index !== notices.length - 1" />
@@ -48,8 +49,8 @@ export default {
       menuActive: null,
       notices: [
         "<div style='color: var(--v-primary-lighten3)'>NoName accepted your offer. Your lesson will be held&nbsp<a target='_blank' style='display: inline' href='https://zoom.us/'>here</a>.</div>",
-        "<div class='feedback' style='color: var(--v-primary-lighten3)'>NoName gave you a&nbsp<a style='display: inline'>feedback</a>.</div>",
-        "<div class='feedback' style='color: var(--v-primary-lighten3)'>NoName2 gave you a&nbsp<a style='display: inline'>feedback</a>.</div>",
+        "<div class='feedback' style='color: var(--v-primary-lighten3)'>NoName gave you a&nbsp<a href='#' style='display: inline'>feedback</a>.</div>",
+        "<div class='feedback' style='color: var(--v-primary-lighten3)'>NoName2 gave you a&nbsp<a href='#' style='display: inline'>feedback</a>.</div>",
       ],
       feedbacks: [
         {
@@ -92,7 +93,8 @@ export default {
           const aTag = item.$el.querySelector(".feedback a");
           if (aTag != null) {
             let index = feedbackId;
-            aTag.addEventListener("click", () => {
+            aTag.addEventListener("click", (hrefEvent) => {
+              hrefEvent.preventDefault();
               this.openFeedback(index);
             });
             feedbackId++;
@@ -106,7 +108,7 @@ export default {
       // console.log("Menu is active: " + this.menuActive);
       if (this.menuActive) {
         this.$refs.important.$el.style.transition =
-          "border-radius 200ms, width 300ms 50ms";
+          "border-radius 200ms, width 350ms";
         this.$refs.important.$el.style.width = `${this.widthMax}px`;
         this.$refs.important.$el.style.borderRadius = `15px 15px 0 0`;
 
@@ -164,11 +166,17 @@ export default {
 
 .v-menu__content {
   background: transparent;
-  @include box-shadow();
   width: 300px;
-  border-radius: 0 0 15px 15px;
-  .v-list-item {
-    margin: 1rem 0;
+  box-shadow: none;
+  border-radius: 15px;
+  @include box-shadow();
+  // transition: all 3s;
+  .v-list {
+    margin-top: var(--widthMin);
+
+    .v-list-item {
+      margin: 1rem 0;
+    }
   }
 }
 </style>

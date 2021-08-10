@@ -295,7 +295,8 @@
 
   "acc_pages": {
     "settings": "Settings",
-    "calendar": "Calendar"
+    "calendar": "Calendar",
+    "logs": "Previous lessons"
   },
   "main": {
     "messenger": "Messenger link",
@@ -312,11 +313,14 @@
   "past": {
     "statement": "Statement",
     "date": "Date",
+    "subject": "Subject",
+    "start_time": "Beginning",
+    "duration": "Duration",
+    "price": "Price",
     "payer": "Payer",
     "payee": "Payee",
-    "method": "Method",
-    "ammount": "Ammount",
-    "status": "Status"
+    "satisfaction": "Satisfaction",
+    "comment": "Comment"
   },
   "calendar": {
     "cancel": "Cancel the lesson",

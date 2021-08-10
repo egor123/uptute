@@ -1,7 +1,8 @@
 <template>
-  <Background :title="$l('choose_a.student.header')">
+  <Background>
+    <Subheader :title="$l('choose_a.student.header')" />
     <div class="innerContent">
-      <InfoCardBase class="price">
+      <InfoCardBase class="price" radius="15px">
         <h3>{{ $l("choose_a.student.price") }}</h3>
         <h3>65 UC</h3>
       </InfoCardBase>
@@ -14,6 +15,8 @@
 
 <script>
 import Background from "@/components/global/background/Background.vue";
+import Subheader from "@/components/app/Subheader.vue";
+
 import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
 import Searching from "@/components/choosing/Searching.vue";
 import SortBy from "@/components/filterPanel/ExpandableSortBy.vue";
@@ -22,6 +25,8 @@ import StudentPanels from "@/components/choosing/choosingAStudent/StudentPanels.
 export default {
   components: {
     Background,
+    Subheader,
+
     InfoCardBase,
     Searching,
     SortBy,
@@ -100,10 +105,15 @@ $inner-content-width: 350px;
 }
 
 .price {
-  display: flex;
   color: var(--v-primary-lighten4);
-  *:last-child {
-    margin-left: auto;
+  border-radius: 15px;
+  // overflow: hidden;
+  * {
+    display: inline;
+    margin: 0;
+  }
+  & *:last-child {
+    float: right;
   }
 }
 </style>

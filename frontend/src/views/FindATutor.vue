@@ -1,5 +1,6 @@
 <template>
-  <Background :title="$l('find.header')">
+  <Background>
+    <Subheader :title="$l('find.header')" />
     <div id="content">
       <FilterPanel ref="panel" @next="(action) => $refs.panel2[action]()">
         <ExpandableListSelector
@@ -74,6 +75,7 @@
 
 <script>
 import Background from "@/components/global/background/Background.vue";
+import Subheader from "@/components/app/Subheader.vue";
 
 import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
 import ExpandableListSelector from "@/components/filterPanel/ExpandableListSelector.vue";
@@ -89,6 +91,8 @@ export default {
   },
   components: {
     Background,
+    Subheader,
+
     FilterPanel,
     ExpandableListSelector,
     ExpandableSlider,

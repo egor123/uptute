@@ -3,7 +3,13 @@
     <div id="slot" ref="slot">
       <slot />
     </div>
-    <div id="holder" ref="holder" :style="`--background: ${background}`">
+    <div
+      id="holder"
+      class="disabled"
+      :class="{ centered: centered }"
+      ref="holder"
+      :style="`--background: ${background}`"
+    >
       <img
         v-for="i in 4"
         :key="i"
@@ -18,38 +24,111 @@
 
 <script>
 export default {
+  data() {
+    return {
+      loading: false,
+      nextProps: null,
+    };
+  },
   props: {
-    loading: Boolean,
+    action: Function, //returns promise
     background: String,
+    centered: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
-    async enable() {
-      this.$refs.holder.classList.toggle("disabled", false);
-      this.$refs.slot.classList.toggle("disabled", true);
-      this.enableIconAnim(true);
+    invoke(props) {
+      if (this.loading) this.nextProps = props;
+      else this.executeSequence(props);
     },
-    async disable() {
-      this.$refs.holder.classList.toggle("disabled", true);
-      this.$refs.slot.classList.toggle("disabled", false);
-      this.$root.$emit("loadingEnded");
-      await this.waitTransition();
-      this.enableIconAnim(false);
+    executeSequence(props) {
+      const slot = this.$refs.slot;
+      const holder = this.$refs.holder;
+      const icons = this.$refs.icon;
+
+      const enable = () =>
+        new Promise((res) => {
+          Promise.resolve()
+            .then(() => {
+              console.log("enable start");
+              this.toggleClass(holder, "disabled", false);
+              icons.forEach((i) => this.toggleClass(i, "animated", true));
+              return this.setProperty(slot, "opacity", 0, true);
+            })
+            .then(() => this.setProperty(slot, "height", 0, true))
+            .then(() => {
+              console.log("enable finished");
+              res();
+            });
+        });
+      const emit = (val) =>
+        new Promise((res) => {
+          console.log("emiting...");
+          console.log(val);
+          this.$emit("callback", val);
+          setTimeout(() => res(), 0);
+        });
+      const disable = () =>
+        new Promise((res) => {
+          Promise.resolve()
+            .then(() => {
+              console.log("disable start");
+              const height = slot.children[0].clientHeight + "px";
+              return this.setProperty(slot, "height", height, true);
+            })
+            .then(() => {
+              this.toggleClass(holder, "disabled", true, true).then(() =>
+                icons.forEach((i) => this.toggleClass(i, "animated", false))
+              );
+              return this.setProperty(slot, "opacity", 1, true);
+            })
+            .then(() => {
+              console.log("disable finished");
+              res();
+            });
+        });
+      const check = (val) =>
+        new Promise((res, rej) => {
+          console.log("checking for next prop...");
+          if (this.nextProps == null) res(val);
+          else {
+            console.log("found new prop:" + this.nextProps);
+            let currentProps = this.nextProps;
+            this.nextProps = null;
+            rej(currentProps);
+          }
+        });
+
+      this.loading = true;
+      Promise.allSettled([this.action(props), enable()])
+        .catch((e) => console.warn(e))
+        .then((val) => val[0].value)
+        .then(check)
+        .catch(this.action)
+        .then(emit)
+        .then(disable)
+        .then(check)
+        .catch(this.executeSequence)
+        .finally(() => (this.loading = false));
     },
-    waitTransition() {
-      return new Promise((res) =>
-        this.$refs.holder.addEventListener("transitionend", () => res(), {
-          once: true,
-        })
-      );
+
+    toggleClass(el, clazz, val, wait = false) {
+      return new Promise((res) => {
+        let stop = el.classList.contains(clazz) === val;
+        el.classList.toggle(clazz, val);
+        if (stop || !wait) res();
+        el.addEventListener("transitionend", () => res(), { once: true });
+      });
     },
-    enableIconAnim(val) {
-      this.$refs.icon.forEach((icon) => icon.classList.toggle("animated", val));
-    },
-  },
-  watch: {
-    loading: function (val) {
-      if (val === true) this.enable();
-      else this.disable();
+    setProperty(el, prop, val, wait = false) {
+      return new Promise((res) => {
+        let stop = el.style[prop] === val;
+        el.style[prop] = val;
+        if (stop || !wait) res();
+        el.addEventListener("transitionend", () => res(), { once: true });
+      });
     },
   },
 };
@@ -59,14 +138,15 @@ export default {
 @import "@/scss/mixins.scss";
 #content {
   position: relative;
-  min-height: 100px;
+  // min-height: 100px;
 }
 
 #slot {
-  transition: opacity 1s ease;
-  &.disabled {
-    opacity: 0;
-  }
+  transition: all 400ms ease-in-out;
+  overflow: hidden;
+  $min-height: 100px;
+  min-height: $min-height;
+  height: $min-height;
 }
 
 #holder {
@@ -77,12 +157,24 @@ export default {
   left: 50%;
   top: 0.5em;
   transform: translateX(-50%);
+
+  transform-origin: center;
   @include box-size(5em);
   @include flexbox();
+
   transition: all 600ms ease;
   &.disabled {
     transform: translateX(-50%) scale(0.5);
     opacity: 0;
+  }
+  &.centered {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    &.disabled {
+      transform: translate(-50%, -50%) scale(0);
+    }
   }
 
   .icon {
@@ -96,13 +188,13 @@ export default {
     $transforms: translate(-84% * $start-multiplier, 38% * $start-multiplier)
         scale(0),
       //-------------------------------------------------//
-      translate(-84%, 38%) scale(1, 1),
+        translate(-84%, 38%) scale(1, 1),
       //-------------------------------------------------//
-      translate(0, 0) scale(1.21, 1.204),
+        translate(0, 0) scale(1.21, 1.204),
       //-------------------------------------------------//
-      translate(95%, -42%) scale(1.52, 1.481),
+        translate(95%, -42%) scale(1.52, 1.481),
       //-------------------------------------------------//
-      translate(95% / $start-multiplier, -42% / $start-multiplier) scale(0);
+        translate(95% / $start-multiplier, -42% / $start-multiplier) scale(0);
 
     @for $i from 1 to length($transforms) {
       &:nth-child(#{$i}) {
