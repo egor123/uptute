@@ -74,7 +74,7 @@ export default {
     @include star-style("\2605", var(--v-secondary-darken1));
   }
   &::after {
-    @include star-style("\2605", white);
+    @include star-style("\2605", var(--v-secondary-darken1));
   }
 }
 </style>
