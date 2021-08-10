@@ -21,8 +21,9 @@
     <!-- style="background: red" -->
     <div style="background: red">
       <Loading
-        @opacity0="opacity0"
-        :loading="loading"
+        ref="loading"
+        :action="calculateArr"
+        @callback="sortArray"
         background="var(--v-background-base)"
       >
         <div id="tableWrapper">
@@ -35,7 +36,14 @@
 
             <tr class="spacer" />
 
-            <tr v-for="(lesson, index) in lessons" :key="index" ref="lesson">
+            <tr
+              v-for="(lesson, index) in lessons"
+              :key="index"
+              :class="{
+                given: lesson.type === 'given',
+                spacer: Object.keys(lesson).length === 0,
+              }"
+            >
               <td
                 v-for="title in titles.slice(0, titles.length - 2)"
                 :key="title.index"
@@ -67,9 +75,7 @@
       :showDialogProp="currentComment.length > 0"
       @dialogClosed="currentComment = ''"
     >
-      <template v-slot:title id="title">
-        Comment
-      </template>
+      <template v-slot:title id="title"> Comment </template>
 
       <template v-slot:text>
         {{ currentComment }}
@@ -158,7 +164,7 @@ export default {
     };
   },
   beforeMount() {
-    this.addBlankRows();
+    // this.addBlankRows();
     // this.selectedChanged();
   },
   methods: {
@@ -168,93 +174,110 @@ export default {
     cutComment(comment) {
       return comment.slice(0, 11).concat("...");
     },
-    async selectedChanged(value) {
-      this.selected = value;
-      this.loading = true;
-
-      await new Promise((res) => setTimeout(() => res(), 3000)); //delete later!!!!!
-      this.dataChanged = true; // later change to check on given / received lessons
+    selectedChanged(args) {
+      this.$refs.loading.invoke(args);
     },
-    opacity0() {
-      console.log(11111111);
-      this.lessons = [];
-
-      // !!!!!!!
-    },
-    addInfo() {
-      console.log("addinfo++++++");
-      this.dataChanged = false;
-      this.addTypeGiven();
-      this.lessons = this.lessons.sort((l1, l2) => l1.newDate - l2.newDate);
-      this.timeAndDate();
-      this.addClassGiven();
-      this.addBlankRows();
-      this.loading = false;
-    },
-    addTypeGiven() {
-      this.selected.forEach((type) => {
-        if (type === "given") {
-          this[type].forEach((lesson) => {
-            lesson.type = "given";
+    calculateArr(args) {
+      return new Promise((res) => {
+        setTimeout(() => {
+          let response = [];
+          args.forEach((type) => {
+            let lessons = {
+              type,
+              elements: JSON.parse(JSON.stringify(this[type])),
+            };
+            response.push(lessons);
           });
-        }
-        this.lessons = this.lessons.concat(this[type]);
+          res(response);
+        }, 3000);
       });
     },
-    timeAndDate() {
-      this.lessons.forEach((lesson) => {
-        // console.log(lesson.newDate);
-        let d = lesson.newDate;
+    sortArray(response) {
+      let arr = [];
+      response.forEach((lessons) =>
+        lessons.elements.forEach((el) => {
+          el.type = lessons.type;
+          arr.push(el);
+        })
+      );
+      arr = arr.sort((l1, l2) => l1.newDate - l2.newDate);
+      for (let i = arr.length; i > 0; i--) arr.splice(i, 0, {});
 
-        let day = d.getDate();
-        let month = d.getMonth();
-        let year = d.getFullYear();
-        lesson.date = day + "/" + month + "/" + year;
+      this.lessons = arr;
+    },
+    // addInfo() {
+    //   console.log("addinfo++++++");
+    //   this.dataChanged = false;
+    //   this.addTypeGiven();
+    //   this.lessons = this.lessons.sort((l1, l2) => l1.newDate - l2.newDate);
+    //   this.timeAndDate();
+    //   this.addClassGiven();
+    //   this.addBlankRows();
+    //   this.loading = false;
+    // },
+    // addTypeGiven() {
+    //   this.selected.forEach((type) => {
+    //     if (type === "given") {
+    //       this[type].forEach((lesson) => {
+    //         lesson.type = "given";
+    //       });
+    //     }
+    //     this.lessons = this.lessons.concat(this[type]);
+    //   });
+    // },
+    // timeAndDate() {
+    //   this.lessons.forEach((lesson) => {
+    //     let d = lesson.newDate;
 
-        const ifUnder10 = (number) => {
-          if (number <= 9) number = "0".concat(hours);
-          return number;
-        };
-        let hours = d.getHours();
-        hours = ifUnder10(hours);
-        let minutes = d.getMinutes();
-        minutes = ifUnder10(minutes);
-        lesson.start_time = hours + ":" + minutes;
-      });
-    },
-    addClassGiven() {
-      this.$nextTick(() => {
-        for (let i = 0; i < this.lessons.length; i++) {
-          if (this.lessons[i].type === "given")
-            this.$refs.lesson[i].classList.add("given");
-          else this.$refs.lesson[i].classList.remove("given");
-        }
-      });
-    },
-    addBlankRows() {
-      for (let i = this.lessons.length; i > 0; i--) {
-        this.lessons.splice(i, 0, {});
-      }
+    //     let day = d.getDate();
+    //     let month = d.getMonth();
+    //     let year = d.getFullYear();
+    //     lesson.date = day + "/" + month + "/" + year;
 
-      this.$nextTick(() => {
-        this.$refs.table.querySelectorAll("tr").forEach((tr, index) => {
-          if (index % 2 === 1) tr.classList.add("spacer");
-        });
-      });
-    },
+    //     const ifUnder10 = (number) => {
+    //       if (number <= 9) number = "0".concat(hours);
+    //       return number;
+    //     };
+    //     let hours = d.getHours();
+    //     hours = ifUnder10(hours);
+    //     let minutes = d.getMinutes();
+    //     minutes = ifUnder10(minutes);
+    //     lesson.start_time = hours + ":" + minutes;
+    //   });
+    // },
+    // addClassGiven() {
+    //   this.$nextTick(() => {
+    //     for (let i = 0; i < this.lessons.length; i++) {
+    //       if (this.lessons[i].type === "given")
+    //         this.$refs.lesson[i].classList.add("given");
+    //       else this.$refs.lesson[i].classList.remove("given");
+    //     }
+    //   });
+    // },
+    // addBlankRows() {
+    //   for (let i = this.lessons.length; i > 0; i--) {
+    //     this.lessons.splice(i, 0, {});
+    //   }
+
+    //   this.$nextTick(() => {
+    //     this.$refs.table.querySelectorAll("tr").forEach((tr, index) => {
+    //       if (index % 2 === 1) tr.classList.add("spacer");
+    //     });
+    //   });
+    // },
   },
-  watch: {
-    dataChanged: function() {
-      console.log("---------dataChanged");
-      if (this.lessons.length === 0 && this.dataChanged === true)
-        this.addInfo();
-    },
-    lessons: function() {
-      console.log("----------lessons");
-      if (this.lessons.length === 0 && this.dataChanged === true)
-        this.addInfo();
-    },
-  },
+  // watch: {
+  //   dataChanged: function () {
+  //     console.log("---------dataChanged");
+  //     if (this.lessons.length === 0 && this.dataChanged === true)
+  //       this.addInfo();
+  //   },
+  //   lessons: function () {
+  //     console.log("----------lessons");
+  //     if (this.lessons.length === 0 && this.dataChanged === true)
+  //       this.addInfo();
+  //   },
+  // },
 };
 </script>
 
