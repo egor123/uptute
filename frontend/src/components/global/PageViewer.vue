@@ -275,6 +275,11 @@ export default {
   position: relative;
   cursor: pointer;
 
+  transition: transform 500ms;
+  &:hover {
+    transform: scale(0.98);
+  }
+
   &.addImg {
     @include flexbox;
     border: 2px dashed var(--v-accent-base);
@@ -295,18 +300,10 @@ export default {
       }
     }
   }
-  &:not(.addImg) {
-    transition: box-shadow 400ms;
 
-    img {
-      height: 100%;
-      border-radius: 15px;
-      // width: 100%;
-      // overflow: hidden;
-    }
-    // &:hover {
-    //   box-shadow: 1px 2px 5px 0px var(--v-secondary-darken2);
-    // }
+  img {
+    height: 100%;
+    border-radius: 15px;
   }
 }
 
