@@ -278,7 +278,8 @@ $header-height: 56px;
       margin-left: auto;
       & > * {
         background-color: transparent;
-        color: var(--secondary-base);
+        color: var(--v-accent-base);
+        letter-spacing: 3px;
         margin-right: 0.5rem;
       }
     }
