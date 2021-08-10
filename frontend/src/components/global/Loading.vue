@@ -6,6 +6,7 @@
     <div
       id="holder"
       class="disabled"
+      :class="{ centered: centered }"
       ref="holder"
       :style="`--background: ${background}`"
     >
@@ -32,6 +33,10 @@ export default {
   props: {
     action: Function, //returns promise
     background: String,
+    centered: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     invoke(props) {
@@ -99,8 +104,8 @@ export default {
       this.loading = true;
       Promise.allSettled([this.action(props), enable()])
         .catch((e) => console.warn(e))
-        .then(val => val[0].value)
-        .then(check)  
+        .then((val) => val[0].value)
+        .then(check)
         .catch(this.action)
         .then(emit)
         .then(disable)
@@ -137,7 +142,7 @@ export default {
 }
 
 #slot {
-  transition: all 2s ease;
+  transition: all 400ms ease-in-out;
   overflow: hidden;
   $min-height: 100px;
   min-height: $min-height;
@@ -152,12 +157,24 @@ export default {
   left: 50%;
   top: 0.5em;
   transform: translateX(-50%);
+
+  transform-origin: center;
   @include box-size(5em);
   @include flexbox();
+
   transition: all 600ms ease;
   &.disabled {
     transform: translateX(-50%) scale(0.5);
     opacity: 0;
+  }
+  &.centered {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    &.disabled {
+      transform: translate(-50%, -50%) scale(0);
+    }
   }
 
   .icon {
@@ -171,13 +188,13 @@ export default {
     $transforms: translate(-84% * $start-multiplier, 38% * $start-multiplier)
         scale(0),
       //-------------------------------------------------//
-      translate(-84%, 38%) scale(1, 1),
+        translate(-84%, 38%) scale(1, 1),
       //-------------------------------------------------//
-      translate(0, 0) scale(1.21, 1.204),
+        translate(0, 0) scale(1.21, 1.204),
       //-------------------------------------------------//
-      translate(95%, -42%) scale(1.52, 1.481),
+        translate(95%, -42%) scale(1.52, 1.481),
       //-------------------------------------------------//
-      translate(95% / $start-multiplier, -42% / $start-multiplier) scale(0);
+        translate(95% / $start-multiplier, -42% / $start-multiplier) scale(0);
 
     @for $i from 1 to length($transforms) {
       &:nth-child(#{$i}) {

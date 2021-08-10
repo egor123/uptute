@@ -19,58 +19,59 @@
     <!-- <p>__________________________________{{ lessons.length }}</p> -->
     <!-- lessons.length === 0 -->
     <!-- style="background: red" -->
-    <div style="background: red">
-      <Loading
-        ref="loading"
-        :action="calculateArr"
-        @callback="sortArray"
-        background="var(--v-background-base)"
-      >
-        <div id="tableWrapper">
-          <table ref="table" :style="`--scaleDuration: ${scaleDuration}ms`">
-            <tr v-if="lessons.length > 0">
-              <th v-for="title in titles" :key="title.index">
-                {{ $l(`past.${title}`) }}
-              </th>
-            </tr>
+    <!-- <div style="background: red"> -->
+    <Loading
+      ref="loading"
+      :action="calculateArr"
+      @callback="sortArray"
+      background="var(--v-background-base)"
+      :centered="true"
+    >
+      <div id="tableWrapper">
+        <table ref="table" :style="`--scaleDuration: ${scaleDuration}ms`">
+          <tr v-if="lessons.length > 0">
+            <th v-for="title in titles" :key="title.index">
+              {{ $l(`past.${title}`) }}
+            </th>
+          </tr>
 
-            <tr class="spacer" />
+          <tr class="spacer" />
 
-            <tr
-              v-for="(lesson, index) in lessons"
-              :key="index"
-              :class="{
-                given: lesson.type === 'given',
-                spacer: Object.keys(lesson).length === 0,
-              }"
+          <tr
+            v-for="(lesson, index) in lessons"
+            :key="index"
+            :class="{
+              given: lesson.type === 'given',
+              spacer: Object.keys(lesson).length === 0,
+            }"
+          >
+            <td
+              v-for="title in titles.slice(0, titles.length - 2)"
+              :key="title.index"
             >
-              <td
-                v-for="title in titles.slice(0, titles.length - 2)"
-                :key="title.index"
+              <span>
+                {{ lesson[title] }}
+              </span>
+            </td>
+            <td>
+              <Rating
+                :valueProp="lesson[titles[titles.length - 2]]"
+                v-if="lesson[titles[titles.length - 2]]"
+              />
+            </td>
+            <td>
+              <a
+                href="#"
+                @click.prevent="openComment(index)"
+                v-if="lesson[titles[titles.length - 1]]"
+                >{{ cutComment(lesson[titles[titles.length - 1]]) }}</a
               >
-                <span>
-                  {{ lesson[title] }}
-                </span>
-              </td>
-              <td>
-                <Rating
-                  :valueProp="lesson[titles[titles.length - 2]]"
-                  v-if="lesson[titles[titles.length - 2]]"
-                />
-              </td>
-              <td>
-                <a
-                  href="#"
-                  @click.prevent="openComment(index)"
-                  v-if="lesson[titles[titles.length - 1]]"
-                  >{{ cutComment(lesson[titles[titles.length - 1]]) }}</a
-                >
-              </td>
-            </tr>
-          </table>
-        </div>
-      </Loading>
-    </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </Loading>
+    <!-- </div> -->
     <Dialog
       :showDialogProp="currentComment.length > 0"
       @dialogClosed="currentComment = ''"
@@ -135,7 +136,6 @@ export default {
         {
           subject: "Physics",
           newDate: new Date(2021, 8, 6, 9, 45),
-          dateL: "", //Added in js
           start_time: "", //Added in js
           duration: "46 min",
           price: "53 UC",
@@ -200,84 +200,36 @@ export default {
           arr.push(el);
         })
       );
-      arr = arr.sort((l1, l2) => l1.newDate - l2.newDate);
+      arr = arr.sort((l1, l2) => new Date(l1.newDate) - new Date(l2.newDate));
+      this.timeAndDate(arr);
       for (let i = arr.length; i > 0; i--) arr.splice(i, 0, {});
 
       this.lessons = arr;
     },
-    // addInfo() {
-    //   console.log("addinfo++++++");
-    //   this.dataChanged = false;
-    //   this.addTypeGiven();
-    //   this.lessons = this.lessons.sort((l1, l2) => l1.newDate - l2.newDate);
-    //   this.timeAndDate();
-    //   this.addClassGiven();
-    //   this.addBlankRows();
-    //   this.loading = false;
-    // },
-    // addTypeGiven() {
-    //   this.selected.forEach((type) => {
-    //     if (type === "given") {
-    //       this[type].forEach((lesson) => {
-    //         lesson.type = "given";
-    //       });
-    //     }
-    //     this.lessons = this.lessons.concat(this[type]);
-    //   });
-    // },
-    // timeAndDate() {
-    //   this.lessons.forEach((lesson) => {
-    //     let d = lesson.newDate;
+    timeAndDate(arr) {
+      arr.forEach((lesson) => {
+        let d = new Date(lesson.newDate);
 
-    //     let day = d.getDate();
-    //     let month = d.getMonth();
-    //     let year = d.getFullYear();
-    //     lesson.date = day + "/" + month + "/" + year;
+        console.log("NEW DATE");
+        console.log(d);
 
-    //     const ifUnder10 = (number) => {
-    //       if (number <= 9) number = "0".concat(hours);
-    //       return number;
-    //     };
-    //     let hours = d.getHours();
-    //     hours = ifUnder10(hours);
-    //     let minutes = d.getMinutes();
-    //     minutes = ifUnder10(minutes);
-    //     lesson.start_time = hours + ":" + minutes;
-    //   });
-    // },
-    // addClassGiven() {
-    //   this.$nextTick(() => {
-    //     for (let i = 0; i < this.lessons.length; i++) {
-    //       if (this.lessons[i].type === "given")
-    //         this.$refs.lesson[i].classList.add("given");
-    //       else this.$refs.lesson[i].classList.remove("given");
-    //     }
-    //   });
-    // },
-    // addBlankRows() {
-    //   for (let i = this.lessons.length; i > 0; i--) {
-    //     this.lessons.splice(i, 0, {});
-    //   }
+        let day = d.getDate();
+        let month = d.getMonth();
+        let year = d.getFullYear();
+        lesson.date = day + "/" + month + "/" + year;
 
-    //   this.$nextTick(() => {
-    //     this.$refs.table.querySelectorAll("tr").forEach((tr, index) => {
-    //       if (index % 2 === 1) tr.classList.add("spacer");
-    //     });
-    //   });
-    // },
+        const ifUnder10 = (number) => {
+          if (number <= 9) number = "0".concat(number);
+          return number;
+        };
+        let hours = d.getHours();
+        hours = ifUnder10(hours);
+        let minutes = d.getMinutes();
+        minutes = ifUnder10(minutes);
+        lesson.start_time = hours + ":" + minutes;
+      });
+    },
   },
-  // watch: {
-  //   dataChanged: function () {
-  //     console.log("---------dataChanged");
-  //     if (this.lessons.length === 0 && this.dataChanged === true)
-  //       this.addInfo();
-  //   },
-  //   lessons: function () {
-  //     console.log("----------lessons");
-  //     if (this.lessons.length === 0 && this.dataChanged === true)
-  //       this.addInfo();
-  //   },
-  // },
 };
 </script>
 
