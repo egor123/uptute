@@ -54,6 +54,7 @@
     "pages": {
       "home": "Home",
       "begin": "Begin your journey",
+      "account": "Account",
       "find_tutor": "Find your tutor",
       "blog": "Our blog",
       "why_us": "Why us?",
@@ -64,6 +65,13 @@
       "and": "and",
       "terms": "Terms",
       "with_terms": "Terms"
+    },
+    "header": {
+      "lesson": {
+        "title": "Lesson",
+        "learn": "Learn",
+        "teach": "Teach"
+      }
     },
     "footer": {
       "pages_title": "Some pages:"

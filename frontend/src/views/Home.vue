@@ -139,7 +139,7 @@
 
 <script>
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
-import Begin from "@/components/global/Begin.vue";
+import Begin from "@/components/header/Begin.vue";
 import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
 
 export default {
@@ -162,6 +162,9 @@ export default {
   },
   mounted() {
     document.addEventListener("scroll", this.checkOffset);
+  },
+  beforeDestroy() {
+    document.removeEventListener("scroll", this.checkOffset);
   },
   methods: {
     checkOffset() {

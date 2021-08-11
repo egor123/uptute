@@ -55,6 +55,7 @@
     "pages": {
       "home": "Avaleht",
       "begin": "Alusta oma seiklus",
+      "account": "Profiil",
       "find_tutor": "Leia õpetaja",
       "become_tutor": "Tule õpetajaks!",
       "blog": "Blogi",
@@ -66,6 +67,11 @@
       "and": "ja",
       "terms": "Kasutustingimused",
       "with_terms": "Kasutustingimustega"
+    },
+    "header": {
+      "lesson": "Tund",
+      "learn": "Õppi",
+      "teach": "Õpeta"
     },
     "footer": {
       "pages_title": "Mõned leheküljed:"

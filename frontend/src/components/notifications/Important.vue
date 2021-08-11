@@ -11,13 +11,8 @@
       attach="#wrapper"
     >
       <template v-slot:activator="{ on, attrs }">
-        <div id="wrapper">
-          <v-icon
-            :style="`--widthMin: ${widthMin}px`"
-            ref="important"
-            id="important"
-            v-bind="attrs"
-            v-on="on"
+        <div id="wrapper" :style="`--widthMin: ${widthMin}px`">
+          <v-icon ref="important" id="important" v-bind="attrs" v-on="on"
             >mdi-exclamation</v-icon
           >
         </div>
@@ -132,13 +127,12 @@ export default {
 
 #wrapper {
   position: absolute;
-  right: 25px;
+  right: calc(50px - var(--widthMin) / 2);
   bottom: -20px;
-  // pointer-events: none;
-  @media (pointer: none), (pointer: coarse) {
-    right: 15px;
-    bottom: -15px;
-  }
+  // @media (pointer: none), (pointer: coarse) {
+  //   right: 15px;
+  //   bottom: -15px;
+  // }
   transform: translateY(100%);
   height: var(--widthMin);
   width: 300px;
@@ -157,6 +151,24 @@ export default {
 
   @include box-shadow();
   @include box-size(var(--widthMin));
+
+  animation: bounceFromRight 2s both;
+
+  @keyframes bounceFromRight {
+    0% {
+      transform: translateX(100px);
+    }
+    20% {
+      opacity: 0;
+    }
+    80% {
+      transform: translateX(calc(50px -var(--widthMin) / 2));
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(calc(50px -var(--widthMin) / 2));
+    }
+  }
 
   &::before {
     $mult: 1.2;
