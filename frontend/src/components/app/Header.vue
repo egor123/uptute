@@ -10,17 +10,24 @@
       <div id="container" ref="container">
         <div id="title" ref="title">
           <button>
-            <img src="@/assets/logo.svg" id="logo" @click="goToHomePage()" />
+            <img src="@/assets/logo.svg" id="logo" @click="goTo('Home')" />
           </button>
-          <button @click="goToHomePage()">
+          <button @click="goTo('Home')">
             <h1 id="name">UpTute</h1>
           </button>
         </div>
         <!-- <div id="mobileSpacer" ref="mobileSpacer"></div> -->
         <div id="buttons" ref="buttons">
-          <v-btn rounded v-if="getStatus" :to="{ name: 'Account' }">
-            {{ $l("app.pages.account") }}
-          </v-btn>
+          <!-- <v-btn
+            id="account"
+            rounded
+            v-if="!getStatus"
+            :to="{ name: 'Account' }"
+          > -->
+          <!-- {{ $l("app.pages.account") }} -->
+
+          <!-- </v-btn> -->
+          <LessonMenu />
           <!-- <v-btn rounded v-if="!getStatus" :to="{ name: 'LogIn' }">
             {{ $l("app.pages.log_in") }}
           </v-btn>
@@ -46,7 +53,7 @@
             textColor="white"
             borderRadius="0 0 15px 15px"
             border="none"
-            v-if="!getStatus"
+            v-if="getStatus"
           />
         </div>
         <v-menu
@@ -74,6 +81,13 @@
             </v-list-item>
           </v-list>
         </v-menu>
+        <v-icon
+          id="account"
+          ref="account"
+          v-if="!getStatus"
+          @click="goTo('Account')"
+          >mdi-account-circle</v-icon
+        >
       </div>
     </div>
     <div id="subHeader" ref="subHeader" />
@@ -93,19 +107,21 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Begin from "@/components/global/Begin.vue";
+import LessonMenu from "@/components/header/LessonMenu.vue";
+import Begin from "@/components/header/Begin.vue";
 import Important from "@/components/notifications/Important.vue";
 
 export default {
   data() {
     return {
-      minOffset: 30,
+      minOffset: 100,
       locales: [],
       locale: String,
       showSnackbar: false,
     };
   },
   components: {
+    LessonMenu,
     Begin,
     Important,
   },
@@ -118,8 +134,8 @@ export default {
       });
       this.updateLocales(val);
     },
-    goToHomePage() {
-      if (this.$route.name !== "Home") this.$router.push({ name: "Home" });
+    goTo(pageName) {
+      if (this.$route.name !== pageName) this.$router.push({ name: pageName });
     },
     getImgUrl(locale) {
       return require("@/assets/icons/flags/" + locale + ".svg");
@@ -135,8 +151,8 @@ export default {
       const container = this.$refs.container;
       const buttons = this.$refs.buttons;
       const title = this.$refs.title;
-      // const mobileSpacer = this.$refs.mobileSpacer;
       const locales = this.$refs.locales;
+      const account = this.$refs.account.$el;
       const navIcon = this.$refs.navIcon;
 
       const observer = new ResizeObserver(() => {
@@ -146,14 +162,13 @@ export default {
           container.offsetWidth -
             title.offsetWidth -
             locales.offsetWidth -
-            this.minOffset <
-          buttons.offsetWidth;
-        // console.log("mobile spacer: " + mobileSpacer.offsetWidth);
+            account.offsetWidth -
+            buttons.offsetWidth <
+          this.minOffset;
 
         buttons.style.display = mv ? "none" : "flex";
         navIcon.style.display = mv ? "inline" : "none";
         container.classList.toggle("drawerActive", mv);
-        // mobileSpacer.classList.toggle("mobile", mv);
         this.setMobileView(mv);
       });
       observer.observe(document.documentElement);
@@ -192,22 +207,33 @@ export default {
     this.updateLocales(this.$route.params.locale);
   },
   mounted() {
-    this.resize();
     this.scroll();
     this.subHeader();
     this.$root.$on("cookiesError", () => (this.showSnackbar = true));
+    setTimeout(() => {
+      this.resize();
+    }, 0);
   },
 };
 </script>
 <style scoped lang="scss">
 $header-height: 56px;
+$gap: 1rem;
+@import "@/scss/mixins.scss";
 
-@mixin flexbox() {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
+@mixin hoverOpacity() {
+  transition: opacity 0.3s ease-in-out;
+  &:hover {
+    opacity: 0.7;
+  }
 }
+
+// @mixin flexbox() {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   height: 100%;
+// }
 #wrapper {
   position: fixed;
   display: flex;
@@ -228,6 +254,8 @@ $header-height: 56px;
   color: var(--v-secondary-base);
   #navIcon {
     padding: 1rem;
+    position: absolute;
+    left: 0;
   }
   #container {
     @include flexbox();
@@ -241,6 +269,12 @@ $header-height: 56px;
     @media (max-width: 1000px) {
       left: 1rem;
       right: 1rem;
+      #account {
+        margin: 0 0 0 calc(#{$gap} / 2);
+        position: relative !important;
+        right: 0 !important;
+        transform: none !important;
+      }
     }
 
     &.drawerActive {
@@ -250,7 +284,8 @@ $header-height: 56px;
     #title {
       @include flexbox();
       text-transform: none;
-      color: var(--v-secondary-darken2);
+      color: var(--v-background-base);
+      margin-right: auto;
       #logo {
         height: 70px;
       }
@@ -260,10 +295,7 @@ $header-height: 56px;
         // font-weight: 500;
       }
       * {
-        transition: opacity 0.3s ease-in-out;
-        &:hover {
-          opacity: 0.7;
-        }
+        @include hoverOpacity();
       }
     }
     // #mobileSpacer {
@@ -276,12 +308,18 @@ $header-height: 56px;
     #buttons {
       @include flexbox();
       margin-left: auto;
-      & > * {
-        background-color: transparent;
-        color: var(--v-accent-base);
-        letter-spacing: 3px;
-        margin-right: 0.5rem;
-      }
+
+      // & > * {
+      //   background-color: transparent;
+      //   color: var(--v-background-darken3);
+      //   color: var(--v-accent-base);
+      //   padding: 0.5rem calc(#{$gap} / 2);
+      //   letter-spacing: 3px;
+      //   font-weight: 500;
+      // }
+      // * > div {
+      //   color: var(--v-accent-base);
+      // }
     }
     #flagBtn {
       height: 100%;
@@ -296,6 +334,25 @@ $header-height: 56px;
         color: var(--v-active-base);
       }
     }
+    #account {
+      position: absolute;
+      font-size: 40px;
+      color: var(--v-background-base);
+      right: calc(50px - var(--side-margin));
+      transform: translateX(50%);
+      @include hoverOpacity();
+      &.v-icon::after {
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+::v-deep {
+  #buttons {
+    & > * {
+      padding: calc(#{$gap} / 4) calc(#{$gap} / 2);
+    }
   }
 }
 
@@ -304,7 +361,7 @@ $header-height: 56px;
   width: max-content;
   cursor: default;
   @include flexbox();
-  padding: 0 1rem;
+  padding: 0 calc(#{$gap} / 2);
 }
 
 .v-menu__content {
@@ -329,6 +386,9 @@ $header-height: 56px;
 ::v-deep {
   .v-snack__wrapper {
     border-radius: 15px !important;
+  }
+  .v-btn__content {
+    font-size: 1rem !important;
   }
 }
 #subHeader {

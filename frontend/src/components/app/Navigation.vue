@@ -83,10 +83,9 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-$drawer-background: #fafafa;
 #card,
 #nav {
-  background: $drawer-background;
+  background: var(--v-background-base);
 }
 
 #nav {
