@@ -28,7 +28,7 @@ export default {
   },
   mounted() {
     this.$refs.feedbackATag.addEventListener("click", (event) => {
-      this.$refs.viewer.open();
+      this.$refs.viewer.$refs.dialog.open();
       event.preventDefault();
     });
   },

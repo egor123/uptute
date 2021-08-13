@@ -14,14 +14,14 @@
           </button>
         </div>
         <div id="buttons" ref="buttons">
-          <LessonMenu />
+          <LessonMenu v-if="getStatus" />
 
           <Begin
             color="#000"
             textColor="white"
             borderRadius="0 0 15px 15px"
             border="none"
-            v-if="getStatus"
+            v-if="!getStatus"
           />
         </div>
         <div id="locales">
@@ -47,6 +47,7 @@
     </v-snackbar>
   </div>
 </template>
+
 <script>
 import { mapGetters, mapActions } from "vuex";
 import LessonMenu from "@/components/header/LessonMenu.vue";

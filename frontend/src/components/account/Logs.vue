@@ -16,10 +16,6 @@
       ]"
     />
     <Subheader :title="$l('acc_pages.logs')" />
-    <!-- <p>__________________________________{{ lessons.length }}</p> -->
-    <!-- lessons.length === 0 -->
-    <!-- style="background: red" -->
-    <!-- <div style="background: red"> -->
     <Loading
       ref="loading"
       :action="calculateArr"
@@ -72,10 +68,7 @@
       </div>
     </Loading>
     <!-- </div> -->
-    <Dialog
-      :showDialogProp="currentComment.length > 0"
-      @dialogClosed="currentComment = ''"
-    >
+    <Dialog ref="dialog" @dialogClosed="currentComment = ''">
       <template v-slot:title id="title"> Comment </template>
 
       <template v-slot:text>
@@ -163,13 +156,10 @@ export default {
       ],
     };
   },
-  beforeMount() {
-    // this.addBlankRows();
-    // this.selectedChanged();
-  },
   methods: {
     openComment(commentId) {
       this.currentComment = this.lessons[commentId].comment;
+      this.$refs.dialog.open();
     },
     cutComment(comment) {
       return comment.slice(0, 11).concat("...");

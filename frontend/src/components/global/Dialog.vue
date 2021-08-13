@@ -32,13 +32,6 @@ export default {
       showDialog: false,
     };
   },
-  props: {
-    toComments: Boolean,
-    showDialogProp: Boolean,
-  },
-  created() {
-    this.showDialog = this.toComments;
-  },
   methods: {
     crossClick() {
       this.showDialog = false;
@@ -50,24 +43,21 @@ export default {
     },
   },
   watch: {
-    toComments: function(val) {
-      this.showDialog = val;
-    },
-    showDialog: function(val) {
-      console.log(val);
-      if (this.showDialog === true) {
-        this.$root.$emit("dialogOpened");
-        this.$nextTick(() => {
-          this.$refs.start.scrollIntoView({ block: "start" });
-        });
-      } else {
-        this.$root.$emit("dialogClosed");
-        this.$emit("dialogClosed");
-      }
-    },
-    showDialogProp: function(val) {
-      this.showDialog = val;
-    },
+    // showDialog: function(val) {
+    //   console.log(val);
+    //   if (this.showDialog === true) {
+    //     this.$root.$emit("dialogOpened");
+    //     this.$nextTick(() => {
+    //       this.$refs.start.scrollIntoView({ block: "start" });
+    //     });
+    //   } else {
+    //     this.$root.$emit("dialogClosed");
+    //     this.$emit("dialogClosed");
+    //   }
+    // },
+    // showDialogProp: function(val) {
+    //   this.showDialog = val;
+    // },
   },
 };
 </script>
