@@ -1,9 +1,6 @@
 <template>
   <div id="wrapper" ref="wrapper" scrollDist="30">
     <div id="header">
-      <div ref="navIcon" id="navIcon">
-        <v-app-bar-nav-icon @click="setNavBar(!getNavBar)" />
-      </div>
       <div id="container" ref="container">
         <div id="title" ref="title">
           <button>
@@ -12,6 +9,9 @@
           <button @click="goTo('Home')">
             <h1 id="name">UpTute</h1>
           </button>
+        </div>
+        <div ref="navIcon" id="navIcon">
+          <v-app-bar-nav-icon @click="setNavBar(!getNavBar)" />
         </div>
         <div id="buttons" ref="buttons">
           <LessonMenu v-if="getStatus" />
@@ -24,11 +24,10 @@
             v-if="!getStatus"
           />
         </div>
-        <div id="locales">
-          <LocalesMenu ref="locales" />
-        </div>
+
         <div v-if="!getStatus" ref="rightSide" id="rightSide">
-          <Important />
+          <LocalesMenu />
+          <Notifications />
           <AccountMenu />
         </div>
       </div>
@@ -55,7 +54,7 @@ import Begin from "@/components/header/Begin.vue";
 import LocalesMenu from "@/components/header/LocalesMenu.vue";
 import AccountMenu from "@/components/header/AccountMenu.vue";
 
-import Important from "@/components/notifications/Important.vue";
+import Notifications from "@/components/notifications/Notifications.vue";
 
 export default {
   data() {
@@ -70,7 +69,7 @@ export default {
     LocalesMenu,
     AccountMenu,
 
-    Important,
+    Notifications,
   },
   computed: mapGetters(["getStatus", "getNavBar"]),
   methods: {
@@ -82,27 +81,36 @@ export default {
       const container = this.$refs.container;
       const buttons = this.$refs.buttons;
       const title = this.$refs.title;
-      const locales = this.$refs.locales.$el;
-      const rightSide = this.$refs.rightSide;
+      // const rightSide = this.$refs.rightSide;
       const navIcon = this.$refs.navIcon;
 
       const observer = new ResizeObserver(() => {
         buttons.style.display = "flex";
-
-        var mv =
-          container.offsetWidth -
-            title.offsetWidth -
-            locales.offsetWidth -
-            rightSide.offsetWidth -
-            buttons.offsetWidth <
-          this.minOffset;
-
+        title.style.display = "flex";
+        navIcon.style.display = "none";
+        let emptySpace = Array.from(container.children).reduce(
+          (val, el) => val - el.offsetWidth,
+          container.offsetWidth
+        );
+        console.log(emptySpace);
+        var mv = emptySpace < 0;
+        console.log(mv);
         buttons.style.display = mv ? "none" : "flex";
+        title.style.display = mv ? "none" : "flex";
         navIcon.style.display = mv ? "inline" : "none";
-        container.classList.toggle("drawerActive", mv);
-        this.setMobileView(mv);
+
+        // var mv =
+        //   container.offsetWidth - title.offsetWidth - rightSide.offsetWidth <
+        //   this.minOffset;
+
+        // buttons.style.display = mv ? "none" : "flex";
+        // title.style.display = mv ? "none" : "flex";
+        // navIcon.style.display = mv ? "inline" : "none";
+
+        // container.classList.toggle("drawerActive", mv);
+        // this.setMobileView(mv);
       });
-      observer.observe(document.documentElement);
+      // observer.observe(document.documentElement);
       observer.observe(container);
     },
     scroll() {
@@ -147,7 +155,7 @@ export default {
 </script>
 <style scoped lang="scss">
 $header-height: 56px;
-$gap: 1.5rem;
+$gap: 0.6rem;
 @import "@/scss/mixins.scss";
 
 #wrapper {
@@ -182,8 +190,8 @@ $gap: 1.5rem;
     left: var(--side-margin);
     right: var(--side-margin);
     height: $header-height;
-
-    @media (max-width: 1000px) {
+    background: red;
+    @media (max-width: 1200px) {
       left: 1rem;
       right: 1rem;
       $gap: 3rem !important;
@@ -197,10 +205,10 @@ $gap: 1.5rem;
 
     &.drawerActive {
       left: 55px;
-      #title {
-        opacity: 0;
-        pointer-events: none;
-      }
+      // #title {
+      //   opacity: 0;
+      //   pointer-events: none;
+      // }
     }
 
     #title {
@@ -208,6 +216,8 @@ $gap: 1.5rem;
       text-transform: none;
       color: var(--v-background-base);
       margin-right: auto;
+      // position: absolute;
+      // left: calc(-1 * var(--side-margin));
       #logo {
         height: 70px;
       }
@@ -223,7 +233,7 @@ $gap: 1.5rem;
     #buttons {
       height: 100%;
       @include flexbox();
-      margin-left: auto;
+      padding: 0 2rem;
     }
 
     #nav a {
@@ -239,21 +249,31 @@ $gap: 1.5rem;
       height: 100%;
       @include flexbox();
       position: absolute;
-      right: calc(16px - var(--side-margin));
+      right: calc(1.5rem - var(--side-margin));
       // transform: translateX(100%);
     }
   }
 }
 
 ::v-deep {
-  #buttons > *,
-  #locales {
-    padding: 0 calc(#{$gap} / 2);
+  .headerCircle {
+    $circleSize: 35px;
+    &.v-icon {
+      font-size: $circleSize;
+    }
+    &.img {
+      $imgSize: $circleSize * 0.845;
+      width: $imgSize !important;
+      margin: 0 ($circleSize - $imgSize) / 2 !important;
+    }
   }
+
+  #buttons > *,
   #rightSide {
     & > * {
       padding: 0 calc(#{$gap} / 2);
     }
+    min-width: max-content;
   }
   .v-snack__wrapper {
     border-radius: 15px !important;

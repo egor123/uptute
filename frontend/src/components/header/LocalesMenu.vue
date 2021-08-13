@@ -6,7 +6,11 @@
     border="none"
   >
     <template v-slot:title>
-      <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
+      <img
+        :src="getImgUrl(locale)"
+        :alt="locale"
+        class="flagImg img headerCircle"
+      />
     </template>
     <template v-slot:content>
       <v-list-item
@@ -14,9 +18,7 @@
         :key="index"
         v-on:change="changeLocale(l)"
       >
-        <button>
-          <img :src="getImgUrl(l)" :alt="l" class="flagImg" />
-        </button>
+        <img :src="getImgUrl(l)" :alt="l" class="flagImg img headerCircle" />
       </v-list-item>
     </template>
   </HeaderMenu>
@@ -63,6 +65,11 @@ export default {
 @import "@/scss/mixins.scss";
 
 .flagImg {
+  // $iconWidth: calc(30px * 0.845);
+
   border-radius: 1.5px;
+  // width: 30px;
+  // width: $iconWidth;
+  // margin: 0 calc(30px - #{$iconWidth});
 }
 </style>

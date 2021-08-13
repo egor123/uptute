@@ -10,7 +10,7 @@
     :onHover="false"
   >
     <template v-slot:title>
-      <v-icon id="account">mdi-account-circle</v-icon>
+      <v-icon id="account" class="headerCircle">mdi-account-circle</v-icon>
     </template>
     <template v-slot:content>
       <v-list-item>
@@ -62,7 +62,7 @@ export default {
 
 .v-icon#account {
   color: var(--v-background-base);
-  font-size: 40px;
+  // font-size: 30px;
   cursor: pointer;
   @include hoverOpacity();
 }

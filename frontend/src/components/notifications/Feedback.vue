@@ -3,7 +3,7 @@
     <v-icon>mdi-star</v-icon>
     <span>
       {{ commenter }} gave you a
-      <a href="#" ref="feedbackATag">feedback</a>
+      <a ref="feedbackATag">feedback</a>
     </span>
     <FeedbackViewer
       ref="viewer"

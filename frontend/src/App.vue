@@ -92,6 +92,7 @@ html {
   a:not(.v-btn) {
     color: var(--v-secondary-darken3);
     transition: color 400ms;
+    text-decoration: underline;
     &:hover,
     &:focus {
       color: var(--v-accent-darken2);

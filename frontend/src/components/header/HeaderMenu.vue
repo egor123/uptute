@@ -11,12 +11,18 @@
     <template v-slot:activator="{ on, attrs }">
       <div
         :style="
-          `--justifyContent: ${justifyContent}; --paddingTop: ${paddingTop};    --transformOrigin: ${transformOrigin};`
+          `--justifyContent: ${justifyContent}; 
+          --paddingTop: ${paddingTop}; 
+          --transformOrigin: ${transformOrigin};
+         `
         "
         v-bind="attrs"
         v-on="on"
         :id="id"
         class="title"
+        :class="{
+          triangle: paddingTop !== '0' && paddingTop !== '0px',
+        }"
         ref="activator"
       >
         <slot name="title" />
@@ -33,6 +39,7 @@
         --border: ${border};`
       "
     >
+      <div id="trianglePointer" />
       <slot name="content" />
     </v-list>
   </v-menu>
@@ -69,7 +76,7 @@ export default {
   },
   methods: {
     getId() {
-      var result = "TITLE-";
+      var result = "title-";
       var characters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       var charactersLength = characters.length;
@@ -89,6 +96,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
+$triangleOffset: 30px;
 
 div.title {
   position: relative;
@@ -106,10 +114,31 @@ div.title {
 
   letter-spacing: 3px !important;
 
-  #text {
-    background: red !important;
-  }
+  &.triangle .v-menu__content {
+    right: calc(50% - #{$triangleOffset}) !important;
+    #trianglePointer {
+      position: absolute;
+      top: -10px;
+      width: 0;
+      height: 0;
 
+      $triangleSize: 10px;
+
+      right: $triangleOffset - $triangleSize;
+
+      border-top: $triangleSize solid transparent;
+
+      border-left: $triangleSize solid transparent;
+      border-right: $triangleSize solid transparent;
+
+      border-bottom: $triangleSize solid #000;
+    }
+  }
+  &:not(.triangle) {
+    .v-list {
+      padding-top: 0;
+    }
+  }
   .v-menu__content {
     top: 100% !important;
     left: auto !important;
@@ -124,6 +153,8 @@ div.title {
     border-radius: 0px;
     transition: transform 0.3s, opacity 0.3s !important;
     transform-origin: var(--transformOrigin) !important;
+    // margin-right: calc(-1 * #{$triangleOffset});
+
     .v-list {
       background: var(--color) !important;
       border-radius: var(--borderRadius);
