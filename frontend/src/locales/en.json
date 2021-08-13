@@ -302,9 +302,11 @@
   },
 
   "acc_pages": {
-    "settings": "Settings",
+    "profile": "Profile",
     "calendar": "Calendar",
-    "logs": "Previous lessons"
+    "logs": "Previous",
+    "settings": "Settings",
+    "log_out": "Log out"
   },
   "main": {
     "messenger": "Messenger link",

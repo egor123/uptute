@@ -1,5 +1,5 @@
 <template>
-  <Dialog :showDialogProp="showDialogProp" @dialogClosed="dialogClosed()">
+  <Dialog ref="dialog" :showDialogProp="showDialogProp">
     <template v-slot:title>
       Feedback
     </template>
@@ -30,12 +30,14 @@ export default {
     rating: Number,
     comment: String,
   },
-  mounted() {
-    this.showDialogProp = true;
-  },
+
   methods: {
     dialogClosed() {
       this.$emit("dialogClosed");
+    },
+    open() {
+      this.showDialogProp = true;
+      this.$refs.dialog.open();
     },
   },
 };

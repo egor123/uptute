@@ -80,7 +80,9 @@ html {
 }
 
 #app {
-  font-family: Comfortaa;
+  * {
+    font-family: Comfortaa !important;
+  }
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

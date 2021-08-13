@@ -69,9 +69,11 @@
       "with_terms": "Kasutustingimustega"
     },
     "header": {
-      "lesson": "Tund",
-      "learn": "Õppi",
-      "teach": "Õpeta"
+      "lesson": {
+        "title": "Tund",
+        "learn": "Õppi",
+        "teach": "Õpeta"
+      }
     },
     "footer": {
       "pages_title": "Mõned leheküljed:"
@@ -302,9 +304,11 @@
   },
 
   "acc_pages": {
-    "settings": "Seaded",
+    "profile": "Profiil",
     "calendar": "Kalender",
-    "logs": "Varemad tunnid"
+    "logs": "Eelnevad",
+    "settings": "Seaded",
+    "log_out": "Logi välja"
   },
   "settings": {
     "password": "Muuda salasõna",

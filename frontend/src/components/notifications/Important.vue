@@ -1,123 +1,72 @@
 <template>
-  <div>
-    <v-menu
-      transition="scale-transition"
-      origin="right 50px"
-      v-model="menuActive"
-      bottom
-      open-on-hover
-      offset-y
-      v-if="notices.length > 0"
-      attach="#wrapper"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <div id="wrapper" :style="`--widthMin: ${widthMin}px`">
-          <v-icon ref="important" id="important" v-bind="attrs" v-on="on"
-            >mdi-exclamation</v-icon
-          >
-        </div>
-      </template>
+  <HeaderMenu
+    color="#000"
+    textColor="var(--v-background-base)"
+    borderRadius="15px"
+    border="none"
+    justifyContent="flex-end"
+    paddingTop="10px"
+    transformOrigin="right top"
+    :onHover="false"
+  >
+    <template v-slot:title>
+      <v-icon ref="important" id="important">mdi-bell</v-icon>
+    </template>
 
-      <v-list :style="`--widthMin: ${widthMin}px`">
-        <div v-for="(notice, index) in notices" :key="index">
-          <v-list-item ref="listItem" v-html="notice" />
-          <div class="dividor" v-if="index !== notices.length - 1" />
-        </div>
-      </v-list>
-    </v-menu>
-    <FeedbackViewer
-      @dialogClosed="chosenFeedback = {}"
-      v-if="Object.keys(chosenFeedback).length !== 0"
-      :commenter="chosenFeedback.commenter"
-      :rating="chosenFeedback.rating"
-      :comment="chosenFeedback.comment"
-    />
-  </div>
+    <template v-slot:content>
+      <div v-for="(notification, index) in notifications" :key="index">
+        <Feedback
+          v-if="notification.type === 'feedback'"
+          :commenter="notification.commenter"
+          :rating="notification.rating"
+          :comment="notification.comment"
+        />
+        <LessonAccepted
+          v-if="notification.type === 'acceptedLesson'"
+          :name="notification.name"
+          :link="notification.link"
+        />
+        <div class="dividor" v-if="index !== notifications.length - 1" />
+      </div>
+    </template>
+  </HeaderMenu>
 </template>
 
 <script>
-import FeedbackViewer from "@/components/notifications/FeedbackViewer.vue";
+import HeaderMenu from "@/components/header/HeaderMenu.vue";
+import Feedback from "@/components/notifications/Feedback.vue";
+import LessonAccepted from "@/components/notifications/LessonAccepted.vue";
 
 export default {
   data() {
     return {
-      menuActive: null,
-      notices: [
-        "<div style='color: var(--v-primary-lighten3)'>NoName accepted your offer. Your lesson will be held&nbsp<a target='_blank' style='display: inline' href='https://zoom.us/'>here</a>.</div>",
-        "<div class='feedback' style='color: var(--v-primary-lighten3)'>NoName gave you a&nbsp<a href='#' style='display: inline'>feedback</a>.</div>",
-        "<div class='feedback' style='color: var(--v-primary-lighten3)'>NoName2 gave you a&nbsp<a href='#' style='display: inline'>feedback</a>.</div>",
-      ],
-      feedbacks: [
+      notifications: [
         {
-          commenter: "NoName1",
+          type: "acceptedLesson",
+          name: "NoName0",
+          link: "https://zoom.us/",
+        },
+        {
+          type: "feedback",
+          commenter: "NN1",
           rating: 3,
           comment:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         },
         {
+          type: "feedback",
           commenter: "NoName2",
           rating: 4,
           comment:
             "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
         },
       ],
-      chosenFeedback: {},
-      widthMax: 300,
-      widthMin: 50,
     };
   },
   components: {
-    FeedbackViewer,
-  },
-  mounted() {
-    this.menuActive = false;
-  },
-  methods: {
-    openFeedback(index) {
-      // console.log("index: " + index);
-
-      this.chosenFeedback = this.feedbacks[index];
-      // console.log("chosen: ");
-      // console.log(this.chosenFeedback);
-    },
-    setATagListeners() {
-      this.$nextTick(() => {
-        let feedbackId = 0;
-
-        this.$refs.listItem.forEach((item) => {
-          const aTag = item.$el.querySelector(".feedback a");
-          if (aTag != null) {
-            let index = feedbackId;
-            aTag.addEventListener("click", (hrefEvent) => {
-              hrefEvent.preventDefault();
-              this.openFeedback(index);
-            });
-            feedbackId++;
-          }
-        });
-      });
-    },
-  },
-  watch: {
-    menuActive: function() {
-      // console.log("Menu is active: " + this.menuActive);
-      if (this.menuActive) {
-        this.$refs.important.$el.style.transition =
-          "border-radius 200ms, width 350ms";
-        this.$refs.important.$el.style.width = `${this.widthMax}px`;
-        this.$refs.important.$el.style.borderRadius = `15px 15px 0 0`;
-
-        this.setATagListeners();
-      } else {
-        this.$refs.important.$el.style.transition =
-          "border-radius 200ms 100ms, width 300ms";
-        this.$refs.important.$el.style.width = `${this.widthMin}px`;
-        this.$refs.important.$el.style.borderRadius = `50%`;
-      }
-    },
-    chosenFeedback: function() {
-      console.log(this.chosenFeedback);
-    },
+    HeaderMenu,
+    Feedback,
+    LessonAccepted,
   },
 };
 </script>
@@ -125,72 +74,37 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-#wrapper {
-  position: absolute;
-  right: calc(50px - var(--widthMin) / 2);
-  bottom: -20px;
-  // @media (pointer: none), (pointer: coarse) {
-  //   right: 15px;
-  //   bottom: -15px;
-  // }
-  transform: translateY(100%);
-  height: var(--widthMin);
-  width: 300px;
-  display: flex;
-  pointer-events: none;
-}
-
 .v-icon#important {
-  pointer-events: initial;
-  margin-left: auto;
-  color: var(--v-secondary-base);
-  cursor: default;
-
-  background: var(--v-accent-base);
-  z-index: 10;
-
-  @include box-shadow();
-  @include box-size(var(--widthMin));
-
-  animation: bounceFromRight 2s both;
-
-  @keyframes bounceFromRight {
-    0% {
-      transform: translateX(100px);
-    }
-    20% {
-      opacity: 0;
-    }
-    80% {
-      transform: translateX(calc(50px -var(--widthMin) / 2));
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(calc(50px -var(--widthMin) / 2));
-    }
-  }
-
-  &::before {
-    $mult: 1.2;
-
-    @include box-size(var(--widthMin) / $mult);
-    transform: scale($mult);
-    @include flexbox();
-  }
+  border-radius: 50%;
+  color: var(--v-background-base);
+  cursor: pointer;
+  @include hoverOpacity();
+  font-size: 24px;
+}
+.dividor {
+  background: var(--v-background-base);
+  opacity: 0.2;
 }
 
-.v-menu__content {
-  background: transparent;
-  width: 300px;
-  box-shadow: none;
-  border-radius: 15px;
-  @include box-shadow();
-  // transition: all 3s;
-  .v-list {
-    margin-top: var(--widthMin);
-
-    .v-list-item {
-      margin: 1rem 0;
+::v-deep {
+  .v-list-item {
+    @include flexbox();
+    max-width: 350px;
+    width: max-content;
+    text-transform: none;
+    color: var(--v-background-base) !important;
+    height: fit-content !important;
+    min-height: 0;
+    margin: 1rem 0;
+    text-align: left;
+    & > * {
+      @include box-size(fit-content);
+    }
+    .v-icon {
+      // display: inline-flex !important;
+      @include flexbox();
+      color: var(--v-background-base);
+      margin-right: 1rem;
     }
   }
 }

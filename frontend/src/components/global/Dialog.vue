@@ -29,7 +29,7 @@
 export default {
   data() {
     return {
-      showDialog: this.showDialogProp,
+      showDialog: false,
     };
   },
   props: {
@@ -43,12 +43,18 @@ export default {
     crossClick() {
       this.showDialog = false;
     },
+    open() {
+      setTimeout(() => {
+        this.showDialog = true;
+      }, 0);
+    },
   },
   watch: {
     toComments: function(val) {
       this.showDialog = val;
     },
-    showDialog: function() {
+    showDialog: function(val) {
+      console.log(val);
       if (this.showDialog === true) {
         this.$root.$emit("dialogOpened");
         this.$nextTick(() => {
@@ -59,8 +65,8 @@ export default {
         this.$emit("dialogClosed");
       }
     },
-    showDialogProp: function() {
-      this.showDialog = this.showDialogProp;
+    showDialogProp: function(val) {
+      this.showDialog = val;
     },
   },
 };

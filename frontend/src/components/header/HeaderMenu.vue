@@ -1,28 +1,38 @@
 <template>
   <v-menu
     offset-y
-    open-on-hover
+    :open-on-hover="onHover"
     hide-on-scroll
+    eager
+    content-class="content"
+    :attach="'#' + id"
     transition="scale-transition"
-    origin="top center"
-    attach="#title"
   >
     <template v-slot:activator="{ on, attrs }">
-      <div v-bind="attrs" v-on="on" id="title" ref="activator">
-        <!-- !!!!!!!!!!! -->
+      <div
+        :style="
+          `--justifyContent: ${justifyContent}; --paddingTop: ${paddingTop};    --transformOrigin: ${transformOrigin};`
+        "
+        v-bind="attrs"
+        v-on="on"
+        :id="id"
+        class="title"
+        ref="activator"
+      >
         <slot name="title" />
       </div>
     </template>
+
     <v-list
+      eager
       ref="list"
       :style="
         `--color: ${color}; 
         --textColor: ${textColor}; 
         --borderRadius: ${borderRadius}; 
-        --border: ${border}`
+        --border: ${border};`
       "
     >
-      <!-- !!!!!!!!!!! -->
       <slot name="content" />
     </v-list>
   </v-menu>
@@ -35,60 +45,85 @@ export default {
     textColor: String,
     borderRadius: String,
     border: String,
-  },
-  methods: {
-    openMenu() {
-      let activator = this.$refs.activator;
-      for (let i = 100; i > 0; i--) {
-        setTimeout(() => {
-          let list = this.$refs.list.$el;
-
-          console.log(list.offsetWidth);
-          console.log(activator.offsetWidth);
-          if (list.offsetWidth > activator.offsetWidth) {
-            document.documentElement.style.setProperty(
-              "--menuMarginLeft",
-              -(list.offsetWidth - activator.offsetWidth) / 2 + "px"
-            );
-          }
-        }, 10);
-      }
+    justifyContent: {
+      type: String,
+      default: "center",
+    },
+    paddingTop: {
+      type: String,
+      default: "0px",
+    },
+    transformOrigin: {
+      type: String,
+      default: "center top ",
+    },
+    onHover: {
+      type: Boolean,
+      default: true,
     },
   },
-  mounted() {
-    this.$refs.activator.addEventListener("mouseover", this.openMenu);
-    this.$refs.activator.addEventListener("click", this.openMenu);
+  data() {
+    return {
+      id: "",
+    };
+  },
+  methods: {
+    getId() {
+      var result = "TITLE-";
+      var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var charactersLength = characters.length;
+      for (var i = 0; i < 10; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
+    },
+  },
+  beforeMount() {
+    this.id = this.getId();
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
-:root {
-  --menuMarginLeft: 0px;
 
-  #title {
-    height: 100%;
-    width: max-content;
-    cursor: default;
-    @include flexbox();
-    // padding: 0.5rem 1rem;
-    margin: 0 auto;
+div.title {
+  position: relative;
+  height: 100%;
+  cursor: default;
+  @include flexbox();
+  justify-content: var(--justifyContent);
 
-    color: var(--v-accent-base) !important;
+  color: var(--v-background-base) !important;
 
-    text-transform: uppercase;
-    text-align: center;
-    letter-spacing: 3px;
-    font-weight: 500;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 500;
+
+  letter-spacing: 3px !important;
+
+  #text {
+    background: red !important;
   }
 
   .v-menu__content {
+    top: 100% !important;
+    left: auto !important;
+    position: absolute;
+    overflow: visible !important;
+    min-width: fit-content !important;
+    width: fit-content !important;
+    padding-top: var(--paddingTop);
+    z-index: 1000;
+
     box-shadow: none;
     border-radius: 0px;
-    transition: transform 0.3s, opacity 0.3s, margin 0.3s !important;
-    margin-left: var(--menuMarginLeft);
-
+    transition: transform 0.3s, opacity 0.3s !important;
+    transform-origin: var(--transformOrigin) !important;
     .v-list {
       background: var(--color) !important;
       border-radius: var(--borderRadius);
@@ -96,10 +131,9 @@ export default {
     }
   }
 }
+
 ::v-deep {
   .v-list-item > * {
-    margin: 0;
-
     width: 100%;
     &.v-btn,
     .v-btn {

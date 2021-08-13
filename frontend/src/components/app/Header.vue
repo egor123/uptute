@@ -16,38 +16,9 @@
             <h1 id="name">UpTute</h1>
           </button>
         </div>
-        <!-- <div id="mobileSpacer" ref="mobileSpacer"></div> -->
         <div id="buttons" ref="buttons">
-          <!-- <v-btn
-            id="account"
-            rounded
-            v-if="!getStatus"
-            :to="{ name: 'Account' }"
-          > -->
-          <!-- {{ $l("app.pages.account") }} -->
-
-          <!-- </v-btn> -->
           <LessonMenu />
-          <!-- <v-btn rounded v-if="!getStatus" :to="{ name: 'LogIn' }">
-            {{ $l("app.pages.log_in") }}
-          </v-btn>
-          <v-btn rounded v-if="!getStatus" :to="{ name: 'Register' }">
-            {{ $l("app.pages.register") }}
-          </v-btn>
 
-          <v-btn rounded :to="{ name: 'WhyUs' }">
-            {{ $l("app.pages.why_us") }}
-          </v-btn> -->
-
-          <!-- <v-btn
-            rounded
-            text
-            color="accent"
-            v-if="!getStatus"
-            :to="{ name: 'FindATutor' }"
-          >
-            {{ $l("app.pages.find_tutor") }}
-          </v-btn> -->
           <Begin
             color="#000"
             textColor="white"
@@ -56,38 +27,13 @@
             v-if="getStatus"
           />
         </div>
-        <v-menu
-          offset-y
-          open-on-hover
-          hide-on-scroll
-          transition="scale-transition"
-          origin="top center"
-          attach="#flag"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on" id="flag" ref="locales">
-              <img :src="getImgUrl(locale)" :alt="locale" class="flagImg" />
-            </div>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(l, index) in locales"
-              :key="index"
-              v-on:change="changeLocale(l)"
-            >
-              <button>
-                <img :src="getImgUrl(l)" :alt="l" class="flagImg" />
-              </button>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <v-icon
-          id="account"
-          ref="account"
-          v-if="!getStatus"
-          @click="goTo('Account')"
-          >mdi-account-circle</v-icon
-        >
+
+        <LocalesMenu ref="locales" id="locales" />
+
+        <div v-if="!getStatus" ref="rightSide" id="rightSide">
+          <Important />
+          <AccountMenu />
+        </div>
       </div>
     </div>
     <div id="subHeader" ref="subHeader" />
@@ -102,57 +48,44 @@
     >
       <p class="ma-0" v-html="$l('auth.allow_cookies')"></p>
     </v-snackbar>
-    <Important />
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
 import LessonMenu from "@/components/header/LessonMenu.vue";
 import Begin from "@/components/header/Begin.vue";
+import LocalesMenu from "@/components/header/LocalesMenu.vue";
+import AccountMenu from "@/components/header/AccountMenu.vue";
+
 import Important from "@/components/notifications/Important.vue";
 
 export default {
   data() {
     return {
       minOffset: 100,
-      locales: [],
-      locale: String,
       showSnackbar: false,
     };
   },
   components: {
     LessonMenu,
     Begin,
+    LocalesMenu,
+    AccountMenu,
+
     Important,
   },
   computed: mapGetters(["getStatus", "getNavBar"]),
   methods: {
     ...mapActions(["setMobileView", "setNavBar"]),
-    changeLocale(val) {
-      this.$router.replace({
-        params: { locale: val },
-      });
-      this.updateLocales(val);
-    },
     goTo(pageName) {
       if (this.$route.name !== pageName) this.$router.push({ name: pageName });
-    },
-    getImgUrl(locale) {
-      return require("@/assets/icons/flags/" + locale + ".svg");
-    },
-    updateLocales(locale) {
-      this.locale = locale;
-      this.locales = require.context("@/locales", true, /^.*\.json$/).keys();
-      for (var i = 0; i < this.locales.length; i++)
-        this.locales[i] = this.locales[i].slice(2, -5);
-      this.locales.splice(this.locales.indexOf(locale), 1);
     },
     resize() {
       const container = this.$refs.container;
       const buttons = this.$refs.buttons;
       const title = this.$refs.title;
-      const locales = this.$refs.locales;
-      const account = this.$refs.account.$el;
+      const locales = this.$refs.locales.$el;
+      const rightSide = this.$refs.rightSide;
       const navIcon = this.$refs.navIcon;
 
       const observer = new ResizeObserver(() => {
@@ -162,7 +95,7 @@ export default {
           container.offsetWidth -
             title.offsetWidth -
             locales.offsetWidth -
-            account.offsetWidth -
+            rightSide.offsetWidth -
             buttons.offsetWidth <
           this.minOffset;
 
@@ -203,9 +136,7 @@ export default {
       });
     },
   },
-  created() {
-    this.updateLocales(this.$route.params.locale);
-  },
+
   mounted() {
     this.scroll();
     this.subHeader();
@@ -221,19 +152,6 @@ $header-height: 56px;
 $gap: 1rem;
 @import "@/scss/mixins.scss";
 
-@mixin hoverOpacity() {
-  transition: opacity 0.3s ease-in-out;
-  &:hover {
-    opacity: 0.7;
-  }
-}
-
-// @mixin flexbox() {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   height: 100%;
-// }
 #wrapper {
   position: fixed;
   display: flex;
@@ -262,15 +180,13 @@ $gap: 1rem;
     position: absolute;
     left: var(--side-margin);
     right: var(--side-margin);
-    // left: 1rem;
-    // right: 1rem;
     height: $header-height;
 
     @media (max-width: 1000px) {
       left: 1rem;
       right: 1rem;
-      #account {
-        margin: 0 0 0 calc(#{$gap} / 2);
+      #rightSide {
+        @include box-size(fit-content);
         position: relative !important;
         right: 0 !important;
         transform: none !important;
@@ -292,37 +208,16 @@ $gap: 1rem;
       #name {
         font-size: 32px;
         color: var(--v-secondary-base);
-        // font-weight: 500;
       }
       * {
         @include hoverOpacity();
       }
     }
-    // #mobileSpacer {
-    //   &.mobile {
-    //     width: calc(1.4 * var(--side-margin));
-    //     height: 1px;
-    //     background: red;
-    //   }
-    // }
+
     #buttons {
+      height: 100%;
       @include flexbox();
       margin-left: auto;
-
-      // & > * {
-      //   background-color: transparent;
-      //   color: var(--v-background-darken3);
-      //   color: var(--v-accent-base);
-      //   padding: 0.5rem calc(#{$gap} / 2);
-      //   letter-spacing: 3px;
-      //   font-weight: 500;
-      // }
-      // * > div {
-      //   color: var(--v-accent-base);
-      // }
-    }
-    #flagBtn {
-      height: 100%;
     }
 
     #nav a {
@@ -334,56 +229,25 @@ $gap: 1rem;
         color: var(--v-active-base);
       }
     }
-    #account {
+    #rightSide {
+      height: 100%;
+      @include flexbox();
       position: absolute;
-      font-size: 40px;
-      color: var(--v-background-base);
-      right: calc(50px - var(--side-margin));
-      transform: translateX(50%);
-      @include hoverOpacity();
-      &.v-icon::after {
-        background-color: transparent;
-      }
+      right: calc(16px - var(--side-margin));
+      // transform: translateX(100%);
     }
   }
 }
 
 ::v-deep {
-  #buttons {
+  #buttons > * {
+    padding: calc(#{$gap} / 4) calc(#{$gap} / 2);
+  }
+  #rightSide {
     & > * {
-      padding: calc(#{$gap} / 4) calc(#{$gap} / 2);
+      padding: 0 calc(#{$gap} / 2);
     }
   }
-}
-
-#flag {
-  height: 100%;
-  width: max-content;
-  cursor: default;
-  @include flexbox();
-  padding: 0 calc(#{$gap} / 2);
-}
-
-.v-menu__content {
-  background: transparent;
-  border-radius: 0 0 15px 15px;
-  transition: all 0.3s !important;
-  .v-list {
-    background: #000 !important;
-    .v-list-item > * {
-      margin: 0 auto;
-    }
-    .v-btn {
-      border-radius: 50px;
-    }
-  }
-}
-
-.flagImg {
-  border-radius: 1.5px;
-}
-
-::v-deep {
   .v-snack__wrapper {
     border-radius: 15px !important;
   }
@@ -391,6 +255,7 @@ $gap: 1rem;
     font-size: 1rem !important;
   }
 }
+
 #subHeader {
   z-index: -1;
   width: 100vw;
