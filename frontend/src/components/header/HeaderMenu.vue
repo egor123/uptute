@@ -97,7 +97,7 @@ div.title {
   @include flexbox();
   justify-content: var(--justifyContent);
 
-  color: var(--v-background-base) !important;
+  color: var(--v-accent-base) !important;
 
   text-transform: uppercase;
   text-align: center;

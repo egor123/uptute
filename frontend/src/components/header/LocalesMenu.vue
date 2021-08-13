@@ -64,6 +64,5 @@ export default {
 
 .flagImg {
   border-radius: 1.5px;
-  padding: 0 0.5rem;
 }
 </style>

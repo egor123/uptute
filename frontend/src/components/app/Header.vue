@@ -2,10 +2,7 @@
   <div id="wrapper" ref="wrapper" scrollDist="30">
     <div id="header">
       <div ref="navIcon" id="navIcon">
-        <v-app-bar-nav-icon
-          color="secondary darken-4"
-          @click="setNavBar(!getNavBar)"
-        />
+        <v-app-bar-nav-icon @click="setNavBar(!getNavBar)" />
       </div>
       <div id="container" ref="container">
         <div id="title" ref="title">
@@ -27,9 +24,9 @@
             v-if="getStatus"
           />
         </div>
-
-        <LocalesMenu ref="locales" id="locales" />
-
+        <div id="locales">
+          <LocalesMenu ref="locales" />
+        </div>
         <div v-if="!getStatus" ref="rightSide" id="rightSide">
           <Important />
           <AccountMenu />
@@ -149,7 +146,7 @@ export default {
 </script>
 <style scoped lang="scss">
 $header-height: 56px;
-$gap: 1rem;
+$gap: 1.5rem;
 @import "@/scss/mixins.scss";
 
 #wrapper {
@@ -174,6 +171,9 @@ $gap: 1rem;
     padding: 1rem;
     position: absolute;
     left: 0;
+    .v-btn {
+      color: var(--v-accent-base) !important;
+    }
   }
   #container {
     @include flexbox();
@@ -185,6 +185,7 @@ $gap: 1rem;
     @media (max-width: 1000px) {
       left: 1rem;
       right: 1rem;
+      $gap: 3rem !important;
       #rightSide {
         @include box-size(fit-content);
         position: relative !important;
@@ -195,6 +196,10 @@ $gap: 1rem;
 
     &.drawerActive {
       left: 55px;
+      #title {
+        opacity: 0;
+        pointer-events: none;
+      }
     }
 
     #title {
@@ -240,8 +245,9 @@ $gap: 1rem;
 }
 
 ::v-deep {
-  #buttons > * {
-    padding: calc(#{$gap} / 4) calc(#{$gap} / 2);
+  #buttons > *,
+  #locales {
+    padding: 0 calc(#{$gap} / 2);
   }
   #rightSide {
     & > * {

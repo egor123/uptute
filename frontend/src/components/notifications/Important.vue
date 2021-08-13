@@ -104,7 +104,7 @@ export default {
       // display: inline-flex !important;
       @include flexbox();
       color: var(--v-background-base);
-      margin-right: 1rem;
+      margin: 0 1rem;
     }
   }
 }
