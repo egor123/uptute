@@ -12,27 +12,28 @@
     <template v-slot:title>
       <v-icon id="account" class="headerCircle">mdi-account-circle</v-icon>
     </template>
+
     <template v-slot:content>
       <v-list-item>
-        <v-btn text>
+        <v-btn text @click="goTo('Profile')">
           <v-icon>mdi-account-circle</v-icon>
           {{ $l("acc_pages.profile") }}
         </v-btn>
       </v-list-item>
       <v-list-item>
-        <v-btn text>
+        <v-btn text @click="goTo('Calendar')">
           <v-icon>mdi-calendar-clock</v-icon>
           {{ $l("acc_pages.calendar") }}
         </v-btn>
       </v-list-item>
       <v-list-item>
-        <v-btn text>
+        <v-btn text @click="goTo('Calendar')">
           <v-icon>mdi-calendar-check</v-icon>
           {{ $l("acc_pages.logs") }}
         </v-btn>
       </v-list-item>
       <v-list-item>
-        <v-btn text>
+        <v-btn text @click="goTo('Settings')">
           <v-icon>mdi-account-cog</v-icon>
           {{ $l("acc_pages.settings") }}
         </v-btn>
@@ -53,6 +54,11 @@ import HeaderMenu from "@/components/header/HeaderMenu.vue";
 export default {
   components: {
     HeaderMenu,
+  },
+  methods: {
+    goTo(pageName) {
+      if (this.$route.name !== pageName) this.$router.push({ name: pageName });
+    },
   },
 };
 </script>

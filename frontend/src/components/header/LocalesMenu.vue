@@ -66,10 +66,13 @@ export default {
 
 .flagImg {
   // $iconWidth: calc(30px * 0.845);
-
+  @include hoverOpacity();
   border-radius: 1.5px;
   // width: 30px;
   // width: $iconWidth;
   // margin: 0 calc(30px - #{$iconWidth});
+}
+.v-list-item .flagImg {
+  cursor: pointer;
 }
 </style>

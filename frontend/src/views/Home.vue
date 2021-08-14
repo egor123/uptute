@@ -296,6 +296,8 @@ h1 {
   }
 }
 
+// ------------------- hero img --------------------------
+
 // .img {
 //   background-image: url("../assets/images/home.jpg");
 //   height: 100vh;

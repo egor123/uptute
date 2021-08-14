@@ -1,36 +1,38 @@
 <template>
   <div id="wrapper" ref="wrapper" scrollDist="30">
-    <div id="header">
-      <div id="container" ref="container">
-        <div id="title" ref="title">
-          <button>
-            <img src="@/assets/logo.svg" id="logo" @click="goTo('Home')" />
-          </button>
-          <button @click="goTo('Home')">
-            <h1 id="name">UpTute</h1>
-          </button>
-        </div>
-        <div ref="navIcon" id="navIcon">
-          <v-app-bar-nav-icon @click="setNavBar(!getNavBar)" />
-        </div>
+    <div id="header" ref="header">
+      <!-- <div id="container" ref="container"> -->
+
+      <div ref="navIcon" id="navIcon">
+        <v-app-bar-nav-icon @click="setNavBar(!getNavBar)" />
+      </div>
+
+      <div id="title" ref="title">
+        <button>
+          <img src="@/assets/logo.svg" id="logo" @click="goTo('Home')" />
+        </button>
+        <button @click="goTo('Home')">
+          <h1 id="name">UpTute</h1>
+        </button>
+      </div>
+
+      <div ref="rightSide" id="rightSide">
         <div id="buttons" ref="buttons">
-          <LessonMenu v-if="getStatus" />
+          <LessonMenu v-if="!getStatus" />
 
           <Begin
             color="#000"
             textColor="white"
             borderRadius="0 0 15px 15px"
             border="none"
-            v-if="!getStatus"
+            v-if="getStatus"
           />
         </div>
-
-        <div v-if="!getStatus" ref="rightSide" id="rightSide">
-          <LocalesMenu />
-          <Notifications />
-          <AccountMenu />
-        </div>
+        <LocalesMenu />
+        <Notifications />
+        <AccountMenu />
       </div>
+      <!-- </div> -->
     </div>
     <div id="subHeader" ref="subHeader" />
     <v-snackbar
@@ -59,7 +61,6 @@ import Notifications from "@/components/notifications/Notifications.vue";
 export default {
   data() {
     return {
-      minOffset: 100,
       showSnackbar: false,
     };
   },
@@ -78,40 +79,38 @@ export default {
       if (this.$route.name !== pageName) this.$router.push({ name: pageName });
     },
     resize() {
-      const container = this.$refs.container;
+      const header = this.$refs.header;
       const buttons = this.$refs.buttons;
       const title = this.$refs.title;
-      // const rightSide = this.$refs.rightSide;
       const navIcon = this.$refs.navIcon;
 
       const observer = new ResizeObserver(() => {
         buttons.style.display = "flex";
         title.style.display = "flex";
         navIcon.style.display = "none";
-        let emptySpace = Array.from(container.children).reduce(
+
+        let pl = this.padding(header, "padding-left");
+        let pr = this.padding(header, "padding-right");
+
+        let emptySpace = Array.from(header.children).reduce(
           (val, el) => val - el.offsetWidth,
-          container.offsetWidth
+          header.offsetWidth - pl - pr
         );
-        console.log(emptySpace);
+
         var mv = emptySpace < 0;
-        console.log(mv);
+
         buttons.style.display = mv ? "none" : "flex";
         title.style.display = mv ? "none" : "flex";
         navIcon.style.display = mv ? "inline" : "none";
 
-        // var mv =
-        //   container.offsetWidth - title.offsetWidth - rightSide.offsetWidth <
-        //   this.minOffset;
-
-        // buttons.style.display = mv ? "none" : "flex";
-        // title.style.display = mv ? "none" : "flex";
-        // navIcon.style.display = mv ? "inline" : "none";
-
-        // container.classList.toggle("drawerActive", mv);
-        // this.setMobileView(mv);
+        this.setMobileView(mv);
       });
       // observer.observe(document.documentElement);
-      observer.observe(container);
+      observer.observe(header);
+    },
+    padding(header, side) {
+      var pPx = window.getComputedStyle(header, null).getPropertyValue(side);
+      return pPx.slice(0, pPx.length - 2);
     },
     scroll() {
       const wrapper = this.$refs.wrapper;
@@ -170,88 +169,64 @@ $gap: 0.6rem;
   }
 }
 #header {
+  $gap: 1rem !important;
+
   @include flexbox();
   height: $header-height;
   width: 100%;
+  padding: 0 1.2rem;
   background-color: var(--v-primary-base);
   opacity: 0.8;
   color: var(--v-secondary-base);
   #navIcon {
-    padding: 1rem;
+    padding: $gap / 2;
+
     position: absolute;
-    left: 0;
+    left: 10px;
     .v-btn {
       color: var(--v-accent-base) !important;
     }
   }
-  #container {
+
+  #title {
     @include flexbox();
-    position: absolute;
-    left: var(--side-margin);
-    right: var(--side-margin);
-    height: $header-height;
-    background: red;
-    @media (max-width: 1200px) {
-      left: 1rem;
-      right: 1rem;
-      $gap: 3rem !important;
-      #rightSide {
-        @include box-size(fit-content);
-        position: relative !important;
-        right: 0 !important;
-        transform: none !important;
-      }
-    }
+    text-transform: none;
+    color: var(--v-background-base);
+    margin-right: auto;
 
-    &.drawerActive {
-      left: 55px;
-      // #title {
-      //   opacity: 0;
-      //   pointer-events: none;
-      // }
+    #logo {
+      height: 70px;
     }
-
-    #title {
-      @include flexbox();
-      text-transform: none;
-      color: var(--v-background-base);
-      margin-right: auto;
-      // position: absolute;
-      // left: calc(-1 * var(--side-margin));
-      #logo {
-        height: 70px;
-      }
-      #name {
-        font-size: 32px;
-        color: var(--v-secondary-base);
-      }
-      * {
-        @include hoverOpacity();
-      }
-    }
-
-    #buttons {
-      height: 100%;
-      @include flexbox();
-      padding: 0 2rem;
-    }
-
-    #nav a {
-      margin: 2px;
-      background-color: var(--v-primary-base);
-      font-weight: bold;
+    #name {
+      font-size: 32px;
       color: var(--v-secondary-base);
-      &.router-link-active {
-        color: var(--v-active-base);
-      }
     }
-    #rightSide {
-      height: 100%;
-      @include flexbox();
-      position: absolute;
-      right: calc(1.5rem - var(--side-margin));
-      // transform: translateX(100%);
+    * {
+      @include hoverOpacity();
     }
+  }
+
+  #buttons {
+    height: 100%;
+    @include flexbox();
+    padding: 0 2rem 0 2rem;
+  }
+
+  #nav a {
+    margin: 2px;
+    background-color: var(--v-primary-base);
+    font-weight: bold;
+    color: var(--v-secondary-base);
+    &.router-link-active {
+      color: var(--v-active-base);
+    }
+  }
+  #rightSide {
+    @include flexbox();
+    width: fit-content;
+    height: 100%;
+    margin-left: auto;
+    transform: none !important;
   }
 }
 
@@ -267,7 +242,6 @@ $gap: 0.6rem;
       margin: 0 ($circleSize - $imgSize) / 2 !important;
     }
   }
-
   #buttons > *,
   #rightSide {
     & > * {

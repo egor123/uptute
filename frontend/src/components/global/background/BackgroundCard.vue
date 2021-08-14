@@ -23,7 +23,7 @@ export default {
 
   @include flexbox(column);
   position: relative;
-  margin: --topOffset 1rem 6rem 1rem;
+  margin: var(--topOffset) 1rem 6rem 1rem;
   padding: 4rem;
   border-radius: 15px;
   background: transparent !important;

@@ -6,7 +6,7 @@
     border="none"
   >
     <template v-slot:title>
-      {{ $l("app.header.lesson.title") }}
+      <span> {{ $l("app.header.lesson.title") }}</span>
     </template>
     <template v-slot:content>
       <v-list-item>
@@ -16,7 +16,7 @@
         </v-btn>
       </v-list-item>
       <v-list-item>
-        <v-btn text>
+        <v-btn text id="teach">
           <v-icon>mdi-teach</v-icon>
           {{ $l("app.header.lesson.teach") }}
         </v-btn>
@@ -34,3 +34,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
+span {
+  @include hoverOpacity();
+}
+#teach {
+  &,
+  .v-icon {
+    color: var(--v-primary-lighten3) !important;
+  }
+}
+</style>

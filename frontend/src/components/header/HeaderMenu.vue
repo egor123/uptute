@@ -7,6 +7,8 @@
     content-class="content"
     :attach="'#' + id"
     transition="scale-transition"
+    v-model="showMenu"
+    :close-on-content-click="onHover"
   >
     <template v-slot:activator="{ on, attrs }">
       <div
@@ -23,7 +25,6 @@
         :class="{
           triangle: paddingTop !== '0' && paddingTop !== '0px',
         }"
-        ref="activator"
       >
         <slot name="title" />
       </div>
@@ -72,6 +73,7 @@ export default {
   data() {
     return {
       id: "",
+      showMenu: false,
     };
   },
   methods: {
@@ -91,6 +93,11 @@ export default {
   beforeMount() {
     this.id = this.getId();
   },
+  watch: {
+    showMenu: function(val) {
+      console.log(val);
+    },
+  },
 };
 </script>
 
@@ -98,11 +105,18 @@ export default {
 @import "@/scss/mixins.scss";
 $triangleOffset: 30px;
 
+::v-deep {
+  div.title > span {
+    @include hoverOpacity();
+  }
+}
+
 div.title {
   position: relative;
   height: 100%;
   cursor: default;
   @include flexbox();
+
   justify-content: var(--justifyContent);
 
   color: var(--v-accent-base) !important;

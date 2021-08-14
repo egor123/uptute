@@ -6,7 +6,7 @@
     :border="border"
   >
     <template v-slot:title>
-      {{ $l("app.pages.begin") }}
+      <span>{{ $l("app.pages.begin") }}</span>
     </template>
     <template v-slot:content>
       <v-list-item>
@@ -47,3 +47,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
+span {
+  @include hoverOpacity();
+}
+</style>

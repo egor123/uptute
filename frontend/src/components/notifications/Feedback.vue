@@ -5,6 +5,7 @@
       {{ commenter }} gave you a
       <a ref="feedbackATag">feedback</a>
     </span>
+    <v-icon class="closeIcon">mdi-close</v-icon>
     <FeedbackViewer
       ref="viewer"
       :commenter="commenter"
@@ -34,3 +35,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
+.closeIcon {
+  @include box-size(10px);
+}
+</style>

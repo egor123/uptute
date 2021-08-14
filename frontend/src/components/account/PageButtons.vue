@@ -33,11 +33,8 @@ export default {
       });
       el.addEventListener("click", () => {
         let name = el.getAttribute("path");
-        if (
-          !this.$mb.isMobileInput() ||
-          (btn.opened && this.$route.name != name)
-        )
-          this.$router.push({ name });
+        if (!this.$mb.isMobileInput() || btn.opened)
+          this.$router.push({ name }).catch(() => {});
       });
     });
   },
