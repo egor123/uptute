@@ -1,5 +1,5 @@
 <template>
-  <Dialog ref="dialog">
+  <Dialog ref="dialog" @closed="$emit('closed')">
     <template v-slot:title>
       Feedback
     </template>

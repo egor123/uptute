@@ -2,8 +2,10 @@
   <v-list-item>
     <v-icon>mdi-teach</v-icon>
     <span>
-      A lesson with {{ name }}
-      <a target="_blank" :href="link">here</a>
+      {{ insertName($l("app.header.notifications.accepted.lesson")) }}
+      <a target="_blank" @click="$emit('clicked')" :href="link">
+        {{ $l("app.header.notifications.accepted.link") }}</a
+      >
     </span>
   </v-list-item>
 </template>
@@ -13,6 +15,11 @@ export default {
   props: {
     name: String,
     link: String,
+  },
+  methods: {
+    insertName(str) {
+      return str.replace("NAME", this.name);
+    },
   },
 };
 </script>

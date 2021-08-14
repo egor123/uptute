@@ -22,14 +22,19 @@
           :commenter="notification.commenter"
           :rating="notification.rating"
           :comment="notification.comment"
+          @closed="closeNotification(index)"
         />
         <LessonAccepted
           v-if="notification.type === 'acceptedLesson'"
           :name="notification.name"
           :link="notification.link"
+          @clicked="closeNotification(index)"
         />
         <div class="dividor" v-if="index !== notifications.length - 1" />
       </div>
+      <v-list-item v-if="notifications.length === 0">
+        {{ $l("app.header.notifications.nothing") }}</v-list-item
+      >
     </template>
   </HeaderMenu>
 </template>
@@ -65,6 +70,13 @@ export default {
       ],
     };
   },
+  methods: {
+    closeNotification(index) {
+      console.log(11111111);
+      this.notifications.splice(index, 1);
+      console.log(this.notifications);
+    },
+  },
   components: {
     HeaderMenu,
     Feedback,
@@ -89,7 +101,8 @@ export default {
 }
 
 ::v-deep {
-  .v-list-item {
+  .v-list-item,
+  &.v-list-item {
     @include flexbox();
     max-width: 350px;
     width: max-content;

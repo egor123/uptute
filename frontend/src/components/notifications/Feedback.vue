@@ -2,11 +2,15 @@
   <v-list-item>
     <v-icon>mdi-star</v-icon>
     <span>
-      {{ commenter }} gave you a
-      <a ref="feedbackATag">feedback</a>
+      <!-- {{ commenter }} -->
+      {{ insertName($l("app.header.notifications.feedback.gave")) }}
+      <a ref="feedbackATag">
+        {{ $l("app.header.notifications.feedback.link") }}</a
+      >
     </span>
-    <v-icon class="closeIcon">mdi-close</v-icon>
+    <!-- this.$emit('closed') -->
     <FeedbackViewer
+      @closed="$emit('closed')"
       ref="viewer"
       :commenter="commenter"
       :rating="rating"
@@ -30,16 +34,14 @@ export default {
   mounted() {
     this.$refs.feedbackATag.addEventListener("click", (event) => {
       this.$refs.viewer.$refs.dialog.open();
+      // this.$emit("clicked");
       event.preventDefault();
     });
   },
+  methods: {
+    insertName(str) {
+      return str.replace("COMMENTER", this.commenter);
+    },
+  },
 };
 </script>
-
-<style lang="scss" scoped>
-@import "@/scss/mixins.scss";
-
-.closeIcon {
-  @include box-size(10px);
-}
-</style>

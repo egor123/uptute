@@ -44,6 +44,7 @@ export default {
       else this.executeSequence(props);
     },
     executeSequence(props) {
+      const scrollHeight = 20;
       const slot = this.$refs.slot;
       const holder = this.$refs.holder;
       const icons = this.$refs.icon;
@@ -75,7 +76,8 @@ export default {
           Promise.resolve()
             .then(() => {
               console.log("disable start");
-              const height = slot.children[0].clientHeight + "px";
+              const height =
+                slot.children[0].clientHeight + scrollHeight + "px";
               return this.setProperty(slot, "height", height, true);
             })
             .then(() => {
@@ -143,10 +145,23 @@ export default {
 
 #slot {
   transition: all 400ms ease-in-out;
-  overflow: hidden;
+  overflow-x: auto;
+  direction: rtl;
+  // overflow-x: auto;
+  // overflow-y: hidden;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  // overflow: auto;
   $min-height: 100px;
   min-height: $min-height;
   height: $min-height;
+  max-height: 100vh;
+  @media (pointer: none), (pointer: coarse) {
+    scrollbar-width: none !important;
+    &::-webkit-scrollbar {
+      width: 0 !important;
+      height: 0 !important;
+    }
+  }
 }
 
 #holder {

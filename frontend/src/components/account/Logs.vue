@@ -227,17 +227,15 @@ export default {
 @import "@/scss/mixins.scss";
 
 #background {
-  @include box-size(100%);
-  padding-top: 9rem;
+  width: 100%;
 }
 
 #tableWrapper {
-  overflow-x: auto;
-  width: fit-content;
-  // margin: 0 10px;
+  width: 100%;
+
   table {
     border-radius: 15px;
-    margin: 0 2.5vw;
+    margin: 0 auto;
     width: 95vw;
     @media (max-width: 1100px) {
       width: 1045px; //1100 * 0.95
@@ -247,6 +245,8 @@ export default {
       @include box-shadow();
       border-radius: inherit;
       color: var(--v-primary-lighten3);
+      border-right: 2rem solid transparent;
+      border-left: 2rem solid transparent;
 
       // @include from-left();
 

@@ -71,6 +71,17 @@
         "title": "Lesson",
         "learn": "Learn",
         "teach": "Teach"
+      },
+      "notifications": {
+        "nothing": "Nothing here",
+        "accepted": {
+          "lesson": "A lesson with NAME",
+          "link": "here"
+        },
+        "feedback": {
+          "gave": "COMMENTER gave you a",
+          "link": "feedback"
+        }
       }
     },
     "footer": {

@@ -43,6 +43,9 @@ export default {
     },
   },
   watch: {
+    showDialog: function(val) {
+      !val ? this.$emit("closed") : null;
+    },
     // showDialog: function(val) {
     //   console.log(val);
     //   if (this.showDialog === true) {

@@ -73,6 +73,17 @@
         "title": "Tund",
         "learn": "Õppi",
         "teach": "Õpeta"
+      },
+      "notifications": {
+        "nothing": "Teavitused puuduvad",
+        "accepted": {
+          "lesson": "Tund NAME'ga",
+          "link": "siin"
+        },
+        "feedback": {
+          "gave": "COMMENTER andis",
+          "link": "tagasiside"
+        }
       }
     },
     "footer": {
