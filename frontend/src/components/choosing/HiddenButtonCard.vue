@@ -20,7 +20,6 @@
     @include box-shadow();
 
     border-radius: 15px;
-    margin: 15px auto;
     padding: 15px;
 
     @include from-left();

@@ -93,12 +93,11 @@ export default {
   }
   .commenter {
     padding: 2rem 0;
-    // border-bottom: red solid 1px;
     .tutor {
       display: flex;
       flex: row;
       align-content: center;
-      margin: 1.2rem 0 0.5rem 0;
+      margin-bottom: 0.5rem;
       & > *:not(.rating) {
         opacity: 0.6;
       }

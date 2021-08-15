@@ -22,7 +22,7 @@ p {
 
 #moto {
   position: relative;
-  height: content;
+  height: fit-content;
   @include flexbox();
   max-width: max-content;
   margin: 0 auto;
@@ -30,7 +30,7 @@ p {
     position: absolute;
     @include box-size(50px);
     opacity: 0.1;
-    top: -0.8rem;
+    top: -0.5rem;
     left: 3rem;
   }
 }

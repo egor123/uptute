@@ -148,7 +148,7 @@ $inner-content-width: 350px;
 }
 
 .innerContent {
-  margin: calc(106px + 3rem) auto auto auto;
+  margin: calc(106px + 3rem) auto 3rem auto;
   width: $inner-content-width;
 }
 
