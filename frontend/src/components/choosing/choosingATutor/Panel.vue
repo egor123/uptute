@@ -89,6 +89,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
 * {
   margin: auto 0;
 }
@@ -142,7 +144,8 @@ export default {
   opacity: 1 !important;
   width: max-content !important;
   min-width: 0 !important;
-  background: var(--v-secondary-darken2) !important;
-  color: white !important;
+  background: var(--v-background-base) !important;
+  color: var(--v-background-darken3) !important;
+  @include box-shadow();
 }
 </style>

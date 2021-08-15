@@ -27,7 +27,7 @@
         </v-btn>
       </v-list-item>
       <v-list-item>
-        <v-btn text @click="goTo('Calendar')">
+        <v-btn text @click="goTo('Logs')">
           <v-icon>mdi-calendar-check</v-icon>
           {{ $l("acc_pages.logs") }}
         </v-btn>
