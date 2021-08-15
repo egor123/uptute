@@ -32,7 +32,12 @@
 
       <v-list class="pr-0 buttonsList" flat dense nav>
         <v-list-item-group active-class="chosenPage">
-          <v-list-item exact active-class="active" :to="{ name: 'Home' }">
+          <v-list-item
+            exact
+            active-class="active"
+            class=".button"
+            :to="{ name: 'Home' }"
+          >
             {{ $l("app.pages.home") }}
           </v-list-item>
 

@@ -145,15 +145,11 @@ export default {
 
 #slot {
   transition: all 400ms ease-in-out;
-  overflow-x: auto;
-  direction: rtl;
   // overflow-x: auto;
-  // overflow-y: hidden;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  // overflow: auto;
-  $min-height: 100px;
-  min-height: $min-height;
-  height: $min-height;
+  // $min-height: 100px;
+  // min-height: $min-height;
+  height: fit-content;
   max-height: 100vh;
   @media (pointer: none), (pointer: coarse) {
     scrollbar-width: none !important;

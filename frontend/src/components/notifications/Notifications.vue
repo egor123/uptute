@@ -107,13 +107,13 @@ export default {
     max-width: 350px;
     width: max-content;
     text-transform: none;
-    color: var(--v-background-base) !important;
     height: fit-content !important;
     min-height: 0;
     margin: 1rem 0;
     text-align: left;
     & > * {
       @include box-size(fit-content);
+      color: var(--v-background-base) !important;
     }
     .v-icon {
       // display: inline-flex !important;

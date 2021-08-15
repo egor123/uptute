@@ -2,13 +2,11 @@
   <v-list-item>
     <v-icon>mdi-star</v-icon>
     <span>
-      <!-- {{ commenter }} -->
       {{ insertName($l("app.header.notifications.feedback.gave")) }}
       <a ref="feedbackATag">
         {{ $l("app.header.notifications.feedback.link") }}</a
       >
     </span>
-    <!-- this.$emit('closed') -->
     <FeedbackViewer
       @closed="$emit('closed')"
       ref="viewer"

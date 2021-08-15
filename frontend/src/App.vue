@@ -90,12 +90,11 @@ html {
   font-size: 1.1rem;
 
   a:not(.v-btn) {
-    color: var(--v-secondary-darken3);
-    transition: color 400ms;
-    text-decoration: underline;
+    color: var(--v-background-darken4);
+    transition: color 500ms;
     &:hover,
     &:focus {
-      color: var(--v-accent-darken2);
+      color: var(--v-accent-base);
     }
   }
 }
