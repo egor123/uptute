@@ -168,11 +168,9 @@ export default {
   },
   methods: {
     checkOffset() {
-      // console.log(this.$refs.iframe.src);
       if (window.scrollY > window.innerHeight) {
-        this.$refs.iframe.src = "";
-      } else if (this.$refs.iframe.src !== this.url) {
-        this.$refs.iframe.src = this.url;
+        let iframeSrc = this.$refs.iframe.src;
+        this.$refs.iframe.src = iframeSrc;
       }
     },
   },

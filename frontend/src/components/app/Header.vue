@@ -174,7 +174,7 @@ $gap: 0.6rem;
   @include flexbox();
   height: $header-height;
   width: 100%;
-  padding: 0 1.2rem;
+  padding: 0 1.4rem;
   background-color: var(--v-primary-base);
   opacity: 0.8;
   color: var(--v-secondary-base);

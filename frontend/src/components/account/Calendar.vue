@@ -273,10 +273,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
 $border: 1px solid var(--v-background-base);
+
 ::v-deep {
   #backgroundCard {
-    margin: 70px 0 20px 0;
+    padding: 0 !important;
+    margin: auto;
+    // margin-top: auto !important;
+    // margin-bottom: auto !important;
     .v-calendar {
       height: 75vh;
       width: 80vw;
@@ -285,11 +290,13 @@ $border: 1px solid var(--v-background-base);
       }
     }
     @media (max-width: 800px) {
+      .sheetWrapper {
+        border-radius: 0 !important;
+      }
       .v-calendar,
       .v-calendar.v-calendar-daily {
         width: 100vw;
-        height: calc(100vh - 120px);
-        border-radius: 0 !important;
+        height: calc(100vh - 200px);
       }
       width: 100vw;
       margin-top: 56px;
@@ -304,6 +311,8 @@ $border: 1px solid var(--v-background-base);
     border-radius: 15px;
     overflow: hidden;
     border: $border;
+    // background: red;
+    @include box-shadow();
   }
   .v-sheet {
     overflow: hidden;

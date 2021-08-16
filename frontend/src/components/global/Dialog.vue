@@ -85,7 +85,6 @@ export default {
     scrollbar-width: none;
   }
   .v-card {
-    // overflow-x: hidden;
     #cardTitle {
       z-index: 10;
       font-family: Comfortaa !important;

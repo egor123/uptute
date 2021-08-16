@@ -30,9 +30,11 @@
 
     .button {
       opacity: 0;
+      pointer-events: none;
 
       &:hover {
         opacity: 1 !important;
+        pointer-events: all;
       }
     }
 

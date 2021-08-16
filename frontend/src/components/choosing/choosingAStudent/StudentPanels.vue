@@ -1,6 +1,10 @@
 <template>
   <div>
-    <HiddenButtonCard v-for="student in students" :key="student.id">
+    <HiddenButtonCard
+      v-for="student in students"
+      :key="student.id"
+      class="card"
+    >
       <template v-slot:static>
         <table>
           <tr>
@@ -65,8 +69,15 @@ export default {
 };
 </script>
 
-<style lang="scss" style>
+<style lang="scss" scoped>
 @import "@/scss/mixins.scss";
+
+.card:first-child {
+  margin-top: 10px;
+}
+.card {
+  margin-top: 20px;
+}
 
 table {
   width: 100%;

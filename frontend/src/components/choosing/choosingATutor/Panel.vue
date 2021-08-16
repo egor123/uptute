@@ -117,6 +117,7 @@ export default {
   position: relative;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   .rating {
     position: absolute;
     left: 50%;
