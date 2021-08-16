@@ -44,7 +44,7 @@ export default {
       else this.executeSequence(props);
     },
     executeSequence(props) {
-      const scrollHeight = 20;
+      // const scrollHeight = 20;
       const slot = this.$refs.slot;
       const holder = this.$refs.holder;
       const icons = this.$refs.icon;
@@ -52,12 +52,17 @@ export default {
       const enable = () =>
         new Promise((res) => {
           Promise.resolve()
+            // .then(
+            //   () => new Promise((res) => this.waitUntilSlotCreated(slot, res))
+            // )
             .then(() => {
               console.log("enable start");
               this.toggleClass(holder, "disabled", false);
               icons.forEach((i) => this.toggleClass(i, "animated", true));
+              console.log(slot.style.opacity);
               return this.setProperty(slot, "opacity", 0, true);
             })
+            .then(() => console.log("!!!!!!"))
             .then(() => this.setProperty(slot, "height", 0, true))
             .then(() => {
               console.log("enable finished");
@@ -77,7 +82,11 @@ export default {
             .then(() => {
               console.log("disable start");
               const height =
-                slot.children[0].clientHeight + scrollHeight + "px";
+                Array.from(slot.children).reduce(
+                  (val, el) => val + el.offsetHeight,
+                  0
+                ) + "px";
+              // slot.children[0].clientHeight + scrollHeight + "px";
               return this.setProperty(slot, "height", height, true);
             })
             .then(() => {
@@ -129,9 +138,19 @@ export default {
         let stop = el.style[prop] === val;
         el.style[prop] = val;
         if (stop || !wait) res();
+        console.log("PROP: " + prop);
         el.addEventListener("transitionend", () => res(), { once: true });
       });
     },
+    // waitUntilSlotCreated(slot, res) {
+    //   console.log(slot.style.opacity != "");
+    //   console.log(slot.style.opacity);
+    //   console.log(slot);
+    //   slot.style.opacity = 1;
+    //   console.log("opacity === 1");
+    //   if (slot.style.opacity != "") return res();
+    //   setTimeout(() => this.waitUntilSlotCreated(slot, res), 1000);
+    // },
   },
 };
 </script>
@@ -140,16 +159,15 @@ export default {
 @import "@/scss/mixins.scss";
 #content {
   position: relative;
-  // min-height: 100px;
 }
 
 #slot {
   transition: all 400ms ease-in-out;
-  // overflow-x: auto;
+  overflow: auto;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  // $min-height: 100px;
-  // min-height: $min-height;
-  height: fit-content;
+  $min-height: 100px;
+  min-height: $min-height;
+  height: $min-height;
   max-height: 100vh;
   @media (pointer: none), (pointer: coarse) {
     scrollbar-width: none !important;
@@ -179,7 +197,7 @@ export default {
     opacity: 0;
   }
   &.centered {
-    position: fixed;
+    position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);

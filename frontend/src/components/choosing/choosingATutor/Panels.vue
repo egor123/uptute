@@ -6,6 +6,7 @@
         content-class="tooltip"
         open-delay="300"
         absolute
+        ref="tooltip"
       >
         <template v-slot:activator="{ on, attrs }">
           <div
@@ -45,6 +46,7 @@ export default {
       tooltipBackground: "var(--v-background-base)",
     };
   },
+
   mounted() {
     this.$nextTick(() => {
       document.styleSheets[0].insertRule(`:root{
