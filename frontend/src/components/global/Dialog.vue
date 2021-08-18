@@ -39,8 +39,12 @@ export default {
     open() {
       setTimeout(() => {
         this.showDialog = true;
+        setTimeout(() => {
+          this.$refs.start.scrollIntoView({ block: "start" });
+        }, 0);
       }, 0);
     },
+    scrollToComments() {},
   },
   watch: {
     showDialog: function(val) {

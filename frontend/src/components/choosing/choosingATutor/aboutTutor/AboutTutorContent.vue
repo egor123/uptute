@@ -18,6 +18,7 @@
     <div id="commentsDiv" ref="commentsDiv">
       <h4>{{ $l("tutor.comments") }}</h4>
       <Comments
+        @input="scrollToComments(500)"
         :id="tutor.uuid"
         background="var(--v-background-base)"
         v-model="commentsSettings"
@@ -60,16 +61,18 @@ export default {
   //     }, 1);
   //   });
   // },
-
-  watch: {
-    toComments: function() {
+  methods: {
+    scrollToComments(timeout) {
       setTimeout(() => {
         this.$refs.commentsDiv.scrollIntoView({
           behavior: "smooth",
         });
-      }, 10);
+        console.log("Scrolled --------");
+      }, timeout);
     },
   },
+
+  watch: {},
   mounted() {
     this.$root.$on("loadingEnded", () => {
       if (this.toComments) {
@@ -86,8 +89,12 @@ export default {
 
 <style lang="scss" scoped>
 #content {
-  & > *:not(:first-child) {
-    margin-top: 5rem;
+  $gap: 5rem;
+  & > *:not(:first-child):not(:last-child) {
+    margin-top: $gap;
+  }
+  & > *:last-child {
+    padding-top: $gap; // for ScrollToComments to have some space above
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <HiddenButtonCard :tutor="tutor">
     <template v-slot:static>
       <div class="profile">
-        <UserImg :tutor="tutor" :toComments="toComments" />
+        <UserImg :tutor="tutor" ref="userImg" />
 
         <div>
           <p class="pph">
@@ -62,7 +62,6 @@ export default {
   data() {
     return {
       windowTop: 0,
-      toComments: false,
     };
   },
   components: {
@@ -75,14 +74,12 @@ export default {
     tooltipUse: String,
     tutor: Object,
   },
-  mounted() {
-    this.$root.$on("dialogClosed", () => {
-      this.toComments = false;
-    });
-  },
   methods: {
     openComments() {
-      this.toComments = !this.toComments;
+      this.$refs.userImg.$refs.dialog.open();
+      setTimeout(() => {
+        this.$refs.userImg.$refs.aboutTutorContent.scrollToComments(0);
+      }, 0);
     },
   },
 };
