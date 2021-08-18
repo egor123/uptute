@@ -239,7 +239,7 @@ export default {
 }
 
 #imgContainer {
-  animation: fadeIn 4000ms 200ms both;
+  animation: fadeIn 2500ms 200ms ease both;
   overflow: hidden;
 
   @keyframes fadeIn {

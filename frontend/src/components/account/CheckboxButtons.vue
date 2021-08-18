@@ -52,6 +52,7 @@ $gap: 0.5rem;
     flex-direction: column;
     border-radius: 0 15px 15px 0 !important;
     border-left: none;
+    // margin-top: 5px;
 
     &:not(:hover) {
       transform: translateX(calc(-100% + 2 * #{$gap} + 34px + 1.5rem));

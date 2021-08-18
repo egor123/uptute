@@ -1,6 +1,6 @@
 <template>
   <Background>
-    <PageButtons
+    <!-- <PageButtons
       :buttons="[
         {
           icon: 'mdi-account-circle',
@@ -23,7 +23,7 @@
           path: 'Settings',
         },
       ]"
-    />
+    /> -->
 
     <!-- !!!!!!!!!!!!!!!!!!! -->
     <transition name="fade" mode="out-in">
@@ -34,7 +34,7 @@
 
 <script>
 import Background from "@/components/global/background/Background.vue";
-import PageButtons from "@/components/account/PageButtons.vue";
+// import PageButtons from "@/components/account/PageButtons.vue";
 
 import Profile from "@/components/account/Profile.vue";
 import Calendar from "@/components/account/Calendar.vue";
@@ -66,7 +66,7 @@ export default {
   ],
   components: {
     Background,
-    PageButtons,
+    // PageButtons,
   },
 };
 </script>

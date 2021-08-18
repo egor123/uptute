@@ -7,7 +7,6 @@
       class="pa-2"
       small
       text
-      ref="button"
     >
       <v-icon class="mr-2">{{ btn.icon }}</v-icon>
       <p>{{ btn.label }}</p>

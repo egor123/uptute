@@ -59,10 +59,11 @@ export default {
               console.log("enable start");
               this.toggleClass(holder, "disabled", false);
               icons.forEach((i) => this.toggleClass(i, "animated", true));
+              // console.log(slot.style.opacity);
               console.log(slot.style.opacity);
               return this.setProperty(slot, "opacity", 0, true);
             })
-            .then(() => console.log("!!!!!!"))
+            // .then(() => console.log("!!!!!!"))
             .then(() => this.setProperty(slot, "height", 0, true))
             .then(() => {
               console.log("enable finished");
@@ -72,7 +73,7 @@ export default {
       const emit = (val) =>
         new Promise((res) => {
           console.log("emiting...");
-          console.log(val);
+          // console.log(val);
           this.$emit("callback", val);
           setTimeout(() => res(), 0);
         });
@@ -138,7 +139,7 @@ export default {
         let stop = el.style[prop] === val;
         el.style[prop] = val;
         if (stop || !wait) res();
-        console.log("PROP: " + prop);
+        // console.log("PROP: " + prop);
         el.addEventListener("transitionend", () => res(), { once: true });
       });
     },

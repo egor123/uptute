@@ -22,9 +22,9 @@ export default {};
   .buttonWrapper {
     z-index: 2;
     pointer-events: none;
-    $offset: 16rem;
+    $offset: 10rem;
     position: sticky;
-    overflow: hidden;
+    // overflow: hidden; ????? why
     top: $offset;
     bottom: $offset;
     width: 100%;
@@ -37,14 +37,16 @@ export default {};
       max-width: max-content;
 
       background: var(--v-background-base);
-      border: 1px solid var(--v-accent-base);
 
-      &,
-      * {
-        color: var(--v-accent-base);
+      *,
+      .v-input {
+        color: var(--v-background-darken2) !important;
 
-        .v-icon {
+        .v-input--is-label-active * {
           color: var(--v-accent-base) !important;
+        }
+        .v-input--selection-controls__ripple {
+          @include box-size(30px);
         }
       }
 

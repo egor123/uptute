@@ -105,7 +105,7 @@ export default {
 
         this.setMobileView(mv);
       });
-      // observer.observe(document.documentElement);
+      observer.observe(document.documentElement); //needed for observe on mounted
       observer.observe(header);
     },
     padding(header, side) {
@@ -170,6 +170,7 @@ $gap: 0.6rem;
 }
 #header {
   $gap: 1rem !important;
+  @include box-shadow();
 
   @include flexbox();
   height: $header-height;
