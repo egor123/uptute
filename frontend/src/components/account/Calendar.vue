@@ -56,10 +56,11 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item @click="type = 'day'">
+                <v-list-item @click="setType('day')">
                   <v-list-item-title>Day</v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="type = 'month'">
+                <v-list-item @click="setType('month')">
+                  <!-- type = 'month' -->
                   <v-list-item-title>Month</v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -182,9 +183,16 @@ export default {
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
+      this.prev(); // TODO
+      this.next(); // renders a blank calendar without them
     },
     getEventColor(event) {
       return event.color;
+    },
+    setType(type) {
+      this.type = type;
+      this.prev(); // TODO
+      this.next(); // renders a blank calendar without them
     },
     setToday() {
       this.focus = "";
@@ -255,11 +263,17 @@ export default {
           timed: true,
         });
       }
+      console.log(events);
       this.events = events;
       this.eventsWithoutNames = eventsWithoutNames;
     },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
+    },
+  },
+  watch: {
+    focus: function(val) {
+      console.log(val);
     },
   },
   beforeDestroy() {
@@ -286,7 +300,7 @@ $border: 1px solid var(--v-background-base);
       height: 75vh;
       width: 80vw;
       &.v-calendar-daily {
-        width: 500px;
+        width: 600px;
       }
     }
     @media (max-width: 800px) {
@@ -316,9 +330,10 @@ $border: 1px solid var(--v-background-base);
   }
   .v-sheet {
     overflow: hidden;
-    &.v-toolbar,
-    &.v-toolbar__content {
-      background: #ffffff00;
+    .v-toolbar__content {
+      & > *:not(:last-child) {
+        margin-right: 1rem !important;
+      }
       .v-toolbar__title {
         opacity: 0;
         transition: opacity 400ms ease-in-out;
@@ -372,12 +387,20 @@ $border: 1px solid var(--v-background-base);
             }
           }
           .v-event-timed-container {
-            margin-right: 0;
+            width: 97%;
+            margin: 0 auto;
             .v-event-timed {
               border: none !important;
               border-top: 1px solid !important;
               border-bottom: 1px solid !important;
-              border-radius: 0 !important;
+              border-radius: 15px !important;
+
+              @include flexbox();
+              .pl-1 {
+                // @include box-size(fit-content);
+                padding-left: 0 !important;
+                // ?????????????????????
+              }
             }
           }
         }
