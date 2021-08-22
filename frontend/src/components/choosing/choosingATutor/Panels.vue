@@ -87,9 +87,6 @@ $card-rows-margin: 5px;
 // }
 
 .vForDiv:last-child {
-  & .panel {
-    margin: 10px auto 0 auto;
-  }
   & .tooltip {
     bottom: 0 !important;
   }
@@ -101,12 +98,12 @@ $card-rows-margin: 5px;
 
   .panel {
     @include box-size(100%);
-    margin: 10px auto;
+    // margin: 10px auto;
   }
   .tooltip {
     left: auto !important;
     top: auto !important;
-    right: calc(100% + 20px);
+    right: calc(100% + 3rem);
     top: auto !important;
 
     background: var(--tooltipBackground) !important;

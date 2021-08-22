@@ -247,6 +247,7 @@ export default {
         // const allDay = this.rnd(0, 3) === 0;
         const firstTimestamp = this.rnd(min.getTime(), max.getTime());
         const first = new Date(firstTimestamp - (firstTimestamp % 900000));
+        console.log(first);
         const secondTimestamp = this.rnd(2, 6) * 900000;
         const second = new Date(first.getTime() + secondTimestamp);
         eventsWithoutNames.push({
@@ -394,12 +395,9 @@ $border: 1px solid var(--v-background-base);
               border-top: 1px solid !important;
               border-bottom: 1px solid !important;
               border-radius: 15px !important;
-
               @include flexbox();
               .pl-1 {
-                // @include box-size(fit-content);
                 padding-left: 0 !important;
-                // ?????????????????????
               }
             }
           }

@@ -72,12 +72,12 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-.card:first-child {
-  margin-top: 10px;
-}
-.card {
-  margin-top: 20px;
-}
+// .card:first-child {
+//   margin-top: 10px;
+// }
+// .card {
+//   margin-top: 20px;
+// }
 
 table {
   width: 100%;

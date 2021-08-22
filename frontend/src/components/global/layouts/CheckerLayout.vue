@@ -3,22 +3,24 @@
     <h1 v-animate="'fadeIn'" id="title" v-if="title">{{ title }}</h1>
 
     <div class="row" ref="row" v-for="(row, i) in rows" :key="i">
-      <div
-        class="rowInner"
-        ref="rowInner"
-        v-animate="'slideInFromBottom'"
-        :inversed="isInvesed(i)"
-      >
-        <div class="text-field">
-          <h2>{{ row.title }}</h2>
-          <p>{{ row.txt }}</p>
-        </div>
-        <div class="image-field">
-          <img
-            :width="imageSize"
-            :height="imageSize"
-            :src="getImgUrl(row.img)"
-          />
+      <div class="rowCard">
+        <div
+          class="rowInner"
+          ref="rowInner"
+          v-animate="'slideInFromBottom'"
+          :inversed="isInvesed(i)"
+        >
+          <div class="text-field">
+            <h2>{{ row.title }}</h2>
+            <p>{{ row.txt }}</p>
+          </div>
+          <div class="image-field">
+            <img
+              :width="imageSize"
+              :height="imageSize"
+              :src="getImgUrl(row.img)"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -26,12 +28,9 @@
 </template>
 
 <script>
+import { scrolled } from "@/plugins/GlobalMethods";
+
 export default {
-  data() {
-    return {
-      verticalMargin: 2.5,
-    };
-  },
   props: {
     title: String,
     rows: Array,
@@ -53,10 +52,13 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener("scroll", this.scrolled);
-    document.documentElement.style.setProperty(
-      "--vertical-margin",
-      this.verticalMargin + "rem"
+    window.addEventListener("scroll", () =>
+      scrolled({ cards: this.$refs.row })
+    );
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", () =>
+      scrolled({ cards: this.$refs.row })
     );
   },
   methods: {
@@ -65,25 +67,6 @@ export default {
     },
     getImgUrl(img) {
       return require(`@/assets/icons/${img}.svg`);
-    },
-    scrolled() {
-      if (
-        this.$refs.block.getBoundingClientRect().y +
-          this.$refs.block.offsetHeight >
-          0 &&
-        this.$refs.block.getBoundingClientRect().y < window.innerHeight
-      )
-        this.$refs.row.forEach((row) => {
-          row.classList.toggle(
-            "raised",
-            row.getBoundingClientRect().y + row.offsetHeight / 2 <
-              (window.innerHeight + row.offsetHeight + this.verticalMargin) /
-                2 &&
-              row.getBoundingClientRect().y + row.offsetHeight / 2 >
-                (window.innerHeight - row.offsetHeight - this.verticalMargin) /
-                  2
-          );
-        });
     },
   },
 };
@@ -110,7 +93,7 @@ $title-margin-bottom: 2rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: var(--vertical-margin);
+  // gap: var(--vertical-margin);
 }
 #title {
   color: var(--v-accent-base);
@@ -118,46 +101,48 @@ $title-margin-bottom: 2rem;
 }
 .row {
   @include box-size(fit-content);
-  padding: 3rem 1rem;
-  border-radius: 15px;
+  padding: 1rem 0;
+  // transform: scale(1);
 
-  @include box-shadow();
-  transform: scale(1);
+  // &.raised {
+  //   @include box-shadow-raised();
+  //   transform: scale(1.08);
+  // }
+  .rowCard {
+    padding: 3rem 1rem;
+    @include box-shadow();
+    border-radius: 15px;
 
-  transition: all 1s;
-  &.raised {
-    @include box-shadow-raised();
-    transform: scale(1.08);
-  }
-  .rowInner {
-    display: grid;
-    grid-auto-rows: max-content;
-    @include box-size(100%);
-    .text-field {
-      grid-area: text;
-      text-align: left;
-      hyphens: auto;
-      h2 {
-        text-align: center;
-        margin-bottom: 0.8em;
+    .rowInner {
+      display: grid;
+      grid-auto-rows: max-content;
+      @include box-size(100%);
+      .text-field {
+        grid-area: text;
+        text-align: left;
+        hyphens: auto;
+        h2 {
+          text-align: center;
+          margin-bottom: 0.8em;
+        }
+        p {
+          text-align: center;
+          margin-bottom: 0;
+        }
       }
-      p {
-        text-align: center;
-        margin-bottom: 0;
-      }
-    }
-    grid-template-columns: $element-width;
-    grid-template-rows: auto;
-    grid-template-areas: "text" "image";
-    gap: $spacing-height;
-    @media (min-width: $max-width) {
-      grid-template-columns: $element-width $spacing-width $element-width;
-      gap: 0px;
-      &[inversed="false"] {
-        grid-template-areas: "text . image";
-      }
-      &[inversed="true"] {
-        grid-template-areas: "image . text";
+      grid-template-columns: $element-width;
+      grid-template-rows: auto;
+      grid-template-areas: "text" "image";
+      gap: $spacing-height;
+      @media (min-width: $max-width) {
+        grid-template-columns: $element-width $spacing-width $element-width;
+        gap: 0px;
+        &[inversed="false"] {
+          grid-template-areas: "text . image";
+        }
+        &[inversed="true"] {
+          grid-template-areas: "image . text";
+        }
       }
     }
   }

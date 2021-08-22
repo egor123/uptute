@@ -1,5 +1,5 @@
 <template>
-  <HiddenButtonCard :tutor="tutor">
+  <HiddenButtonCard :tutor="tutor" ref="hiddenButtonCard">
     <template v-slot:static>
       <div class="profile">
         <UserImg :tutor="tutor" ref="userImg" />
@@ -57,6 +57,7 @@ import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
 import Rating from "./Rating.vue";
 import UserImg from "@/components/choosing/choosingATutor/UserImg.vue";
 import BookButton from "@/components/choosing/choosingATutor/BookButton.vue";
+// import { scrolled } from "@/plugins/GlobalMethods";
 
 export default {
   data() {
@@ -82,6 +83,11 @@ export default {
       }, 0);
     },
   },
+  // mounted() {
+  //   window.addEventListener("scroll", () =>
+  //     scrolled({ cards: [this.$refs.hiddenButtonCard.$el] })
+  //   );
+  // },
 };
 </script>
 

@@ -110,6 +110,9 @@ $cardMargin: 1rem;
     p {
       width: 100%;
       text-align: left;
+      &:last-child {
+        margin-bottom: 0;
+      }
       span {
         float: right;
         margin-left: 1ch;
