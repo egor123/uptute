@@ -42,8 +42,12 @@ export default {
   position: absolute;
   top: 50%;
 
-  width: 100px;
+  width: fit-content;
+  padding: 0.5rem 1rem;
   background: var(--v-accent-base);
+  color: var(--v-background-base);
+  font-weight: bold;
+  letter-spacing: 2px;
   border-radius: 15px;
 }
 </style>

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { getId } from "@/plugins/GlobalMethods";
+import { getId } from "@/plugins/GlobalMethods.js";
 
 export default {
   props: {

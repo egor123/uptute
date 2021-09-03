@@ -10,13 +10,13 @@
     </template>
     <template v-slot:content>
       <v-list-item>
-        <v-btn text>
+        <v-btn text @click="goTo('FindATutor')">
           <v-icon>mdi-school</v-icon>
           {{ $l("app.header.lesson.learn") }}
         </v-btn>
       </v-list-item>
       <v-list-item>
-        <v-btn text id="teach">
+        <v-btn text @click="goTo('ChooseAStudent')" id="teach">
           <v-icon>mdi-teach</v-icon>
           {{ $l("app.header.lesson.teach") }}
         </v-btn>
@@ -27,10 +27,14 @@
 
 <script>
 import HeaderMenu from "@/components/header/HeaderMenu.vue";
+import { goTo } from "@/plugins/GlobalMethods.js";
 
 export default {
   components: {
     HeaderMenu,
+  },
+  methods: {
+    goTo,
   },
 };
 </script>

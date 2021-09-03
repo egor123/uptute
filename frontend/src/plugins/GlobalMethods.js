@@ -10,6 +10,10 @@ export function getId() {
   return result;
 }
 
+export function goTo(pageName) {
+  if (this.$route.name !== pageName) this.$router.push({ name: pageName });
+}
+
 export function scrolled({ cards }) {
   const maxZInPx = 4;
 
