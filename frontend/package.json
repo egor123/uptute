@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "@mdi/js": "^5.9.55",
+    "@stripe/stripe-js": "^1.17.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "mdi-vue": "^3.0.7",
     "stripe": "^8.165.0",
+    "vite": "^2.5.4",
     "vue": "^2.6.11",
     "vue-analytics": "^5.22.1",
     "vue-animate-scroll": "^0.1.5",
