@@ -10,6 +10,7 @@
   "dependencies": {
     "@mdi/js": "^5.9.55",
     "@stripe/stripe-js": "^1.17.1",
+    "@zoomus/websdk": "^1.9.8",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "mdi-vue": "^3.0.7",
