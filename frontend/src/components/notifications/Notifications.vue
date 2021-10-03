@@ -15,7 +15,7 @@
       >
     </template>
 
-    <template v-slot:content>
+    <template content-class="dropDownMenu" v-slot:content>
       <div v-for="(notification, index) in notifications" :key="index">
         <Feedback
           v-if="notification.type === 'feedback'"
@@ -104,13 +104,16 @@ export default {
   .v-list-item,
   &.v-list-item {
     @include flexbox();
-    max-width: 350px;
+    max-width: calc(95vw);
     width: max-content;
     text-transform: none;
     height: fit-content !important;
     min-height: 0;
-    margin: 1rem 0;
+    margin: 1rem;
     text-align: left;
+    @media (max-width: 500px) {
+      margin: 1rem 0;
+    }
     & > * {
       @include box-size(fit-content);
       color: var(--v-background-base) !important;
@@ -119,7 +122,7 @@ export default {
       // display: inline-flex !important;
       @include flexbox();
       color: var(--v-background-base);
-      margin: 0 1rem;
+      margin: 0 1rem 0 0;
     }
   }
 }

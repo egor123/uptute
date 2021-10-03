@@ -16,12 +16,14 @@
           `--justifyContent: ${justifyContent}; 
           --paddingTop: ${paddingTop}; 
           --transformOrigin: ${transformOrigin};
+          --rightDistance: ${rightDistance}px;
          `
         "
         v-bind="attrs"
         v-on="on"
         :id="id"
         class="title"
+        ref="title"
         :class="{
           triangle: paddingTop !== '0' && paddingTop !== '0px',
         }"
@@ -76,10 +78,28 @@ export default {
     return {
       id: "",
       showMenu: false,
+      rightDistance: 0,
     };
+  },
+  methods: {
+    resized() {
+      setTimeout(() => {
+        this.rightDistance =
+          window.innerWidth - this.$refs.title.getBoundingClientRect().right;
+      }, 100);
+    },
   },
   beforeMount() {
     this.id = getId();
+  },
+  mounted() {
+    window.addEventListener("resize", this.resized);
+    window.addEventListener("orientationchange", this.resized);
+    this.resized();
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.resized);
+    window.removeEventListener("orientationchange", this.resized);
   },
   // watch: {
   //   showMenu: function(val) {
@@ -91,6 +111,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
+$toMVWidth: 500px;
 $triangleOffset: 30px;
 
 ::v-deep {
@@ -118,6 +139,10 @@ div.title {
 
   &.triangle .v-menu__content {
     right: calc(50% - #{$triangleOffset}) !important;
+    $moreToRight: 10px;
+    @media (max-width: $toMVWidth) {
+      right: calc(50% - var(--rightDistance) - #{$moreToRight}) !important;
+    }
     #trianglePointer {
       position: absolute;
       top: -10px;
@@ -127,6 +152,10 @@ div.title {
       $triangleSize: 10px;
 
       right: $triangleOffset - $triangleSize;
+
+      @media (max-width: $toMVWidth) {
+        right: calc(var(--rightDistance) - #{$triangleSize} + #{$moreToRight});
+      }
 
       border-top: $triangleSize solid transparent;
 
@@ -156,7 +185,6 @@ div.title {
     transition: transform 0.3s, opacity 0.3s !important;
     transform-origin: var(--transformOrigin) !important;
     // margin-right: calc(-1 * #{$triangleOffset});
-
     .v-list {
       background: var(--color) !important;
       border-radius: var(--borderRadius);
