@@ -20,12 +20,12 @@
           {{ $l("acc_pages.profile") }}
         </v-btn>
       </v-list-item>
-      <v-list-item>
+      <!-- <v-list-item>
         <v-btn text @click="goTo('Calendar')">
           <v-icon>mdi-calendar-clock</v-icon>
           {{ $l("acc_pages.calendar") }}
         </v-btn>
-      </v-list-item>
+      </v-list-item> -->
       <v-list-item>
         <v-btn text @click="goTo('Logs')">
           <v-icon>mdi-calendar-check</v-icon>
