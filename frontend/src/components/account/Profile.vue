@@ -20,15 +20,15 @@
           <p>
             Hours <span> {{ Math.round(info.hours * 10) / 10 }}</span>
           </p>
-          <p>
+
+          <p v-bind="attrs" v-on="on">
             Streak <span> {{ info.streak }}</span>
-            <!-- weeks -->
           </p>
         </div>
       </div>
       <div id="columnsWrapper">
         <div class="cardColumn">
-          <div class="boxShadowCard" id="charismaCard">
+          <!-- <div class="boxShadowCard" id="charismaCard">
             <v-progress-linear
               ref="charismaProgress"
               :value="getLvPercent('charisma')"
@@ -47,7 +47,7 @@
                 Invited <span>{{ info.invited }}</span>
               </p>
             </div>
-          </div>
+          </div> -->
           <div class="boxShadowCard" id="monetaryCard">
             <p>
               Price <span> {{ Math.round(info.price) }}</span>
@@ -69,7 +69,7 @@
               Rating <span>{{ Math.round(info.rating * 10) / 10 }}</span>
             </p>
           </div>
-          <div class="boxShadowCard" id="leagueCard">
+          <!-- <div class="boxShadowCard" id="leagueCard">
             <p id="leagueColor" ref="leagueColor">League <span /></p>
             <p>
               Position <span> #{{ info.position }}</span>
@@ -77,7 +77,7 @@
             <p>
               Top <span> {{ Math.round(info.top * 10) / 10 }}%</span>
             </p>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -161,17 +161,19 @@ export default {
       return Math.log(x) / Math.log(base);
     },
   },
-  mounted() {
-    this.$refs.leagueColor.style.setProperty(
-      "--league-color",
-      this.colors[this.info.league]
-    );
-  },
+  // mounted() {
+  //   this.$refs.leagueColor.style.setProperty(
+  //     "--league-color",
+  //     this.colors[this.info.league]
+  //   );
+  // },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
+$toMVWidth: 500px;
+
 $cardPadding: 2rem;
 $cardMargin: 1rem;
 
@@ -180,6 +182,8 @@ $progressOverlay: var(--v-accent-base);
 
 #gridCard {
   width: max-content;
+  margin-top: 80px;
+  margin-bottom: 32px;
   p {
     color: var(--v-background-darken3);
   }
@@ -197,6 +201,12 @@ $progressOverlay: var(--v-accent-base);
         width: 100%;
       }
     }
+    @media (max-width: $toMVWidth) {
+      @include flexbox(column);
+      .cardColumn {
+        margin-right: 0 !important;
+      }
+    }
   }
 
   .boxShadowCard {
@@ -207,6 +217,7 @@ $progressOverlay: var(--v-accent-base);
     border-radius: 15px;
     margin-bottom: $cardMargin;
     @include flexbox();
+
     p {
       width: 100%;
       height: fit-content;
@@ -242,6 +253,13 @@ $progressOverlay: var(--v-accent-base);
     #lvlInfo {
       text-align: left;
       margin-left: 1.5rem;
+      width: 100%;
+    }
+    @media (max-width: $toMVWidth) {
+      @include flexbox(column);
+      #lvlInfo {
+        padding-top: $cardPadding;
+      }
     }
   }
 
