@@ -32,7 +32,7 @@
         />
         <div class="dividor" v-if="index !== notifications.length - 1" />
       </div>
-      <v-list-item v-if="notifications.length === 0">
+      <v-list-item id="noNotifications" v-if="notifications.length === 0">
         {{ $l("app.header.notifications.nothing") }}</v-list-item
       >
     </template>
@@ -122,5 +122,10 @@ export default {
       margin: 0 1rem;
     }
   }
+}
+
+#noNotifications {
+  color: var(--v-background-base) !important;
+  opacity: 0.5;
 }
 </style>
