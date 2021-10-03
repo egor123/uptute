@@ -17,7 +17,7 @@
       </v-list-item>
       <v-list-item>
         <v-btn text @click="goTo('ChooseAStudent')" id="teach">
-          <v-icon>mdi-teach</v-icon>
+          <v-icon>mdi-human-male-board</v-icon>
           {{ $l("app.header.lesson.teach") }}
         </v-btn>
       </v-list-item>

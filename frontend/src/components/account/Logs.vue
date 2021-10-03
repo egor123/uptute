@@ -10,7 +10,7 @@
         },
         {
           txt: 'Given lessons',
-          icon: 'mdi-teach',
+          icon: 'mdi-human-male-board',
           value: 'given',
         },
       ]"

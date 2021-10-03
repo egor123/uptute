@@ -1,6 +1,6 @@
 <template>
   <v-list-item>
-    <v-icon>mdi-teach</v-icon>
+    <v-icon>mdi-human-male-board</v-icon>
     <span>
       {{ insertName($l("app.header.notifications.accepted.lesson")) }}
       <a target="_blank" @click="$emit('clicked')" :href="link">
