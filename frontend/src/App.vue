@@ -7,7 +7,7 @@
         <router-view />
       </transition>
     </v-main>
-    <MessengerChat />
+    <!-- <MessengerChat /> -->
     <Footer />
   </v-app>
 </template>
@@ -17,7 +17,7 @@ import { mapGetters, mapActions } from "vuex";
 import Header from "@/components/app/Header.vue";
 import Footer from "@/components/app/Footer.vue";
 import Navigation from "@/components/app/Navigation.vue";
-import MessengerChat from "@/components/MessengerChat.vue";
+// import MessengerChat from "@/components/MessengerChat.vue";
 
 export default {
   data: () => ({
@@ -27,7 +27,7 @@ export default {
     Header,
     Footer,
     Navigation,
-    MessengerChat,
+    // MessengerChat,
   },
   computed: mapGetters(["getStatus"]),
   methods: {

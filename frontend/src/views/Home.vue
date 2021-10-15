@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="container" ref="container">
     <!-- <div class="img">
       <div class="img-container">
         <div class="img-blur">
@@ -10,28 +10,23 @@
         </div>
       </div>
     </div> -->
-    <div id="hero">
+
+    <div id="hero" :style="`--fadeTimeout: ${heroFadeTimeout}ms`">
+      <HeroCanvas
+        :fadeTimeout="heroFadeTimeout"
+        class="heroCanvas"
+        ref="heroCanvas"
+      ></HeroCanvas>
+
       <div id="heroWrapper" class="boxShadow">
-        <div class="iframeWrapper">
-          <iframe
-            ref="iframe"
-            :src="url"
-            frameborder="0"
-            allow="autoplay"
-            webkitallowfullscreen
-            mozallowfullscreen
-            allowfullscreen
-          ></iframe>
-        </div>
-        <div id="heroText" ref="container">
-          <div id="beginWrapper">
-            <Begin
-              color="var(--v-background-base)"
-              textColor="var(--v-secondary-darken3)"
-              borderRadius="15px"
-              border="dashed 2px var(--v-accent-base)"
-            />
-          </div>
+        <!-- <div id="moto">Fun. Fast. Friendly.</div> -->
+        <div id="beginWrapper">
+          <Begin
+            color="var(--v-background-base)"
+            textColor="var(--v-secondary-darken3)"
+            borderRadius="15px"
+            border="dashed 2px var(--v-accent-base)"
+          />
         </div>
       </div>
     </div>
@@ -141,6 +136,7 @@
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
 import Begin from "@/components/header/Begin.vue";
 import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
+import HeroCanvas from "@/components/HeroCanvas.vue";
 
 export default {
   name: "Home",
@@ -153,18 +149,29 @@ export default {
     SliderLayout,
     CheckerLayout,
     Begin,
+    HeroCanvas,
   },
   data() {
     return {
       url:
         "https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500&enablejsapi=1",
+      heroFadeTimeout: 300,
     };
   },
   mounted() {
+    console.log(document);
+
     document.addEventListener("scroll", this.checkOffset);
+
+    document.addEventListener("mouseenter", this.$refs.heroCanvas.mouseEnter);
   },
   beforeDestroy() {
     document.removeEventListener("scroll", this.checkOffset);
+
+    document.removeEventListener(
+      "mouseenter",
+      this.$refs.heroCanvas.mouseEnter
+    );
   },
   methods: {
     checkOffset() {
@@ -245,9 +252,30 @@ export default {
 <style scoped lang="scss">
 @import "@/scss/mixins.scss";
 
+html:hover .heroCanvas {
+  animation: fadeOutIn calc(var(--fadeTimeout) * 2) ease-out both;
+}
+
 #container {
   #innerContainer {
     margin-top: 100vh;
+  }
+
+  .heroCanvas {
+    opacity: 1;
+    transition: all;
+  }
+
+  @keyframes fadeOutIn {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 }
 
@@ -264,32 +292,21 @@ h1 {
   @include flexbox();
   #heroWrapper {
     border-radius: 15px;
-    padding: 1rem;
+    // padding: 1rem;
     @include box-shadow();
+    background: #efefefcc;
 
-    .iframeWrapper {
-      @include box-size(fit-content);
-      border-radius: 15px;
-      overflow: hidden;
-
-      iframe {
-        --videoWidth: calc(55vh * 16 / 9);
-        @media (max-width: "900px") {
-          --videoWidth: 85vw;
-        }
-
-        width: var(--videoWidth);
-        height: calc(var(--videoWidth) / 16 * 9);
-        margin-bottom: -7px;
+    & > * {
+      padding: 16px;
+      padding-top: 0;
+      &:first-child {
+        padding-top: 16px;
       }
     }
-    #heroText {
-      padding: 3rem 0 2rem 0;
-      @include flexbox();
 
-      #beginWrapper {
-        width: max-content;
-      }
+    #moto {
+      font-size: 28px;
+      letter-spacing: 0.5ch;
     }
   }
 }
