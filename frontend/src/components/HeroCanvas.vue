@@ -1,156 +1,207 @@
 <template>
-  <canvas ref="canvas"></canvas>
+  <canvas ref="canvas" />
 </template>
 
 <script>
+import { rndBtw } from "@/plugins/GlobalMethods.js";
+import Char from "@/classes/heroCanvas/Char.js";
+
 export default {
   data() {
     return {
-      // adjustable parameters
-      chars: [
-        "0",
-        "1",
-        "2",
-        "3",
-        "∞",
-        "a",
-        "b",
-        "c",
-        "+",
-        "-",
-        "≈",
-        "√",
-        "∫",
-        "%",
-        "≥",
-        "α",
-        "β",
-        "x",
-        "y",
-        "π",
-      ],
-      charsNumberMult: [2, 1.5, 1, 0.75, 0.25],
-      perNPixels: 100000,
-      font: "Comfortaa",
-      fontSize: [20, 24, 28, 34, 40],
-      fontColour: ["#eee", "#ddd", "#ccc", "#bbb", "#afafaf"],
-      coef: [0.2, 0.3, 0.45, 0.5, 0.7],
-
-      // ---------------------
+      chars: {
+        perNPxs: 15000, //
+        arr: [],
+        val: [
+          "0",
+          "1",
+          "2",
+          "3",
+          "∞",
+          "a",
+          "b",
+          "c",
+          "+",
+          "-",
+          "≈",
+          "√",
+          "∫",
+          "%",
+          "≥",
+          "α",
+          "β",
+          "x",
+          "y",
+          "π",
+        ],
+        font: "Comfortaa",
+        dFontSize: { min: 20, max: 45 },
+        fontColor: [
+          "#dfdfdf",
+          "#d8d8d8",
+          "#cfcfcf",
+          "#c8c8c8",
+          "#bfbfbf",
+          "#b8b8b8",
+          "#afafaf",
+        ],
+      },
+      canvasColor: "#efefef",
+      sensitivityMultipleByFont: 0.01,
+      fadeInProcess: false,
+      concentrationOfSmallChars: 0.5,
     };
   },
   props: ["fadeTimeout"],
   mounted() {
-    this.setup();
-    this.resized();
+    addEventListener("resize", this.resize);
+    document.addEventListener("mousemove", this.mousemove);
+
+    this.setUpContext();
+
+    this.setUpVariables();
 
     setTimeout(() => {
-      window.addEventListener("resize", this.resized);
-      document.addEventListener("mousemove", this.mousemove);
+      this.generateChars();
+
+      this.animate();
     }, 0);
   },
   beforeDestroy() {
-    window.removeEventListener("resize", this.resized);
+    removeEventListener("resize", this.resize);
     document.removeEventListener("mousemove", this.mousemove);
   },
   methods: {
-    setup() {
+    setUpContext() {
       this.canvas = this.$refs.canvas;
+
       this.ctx = this.canvas.getContext("2d");
 
-      this.mouseX = window.innerWidth / 2;
-      this.mouseY = window.innerHeight / 2;
+      this.canvas.width = innerWidth;
+      this.canvas.height = innerHeight;
+
+      this.fillBackground();
     },
-    resized() {
-      this.canvas.width = window.innerWidth;
-      this.canvas.height = window.innerHeight;
+    setUpVariables() {
+      this.mouseX = this.canvas.width / 2;
+      this.mouseY = this.canvas.height / 2;
 
-      var area = this.canvas.width * this.canvas.height;
-
-      this.charsNumber = [0, 0, 0, 0, 0];
-
-      this.charsNumberMult.forEach((mult, id) => {
-        this.charsNumber[id] = (mult * area) / this.perNPixels;
-      });
-
-      this.clearCanvas();
-
-      this.renderChars();
+      this.getCharsNumber();
     },
-    renderChars() {
-      this.getChars();
-
-      for (var i = 0; i < this.charsNumber.length; i++) {
-        this.setFont(i);
-        this.chosenChars[i].forEach((char, id) => {
-          var rndX = this.rndBtw(0, this.canvas.width);
-          var rndY = this.rndBtw(0, this.canvas.height);
-
-          this.ctx.fillText(char.val, rndX, rndY);
-
-          this.chosenChars[i][id].x = rndX;
-          this.chosenChars[i][id].y = rndY;
-        });
-      }
+    getCharsNumber() {
+      this.chars.number =
+        (this.canvas.width * this.canvas.height) / this.chars.perNPxs;
     },
-    moveLayer() {
-      this.clearCanvas();
-      this.ctx.globalAlpha = this.alpha;
-
-      for (var i = 0; i < this.charsNumber.length; i++) {
-        this.setFont(i);
-
-        this.chosenChars[i].forEach((char) => {
-          this.ctx.fillText(
-            char.val,
-            char.x + (this.mouseX - this.canvas.width / 2) * this.coef[i],
-            char.y + (this.mouseY - this.canvas.height / 2) * this.coef[i]
-          );
-        });
-      }
-    },
-    setFont(i) {
-      this.ctx.fillStyle = this.fontColour[i];
-      this.ctx.font = this.fontSize[i] + "px " + this.font;
-    },
-    clearCanvas() {
-      this.ctx.beginPath();
-      this.ctx.fillStyle = "#efefef";
+    fillBackground() {
+      this.ctx.fillStyle = this.canvasColor;
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.stroke();
     },
-    getChars() {
-      this.chosenChars = [[], [], [], [], []];
-      for (var l = 0; l < this.charsNumber.length; l++) {
-        for (var i = 0; i < this.charsNumber[l]; i++) {
-          this.chosenChars[l].push({
-            val: this.chars[this.rndBtw(0, this.chars.length - 1)],
+
+    generateChars() {
+      for (var i = 0; i < this.chars.number; i++) {
+        var val = this.chars.val[this.rndBtw(0, this.chars.val.length - 1)];
+
+        var x = this.rndBtw(0, this.canvas.width);
+        var y = this.rndBtw(0, this.canvas.height);
+
+        var d = this.chars.dFontSize;
+        var fontSize =
+          d.min +
+          1 +
+          1 /
+            (this.rndBtw(
+              (1 / (d.max - d.min)) * 1000,
+              this.concentrationOfSmallChars * 1000
+            ) /
+              1000);
+
+        var sizeRatio =
+          (fontSize - this.chars.dFontSize.min) /
+          (this.chars.dFontSize.max - this.chars.dFontSize.min);
+        if (sizeRatio === 0);
+        var colorNum =
+          Math.ceil(sizeRatio / (1 / this.chars.fontColor.length)) - 1;
+        var color = this.chars.fontColor[colorNum];
+
+        var opacity10 = this.rndBtw(0, 255);
+
+        this.chars.arr.push(
+          new Char(
+            this.ctx,
+            val,
+            x,
+            y,
+            fontSize,
+            color,
+            this.chars.font,
+            opacity10
+          )
+        );
+      }
+
+      this.chars.arr.sort((a, b) => a.fontSize - b.fontSize);
+    },
+
+    animate() {
+      requestAnimationFrame(this.animate);
+
+      setTimeout(() => {
+        if (this.fadeInProcess == false) {
+          this.fillBackground();
+          this.updateMouseForChars();
+          this.chars.arr.forEach((char) => {
+            char.update();
           });
         }
-      }
+      }, 0);
     },
-    rndBtw(start, end) {
-      return Math.floor(Math.random() * (end - start + 1) + start);
+    resize() {
+      this.canvas.width = innerWidth;
+      this.canvas.height = innerHeight;
+
+      this.chars.arr = [];
+
+      this.getCharsNumber();
+
+      this.generateChars();
+
+      this.updateMouseForChars();
+
+      this.fillBackground();
     },
     mousemove(event) {
       this.mouseX = event.x;
       this.mouseY = event.y;
-      if (!this.fadeInProcess) this.moveLayer();
+      if (!this.fadeInProcess) this.updateMouseForChars();
     },
+    updateMouseForChars() {
+      this.chars.arr.forEach((val) => {
+        val.x =
+          val.baseX +
+          this.sensitivityMultipleByFont *
+            (val.fontSize - this.chars.dFontSize.min) *
+            (this.mouseX - this.canvas.width / 2);
+        val.y =
+          val.baseY +
+          this.sensitivityMultipleByFont *
+            (val.fontSize - this.chars.dFontSize.min) *
+            (this.mouseY - this.canvas.height / 2);
+      });
+    },
+
     mouseEnter() {
       this.fadeInProcess = true;
+
       setTimeout(() => {
-        this.moveLayer();
         this.fadeInProcess = false;
       }, this.fadeTimeout);
     },
+    rndBtw,
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/mixins.scss";
-
 canvas {
   position: absolute;
   background: var(--v-background-base);

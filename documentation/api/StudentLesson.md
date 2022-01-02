@@ -1,0 +1,86 @@
+### [Back](./Main.md)
+
+# Student Lesson
+
+## **REQEST LESSON**
+
+Type: `Post`  
+Role: `Student`  
+Path: `????????????`  
+RequestBody:
+
+```
+{
+    "jwt": String,
+    "lessonInfo": Object
+
+    ?????????
+}
+```
+
+ResponseBody:
+
+```
+{
+    "lessonId": String,
+
+   ????????
+}
+```
+
+<br>
+
+## **LESSON REQUEST STATUS**
+
+Type: `Get`  
+Role: `Student`  
+Path: `????????????`  
+RequestBody:
+
+```
+{
+    "jwt": String,
+    "lessonId": String,
+
+    ?????????
+}
+```
+
+ResponseBody:
+
+```
+{
+    "lessonInfo": Object,
+    "lessonId": String
+
+   ????????
+}
+```
+
+<br>
+
+## **APPROVE LESSON OFFER**
+
+Type: `Post`  
+Role: `Student`  
+Path: `????????????`  
+RequestBody:
+
+```
+{
+    "jwt": String,
+    "answer": Boolean
+
+    ?????????
+}
+```
+
+ResponseBody:
+
+```
+{
+    "lessonId": String,
+
+   ????????
+}
+```

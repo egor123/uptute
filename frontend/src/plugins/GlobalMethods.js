@@ -50,6 +50,10 @@ export function scrolled({ cards }) {
   }
 }
 
+export function rndBtw(start, end) {
+  return Math.floor(Math.random() * (end - start + 1) + start);
+}
+
 // cards.forEach((card) => {
 
 // const maxFromTop = (window.innerHeight + card.offsetHeight) / 2;
