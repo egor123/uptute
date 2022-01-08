@@ -39,7 +39,6 @@ RequestBody:
 
 ```
 {
-    "jwt": String,
     "tutorId": String
 
     ?????????
@@ -67,7 +66,6 @@ RequestBody:
 
 ```
 {
-    "jwt": String,
     "lessonId": String
 
     ?????????
