@@ -11,7 +11,6 @@ RequestBody:
 
 ```
 {
-    "jwt": String,
     "tutorInfo": Object
 
     ?????????
