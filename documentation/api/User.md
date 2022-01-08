@@ -34,7 +34,7 @@ ResponseBody:
 
 Type: `Get`  
 Path: `/account/{UUID}/user`  
-Role: None
+Role: `None`
 ResponseBody:
 
 ```
