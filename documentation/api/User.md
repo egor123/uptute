@@ -2,7 +2,7 @@
 
 # User
 
-## **CHANGE USER INFO**
+## **UPDATE USER INFO**
 
 Type: `Put`  
 Permisions: `Owner???, Moderator`  
