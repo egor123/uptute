@@ -11,7 +11,6 @@ RequestBody:
 
 ```
 {
-    "jwt": String,
     "info": Object
  }
 ```
