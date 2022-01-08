@@ -11,7 +11,6 @@ RequestBody:
 
 ```
 {
-    "jwt": String,
     "info": Object
 }
 ```
@@ -34,12 +33,6 @@ ResponseBody:
 
 Type: `Get`  
 Path: `/account/{UUID}/tutor`  
-RequestBody:
-
-```
-{ "jwt": String }
-```
-
 ResponseBody:
 
 ```
