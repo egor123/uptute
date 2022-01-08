@@ -32,7 +32,7 @@ ResponseBody:
     "pictureURL": String,
 }
 ```
-Permisions: Moderator, Owner???
+Permisions: `Owner???, Moderator`
 ResponseBody:
 
 ```
