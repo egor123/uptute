@@ -11,16 +11,10 @@ RequestBody:
 
 ```
 {
-    "details": Object
-}
-```
-Details optional params:
-```
-{
-    "firstName": String,
-    "lastName": String,
-    "email": String,
-    "pictureURL": String,
+    "firstName": String, //optional
+    "lastName": String, //optional
+    "email": String, //optional
+    "pictureURL": String, //optional
 }
 ```
 
