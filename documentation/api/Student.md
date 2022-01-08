@@ -33,12 +33,6 @@ ResponseBody:
 
 Type: `Get`  
 Path: `account/{UUID}/student`  
-RequestBody:
-
-```
-{ "jwt": String }
-```
-
 ResponseBody:
 
 ```
