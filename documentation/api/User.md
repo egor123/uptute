@@ -24,18 +24,6 @@ Details optional params:
 }
 ```
 
-ResponseBody:
-
-```
-{
-    "jwt": String,
-    "tokenType": "Bearer",
-    "refrershToken": String,
-    "UUID": String,
-    "roles": Array
-}
-```
-
 ## **GET USER DETAILS**
 
 Type: `Get`  
