@@ -45,6 +45,7 @@ ResponseBody:
 {
     "firstName": String,
     "lastName": String,
+    "email": String,
     "pictureURL": String,
 }
 ```
