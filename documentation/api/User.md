@@ -26,3 +26,15 @@ ResponseBody:
     "roles": Array
 }
 ```
+
+## **GET USER INFO**
+
+Type: `Get`  
+Path: `/account/{UUID}/user`  
+ResponseBody:
+
+```
+{
+    "info": Object,
+}
+```
