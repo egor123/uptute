@@ -2,7 +2,7 @@
 
 # User
 
-## **UPDATE USER INFO**
+## **UPDATE USER Details**
 
 Type: `Put`  
 Permisions: `Owner???, Moderator`  
@@ -11,10 +11,10 @@ RequestBody:
 
 ```
 {
-    "info": Object
+    "details": Object
 }
 ```
-Info optional params:
+Details optional params:
 ```
 {
     "firstName": String,
@@ -36,7 +36,7 @@ ResponseBody:
 }
 ```
 
-## **GET USER INFO**
+## **GET USER DETAILS**
 
 Type: `Get`  
 Path: `/account/{UUID}/user`  
