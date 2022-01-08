@@ -4,11 +4,17 @@
 
 ## **CHANGE ACCOUNT INFO**
 
-Type: `Patch`  
+Type: `Put`  
 Permisions: `Owner???, Moderator`  
 Path: `account/{UUID}/user`  
 RequestBody:
 
+```
+{
+    "info": Object
+}
+```
+Info optional params:
 ```
 {
     "firstName": String,
