@@ -5,7 +5,7 @@
 ## **CHANGE ACCOUNT INFO**
 
 Type: `Patch`  
-Role: `User`  
+Role: `Owner???, Moderator`  
 Path: `account/{UUID}/user`  
 RequestBody:
 
@@ -34,6 +34,17 @@ ResponseBody:
 
 Type: `Get`  
 Path: `/account/{UUID}/user`  
+Role: None
+ResponseBody:
+
+```
+{
+    "firstName": String,
+    "lastName": String,
+    "pictureURL": String,
+}
+```
+Role: Moderator, Owner???
 ResponseBody:
 
 ```
