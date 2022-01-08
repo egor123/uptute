@@ -38,10 +38,5 @@ ResponseBody:
 ```
 {
     "info": Object,
-    "jwt": String,
-    "tokenType": "Bearer",
-    "refrershToken": String,
-    "UUID": String,
-    "roles": Array
 }
 ```
