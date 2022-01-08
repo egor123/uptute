@@ -11,7 +11,9 @@ RequestBody:
 
 ```
 {
-    "info": Object
+    "firstName": String,
+    "lastName": String,
+    "pictureURL": String,
 }
 ```
 
@@ -35,6 +37,8 @@ ResponseBody:
 
 ```
 {
-    "info": Object,
+    "firstName": String,
+    "lastName": String,
+    "pictureURL": String,
 }
 ```
