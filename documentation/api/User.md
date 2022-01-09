@@ -4,7 +4,7 @@
 
 ## **UPDATE USER DETAILS**
 
-Type: `Put`  
+Type: `PATCH`  
 Permisions: `Owner???, Moderator`  
 Path: `account/{UUID}/user`  
 RequestBody:
@@ -20,7 +20,7 @@ RequestBody:
 
 ## **GET USER DETAILS**
 
-Type: `Get`  
+Type: `GET`  
 Path: `/account/{UUID}/user`  
 Permisions: `None`
 ResponseBody:
