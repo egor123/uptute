@@ -101,11 +101,6 @@ export default {
     window.removeEventListener("resize", this.resized);
     window.removeEventListener("orientationchange", this.resized);
   },
-  // watch: {
-  //   showMenu: function(val) {
-  //     console.log(val);
-  //   },
-  // },
 };
 </script>
 

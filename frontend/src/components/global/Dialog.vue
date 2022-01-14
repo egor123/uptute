@@ -51,7 +51,6 @@ export default {
       !val ? this.$emit("closed") : null;
     },
     // showDialog: function(val) {
-    //   console.log(val);
     //   if (this.showDialog === true) {
     //     this.$root.$emit("dialogOpened");
     //     this.$nextTick(() => {

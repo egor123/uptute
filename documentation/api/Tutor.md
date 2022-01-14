@@ -11,9 +11,20 @@ RequestBody:
 
 ```
 {
-    "info": Object
+    "motto": String,
+    "description": String,
+    "zoomLink": String,
+    "subjects": Array, // of String
+    "gradesYouTeach":
+    {
+        min: Number,
+        max: Number
+    },
+    "languages": Array // of String
 }
 ```
+
+> Needs to be a student
 
 ResponseBody:
 
@@ -37,6 +48,25 @@ ResponseBody:
 
 ```
 {
-    "info": Object,
+    "motto": String,
+    "description": String,
+    "zoomLink": String,
+    "subjects": Array, // of String
+    "gradesYouTeach":
+    {
+        min: Number,
+        max: Number
+    },
+    "languages": Array // of String,
+
+
+
 }
 ```
+
+TO ALLOCATE
+
+    "pricePerHour": Number,
+    "rating": Number,
+    "hoursTaught": Number,
+    "comments": Array, // of String

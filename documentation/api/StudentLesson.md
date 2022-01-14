@@ -11,7 +11,21 @@ RequestBody:
 
 ```
 {
-    "lessonInfo": Object
+    "subject": String,
+    "topic": String,
+    "details": String,
+    "pictures": Array, // of String
+    "language": String,
+    "tutorAge":
+    {
+        min: Number,
+        max: Number
+    },
+    "price":
+    {
+        min: Number,
+        max: Number
+    }
 
     ?????????
 }
@@ -48,7 +62,7 @@ ResponseBody:
 
 ```
 {
-    "lessonInfo": Object,
+    "status": String,
     "lessonId": String
 
    ????????

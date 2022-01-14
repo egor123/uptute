@@ -6,22 +6,34 @@
 
 Type: `Get`  
 Role: `Tutor`  
-Path: `????????????`  
-RequestBody:
-
-```
-{
-    "tutorInfo": Object
-
-    ?????????
-}
-```
+Path: `????????????`
 
 ResponseBody:
 
 ```
 {
-    "lessons": Array,
+    "lessons":
+    [
+        {
+            "id": String,
+            "subject": String,
+            "topic": String,
+            "details": String,
+            "pictures": Array, // of String
+            "language": String,
+            "tutorAge":
+            {
+                min: Number,
+                max: Number
+            },
+            "price":
+            {
+                min: Number,
+                max: Number
+            }
+        },
+        ...
+    ],
 
    ????????
 }
@@ -75,7 +87,8 @@ ResponseBody:
 
 ```
 {
-    "lessonStatus": Boolean,
+    "status": String,
+    "lessonId": String
 
    ????????
 }

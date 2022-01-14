@@ -213,7 +213,6 @@ export default {
   },
   mounted() {
     let width = 0;
-    console.log(this.$refs.imgContainer);
     new ResizeObserver((e) => {
       let currentWidth = e[0].contentRect.width;
       if (Math.abs(width - currentWidth) > 1) {

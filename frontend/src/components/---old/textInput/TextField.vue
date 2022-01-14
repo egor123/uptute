@@ -17,12 +17,6 @@ export default {
       return require(`@/assets/icons/${this.imgName}.svg`);
     },
   },
-  watch: {
-    imgName: function(newVal, oldVal) {
-      // watch it
-      console.log("Prop changed: ", newVal, " | was: ", oldVal);
-    },
-  },
 };
 </script>
 

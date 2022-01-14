@@ -18,6 +18,7 @@ import Header from "@/components/app/Header.vue";
 import Footer from "@/components/app/Footer.vue";
 import Navigation from "@/components/app/Navigation.vue";
 // import MessengerChat from "@/components/MessengerChat.vue";
+import { apiRequest } from "@/services/api.service.js";
 
 export default {
   data: () => ({
@@ -32,6 +33,18 @@ export default {
   computed: mapGetters(["getStatus"]),
   methods: {
     ...mapActions(["isAuth"]),
+    // ---------
+    async getFirstPost() {
+      const res = await apiRequest({
+        method: "get",
+        urlEnd: `/api/auth/facebook/signin`,
+      });
+      console.log("---------------------");
+      console.log(res);
+    },
+  },
+  mounted() {
+    this.getFirstPost();
   },
 };
 </script>

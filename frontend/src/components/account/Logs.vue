@@ -200,9 +200,6 @@ export default {
       arr.forEach((lesson) => {
         let d = new Date(lesson.newDate);
 
-        console.log("NEW DATE");
-        console.log(d);
-
         let day = d.getDate();
         let month = d.getMonth();
         let year = d.getFullYear();

@@ -67,7 +67,6 @@ export default {
         this.$refs.commentsDiv.scrollIntoView({
           behavior: "smooth",
         });
-        console.log("Scrolled --------");
       }, timeout);
     },
   },

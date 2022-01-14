@@ -14,7 +14,9 @@ RequestBody:
     "firstName": String, //optional
     "lastName": String, //optional
     "email": String, //optional
-    "pictureURL": String, //optional
+    "pictureURL": String, //optional,
+    "dateOfBirth": String, //optional,
+    "grade": Number //optional,
 }
 ```
 
@@ -22,7 +24,7 @@ RequestBody:
 
 Type: `GET`  
 Path: `/account/{UUID}/user`  
-Permisions: `None`
+Permisions: `None`  
 ResponseBody:
 
 ```
@@ -32,7 +34,8 @@ ResponseBody:
     "pictureURL": String,
 }
 ```
-Permisions: `Owner???, Moderator`
+
+Permisions: `Owner???, Moderator`  
 ResponseBody:
 
 ```

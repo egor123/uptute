@@ -81,7 +81,6 @@ export default {
       this.$refs.slot.style.paddingRight = "30px";
     }
     if (this.flat) {
-      console.log(this.$refs.textInput);
       this.$refs.textInput.style.setProperty("--displayShadow", "none");
       this.$refs.textInput.style.setProperty(
         "background",

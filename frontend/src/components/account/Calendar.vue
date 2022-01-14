@@ -247,7 +247,6 @@ export default {
         // const allDay = this.rnd(0, 3) === 0;
         const firstTimestamp = this.rnd(min.getTime(), max.getTime());
         const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-        console.log(first);
         const secondTimestamp = this.rnd(2, 6) * 900000;
         const second = new Date(first.getTime() + secondTimestamp);
         eventsWithoutNames.push({
@@ -264,17 +263,11 @@ export default {
           timed: true,
         });
       }
-      console.log(events);
       this.events = events;
       this.eventsWithoutNames = eventsWithoutNames;
     },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
-    },
-  },
-  watch: {
-    focus: function(val) {
-      console.log(val);
     },
   },
   beforeDestroy() {

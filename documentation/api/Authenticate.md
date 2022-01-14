@@ -10,7 +10,7 @@ Provider: `facebook, google`
 RequestBody:
 
 ```
-{ "accesToken": String }
+{ "accessToken": String }
 ```
 
 ResponseBody:

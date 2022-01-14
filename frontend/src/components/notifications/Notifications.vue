@@ -72,9 +72,7 @@ export default {
   },
   methods: {
     closeNotification(index) {
-      console.log(11111111);
       this.notifications.splice(index, 1);
-      console.log(this.notifications);
     },
   },
   components: {

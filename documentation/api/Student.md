@@ -6,15 +6,7 @@
 
 Type: `Post`  
 Role: `User`  
-Path: `account/{UUID}/student`  
-RequestBody:
-
-```
-{
-    "info": Object
- }
-```
-
+Path: `account/{UUID}/student`
 ResponseBody:
 
 ```
@@ -26,6 +18,8 @@ ResponseBody:
     "roles": Array
 }
 ```
+
+> Needs all user details to be filled
 
 <br>
 
