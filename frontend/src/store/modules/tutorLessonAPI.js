@@ -25,7 +25,8 @@ export default {
   },
   mutations: {
     getStudents(state, payload) {
-      console.log(payload);
+      // console.log(payload);
+      payload;
     },
   },
   actions: {
