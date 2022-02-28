@@ -9,18 +9,25 @@
         ref="tooltip"
       >
         <template v-slot:activator="{ on, attrs }">
-          <div
-            v-bind="attrs"
-            v-on="on"
-            class="panelWrapper"
-            :id="`panel-${tutor.uuid}`"
-          >
-            <Panel :tutor="tutor" class="panel" />
-          </div>
+          <v-hover v-model="isActive">
+            <div
+              v-bind="attrs"
+              v-on="on"
+              class="panelWrapper"
+              :id="`panel-${tutor.uuid}`"
+            >
+              <Panel :tutor="tutor" class="panel" />
+            </div>
+          </v-hover>
         </template>
         <span>
           <!-- <Moto :moto="tutor.moto" /> -->
-          <Comments :id="tutor.uuid" :background="tooltipBackground" />
+          <Comments
+            v-if="isActive"
+            :isActive="isActive"
+            :id="tutor.uuid"
+            :background="tooltipBackground"
+          />
         </span>
       </v-tooltip>
     </div>
@@ -43,6 +50,7 @@ export default {
   },
   data() {
     return {
+      isActive: false,
       tooltipBackground: "var(--v-background-base)",
     };
   },

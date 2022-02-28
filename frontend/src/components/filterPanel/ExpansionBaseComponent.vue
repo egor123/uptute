@@ -37,6 +37,7 @@ export default {
   border-radius: 0;
   &::before {
     @include box-shadow();
+    z-index: -1;
   }
   &:first-child {
     border-top-left-radius: inherit;

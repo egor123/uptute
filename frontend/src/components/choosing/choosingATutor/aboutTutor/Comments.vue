@@ -6,6 +6,8 @@
       @callback="callback"
       :background="background"
       :centered="true"
+      class="loading"
+      :isActive="isActive"
     >
       <div class="wrapper" v-for="comment in comments" :key="comment.lessonsId">
         <div class="commenter">
@@ -48,7 +50,7 @@ export default {
     Loading,
     Rating,
   },
-  props: ["value", "id", "background"],
+  props: ["value", "isActive", "id", "background"],
   methods: {
     fetch() {
       return axios
@@ -75,6 +77,7 @@ export default {
     setTimeout(() => {
       this.$refs.loading.invoke();
     }, 150); //TODO
+    // console.log(this.isActive);
   },
   watch: {
     value: {
@@ -84,13 +87,19 @@ export default {
           this.$refs.loading.invoke();
       },
     },
+    // isActive: function(val) {
+    //   setTimeout(() => {
+    //     console.log("CHANGED");
+
+    //     if (val) this.$refs.loading.invoke();
+    //   }, 150); //TODO
+    // },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
-
 .comments {
   text-align: left;
 
@@ -124,7 +133,6 @@ export default {
     }
   }
   .wrapper {
-    // background: green !important;
     &:not(:last-child) {
       .divider {
         width: 80%;

@@ -38,9 +38,10 @@ export default {
       const res = await apiRequest({
         method: "get",
         urlEnd: `/api/auth/facebook/signin`,
-      });
-      console.log("---------------------");
-      console.log(res);
+      }).catch((err) => console.log(err));
+      // console.log("---------------------");
+      // console.log(res);
+      res;
     },
   },
   mounted() {
@@ -53,13 +54,13 @@ export default {
 @import "./scss/styles.scss";
 @import "./scss/mixins.scss";
 
-@font-face {
-  font-family: "Comfortaa";
-  src: url(//fonts.googleapis.com/css?family=Comfortaa);
-  font-weight: normal;
-  font-style: normal;
-  text-decoration: none;
-}
+// @font-face {
+//   font-family: "Comfortaa";
+//   src: url(//fonts.googleapis.com/css?family=Comfortaa);
+//   font-weight: normal;
+//   font-style: normal;
+//   text-decoration: none;
+// }
 
 :root {
   --side-margin: clamp(0.5rem, 18vw, 22rem);
@@ -69,6 +70,11 @@ html {
   scroll-behavior: smooth;
 
   @include font-size();
+  @import url(//fonts.googleapis.com/css?family=Comfortaa);
+  font-family: "Comfortaa";
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
   body {
     height: 100%;
   }

@@ -1,5 +1,5 @@
 <template>
-  <div id="content">
+  <div id="content" ref="content">
     <div id="slot" ref="slot">
       <slot />
     </div>
@@ -37,6 +37,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    isActive: Boolean,
   },
   methods: {
     invoke(props) {
@@ -44,6 +45,8 @@ export default {
       else this.executeSequence(props);
     },
     executeSequence(props) {
+      console.log("started");
+
       // const scrollHeight = 20;
       const slot = this.$refs.slot;
       const holder = this.$refs.holder;
@@ -59,11 +62,8 @@ export default {
               console.log("enable start");
               this.toggleClass(holder, "disabled", false);
               icons.forEach((i) => this.toggleClass(i, "animated", true));
-              // console.log(slot.style.opacity);
-              console.log(slot.style.opacity);
               return this.setProperty(slot, "opacity", 0, true);
             })
-            // .then(() => console.log("!!!!!!"))
             .then(() => this.setProperty(slot, "height", 0, true))
             .then(() => {
               console.log("enable finished");

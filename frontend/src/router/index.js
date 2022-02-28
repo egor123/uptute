@@ -9,7 +9,7 @@ const routes = [
   redirect("*", "Home"),
   ...createRoutes("/:locale"),
 ];
-console.log(...routes);
+// console.log(...routes);
 
 const router = new VueRouter({
   mode: "history",
