@@ -13,12 +13,12 @@
           :rules="(item) => item != null"
         />
         <TextField
-          v-model="info.topic"
+          v-model="info.topic.title"
           :label="$l('find.filters.topic')"
           :rules="(val) => val != '' && val != null"
         />
         <TextField
-          v-model="info.details"
+          v-model="info.topic.text"
           :label="$l('find.filters.details')"
           :rules="(val) => val != '' && val != null"
           :area="true"
@@ -114,13 +114,19 @@ export default {
   data() {
     return {
       info: {
+        name: "Hardcoded", // Pull from account !!!!
+        grade: 12, //Pull from account !!!!
         subject: "Math", // null
-        topic: "123", // ""
-        details: "123", // ""
-        languages: ["EN"], // []
+        topic: {
+          title: "topic",
+          text: "Text of the topic...",
+        },
 
+        // ----------------- this are going to be checked but not rendered
+        languages: ["EN"], // []
         age: [16, 18],
         price: [0, 150],
+        // -----------------
 
         imgs: [
           {

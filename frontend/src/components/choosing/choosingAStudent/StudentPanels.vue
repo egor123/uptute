@@ -17,7 +17,7 @@
                 >
               </div>
             </td>
-            <td class="dateAndTime">
+            <!-- <td class="dateAndTime">
               <div class="date">
                 {{ $l(`data.days.${student.date.weekday}.short`) }}
                 {{ student.date.day }}
@@ -29,7 +29,7 @@
               <div class="time">
                 {{ student.time.start }} - {{ student.time.end }}
               </div>
-            </td>
+            </td> -->
           </tr>
         </table>
       </template>

@@ -1,11 +1,10 @@
 <template>
   <div class="content">
     <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio labore harum
-      dolores eum deserunt facere dolorem ipsum rem nisi! Dolorum!
+      {{ student.topic.text }}
     </p>
 
-    <PageViewer :imgs="imgs" :upload="false" />
+    <PageViewer :imgs="student.imgs" :upload="false" />
 
     <Dialog>
       <template v-slot:object>
@@ -51,6 +50,7 @@ export default {
       ],
     };
   },
+  props: ["student"],
   components: {
     Dialog,
     PageViewer,

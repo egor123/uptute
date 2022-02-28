@@ -10,6 +10,7 @@ export default {
   },
   mutations: {
     changeInfo(state, payload) {
+      console.log(payload.data);
       state.info = payload.data;
     },
   },

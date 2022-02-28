@@ -21,7 +21,9 @@
       />
       <StudentPanels
         id="panels"
-        :students="this.$store.state.tutorLessonAPI.students"
+        :students="
+          this.$store.state.tutorLessonAPI.lessons.map((obj) => obj.record)
+        "
       />
     </div>
   </Background>
@@ -101,7 +103,7 @@ export default {
   },
   beforeMount() {
     // this.settingDate();
-    this.$store.dispatch("tutorLessonAPI/getStudents");
+    this.$store.dispatch("tutorLessonAPI/getLessons");
   },
   mounted() {
     // for (var i = 0; i < 5; i++) {
