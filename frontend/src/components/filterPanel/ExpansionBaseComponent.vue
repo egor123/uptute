@@ -1,15 +1,17 @@
 <template>
-  <v-expansion-panel id="panel" :class="{ errorMovement: errorAnim }">
-    <v-expansion-panel-header hover="false" :class="{ errorColor: error }">
-      {{ label }}
-      <div class="text-right mr-3 secondary--text text--darken-2">
-        {{ text }}
-      </div>
-    </v-expansion-panel-header>
-    <v-expansion-panel-content id="expPanelContent">
-      <slot />
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+  <v-expansion-panels>
+    <v-expansion-panel id="panel" :class="{ errorMovement: errorAnim }">
+      <v-expansion-panel-header hover="false" :class="{ errorColor: error }">
+        {{ label }}
+        <div class="text-right mr-3 secondary--text text--darken-2">
+          {{ text }}
+        </div>
+      </v-expansion-panel-header>
+      <v-expansion-panel-content id="expPanelContent">
+        <slot />
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>
 
 <script>

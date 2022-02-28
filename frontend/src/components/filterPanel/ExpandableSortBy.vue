@@ -37,8 +37,10 @@ export default {
       def: JSON.parse(JSON.stringify(this.value)),
     };
   },
+  mounted() {
+    console.log(this.filters);
+  },
   props: ["value", "filters", "label", "text", "convertor", "rules"],
-
   methods: {
     change(item) {
       if (this.input.name == item.name)

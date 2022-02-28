@@ -70,7 +70,7 @@
       <div id="snackButtons">
         <v-btn
           @click="
-            $store.dispatch('request', info);
+            $store.dispatch('studentLessonAPI/request', info);
             $router.push({ name: 'ChooseATutor' });
           "
           text
