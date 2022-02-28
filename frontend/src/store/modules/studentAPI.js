@@ -24,7 +24,7 @@ export default {
       context.state.state = "idle"; // to delete !!!!
     },
   },
-  //   namespaced: true,
+  namespaced: true,
 };
 
 async function loop(context) {
@@ -55,9 +55,10 @@ async function initialize(context) {
 
 async function listenForChanges(context) {
   const method = "get";
-  console.log(context.state.info);
   const urlEnd =
     context.state.root + "/b/" + context.state.info.metadata.id + "/latest";
-  context.state.info = await apiRequest({ method, urlEnd });
+  const info = await apiRequest({ method, urlEnd });
+  context.commit("changeInfo", info);
+
   console.log("New Change");
 }
