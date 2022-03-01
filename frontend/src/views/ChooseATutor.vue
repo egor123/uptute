@@ -121,7 +121,10 @@ export default {
     this.showAlert = true;
     this.untilClick().then((val) => {
       this.showAlert = false;
-      if (val === "close") next();
+      if (val === "close") {
+        this.$store.dispatch("studentLessonAPI/deleteLesson");
+        next();
+      }
     });
   },
   mounted() {

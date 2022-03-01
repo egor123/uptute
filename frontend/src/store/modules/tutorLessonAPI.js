@@ -4,6 +4,7 @@ import axios from "axios";
 export default {
   state() {
     return {
+      state: "idle",
       uuid: "621de98206182767436a4b87", // is pulled from JSONBIN.io
       accountInfo: {
         firstName: "Johann",
@@ -58,10 +59,16 @@ export default {
     saveOfferedLessonData(state, { offeredLesson }) {
       state.offeredLesson = offeredLesson;
     },
+    changeState(state, payload) {
+      state.state = payload.state;
+    },
   },
   actions: {
     async getLessons(context) {
       // addTutorToServer(context);
+      context.commit("changeState", { state: "initialization" });
+      // loop(context);
+
       const lessonIdArr = await getIds(context);
 
       const lessons = await axios.all(
@@ -80,6 +87,12 @@ export default {
   },
   namespaced: true,
 };
+
+// function loop(context) {
+//   switch (context.state.state) {
+//     case "initialization":
+//   }
+// }
 
 async function getIds(context) {
   const method = "get";
@@ -101,15 +114,20 @@ async function getLessoninfo(context, { lessonId }) {
 async function addSelfToLesson(context, { lesson }) {
   lesson.record.tutors.push(context.state.uuid);
 
+  console.log("-------------");
+  console.log(lesson);
+
   const method = "put",
     urlEnd = context.state.root + "/b/" + lesson.metadata.id,
     data = lesson.record;
   const resp = await apiRequest({ method, urlEnd, data });
+  console.log(resp);
   return resp.data;
 }
 
 // function deleteHistory(context) {
 //   // Works with an error
+
 //   console.log(context.state);
 //   context.state.lessons.forEach((obj) =>
 //     deleteLessons(context, { lessonId: obj.metadata.id })
@@ -117,6 +135,7 @@ async function addSelfToLesson(context, { lesson }) {
 // }
 
 // async function deleteLessons(context, { lessonId }) {
+//   console.log("DELETING");
 //   const method = "delete",
 //     urlEnd = context.state.root + "/b/" + lessonId;
 //   const resp = await apiRequest({ method, urlEnd });

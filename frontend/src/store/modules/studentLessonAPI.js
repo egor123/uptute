@@ -5,7 +5,10 @@ export default {
   state() {
     return {
       state: "idle",
-      info: {},
+      info: {
+        metadata: {},
+        record: { tutors: [] },
+      },
       root: "https://api.jsonbin.io/v3",
     };
   },
@@ -26,6 +29,12 @@ export default {
 
       await new Promise((r) => setTimeout(r, 60000)); // to delete !!!!
       context.state.state = "idle"; // to delete !!!!
+    },
+    async deleteLesson(context) {
+      context.state.state = "idle";
+      const resp = await deleteLesson(context);
+      context.commit("changeInfo", {});
+      return resp;
     },
   },
   namespaced: true,
@@ -72,10 +81,8 @@ async function listenForChanges(context) {
 
   console.log("New Change");
   async function fetchTutorObjects(info) {
-    // let tutorArr = [...info.record.tutors];
-    // console.log(tutorArr);
-    // console.log("-------------------");
-    let tutorArr = ["621de98206182767436a4b87"];
+    let tutorArr = info.record.tutors;
+    // let tutorArr = ["621de98206182767436a4b87"];
     let newTutorsArr = await axios.all(tutorArr.map((tutor) => request(tutor)));
 
     newTutorsArr = newTutorsArr.map((tutor) => {
@@ -93,4 +100,15 @@ async function listenForChanges(context) {
       return resp;
     }
   }
+}
+
+async function deleteLesson({ state }) {
+  const method = "delete",
+    urlEnd = state.root + "/b/" + state.info.metadata.id;
+  const resp = await apiRequest({ method, urlEnd });
+  console.log("DELETED");
+  console.log(resp);
+  console.log("-----------------");
+
+  return resp;
 }
