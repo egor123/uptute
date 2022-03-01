@@ -1,3 +1,4 @@
+import axios from "axios";
 import { apiRequest } from "@/services/api.service.js";
 
 export default {
@@ -9,9 +10,10 @@ export default {
     };
   },
   mutations: {
-    changeInfo(state, payload) {
-      console.log(payload.data);
-      state.info = payload.data;
+    changeInfo(state, { info }) {
+      console.log(info);
+      console.log("--------------------------");
+      state.info = info;
     },
   },
   actions: {
@@ -22,7 +24,7 @@ export default {
 
       loop(context);
 
-      await new Promise((r) => setTimeout(r, 10000)); // to delete !!!!
+      await new Promise((r) => setTimeout(r, 60000)); // to delete !!!!
       context.state.state = "idle"; // to delete !!!!
     },
   },
@@ -49,8 +51,9 @@ async function initialize(context) {
   const method = "post";
   const urlEnd = context.state.root + "/b";
   const data = context.state.info;
-  const info = await apiRequest({ method, urlEnd, data });
-  context.commit("changeInfo", info);
+  let info = await apiRequest({ method, urlEnd, data });
+  info = info.data;
+  context.commit("changeInfo", { info });
 
   context.state.state = "listening";
 }
@@ -59,8 +62,35 @@ async function listenForChanges(context) {
   const method = "get";
   const urlEnd =
     context.state.root + "/b/" + context.state.info.metadata.id + "/latest";
-  const info = await apiRequest({ method, urlEnd });
-  context.commit("changeInfo", info);
+  let info = await apiRequest({ method, urlEnd });
+  info = info.data;
+
+  const tutors = await fetchTutorObjects(info);
+  info.record.tutors = tutors;
+
+  context.commit("changeInfo", { info });
 
   console.log("New Change");
+  async function fetchTutorObjects(info) {
+    // let tutorArr = [...info.record.tutors];
+    // console.log(tutorArr);
+    // console.log("-------------------");
+    let tutorArr = ["621de98206182767436a4b87"];
+    let newTutorsArr = await axios.all(tutorArr.map((tutor) => request(tutor)));
+
+    newTutorsArr = newTutorsArr.map((tutor) => {
+      const uuid = tutor.data.metadata.id;
+      tutor = tutor.data.record;
+      tutor.uuid = uuid;
+      return tutor;
+    });
+    return newTutorsArr;
+
+    function request(id) {
+      const method = "get";
+      const urlEnd = context.state.root + "/b/" + id + "/latest";
+      const resp = apiRequest({ method, urlEnd });
+      return resp;
+    }
+  }
 }

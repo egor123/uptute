@@ -27,7 +27,11 @@
           :convertor="(item) => $l('find.filters.filters.' + item.name)"
         />
       </FilterPanel>
-      <Panels id="panels" :tutors="$store.getters.getTutors" />
+      <Panels
+        id="panels"
+        :tutors="$store.state.studentLessonAPI.info.record.tutors"
+      />
+      <!-- :tutors="$store.getters.getTutors" -->
     </div>
     <v-snackbar max-width="800" color="error" timeout="-1" v-model="showAlert">
       {{ $l("choose_a.tutor.ended") }}
@@ -69,6 +73,7 @@ export default {
   },
   data() {
     return {
+      tutors: [],
       filter: { name: "rating", dir: "up" },
       showAlert: false,
       closeButton: false,
@@ -121,9 +126,13 @@ export default {
   },
   mounted() {
     window.addEventListener("beforeunload", this.preventNav);
-    this.$store.dispatch("startSearch", null);
+    // this.$store.dispatch("startSearch", null);
     window.addEventListener("resize", this.resized);
     this.resized();
+    setTimeout(() => {
+      console.log(this.$store.getters.getTutors);
+      console.log("!!!!!!!!!!!!!");
+    }, 10000);
   },
   beforeDestroy() {
     window.removeEventListener("beforeunload", this.preventNav);
