@@ -6,7 +6,7 @@
 
 Type: `Post`  
 Role: `Student`  
-Path: `/lesson/init`  
+Path: `/lessons/init`  
 RequestBody:
 
 ```
@@ -45,7 +45,7 @@ ResponseBody:
 
 Type: `Delete`  
 Role: `Student`  
-Path: `/lesson/{lessonId}`  
+Path: `/lessons/{lessonId}`  
 
 <br>
 
@@ -53,7 +53,7 @@ Path: `/lesson/{lessonId}`
 
 Type: `Get`  
 Role: `Student`  
-Path: `/lesson/{lessonId}`  
+Path: `/lessons/{lessonId}`  
 
 ResponseBody:
 
