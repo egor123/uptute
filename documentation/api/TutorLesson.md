@@ -6,9 +6,16 @@
 
 Type: `Get`  
 Role: `Tutor`  
-Path: `????????????`
+Path: `/lessons/open`
 
 ResponseBody:
+
+```
+{
+    "lessons": Array
+}
+```
+<!-- ResponseBody:
 
 ```
 {
@@ -37,7 +44,7 @@ ResponseBody:
 
    ????????
 }
-```
+``` -->
 
 <br>
 
