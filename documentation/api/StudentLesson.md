@@ -2,15 +2,17 @@
 
 # Student Lesson
 
-## **REQEST LESSON**
+## **INITIALIZE LESSON**
 
 Type: `Post`  
 Role: `Student`  
-Path: `????????????`  
+Path: `/lesson/init`  
 RequestBody:
 
 ```
 {
+    "studentUUID": String // will be replaced by jwt
+
     "subject": String,
     "topic": String,
     "details": String,
@@ -26,8 +28,6 @@ RequestBody:
         min: Number,
         max: Number
     }
-
-    ?????????
 }
 ```
 
@@ -36,40 +36,42 @@ ResponseBody:
 ```
 {
     "lessonId": String,
-
-   ????????
 }
 ```
 
 <br>
 
-## **LESSON REQUEST STATUS**
+## **STOP LESSON**
+
+Type: `Delete`  
+Role: `Student`  
+Path: `/lesson/{lessonId}`  
+
+<br>
+
+## **GET LESSON LOGS**
 
 Type: `Get`  
 Role: `Student`  
-Path: `????????????`  
-RequestBody:
-
-```
-{
-    "lessonId": String,
-
-    ?????????
-}
-```
+Path: `/lesson/{lessonId}`  
 
 ResponseBody:
 
 ```
 {
-    "status": String,
-    "lessonId": String
-
-   ????????
+    "lessonId": String,
+    "logs": Array
 }
 ```
 
 <br>
+
+
+
+
+
+
+
 
 ## **APPROVE LESSON OFFER**
 
