@@ -9,7 +9,7 @@ export async function apiRequest({ method, urlEnd, data = {} }) {
     url: urlEnd,
     data: JSON.stringify(data),
     headers: getHeaders(),
-  });
+  }).catch((err) => console.log("ERROR!!" + err));
   // saveToStorage(res);
   return res;
 }
@@ -19,9 +19,9 @@ function getHeaders() {
     // refreshToken: localStorage.getItem("refreshToken"),
     // jwt: getJwt(localStorage.getItem("refreshToken")),
 
-    "Content-Type": "application/json",
     "X-Master-Key":
       "$2b$10$3LvCwlFUlVltdOK3N8XBauySGWc2yE/RSXS/EZqdX.bAkdIIqib2G",
+    "Content-Type": "application/json",
     "X-Collection-Id": "621c751dc4790b34062524db",
   };
   return header;

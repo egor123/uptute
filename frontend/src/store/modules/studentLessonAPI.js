@@ -17,6 +17,7 @@ export default {
   actions: {
     async request(context, payload) {
       context.state.state = "initialization";
+      payload.tutors = [];
       context.state.info = payload;
 
       loop(context);

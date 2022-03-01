@@ -1,14 +1,23 @@
 <template>
   <div class="content">
     <p>
-      {{ student.topic.text }}
+      {{ student.record.topic.text }}
     </p>
 
-    <PageViewer :imgs="student.imgs" :upload="false" />
+    <PageViewer :imgs="student.record.imgs" :upload="false" />
 
     <Dialog>
       <template v-slot:object>
-        <v-btn rounded outlined color="accent">
+        <v-btn
+          @click="
+            $store.dispatch('tutorLessonAPI/sendOffer', {
+              lesson: student,
+            })
+          "
+          rounded
+          outlined
+          color="accent"
+        >
           {{ $l("choose_a.student.dialog.offer") }}
         </v-btn>
       </template>

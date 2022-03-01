@@ -21,9 +21,7 @@
       />
       <StudentPanels
         id="panels"
-        :students="
-          this.$store.state.tutorLessonAPI.lessons.map((obj) => obj.record)
-        "
+        :students="this.$store.state.tutorLessonAPI.lessons"
       />
     </div>
   </Background>

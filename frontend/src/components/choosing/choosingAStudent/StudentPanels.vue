@@ -11,9 +11,10 @@
             <td class="profile">
               <img class="userImg" src="@/assets/icons/user.svg" />
               <div class="nameAndAge">
-                <h3>{{ student.name }}</h3>
+                <h3>{{ student.record.name }}</h3>
                 <span class="age"
-                  >{{ student.grade }} {{ $l("choose_a.student.grade") }}</span
+                  >{{ student.record.grade }}
+                  {{ $l("choose_a.student.grade") }}</span
                 >
               </div>
             </td>
@@ -37,12 +38,12 @@
       <template v-slot:moving>
         <div class="infoContainer">
           <div class="subject">
-            {{ student.subject }}
+            {{ student.record.subject }}
 
             <v-spacer />
 
             <div class="topic">
-              {{ student.topic.title }}
+              {{ student.record.topic.title }}
             </div>
           </div>
         </div>
