@@ -14,9 +14,9 @@ RequestBody:
     "studentUUID": String // will be replaced by jwt
 
     "subject": String,
-    "topic": String,
+<!--     "topic": String, -->
     "details": String,
-    "pictures": Array, // of String
+<!--     "pictures": Array, // of String
     "language": String,
     "tutorAge":
     {
@@ -27,7 +27,7 @@ RequestBody:
     {
         min: Number,
         max: Number
-    }
+    } -->
 }
 ```
 
