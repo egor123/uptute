@@ -13,6 +13,7 @@ import com.uptute.backend.entities.LessonLog;
 import com.uptute.backend.enums.lesson.ELessonStatus;
 import com.uptute.backend.enums.lesson.ELogStatus;
 import com.uptute.backend.exceptions.LessonIsClosedException;
+import com.uptute.backend.exceptions.OfferAlreadyCreated;
 import com.uptute.backend.payloads.lessons.GetLessonDetailsResponse;
 import com.uptute.backend.payloads.lessons.GetLessonLogsResponse;
 import com.uptute.backend.payloads.lessons.GetOpenLessonsResponse;
@@ -72,6 +73,19 @@ public class LessonServiceImpl implements LessonService {
                 .forEach(c -> response.getLessons()
                         .add(new GetLessonDetailsResponse(c.getId(), c.getLogs().iterator().next().getDetails())));
         return response;
+    }
+
+    @Override
+    public Boolean createOffer(String userUUID, Long lessonId) throws OfferAlreadyCreated, NoSuchElementException, LessonIsClosedException {
+        var lesson = lessonRepository.findById(lessonId).get();
+        if (!validateLesson(lesson))
+            throw new LessonIsClosedException(lessonId);
+        if (lesson.getLogs().stream().filter(c -> c.getStatus().equals(ELogStatus.OFFER) && c.getCreatedBy().equals(userUUID))
+                .count() > 0)
+            throw new OfferAlreadyCreated(userUUID, lessonId);
+        lesson.addLog(new LessonLog(ELogStatus.OFFER, userUUID, ""));
+        lessonRepository.save(lesson);
+        return true;
     }
 
     private Boolean validateLesson(Lesson lesson) {
