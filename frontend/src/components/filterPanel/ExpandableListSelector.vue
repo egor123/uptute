@@ -1,5 +1,12 @@
 <template>
-  <BaseComponent ref="base" :label="label" :text="text">
+  <BaseComponent
+    ref="base"
+    :label="label"
+    :text="text"
+    :flat="flat"
+    :backgroundColor="backgroundColor"
+    :borderRadius="borderRadius"
+  >
     <v-text-field
       v-if="searchLabel !== undefined"
       v-model="searchStr"
@@ -55,6 +62,9 @@ export default {
     "convertor",
     "searchLabel",
     "rules",
+    "flat",
+    "backgroundColor",
+    "borderRadius",
   ],
   methods: {
     refresh,

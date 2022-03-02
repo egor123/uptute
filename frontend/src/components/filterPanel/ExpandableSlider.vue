@@ -1,5 +1,11 @@
 <template>
-  <BaseComponent ref="base" :label="label" :text="text">
+  <BaseComponent
+    ref="base"
+    :label="label"
+    :text="text"
+    :backgroundColor="backgroundColor"
+    :borderRadius="borderRadius"
+  >
     <div id="wrapper">
       <v-range-slider
         v-if="Array.isArray(def)"
@@ -39,7 +45,17 @@ export default {
       def: JSON.parse(JSON.stringify(this.value)),
     };
   },
-  props: ["value", "label", "text", "convertor", "rules", "min", "max"],
+  props: {
+    value: Array,
+    label: String,
+    text: String,
+    convertor: Function,
+    rules: Function,
+    min: Number,
+    max: Number,
+    backgroundColor: String,
+    borderRadius: String,
+  },
   methods: {
     refresh,
     isValid,

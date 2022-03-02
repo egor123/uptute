@@ -2,6 +2,9 @@
   <Background>
     <Subheader :title="$l('find.header')" />
     <div id="content">
+      <v-btn @click="refresh()" small text rounded id="refreshBtn">
+        {{ $l("find.filters.refresh") }}
+      </v-btn>
       <FilterPanel ref="panel" @next="(action) => $refs.panel2[action]()">
         <ExpandableListSelector
           v-model="info.subject"
@@ -11,17 +14,27 @@
           :convertor="(item) => $l('data.subjects.' + item)"
           :searchLabel="$l('find.filters.subject.search')"
           :rules="(item) => item != null"
+          :flat="true"
+          :backgroundColor="'var(--v-card-lighten3)'"
+          :borderRadius="'15px 15px 0px 0px'"
         />
+
         <TextField
           v-model="info.topic.title"
           :label="$l('find.filters.topic')"
           :rules="(val) => val != '' && val != null"
+          :area="false"
+          :flat="true"
+          :backgroundColor="'var(--v-card-lighten3)'"
         />
         <TextField
           v-model="info.topic.text"
           :label="$l('find.filters.details')"
           :rules="(val) => val != '' && val != null"
           :area="true"
+          :flat="true"
+          :backgroundColor="'var(--v-card-lighten3)'"
+          :borderRadius="'0px 0px 15px 15px'"
         />
       </FilterPanel>
 
@@ -37,6 +50,9 @@
           :list="['EN', 'EST', 'RU']"
           :convertor="(item) => $l('data.languages.' + item)"
           :rules="(item) => item.length > 0"
+          :flat="true"
+          :backgroundColor="'var(--v-card-lighten3)'"
+          :borderRadius="'15px 15px 0px 0px'"
         />
         <ExpandableSlider
           v-model="info.age"
@@ -44,6 +60,8 @@
           :text="info.age.join(' - ')"
           :min="14"
           :max="21"
+          :flat="true"
+          :backgroundColor="'var(--v-card-lighten3)'"
         />
         <ExpandableSlider
           v-model="info.price"
@@ -55,12 +73,13 @@
           "
           :min="0"
           :max="150"
+          :flat="true"
+          :backgroundColor="'var(--v-card-lighten3)'"
+          :borderRadius="'0px 0px 15px 15px'"
         />
       </FilterPanel>
-      <v-btn @click="refresh()" small text rounded id="refreshBtn">
-        {{ $l("find.filters.refresh") }}
-      </v-btn>
-      <v-btn @click="request()" rounded outlined color="accent">
+
+      <v-btn @click="request()" id="requestBtn" rounded outlined color="accent">
         {{ $l("find.request") }}
       </v-btn>
     </div>
@@ -193,12 +212,15 @@ export default {
   color: var(--v-secondary-darken4);
   opacity: 0.6;
   margin-top: 0.3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2px;
   transform: scale(0.9);
 
   transition: background-color 600ms;
   &:hover {
     background-color: var(--v-secondary-darken1);
   }
+}
+#requestBtn {
+  margin-top: 48px;
 }
 </style>

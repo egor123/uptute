@@ -3,6 +3,11 @@
     class="textInput"
     ref="textInput"
     :class="{ errorMovement: errorAnim, errorColor: error }"
+    :style="
+      `--displayShadow: ${flat ? 'none' : 'flex'};
+      --backgroundColor: ${backgroundColor}; 
+      --borderRadius: ${borderRadius}`
+    "
   >
     <div class="slot" ref="slot">
       <textarea
@@ -38,14 +43,25 @@ export default {
       def: JSON.parse(JSON.stringify(this.value ?? "")),
     };
   },
-  props: [
-    "value",
-    "rules", // validation, always true if undef
-    "label", // panel's label
-    "area", // changes to textarea
-    "img",
-    "flat",
-  ],
+  props: {
+    value: String,
+    rules: Function, // validation, always true if undef
+    label: String, // panel's label
+    area: Boolean, // changes to textarea
+    img: String,
+    flat: {
+      type: Boolean,
+      default: false,
+    },
+    backgroundColor: {
+      type: String,
+      default: "var(--v-card-base)",
+    },
+    borderRadius: {
+      type: String,
+      default: "0px",
+    },
+  },
   watch: {
     input: function(val) {
       if (this.area) {
@@ -80,13 +96,9 @@ export default {
     if (this.img) {
       this.$refs.slot.style.paddingRight = "30px";
     }
-    if (this.flat) {
-      this.$refs.textInput.style.setProperty("--displayShadow", "none");
-      this.$refs.textInput.style.setProperty(
-        "background",
-        "var(--v-background-base)"
-      );
-    } else this.$refs.textInput.style.setProperty("--displayShadow", "flex");
+    // if (this.flat) {
+    //   this.$refs.textInput.style.setProperty("--displayShadow", "none");
+    // } else this.$refs.textInput.style.setProperty("--displayShadow", "flex");
   },
 };
 </script>
@@ -96,19 +108,19 @@ export default {
 @import "@/scss/mixins.scss";
 
 .textInput {
-  $color-main: var(--v-card-base);
+  $color-main: var(--backgroundColor);
   $color-sec: var(--v-secondary-darken2);
-  border-radius: 0;
+  border-radius: var(--borderRadius);
   position: relative;
 
-  &:first-of-type {
-    border-top-right-radius: inherit;
-    border-top-left-radius: inherit;
-  }
-  &:last-of-type {
-    border-bottom-right-radius: inherit;
-    border-bottom-left-radius: inherit;
-  }
+  // &:first-of-type {
+  //   border-top-right-radius: inherit;
+  //   border-top-left-radius: inherit;
+  // }
+  // &:last-of-type {
+  //   border-bottom-right-radius: inherit;
+  //   border-bottom-left-radius: inherit;
+  // }
 
   &::before {
     @include box-shadow();
@@ -119,7 +131,7 @@ export default {
     z-index: -1;
   }
 
-  background: $color-main;
+  background-color: $color-main !important;
   width: 100%;
   height: max-content;
 
