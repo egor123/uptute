@@ -1,11 +1,11 @@
 package com.uptute.backend.payloads.lessons;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import lombok.*;
 
 @Data
 public class GetOpenLessonsResponse {
     @NonNull
-    private ArrayList<GetLessonDetailsResponse> lessons = new ArrayList<>();
+    private List<GetLessonDetailsResponse> lessons;
 }

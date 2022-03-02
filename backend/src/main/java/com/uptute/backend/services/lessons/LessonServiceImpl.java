@@ -15,7 +15,7 @@ import com.uptute.backend.entities.LessonLog;
 import com.uptute.backend.enums.lesson.ELessonStatus;
 import com.uptute.backend.enums.lesson.ELogStatus;
 import com.uptute.backend.exceptions.LessonIsClosedException;
-import com.uptute.backend.exceptions.OfferAlreadyCreated;
+import com.uptute.backend.exceptions.LogAlreadyExists;
 import com.uptute.backend.payloads.lessons.GetLessonDetailsResponse;
 import com.uptute.backend.payloads.lessons.GetLessonLogsResponse;
 import com.uptute.backend.payloads.lessons.GetOffersResponse;
@@ -50,9 +50,7 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public Boolean abortLesson(String userUUID, Long lessonId)
             throws NoSuchElementException, LessonIsClosedException {
-        var lesson = lessonRepository.findById(lessonId).get();
-        if (!validateLesson(lesson))
-            throw new LessonIsClosedException(lessonId);
+        var lesson = getValidatedLesson(lessonId, true);
         lesson.addLog(new LessonLog(ELogStatus.CLOSED, userUUID, ""));
         lesson.setStatus(ELessonStatus.CLOSED);
         lessonRepository.save(lesson);
@@ -60,45 +58,36 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public GetLessonLogsResponse getLessonLogs(Long lessonId) throws NoSuchElementException {
-        var lesson = lessonRepository.findById(lessonId).get();
-        validateLesson(lesson);
+    public GetLessonLogsResponse getLessonLogs(Long lessonId) throws NoSuchElementException, LessonIsClosedException {
+        var lesson = getValidatedLesson(lessonId, false);
         var logs = new ArrayList<LessonLog>(lesson.getLogs());
         return GetLessonLogsResponse.builder().lessonId(lessonId).logs(logs).build();
     }
 
     @Override
     public GetOpenLessonsResponse getOpenLessons() {
-        var response = new GetOpenLessonsResponse();
-        lessonRepository.findByStatus(ELessonStatus.OPEN)
+        return new GetOpenLessonsResponse(lessonRepository
+                .findByStatus(ELessonStatus.OPEN)
                 .stream()
                 .filter(c -> validateLesson(c))
-                .forEach(c -> response.getLessons()
-                        .add(new GetLessonDetailsResponse(c.getId(), c.getLogs().iterator().next().getDetails())));
-        return response;
+                .map(c -> new GetLessonDetailsResponse(c.getId(), c.getLogs().iterator().next().getDetails()))
+                .collect(Collectors.toList()));
     }
 
     @Override
     public Boolean createOffer(String userUUID, Long lessonId)
-            throws OfferAlreadyCreated, NoSuchElementException, LessonIsClosedException {
-        var lesson = lessonRepository.findById(lessonId).get();
-        if (!validateLesson(lesson))
-            throw new LessonIsClosedException(lessonId);
-        if (lesson.getLogs().stream()
-                .filter(c -> c.getStatus().equals(ELogStatus.OFFER) && c.getCreatedBy().equals(userUUID))
-                .count() > 0)
-            throw new OfferAlreadyCreated(userUUID, lessonId);
-        lesson.addLog(new LessonLog(ELogStatus.OFFER, userUUID, ""));
+            throws NoSuchElementException, LessonIsClosedException, LogAlreadyExists {
+        var lesson = getValidatedLesson(lessonId, true);
+        var log = new LessonLog(ELogStatus.OFFER, userUUID, "");
+        validateForDublicates(lesson, log);
+        lesson.addLog(log);
         lessonRepository.save(lesson);
         return true;
     }
 
     @Override
     public GetOffersResponse getOffers(Long lessonId) throws NoSuchElementException, LessonIsClosedException {
-        var lesson = lessonRepository.getById(lessonId);
-        if (!validateLesson(lesson))
-            throw new LessonIsClosedException(lessonId);
-
+        var lesson = getValidatedLesson(lessonId, true);
         var tutors = getReducedOfferLogs(lesson).map(c -> c.getCreatedBy()).collect(Collectors.toList());
         return new GetOffersResponse(tutors);
     }
@@ -106,15 +95,35 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public Boolean cancelOffer(Long lessonId, String userUUID)
             throws LessonIsClosedException, NoSuchElementException {
-        var lesson = lessonRepository.getById(lessonId);
-        if (!validateLesson(lesson))
-            throw new LessonIsClosedException(lessonId);
-
-        var offerLogId = getReducedOfferLogs(lesson).filter(c -> c.getCreatedBy().equals(userUUID)).findFirst().get()
-                .getId();
-        lesson.addLog(new LessonLog(ELogStatus.CANCELED, userUUID, String.valueOf(offerLogId)));
+        var lesson = getValidatedLesson(lessonId, true);
+        var offerLog = getReducedOfferLogs(lesson).filter(c -> c.getCreatedBy().equals(userUUID)).findFirst().get();
+        lesson.addLog(new LessonLog(ELogStatus.CANCELED, userUUID, String.valueOf(offerLog.getId())));
         lessonRepository.save(lesson);
         return true;
+    }
+
+    @Override
+    public Boolean rejectOffer(Long lessonId, String userUUID, String tutorUUID)
+            throws LessonIsClosedException, NoSuchElementException {
+        var lesson = getValidatedLesson(lessonId, true);
+        var offerLog = getReducedOfferLogs(lesson).filter(c -> c.getCreatedBy().equals(userUUID)).findFirst().get();
+        lesson.addLog(new LessonLog(ELogStatus.REJECTED, userUUID, String.valueOf(offerLog.getId())));
+        lessonRepository.save(lesson);
+        return null;
+    }
+
+    // ---------------------------------------------------------------------------
+
+    private Boolean validateForDublicates(Lesson lesson, LessonLog log) throws LogAlreadyExists {
+        if (lesson
+                .getLogs()
+                .stream()
+                .filter(c -> c.getStatus().equals(log.getStatus())
+                        && c.getCreatedBy().equals(log.getCreatedBy())
+                        && c.getDetails().equals(log.getDetails()))
+                .count() == 0)
+            return true;
+        throw new LogAlreadyExists(log);
     }
 
     private Stream<LessonLog> getReducedOfferLogs(Lesson lesson) {
@@ -126,6 +135,14 @@ public class LessonServiceImpl implements LessonService {
                 reducedLogs.remove(Long.valueOf(c.getDetails()));
         });
         return reducedLogs.values().stream();
+    }
+
+    private Lesson getValidatedLesson(Long id, Boolean throwError)
+            throws LessonIsClosedException, NoSuchElementException {
+        var lesson = lessonRepository.getById(id);
+        if (!validateLesson(lesson) && throwError)
+            throw new LessonIsClosedException(id);
+        return lesson;
     }
 
     private Boolean validateLesson(Lesson lesson) {
