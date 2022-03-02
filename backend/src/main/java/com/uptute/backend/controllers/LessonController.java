@@ -51,13 +51,12 @@ public class LessonController {
         }
     }
 
-    @PostMapping("/{lessonId}/reject/{userUUID}")
+    @PostMapping("/{lessonId}/{tutorUUID}/reject/{userUUID}")
     public ResponseEntity<?> rejectOffer(@PathVariable Long lessonId, @PathVariable String userUUID,
-            @RequestBody RejectOfferRequest request) {
-        try{
-            return ResponseEntity.ok(lessonService.rejectOffer(lessonId, userUUID, request.getTutorUUID()));
-        }
-        catch(NoSuchElementException | LessonIsClosedException e){
+            @PathVariable String tutorUUID) {
+        try {
+            return ResponseEntity.ok(lessonService.rejectOffer(lessonId, userUUID, tutorUUID));
+        } catch (NoSuchElementException | LessonIsClosedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
