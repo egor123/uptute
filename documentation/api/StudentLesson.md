@@ -47,7 +47,7 @@ Path: `/lessons/{lessonId}/{userUUID}`
 
 <br>
 
-## **GET LESSON LOGS**
+## **GET OFFERS**
 
 Type: `Get`  
 Role: `Student`  
