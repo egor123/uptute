@@ -21,7 +21,7 @@
             Hours <span> {{ Math.round(info.hours * 10) / 10 }}</span>
           </p>
 
-          <p v-bind="attrs" v-on="on">
+          <p>
             Streak <span> {{ info.streak }}</span>
           </p>
         </div>
