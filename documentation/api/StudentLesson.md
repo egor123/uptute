@@ -6,13 +6,11 @@
 
 Type: `Post`  
 Role: `Student`  
-Path: `/lessons/init`  
+Path: `/lessons/init/{userUUID}`  
 RequestBody:
 
 ```
 {
-    "studentUUID": String // will be replaced by jwt
-
     "subject": String,
 <!--     "topic": String, -->
     "details": String,
@@ -45,7 +43,7 @@ ResponseBody:
 
 Type: `Delete`  
 Role: `Student`  
-Path: `/lessons/{lessonId}`  
+Path: `/lessons/{lessonId}/{userUUID}`  
 
 <br>
 
