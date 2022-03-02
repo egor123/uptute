@@ -43,7 +43,7 @@ ResponseBody:
 
 Type: `Delete`  
 Role: `Student`  
-Path: `/lessons/{lessonId}`  
+Path: `/lessons/{lessonId}/{userUUID}`  
 
 <br>
 
