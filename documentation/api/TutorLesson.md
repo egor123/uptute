@@ -52,7 +52,15 @@ ResponseBody:
 
 Type: `Post`  
 Role: `Tutor`  
-Path: `/{lessonId}/offer/{userUUID}`
+Path: `/lessons/{lessonId}/offer/{userUUID}`
+
+<br>
+
+## **CANCEL AN OFFER**
+
+Type: `Post`  
+Role: `Tutor`  
+Path: `/lesson/{lessonId}/offer/cancel/{userUUID}`
 
 <br>
 
