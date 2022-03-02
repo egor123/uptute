@@ -63,6 +63,15 @@ ResponseBody:
 
 <br>
 
+
+## **APPROVE LESSON OFFER**
+
+Type: `Post`  
+Role: `Student`  
+Path: `/lessons/{lessonId}/{tutorUUID}/reject/{userUUID}`  
+
+<br>
+
 ## **GET LESSON LOGS**
 
 Type: `Get`  
@@ -79,35 +88,3 @@ ResponseBody:
 ```
 
 <br>
-
-
-
-
-
-
-
-
-## **APPROVE LESSON OFFER**
-
-Type: `Post`  
-Role: `Student`  
-Path: `????????????`  
-RequestBody:
-
-```
-{
-    "answer": Boolean
-
-    ?????????
-}
-```
-
-ResponseBody:
-
-```
-{
-    "lessonId": String,
-
-   ????????
-}
-```
