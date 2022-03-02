@@ -23,31 +23,32 @@ public class LessonController {
     @Autowired
     private LessonService lessonService;
 
-    @PostMapping("/init")
-    public ResponseEntity<?> initializeLesson(@RequestBody InitializeLessonRequest request) { // start lesson by student
-        return ResponseEntity.ok(lessonService.initializeLesson(request));
+    @PostMapping("/init/{userUUID}")
+    public ResponseEntity<?> initializeLesson(@RequestBody InitializeLessonRequest request,
+            @PathVariable String userUUID) { // start lesson by student
+        return ResponseEntity.ok(lessonService.initializeLesson(userUUID, request));
     }
 
-    @DeleteMapping("/{lessonId}")
-    public ResponseEntity<?> abortLesson(@PathVariable Long lessonId) { // stop lesson by student
+    @DeleteMapping("/{lessonId}/{userUUID}")
+    public ResponseEntity<?> abortLesson(@PathVariable Long lessonId, @PathVariable String userUUID) { // stop lesson by student
         try {
-            return ResponseEntity.ok(lessonService.abortLesson(lessonId));
+            return ResponseEntity.ok(lessonService.abortLesson(userUUID, lessonId));
         } catch (NoSuchElementException | LessonIsClosedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @GetMapping("/{lessonId}")    
-    public ResponseEntity<?> getLessonLogs(@PathVariable Long lessonId){
+    @GetMapping("/{lessonId}")
+    public ResponseEntity<?> getLessonLogs(@PathVariable Long lessonId) {
         try {
             return ResponseEntity.ok(lessonService.getLessonLogs(lessonId));
         } catch (NoSuchElementException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    
+
     @GetMapping("/open")
-    public ResponseEntity<?> getOpenLessons(){
+    public ResponseEntity<?> getOpenLessons() {
         return ResponseEntity.ok(lessonService.getOpenLessons());
     }
     // @PostMapping("/{id}") //approve lesson by student
