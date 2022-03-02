@@ -108,6 +108,10 @@ export default {
     //   this.students.push(this.students[0]);
     // }
   },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit("tutorLessonAPI/changeState", { state: "idle" });
+    next();
+  },
 };
 </script>
 

@@ -191,6 +191,7 @@ export default {
       }, 100);
     },
     isImgsReady() {
+      if (!this.$refs.imgContainer) return undefined;
       for (const img of this.$refs.imgContainer.children)
         if (this.getAspectRatio(img) === Infinity) return false;
       return true;

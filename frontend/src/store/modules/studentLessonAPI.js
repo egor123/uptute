@@ -5,36 +5,29 @@ export default {
   state() {
     return {
       state: "idle",
-      info: {
-        metadata: {},
-        record: { tutors: [] },
-      },
+      info: {},
       root: "https://api.jsonbin.io/v3",
     };
   },
   mutations: {
     changeInfo(state, { info }) {
-      console.log(info);
-      console.log("--------------------------");
       state.info = info;
+    },
+    changeState(state, payload) {
+      state.state = payload.state;
     },
   },
   actions: {
-    async request(context, payload) {
-      context.state.state = "initialization";
-      payload.tutors = [];
-      context.state.info = payload;
+    async request(context, { info }) {
+      context.commit("changeState", { state: "initializing" });
+      info.tutors = [];
+      context.state.info = info;
 
       loop(context);
-
-      await new Promise((r) => setTimeout(r, 60000)); // to delete !!!!
-      context.state.state = "idle"; // to delete !!!!
     },
     async deleteLesson(context) {
-      context.state.state = "idle";
-      const resp = await deleteLesson(context);
-      context.commit("changeInfo", {});
-      return resp;
+      context.commit("changeState", { state: "idle" });
+      return await deleteLesson(context).then(context.commit("changeInfo", {}));
     },
   },
   namespaced: true,
@@ -42,7 +35,7 @@ export default {
 
 async function loop(context) {
   switch (context.state.state) {
-    case "initialization":
+    case "initializing":
       await initialize(context);
       break;
     case "listening":
@@ -57,58 +50,34 @@ async function loop(context) {
 }
 
 async function initialize(context) {
-  const method = "post";
-  const urlEnd = context.state.root + "/b";
-  const data = context.state.info;
-  let info = await apiRequest({ method, urlEnd, data });
-  info = info.data;
-  context.commit("changeInfo", { info });
+  let info = await apiRequest({
+    method: "post",
+    urlEnd: context.state.root + "/b",
+    data: context.state.info,
+  }).then((info) => info.data);
 
-  context.state.state = "listening";
+  context.commit("changeInfo", { info });
+  context.commit("changeState", { state: "listening" });
 }
 
 async function listenForChanges(context) {
-  const method = "get";
-  const urlEnd =
-    context.state.root + "/b/" + context.state.info.metadata.id + "/latest";
-  let info = await apiRequest({ method, urlEnd });
-  info = info.data;
-
-  const tutors = await fetchTutorObjects(info);
-  info.record.tutors = tutors;
-
+  let info = await getInfo(context, { id: context.state.info.metadata.id });
+  info.record.tutors = await axios.all(
+    info.record.tutors.map((id) => getInfo(context, { id }))
+  );
   context.commit("changeInfo", { info });
 
-  console.log("New Change");
-  async function fetchTutorObjects(info) {
-    let tutorArr = info.record.tutors;
-    // let tutorArr = ["621de98206182767436a4b87"];
-    let newTutorsArr = await axios.all(tutorArr.map((tutor) => request(tutor)));
-
-    newTutorsArr = newTutorsArr.map((tutor) => {
-      const uuid = tutor.data.metadata.id;
-      tutor = tutor.data.record;
-      tutor.uuid = uuid;
-      return tutor;
-    });
-    return newTutorsArr;
-
-    function request(id) {
-      const method = "get";
-      const urlEnd = context.state.root + "/b/" + id + "/latest";
-      const resp = apiRequest({ method, urlEnd });
-      return resp;
-    }
+  async function getInfo({ state }, { id }) {
+    return await apiRequest({
+      method: "get",
+      urlEnd: state.root + "/b/" + id + "/latest",
+    }).then((info) => info?.data);
   }
 }
 
 async function deleteLesson({ state }) {
-  const method = "delete",
-    urlEnd = state.root + "/b/" + state.info.metadata.id;
-  const resp = await apiRequest({ method, urlEnd });
-  console.log("DELETED");
-  console.log(resp);
-  console.log("-----------------");
-
-  return resp;
+  return await apiRequest({
+    method: "delete",
+    urlEnd: state.root + "/b/" + state.info.metadata.id,
+  });
 }

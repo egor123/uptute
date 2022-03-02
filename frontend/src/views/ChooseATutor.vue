@@ -27,11 +27,7 @@
           :convertor="(item) => $l('find.filters.filters.' + item.name)"
         />
       </FilterPanel>
-      <Panels
-        id="panels"
-        :tutors="$store.state.studentLessonAPI.info.record.tutors"
-      />
-      <!-- :tutors="$store.getters.getTutors" -->
+      <Panels id="panels" :tutors="getTutors()" />
     </div>
     <v-snackbar max-width="800" color="error" timeout="-1" v-model="showAlert">
       {{ $l("choose_a.tutor.ended") }}
@@ -116,13 +112,22 @@ export default {
         this.radiusLowerInfo = "15px";
       }
     },
+    getTutors() {
+      return this.$store.state.studentLessonAPI.info &&
+        this.$store.state.studentLessonAPI.info.record
+        ? this.$store.state.studentLessonAPI.info.record.tutors.map(
+            (tutor) => tutor.record
+          )
+        : [];
+    },
   },
   beforeRouteLeave(to, from, next) {
     this.showAlert = true;
-    this.untilClick().then((val) => {
+    this.untilClick().then(async (val) => {
       this.showAlert = false;
       if (val === "close") {
         this.$store.dispatch("studentLessonAPI/deleteLesson");
+        await new Promise((r) => setTimeout(r, 3000));
         next();
       }
     });
@@ -132,10 +137,9 @@ export default {
     // this.$store.dispatch("startSearch", null);
     window.addEventListener("resize", this.resized);
     this.resized();
-    setTimeout(() => {
-      console.log(this.$store.getters.getTutors);
-      console.log("!!!!!!!!!!!!!");
-    }, 10000);
+    // setTimeout(() => {
+    //   console.log(this.$store.getters.getTutors);
+    // }, 10000);
   },
   beforeDestroy() {
     window.removeEventListener("beforeunload", this.preventNav);
