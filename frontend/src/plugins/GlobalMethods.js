@@ -17,6 +17,8 @@ export function goTo(pageName) {
 export function scrolled({ cards }) {
   const maxZInPx = 4;
 
+  if (cards.length === 0) return;
+
   const cardsPerPageFloat = window.innerHeight / cards[0].offsetHeight;
   const maxCardsPerPage = Math.floor(cardsPerPageFloat) + 2;
   const firstCardVisiblePart = (cardsPerPageFloat % 1) / 2;

@@ -159,25 +159,13 @@ export default {
     };
   },
   mounted() {
-    document.addEventListener("scroll", this.checkOffset);
-
     document.addEventListener("mouseenter", this.$refs.heroCanvas.mouseEnter);
   },
   beforeDestroy() {
-    document.removeEventListener("scroll", this.checkOffset);
-
     document.removeEventListener(
       "mouseenter",
       this.$refs.heroCanvas.mouseEnter
     );
-  },
-  methods: {
-    checkOffset() {
-      if (window.scrollY > window.innerHeight) {
-        let iframeSrc = this.$refs.iframe.src;
-        this.$refs.iframe.src = iframeSrc;
-      }
-    },
   },
   //   data() {
   //     return {
