@@ -26,6 +26,7 @@
           :area="false"
           :flat="true"
           :backgroundColor="'var(--v-card-lighten3)'"
+          :borderRadius="'0px'"
         />
         <TextField
           v-model="info.topic.text"
@@ -62,6 +63,7 @@
           :max="21"
           :flat="true"
           :backgroundColor="'var(--v-card-lighten3)'"
+          :borderRadius="'0px'"
         />
         <ExpandableSlider
           v-model="info.price"

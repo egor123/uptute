@@ -5,12 +5,14 @@
         v-model="moto"
         :label="$l('set_up.motto')"
         :rules="(val) => val != '' && val != null"
+        :borderRadius="'15px 15px 0px 0px'"
       />
       <TextField
         :area="true"
         v-model="about"
         :label="$l('set_up.about')"
         :rules="(val) => val != '' && val != null"
+        :borderRadius="'0px 0px 15px 15px'"
       />
     </FilterPanel>
 

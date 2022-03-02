@@ -42,13 +42,8 @@ export default {
     },
     borderRadius: {
       type: String,
-      default: "0px",
+      default: "15px",
     },
-  },
-  mounted() {
-    // if (this.flat) {
-    //   this.$refs.panel.$el.style.setProperty("--displayShadow", "none");
-    // } else this.$refs.panel.$el.style.setProperty("--displayShadow", "flex");
   },
 };
 </script>
@@ -68,19 +63,7 @@ export default {
     display: var(--displayShadow);
     z-index: -1;
   }
-  // &:first-of-type {
-  //   border-top-left-radius: 15px;
-  //   border-top-right-radius: inherit;
-  //   border-bottom-left-radius: 0px !important;
-  //   border-bottom-right-radius: 0px !important;
-  // }
-  // &:last-of-type {
-  //   border-top-left-radius: 0px !important;
-  //   border-top-right-radius: 0px !important;
-  //   border-bottom-left-radius: inherit;
-  //   border-bottom-right-radius: inherit;
-  // }
-  border-radius: var(--borderRadius);
+  border-radius: var(--borderRadius) !important;
 
   // border-radius: inherit !important;
   .v-expansion-panel-header {

@@ -9,7 +9,11 @@
       --borderRadius: ${borderRadius}`
     "
   >
-    <div class="slot" ref="slot">
+    <div
+      class="slot"
+      ref="slot"
+      :style="`paddingRight:${img ? '30px' : '0px'}`"
+    >
       <textarea
         v-if="area"
         type="text"
@@ -59,7 +63,7 @@ export default {
     },
     borderRadius: {
       type: String,
-      default: "0px",
+      default: "15px",
     },
   },
   watch: {
@@ -92,14 +96,6 @@ export default {
       return require(`@/assets/icons/${img}.svg`);
     },
   },
-  mounted() {
-    if (this.img) {
-      this.$refs.slot.style.paddingRight = "30px";
-    }
-    // if (this.flat) {
-    //   this.$refs.textInput.style.setProperty("--displayShadow", "none");
-    // } else this.$refs.textInput.style.setProperty("--displayShadow", "flex");
-  },
 };
 </script>
 
@@ -110,17 +106,8 @@ export default {
 .textInput {
   $color-main: var(--backgroundColor);
   $color-sec: var(--v-secondary-darken2);
-  border-radius: var(--borderRadius);
+  border-radius: var(--borderRadius) !important;
   position: relative;
-
-  // &:first-of-type {
-  //   border-top-right-radius: inherit;
-  //   border-top-left-radius: inherit;
-  // }
-  // &:last-of-type {
-  //   border-bottom-right-radius: inherit;
-  //   border-bottom-left-radius: inherit;
-  // }
 
   &::before {
     @include box-shadow();
