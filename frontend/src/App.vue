@@ -45,7 +45,7 @@ export default {
     },
   },
   mounted() {
-    this.getFirstPost();
+    // this.getFirstPost();
   },
 };
 </script>

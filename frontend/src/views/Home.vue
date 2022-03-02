@@ -159,8 +159,6 @@ export default {
     };
   },
   mounted() {
-    console.log(document);
-
     document.addEventListener("scroll", this.checkOffset);
 
     document.addEventListener("mouseenter", this.$refs.heroCanvas.mouseEnter);
