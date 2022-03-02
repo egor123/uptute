@@ -51,6 +51,22 @@ Path: `/lessons/{lessonId}/{userUUID}`
 
 Type: `Get`  
 Role: `Student`  
+Path: `/lessons/{lessonId}/offers`  
+
+ResponseBody:
+
+```
+{
+    "tutors": Array,
+}
+```
+
+<br>
+
+## **GET LESSON LOGS**
+
+Type: `Get`  
+Role: `Student`  
 Path: `/lessons/{lessonId}`  
 
 ResponseBody:
