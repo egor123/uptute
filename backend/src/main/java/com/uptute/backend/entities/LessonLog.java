@@ -22,7 +22,7 @@ import lombok.*;
 public class LessonLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @NonNull
     @Enumerated(EnumType.STRING)
     private ELogStatus status;
