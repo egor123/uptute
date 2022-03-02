@@ -23,4 +23,6 @@ public interface LessonService {
             throws OfferAlreadyCreated, NoSuchElementException, LessonIsClosedException;
 
     GetOffersResponse getOffers(Long lessonId) throws NoSuchElementException, LessonIsClosedException;
+
+    Boolean cancelOffer(Long lessonId, String userUUID) throws LessonIsClosedException, NoSuchElementException;
 }

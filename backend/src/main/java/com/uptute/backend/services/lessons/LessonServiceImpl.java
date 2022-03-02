@@ -3,9 +3,10 @@ package com.uptute.backend.services.lessons;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -98,17 +99,33 @@ public class LessonServiceImpl implements LessonService {
         if (!validateLesson(lesson))
             throw new LessonIsClosedException(lessonId);
 
-        Map<Long, String> offers = new HashMap<>();
-        lesson.getLogs().forEach(c -> {
-            if (c.getStatus().equals(ELogStatus.OFFER))
-                offers.put(c.getId(), c.getCreatedBy());
-            else if (c.getStatus().equals(ELogStatus.OFFER) || c.getStatus().equals(ELogStatus.CANCELED))
-                offers.remove(Long.valueOf(c.getDetails()));
-        });
-
-        List<String> tutors = new ArrayList<>(offers.values());
+        var tutors = getReducedOfferLogs(lesson).map(c -> c.getCreatedBy()).collect(Collectors.toList());
         return new GetOffersResponse(tutors);
+    }
 
+    @Override
+    public Boolean cancelOffer(Long lessonId, String userUUID)
+            throws LessonIsClosedException, NoSuchElementException {
+        var lesson = lessonRepository.getById(lessonId);
+        if (!validateLesson(lesson))
+            throw new LessonIsClosedException(lessonId);
+
+        var offerLogId = getReducedOfferLogs(lesson).filter(c -> c.getCreatedBy().equals(userUUID)).findFirst().get()
+                .getId();
+        lesson.addLog(new LessonLog(ELogStatus.CANCELED, userUUID, String.valueOf(offerLogId)));
+        lessonRepository.save(lesson);
+        return true;
+    }
+
+    private Stream<LessonLog> getReducedOfferLogs(Lesson lesson) {
+        Map<Long, LessonLog> reducedLogs = new HashMap<>();
+        lesson.getLogs().stream().forEach(c -> {
+            if (c.getStatus().equals(ELogStatus.OFFER))
+                reducedLogs.put(c.getId(), c);
+            else if (c.getStatus().equals(ELogStatus.OFFER) || c.getStatus().equals(ELogStatus.CANCELED))
+                reducedLogs.remove(Long.valueOf(c.getDetails()));
+        });
+        return reducedLogs.values().stream();
     }
 
     private Boolean validateLesson(Lesson lesson) {

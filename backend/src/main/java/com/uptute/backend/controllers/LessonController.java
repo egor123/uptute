@@ -67,6 +67,16 @@ public class LessonController {
         }
     }
 
+    @PostMapping("/{lessonId}/offer/cancel/{userUUID}")
+    public ResponseEntity<?> cancelOffer(@PathVariable Long lessonId, @PathVariable String userUUID){
+        try{
+            return ResponseEntity.ok(lessonService.cancelOffer(lessonId, userUUID));
+        }
+        catch(LessonIsClosedException | NoSuchElementException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     // ------------------------------------------ADMIN------------------------------------------
 
     @GetMapping("/{lessonId}")
