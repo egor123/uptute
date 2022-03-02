@@ -24,6 +24,8 @@ public class LessonController {
     @Autowired
     private LessonService lessonService;
 
+    // ------------------------------------------STUDENT------------------------------------------
+
     @PostMapping("/init/{userUUID}")
     public ResponseEntity<?> initializeLesson(@RequestBody InitializeLessonRequest request,
             @PathVariable String userUUID) {
@@ -39,6 +41,34 @@ public class LessonController {
         }
     }
 
+    @GetMapping("/{lessonId}/offers")
+    public ResponseEntity<?> getOffers(@PathVariable Long lessonId){
+        try{
+            return ResponseEntity.ok(lessonService.getOffers(lessonId));
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // ------------------------------------------TUTOR------------------------------------------
+
+    @GetMapping("/open")
+    public ResponseEntity<?> getOpenLessons() {
+        return ResponseEntity.ok(lessonService.getOpenLessons());
+    }
+
+    @PostMapping("/{lessonId}/offer/{userUUID}")
+    public ResponseEntity<?> createOffer(@PathVariable Long lessonId, @PathVariable String userUUID) {
+        try {
+            return ResponseEntity.ok(lessonService.createOffer(userUUID, lessonId));
+        } catch (OfferAlreadyCreated | NoSuchElementException | LessonIsClosedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // ------------------------------------------ADMIN------------------------------------------
+
     @GetMapping("/{lessonId}")
     public ResponseEntity<?> getLessonLogs(@PathVariable Long lessonId) {
         try {
@@ -48,19 +78,6 @@ public class LessonController {
         }
     }
 
-    @GetMapping("/open")
-    public ResponseEntity<?> getOpenLessons() {
-        return ResponseEntity.ok(lessonService.getOpenLessons());
-    }
-
-    @PostMapping("/{lessonId}/offer/{userUUID}")
-    public ResponseEntity<?> creaateOffer(@PathVariable Long lessonId, @PathVariable String userUUID) {
-        try {
-            return ResponseEntity.ok(lessonService.createOffer(userUUID, lessonId));
-        } catch (OfferAlreadyCreated | NoSuchElementException | LessonIsClosedException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
     // @PostMapping("/{id}") //approve lesson by student
 
     // @GetMapping("/find") //tutor get all???
