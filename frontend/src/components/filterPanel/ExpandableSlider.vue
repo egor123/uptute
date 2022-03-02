@@ -45,17 +45,17 @@ export default {
       def: JSON.parse(JSON.stringify(this.value)),
     };
   },
-  props: {
-    value: Array,
-    label: String,
-    text: String,
-    convertor: Function,
-    rules: Function,
-    min: Number,
-    max: Number,
-    backgroundColor: String,
-    borderRadius: String,
-  },
+  props: [
+    "value",
+    "label",
+    "text",
+    "converter",
+    "rules",
+    "min",
+    "max",
+    "backgroundColor",
+    "borderRadius",
+  ],
   methods: {
     refresh,
     isValid,
