@@ -64,11 +64,19 @@ ResponseBody:
 <br>
 
 
-## **APPROVE LESSON OFFER**
+## **REJECT LESSON OFFER**
 
 Type: `Post`  
 Role: `Student`  
 Path: `/lessons/{lessonId}/{tutorUUID}/reject/{userUUID}`  
+
+<br>
+
+## **ACCEPT LESSON OFFER**
+
+Type: `Post`  
+Role: `Student`  
+Path: `/lessons/{lessonId}/{tutorUUID}/accept/{userUUID}`  
 
 <br>
 
