@@ -31,7 +31,7 @@ export default {
   }),
   props: {
     label: String, // panel's label
-    text: String, // panel's text
+    text: [Number, String], // panel's text
     flat: {
       type: Boolean,
       default: true,
