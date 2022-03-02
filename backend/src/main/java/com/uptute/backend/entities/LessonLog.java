@@ -34,6 +34,8 @@ public class LessonLog {
     private Date createdAt;
     @NonNull
     private String createdBy;
+    @NonNull
+    private String details;
 
     @Override
     public int hashCode() {

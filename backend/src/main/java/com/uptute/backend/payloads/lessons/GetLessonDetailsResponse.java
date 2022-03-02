@@ -1,12 +1,12 @@
 package com.uptute.backend.payloads.lessons;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NonNull;
 
 @Data
-@Builder
-public class InitializeLessonRequest {
+public class GetLessonDetailsResponse {
     @NonNull
-    private String subject;
+    private Long id;
     @NonNull
     private String details;
 }
