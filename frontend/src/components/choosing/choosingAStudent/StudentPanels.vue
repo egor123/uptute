@@ -1,19 +1,15 @@
 <template>
   <div>
-    <HiddenButtonCard
-      v-for="student in students"
-      :key="student.id"
-      class="card"
-    >
+    <HiddenButtonCard v-for="(student, id) in students" :key="id" class="card">
       <template v-slot:static>
         <table>
           <tr>
             <td class="profile">
               <img class="userImg" src="@/assets/icons/user.svg" />
               <div class="nameAndAge">
-                <h3>{{ student.record.name }}</h3>
+                <h3>{{ student.name || null }}</h3>
                 <span class="age"
-                  >{{ student.record.grade }}
+                  >{{ student.grade || null }}
                   {{ $l("choose_a.student.grade") }}</span
                 >
               </div>
@@ -38,12 +34,12 @@
       <template v-slot:moving>
         <div class="infoContainer">
           <div class="subject">
-            {{ student.record.subject }}
+            {{ student.subject || null }}
 
             <v-spacer />
 
             <div class="topic">
-              {{ student.record.topic.title }}
+              {{ student.topic ? student.topic.title : null }}
             </div>
           </div>
         </div>

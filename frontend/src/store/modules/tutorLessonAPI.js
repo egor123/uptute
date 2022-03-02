@@ -1,12 +1,11 @@
 import { apiRequest } from "@/services/api.service.js";
-import axios from "axios";
 
 export default {
   namespaced: true,
   state() {
     return {
       state: "idle",
-      uuid: "621de98206182767436a4b87", // is pulled from JSONBIN.io
+      userUUID: "tutor_uuid_test",
       accountInfo: {
         // firstName: "Johann",
         // lastName: "Herman",
@@ -28,8 +27,6 @@ export default {
         // comments: 10,
         // zoomLink: "http://zoom.com",
       },
-      root: "https://api.jsonbin.io/v3",
-      collectionId: "621c751dc4790b34062524db",
       lessons: [],
       offeredLesson: {},
     };
@@ -62,7 +59,7 @@ export default {
 async function loop(context) {
   switch (context.state.state) {
     case "listening":
-      context.commit("getLessons", { lessons: await fetchLessons(context) });
+      context.commit("getLessons", { lessons: await fetchLessons() });
       // deleteHistory(context);
       break;
     case "idle":
@@ -73,24 +70,17 @@ async function loop(context) {
   loop(context);
 }
 
-async function fetchLessons(context) {
-  return await axios.all(
-    (await getIds(context))
-      .slice(0, 5) // Working on max 5 a time
-      .map((id) => getLessoninfo(context, { lessonId: id }))
-  );
+async function fetchLessons() {
+  return await apiRequest({
+    method: "get",
+    urlEnd: "/lessons/open",
+  })
+    .then((r) => r.data.lessons)
+    .then((lessons) => lessons.map((lesson) => normalize(lesson)));
 
-  async function getIds(context) {
-    return await apiRequest({
-      method: "get",
-      urlEnd: context.state.root + "/c/" + context.state.collectionId + "/bins",
-    }).then((r) => r.data.map((el) => el.record));
-  }
-  async function getLessoninfo(context, { lessonId }) {
-    return await apiRequest({
-      method: "get",
-      urlEnd: context.state.root + "/b/" + lessonId + "/latest",
-    }).then((r) => r?.data);
+  function normalize(lesson) {
+    lesson.details = JSON.parse(lesson.details.replace("/", ""));
+    return lesson;
   }
 }
 

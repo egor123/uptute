@@ -6,8 +6,8 @@ import axios from "axios";
 export async function apiRequest({ method, urlEnd, data = {} }) {
   const res = await axios({
     method,
-    url: urlEnd,
-    data: JSON.stringify(data),
+    url: "/api" + urlEnd,
+    data: data,
     headers: getHeaders(),
   }).catch((err) => console.log("ERROR!!" + err));
   // saveToStorage(res);
@@ -19,10 +19,7 @@ function getHeaders() {
     // refreshToken: localStorage.getItem("refreshToken"),
     // jwt: getJwt(localStorage.getItem("refreshToken")),
 
-    "X-Master-Key":
-      "$2b$10$3LvCwlFUlVltdOK3N8XBauySGWc2yE/RSXS/EZqdX.bAkdIIqib2G",
     "Content-Type": "application/json",
-    "X-Collection-Id": "621c751dc4790b34062524db",
   };
   return header;
 }

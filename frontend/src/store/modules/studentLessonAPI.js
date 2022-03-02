@@ -1,4 +1,3 @@
-import axios from "axios";
 import { apiRequest } from "@/services/api.service.js";
 
 export default {
@@ -6,7 +5,8 @@ export default {
     return {
       state: "idle",
       info: {},
-      root: "https://api.jsonbin.io/v3",
+      userUUID: "testuser123",
+      lessonId: "",
     };
   },
   mutations: {
@@ -15,6 +15,9 @@ export default {
     },
     changeState(state, payload) {
       state.state = payload.state;
+    },
+    setLessonId(state, { lessonId }) {
+      state.lessonId = lessonId;
     },
   },
   actions: {
@@ -39,7 +42,7 @@ async function loop(context) {
       await initialize(context);
       break;
     case "listening":
-      await listenForChanges(context);
+      // await listenForChanges(context);
       break;
     case "idle":
     default:
@@ -50,34 +53,37 @@ async function loop(context) {
 }
 
 async function initialize(context) {
-  let info = await apiRequest({
+  let lessonId = await apiRequest({
     method: "post",
-    urlEnd: context.state.root + "/b",
-    data: context.state.info,
-  }).then((info) => info.data);
+    urlEnd: "/lessons/init/" + context.state.userUUID,
+    data: {
+      subject: context.state.info.subject,
+      details: "Test details",
+    },
+  }).then((r) => r.data.lessonId);
 
-  context.commit("changeInfo", { info });
+  context.commit("setLessonId", { lessonId });
   context.commit("changeState", { state: "listening" });
 }
 
-async function listenForChanges(context) {
-  let info = await getInfo(context, { id: context.state.info.metadata.id });
-  info.record.tutors = await axios.all(
-    info.record.tutors.map((id) => getInfo(context, { id }))
-  );
-  context.commit("changeInfo", { info });
+// async function listenForChanges(context) {
+//   let info = await getInfo(context, { id: context.state.info.metadata.id });
+//   info.record.tutors = await axios.all(
+//     info.record.tutors.map((id) => getInfo(context, { id }))
+//   );
+//   context.commit("changeInfo", { info });
 
-  async function getInfo({ state }, { id }) {
-    return await apiRequest({
-      method: "get",
-      urlEnd: state.root + "/b/" + id + "/latest",
-    }).then((info) => info?.data);
-  }
-}
+//   async function getInfo({ state }, { id }) {
+//     return await apiRequest({
+//       method: "get",
+//       urlEnd: state.root + "/b/" + id + "/latest",
+//     }).then((info) => info?.data);
+//   }
+// }
 
 async function deleteLesson({ state }) {
   return await apiRequest({
     method: "delete",
-    urlEnd: state.root + "/b/" + state.info.metadata.id,
+    urlEnd: "/lessons/" + state.lessonId + "/" + state.userUUID,
   });
 }
