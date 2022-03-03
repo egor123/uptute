@@ -57,6 +57,14 @@ Path: `/lessons/{lessonId}/offer/{userUUID}`
 
 <br>
 
+## **CANCEL AN OFFER**
+
+Type: `Post`  
+Role: `Tutor`  
+Path: `/lesson/{lessonId}/offer/cancel/{userUUID}`
+
+<br>
+
 ## **GET LESSON STATUS**
 
 Type: `Get`  
