@@ -28,7 +28,7 @@ export default {
         // zoomLink: "http://zoom.com",
       },
       lessons: [],
-      offeredLesson: {},
+      offeredLessons: [],
     };
   },
 
@@ -36,8 +36,8 @@ export default {
     getLessons(state, payload) {
       state.lessons = payload.lessons;
     },
-    saveOfferedLessonData(state, { offeredLesson }) {
-      state.offeredLesson = offeredLesson;
+    saveOfferedLessonIds(state, { offeredLessonId }) {
+      state.offeredLessons.push(offeredLessonId);
     },
     changeState(state, payload) {
       state.state = payload.state;
@@ -50,9 +50,15 @@ export default {
       loop(context);
     },
     async sendOffer(context, { lessonId }) {
-      const offeredLesson = await sendOffer(context, { lessonId });
-      offeredLesson;
-      // context.commit("saveOfferedLessonData", { offeredLesson });
+      const bool = await sendOffer(context, { lessonId }).then((r) => r.data);
+      if (bool) {
+        context.commit("saveOfferedLessonIds", { lessonId });
+        return lessonId;
+      }
+    },
+    async cancelOffer() {
+      const bool = await cancelOffer(context, { lessonId }).then((r) => r.data);
+      console.log(bool);
     },
   },
 };
@@ -89,8 +95,15 @@ async function sendOffer({ state }, { lessonId }) {
   return await apiRequest({
     method: "post",
     urlEnd: "/lessons/" + lessonId + "/offer/" + state.userUUID,
-  }).then((r) => console.log(r));
+  });
   // .then((r) => r?.data)
+}
+
+async function cancelOffer({ state }, lessonId) {
+  return await apiRequest({
+    method: "post",
+    urlEnd: "/lessons/" + lessonId + "/offer/" + state.userUUID,
+  });
 }
 
 // ------------------------------------------

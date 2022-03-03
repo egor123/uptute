@@ -12,6 +12,7 @@
         v-model="filter"
         :filters="filters"
         :label="$l('find.filters.filters.h')"
+        :flat="false"
         :text="
           `${$l('find.filters.filters.' + filter.name)} ${
             filter.dir === 'up' ? '↑' : '↓'

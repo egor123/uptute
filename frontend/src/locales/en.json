@@ -250,6 +250,7 @@
       "button": "Details",
       "dialog": {
         "offer": "Offer your help",
+        "cancel": "Cancel the offer",
         "title": "Your offer is sent",
         "text": "You will be notified if your offer will be choosen"
       }

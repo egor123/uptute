@@ -15,6 +15,7 @@ ResponseBody:
     "lessons": Array
 }
 ```
+
 <!-- ResponseBody:
 
 ```
@@ -52,7 +53,7 @@ ResponseBody:
 
 Type: `Post`  
 Role: `Tutor`  
-Path: `/{lessonId}/offer/{userUUID}`
+Path: `/lessons/{lessonId}/offer/{userUUID}`
 
 <br>
 

@@ -42,7 +42,7 @@ async function loop(context) {
       await initialize(context);
       break;
     case "listening":
-      // await listenForChanges(context);
+      await getOffers(context);
       break;
     case "idle":
     default:
@@ -66,20 +66,28 @@ async function initialize(context) {
   context.commit("changeState", { state: "listening" });
 }
 
-// async function listenForChanges(context) {
-//   let info = await getInfo(context, { id: context.state.info.metadata.id });
-//   info.record.tutors = await axios.all(
-//     info.record.tutors.map((id) => getInfo(context, { id }))
-//   );
-//   context.commit("changeInfo", { info });
+async function getOffers(context) {
+  const tutorIds = await apiRequest({
+    method: "get",
+    urlEnd: "/lessons/" + context.state.lessonId + "/offers",
+  }).then((r) => r.data.tutors);
+  tutorIds;
 
-//   async function getInfo({ state }, { id }) {
-//     return await apiRequest({
-//       method: "get",
-//       urlEnd: state.root + "/b/" + id + "/latest",
-//     }).then((info) => info?.data);
-//   }
-// }
+  // console.log(tutorIds);
+
+  // let info = await getInfo(context, { id: context.state.info.metadata.id });
+  // info.record.tutors = await axios.all(
+  //   info.record.tutors.map((id) => getInfo(context, { id }))
+  // );
+  // context.commit("changeInfo", { info });
+
+  // async function getInfo({ state }, { id }) {
+  //   return await apiRequest({
+  //     method: "get",
+  //     urlEnd: state.root + "/b/" + id + "/latest",
+  //   }).then((info) => info?.data);
+  // }
+}
 
 async function deleteLesson({ state }) {
   return await apiRequest({

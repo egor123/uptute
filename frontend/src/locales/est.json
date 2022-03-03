@@ -253,6 +253,7 @@
       "button": "Uuri lähedamalt",
       "dialog": {
         "offer": "Pakku oma abi",
+        "cancel": "Tühista pakkumine",
         "title": "Su abipakkumine on saadetud",
         "text": "Sind teavitatakse, kui su pakkumine võetaks vastu"
       }
