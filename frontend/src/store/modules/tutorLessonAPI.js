@@ -5,7 +5,7 @@ export default {
   state() {
     return {
       state: "idle",
-      userUUID: "tutor_uuid_test",
+      userUUID: "tutorUuid",
       accountInfo: {
         // firstName: "Johann",
         // lastName: "Herman",
@@ -49,9 +49,10 @@ export default {
       context.commit("changeState", { state: "listening" });
       loop(context);
     },
-    async sendOffer(context, { lesson }) {
-      const offeredLesson = await addSelfToLesson(context, { lesson });
-      context.commit("saveOfferedLessonData", { offeredLesson });
+    async sendOffer(context, { lessonId }) {
+      const offeredLesson = await sendOffer(context, { lessonId });
+      offeredLesson;
+      // context.commit("saveOfferedLessonData", { offeredLesson });
     },
   },
 };
@@ -84,14 +85,12 @@ async function fetchLessons() {
   }
 }
 
-async function addSelfToLesson(context, { lesson }) {
-  lesson.record.tutors.push(context.state.uuid);
-
+async function sendOffer({ state }, { lessonId }) {
   return await apiRequest({
-    method: "put",
-    urlEnd: context.state.root + "/b/" + lesson.metadata.id,
-    data: lesson.record,
-  }).then((r) => r?.data);
+    method: "post",
+    urlEnd: "/lessons/" + lessonId + "/offer/" + state.userUUID,
+  }).then((r) => console.log(r));
+  // .then((r) => r?.data)
 }
 
 // ------------------------------------------

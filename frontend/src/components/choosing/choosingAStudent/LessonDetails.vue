@@ -1,17 +1,17 @@
 <template>
   <div class="content">
     <p>
-      {{ student.record.topic.text }}
+      {{ student.topic ? student.topic.text : null }}
     </p>
 
-    <PageViewer :imgs="student.record.imgs" :upload="false" />
+    <PageViewer :imgs="student.imgs" :upload="false" />
 
     <Dialog>
       <template v-slot:object>
         <v-btn
           @click="
             $store.dispatch('tutorLessonAPI/sendOffer', {
-              lesson: student,
+              lessonId: student.id,
             })
           "
           rounded
