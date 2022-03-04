@@ -68,7 +68,8 @@ public class LessonServiceImpl implements LessonService {
                     var i = c.getLogs().iterator();
                     while (i.hasNext()) {
                         var log = i.next();
-                        if (log.getType().equals(ELogType.OFFER) && log.getCreatedBy().equals(userUUID))
+                        if (!log.getActive() && log.getType().equals(ELogType.OFFER)
+                                && log.getCreatedBy().equals(userUUID))
                             return false;
                     }
                     return true;
