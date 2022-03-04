@@ -6,7 +6,7 @@
 
 Type: `Post`  
 Role: `Student`  
-Path: `/lessons/init/{userUUID}`  
+Path: `/lessons/create/{userUUID}`  
 RequestBody:
 
 ```

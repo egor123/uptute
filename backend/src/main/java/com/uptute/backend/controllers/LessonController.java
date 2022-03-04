@@ -28,7 +28,7 @@ public class LessonController {
 
     // ------------------------------------------LOG-CREATION------------------------------------------
 
-    @PostMapping("/init/{userUUID}")
+    @PostMapping("/create/{userUUID}")
     public ResponseEntity<?> createLesson(@PathVariable String userUUID, @RequestBody CreateLessonRequest request) {
         try {
             return ResponseEntity.ok(lessonService.createLog(null, ELogType.CREATED, userUUID, request));
