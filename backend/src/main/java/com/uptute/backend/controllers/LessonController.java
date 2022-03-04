@@ -2,15 +2,16 @@ package com.uptute.backend.controllers;
 
 import java.util.NoSuchElementException;
 
-import com.uptute.backend.exceptions.LessonIsClosedException;
+import com.uptute.backend.exceptions.LogIsClosedException;
+import com.uptute.backend.exceptions.UnsupportedParentLogType;
+import com.uptute.backend.enums.lesson.ELogType;
 import com.uptute.backend.exceptions.LogAlreadyExists;
-import com.uptute.backend.payloads.lessons.InitializeLessonRequest;
-import com.uptute.backend.payloads.lessons.RejectOfferRequest;
+import com.uptute.backend.payloads.lessons.CreateLessonRequest;
+import com.uptute.backend.payloads.lessons.InitializeConferenceRequest;
 import com.uptute.backend.services.lessons.LessonService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,80 +26,89 @@ public class LessonController {
     @Autowired
     private LessonService lessonService;
 
-    // ------------------------------------------STUDENT------------------------------------------
+    // ------------------------------------------LOG-CREATION------------------------------------------
 
     @PostMapping("/init/{userUUID}")
-    public ResponseEntity<?> initializeLesson(@RequestBody InitializeLessonRequest request,
-            @PathVariable String userUUID) {
-        return ResponseEntity.ok(lessonService.initializeLesson(userUUID, request));
-    }
-
-    @DeleteMapping("/{lessonId}/{userUUID}")
-    public ResponseEntity<?> abortLesson(@PathVariable Long lessonId, @PathVariable String userUUID) {
+    public ResponseEntity<?> createLesson(@PathVariable String userUUID, @RequestBody CreateLessonRequest request) {
         try {
-            return ResponseEntity.ok(lessonService.abortLesson(userUUID, lessonId));
-        } catch (NoSuchElementException | LessonIsClosedException e) {
+            return ResponseEntity.ok(lessonService.createLog(null, ELogType.CREATED, userUUID, request));
+        } catch (NoSuchElementException | LogIsClosedException | LogAlreadyExists | UnsupportedParentLogType e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @GetMapping("/{lessonId}/offers")
-    public ResponseEntity<?> getOffers(@PathVariable Long lessonId) {
+    @PostMapping("/logs/{logId}/close/{userUUID}")
+    public ResponseEntity<?> cancelLog(@PathVariable Long logId, @PathVariable String userUUID) {
         try {
-            return ResponseEntity.ok(lessonService.getOffers(lessonId));
-        } catch (NoSuchElementException | LessonIsClosedException e) {
+            return ResponseEntity.ok(lessonService.createLog(logId, ELogType.CLOSED, userUUID, null));
+        } catch (NoSuchElementException | LogIsClosedException | LogAlreadyExists | UnsupportedParentLogType e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PostMapping("/{lessonId}/{tutorUUID}/reject/{userUUID}")
-    public ResponseEntity<?> rejectOffer(@PathVariable Long lessonId, @PathVariable String userUUID,
-            @PathVariable String tutorUUID) {
+    @PostMapping("/logs/{logId}/offer/{userUUID}")
+    public ResponseEntity<?> createOffer(@PathVariable Long logId, @PathVariable String userUUID) {
         try {
-            return ResponseEntity.ok(lessonService.rejectOffer(lessonId, userUUID, tutorUUID));
-        } catch (NoSuchElementException | LessonIsClosedException e) {
+            return ResponseEntity.ok(lessonService.createLog(logId, ELogType.OFFER, userUUID, null));
+        } catch (NoSuchElementException | LogIsClosedException | LogAlreadyExists | UnsupportedParentLogType e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    // ------------------------------------------TUTOR------------------------------------------
-
-    @GetMapping("/open")
-    public ResponseEntity<?> getOpenLessons() {
-        return ResponseEntity.ok(lessonService.getOpenLessons());
-    }
-
-    @PostMapping("/{lessonId}/offer/{userUUID}")
-    public ResponseEntity<?> createOffer(@PathVariable Long lessonId, @PathVariable String userUUID) {
+    @PostMapping("/logs/{logId}/accept/{userUUID}")
+    public ResponseEntity<?> acceptOffer(@PathVariable Long logId, @PathVariable String userUUID) {
         try {
-            return ResponseEntity.ok(lessonService.createOffer(userUUID, lessonId));
-        } catch (LogAlreadyExists | NoSuchElementException | LessonIsClosedException e) {
+            return ResponseEntity.ok(lessonService.createLog(logId, ELogType.ACCEPTED, userUUID, null));
+        } catch (NoSuchElementException | LogIsClosedException | LogAlreadyExists | UnsupportedParentLogType e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PostMapping("/{lessonId}/offer/cancel/{userUUID}")
-    public ResponseEntity<?> cancelOffer(@PathVariable Long lessonId, @PathVariable String userUUID) {
+    @PostMapping("/logs/{logId}/init/{userUUID}")
+    public ResponseEntity<?> initiateConference(@PathVariable Long logId, @PathVariable String userUUID,
+            @RequestBody InitializeConferenceRequest request) {
         try {
-            return ResponseEntity.ok(lessonService.cancelOffer(lessonId, userUUID));
-        } catch (LessonIsClosedException | NoSuchElementException e) {
+            return ResponseEntity.ok(lessonService.createLog(logId, ELogType.INIT, userUUID, request));
+        } catch (NoSuchElementException | LogIsClosedException | LogAlreadyExists | UnsupportedParentLogType e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    // ------------------------------------------ADMIN------------------------------------------
+    // ------------------------------------------LOG-OBSERVATION------------------------------------------
 
-    @GetMapping("/{lessonId}")
+    @GetMapping("/logs/{logId}/offer/{userUUID}")
+    public ResponseEntity<?> checkForOffers(@PathVariable Long logId) {
+        try {
+            return ResponseEntity.ok(lessonService.observeLog(logId, ELogType.OFFER));
+        } catch (NoSuchElementException | LogIsClosedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/logs/{logId}/accepted/{userUUID}")
+    public ResponseEntity<?> checkForAccepted(@PathVariable Long logId) {
+        try {
+            return ResponseEntity.ok(lessonService.observeLog(logId, ELogType.ACCEPTED));
+        } catch (NoSuchElementException | LogIsClosedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------
+
+    @GetMapping("/open/{userUUID}")
+    public ResponseEntity<?> getOpenLessons(@PathVariable String userUUID) {
+        return ResponseEntity.ok(lessonService.getOpenLessons(userUUID));
+    }
+
+    // ------------------------------------------------------------------------------------------
+
+    @GetMapping("/{lessonId}/{userUUID}")
     public ResponseEntity<?> getLessonLogs(@PathVariable Long lessonId) {
         try {
             return ResponseEntity.ok(lessonService.getLessonLogs(lessonId));
-        } catch (NoSuchElementException | LessonIsClosedException e) {
+        } catch (NoSuchElementException | LogIsClosedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-    // @PostMapping("/{id}") //approve lesson by student
-
-    // @GetMapping("/find") //tutor get all???
-    // @GetMapping
 }

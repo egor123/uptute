@@ -6,7 +6,9 @@ import lombok.NonNull;
 @Data
 public class GetLessonDetailsResponse {
     @NonNull
-    private Long id;
+    private Long lessonId;
+    @NonNull
+    private Long logId;
     @NonNull
     private String details;
 }

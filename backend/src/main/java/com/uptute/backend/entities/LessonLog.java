@@ -1,11 +1,13 @@
 package com.uptute.backend.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.uptute.backend.enums.lesson.ELogStatus;
+import com.uptute.backend.enums.lesson.ELogType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,29 +15,49 @@ import javax.persistence.*;
 
 import lombok.*;
 
-@RequiredArgsConstructor
+
 @Entity
 @Getter
-@Setter
+@RequiredArgsConstructor
 @NoArgsConstructor
-@Table(name = "lesson_logs")
+@Table(name = "logs")
 public class LessonLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NonNull
     @Enumerated(EnumType.STRING)
-    private ELogStatus status;
+    private ELogType type;
+
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Lesson lesson;
+
+    @Setter
+    @JsonIgnore
+    private Boolean active = true;
+
+    @OneToMany(mappedBy = "parentLog", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<LessonLog> childLogs = new HashSet<>();
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private LessonLog parentLog;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
     @NonNull
     private String createdBy;
+
     @NonNull
     private String details;
+
 
     @Override
     public int hashCode() {

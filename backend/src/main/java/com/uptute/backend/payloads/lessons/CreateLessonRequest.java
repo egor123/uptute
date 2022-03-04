@@ -4,7 +4,7 @@ import lombok.*;
 
 @Data
 @Builder
-public class InitializeLessonRequest {
+public class CreateLessonRequest {
     @NonNull
     private String subject;
     @NonNull

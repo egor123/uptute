@@ -4,7 +4,9 @@ import lombok.*;
 
 @Data
 @AllArgsConstructor
-public class InitializeLessonResponse {
+public class CreateLogResponse {
     @NonNull
     private Long lessonId;
+    @NonNull
+    private Long logId;
 }

@@ -19,4 +19,8 @@ uptute:
         jwtSecret: theMostSecretSecretEver
         jwtExpirationMs: 3600000
         jwtRefreshExpirationMs: 86400000
-        lessonExpirationTime: 300000
+        logsExpirationMs:
+            created: 300000
+            offer: 100000
+            accepted: 100000
+            init: 600000

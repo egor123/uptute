@@ -2,28 +2,22 @@ package com.uptute.backend.services.lessons;
 
 import java.util.NoSuchElementException;
 
-import com.uptute.backend.exceptions.LessonIsClosedException;
+import com.uptute.backend.exceptions.LogIsClosedException;
+import com.uptute.backend.exceptions.UnsupportedParentLogType;
+import com.uptute.backend.enums.lesson.ELogType;
 import com.uptute.backend.exceptions.LogAlreadyExists;
 import com.uptute.backend.payloads.lessons.GetLessonLogsResponse;
-import com.uptute.backend.payloads.lessons.GetOffersResponse;
 import com.uptute.backend.payloads.lessons.GetOpenLessonsResponse;
-import com.uptute.backend.payloads.lessons.InitializeLessonRequest;
-import com.uptute.backend.payloads.lessons.InitializeLessonResponse;
+import com.uptute.backend.payloads.lessons.OserveLogResponse;
+import com.uptute.backend.payloads.lessons.CreateLogResponse;
 
 public interface LessonService {
-    InitializeLessonResponse initializeLesson(String userUUID, InitializeLessonRequest details);
+    CreateLogResponse createLog(Long parentLogId, ELogType type, String userUUID, Object details)
+            throws NoSuchElementException, LogIsClosedException, LogAlreadyExists, UnsupportedParentLogType;
 
-    Boolean abortLesson(String userUUID, Long lessonId) throws NoSuchElementException, LessonIsClosedException;
+    OserveLogResponse observeLog(Long logId, ELogType type) throws NoSuchElementException, LogIsClosedException;
 
-    GetLessonLogsResponse getLessonLogs(Long lessonId) throws NoSuchElementException, LessonIsClosedException;
+    GetOpenLessonsResponse getOpenLessons(String userUUID);
 
-    GetOpenLessonsResponse getOpenLessons();
-
-    Boolean createOffer(String userUUID, Long lessonId) throws NoSuchElementException, LessonIsClosedException, LogAlreadyExists;
-
-    GetOffersResponse getOffers(Long lessonId) throws NoSuchElementException, LessonIsClosedException;
-
-    Boolean cancelOffer(Long lessonId, String userUUID) throws LessonIsClosedException, NoSuchElementException;
-
-    Boolean rejectOffer(Long lessonId, String userUUID, String tutorUUID) throws LessonIsClosedException, NoSuchElementException;
+    GetLessonLogsResponse getLessonLogs(Long logId) throws NoSuchElementException, LogIsClosedException;
 }

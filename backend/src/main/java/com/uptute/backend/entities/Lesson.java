@@ -23,10 +23,4 @@ public class Lesson {
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<LessonLog> logs = new HashSet<>();
-
-    public Lesson addLog(LessonLog log){
-        logs.add(log);
-        log.setLesson(this);
-        return this;
-    }
 }
