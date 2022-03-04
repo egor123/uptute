@@ -3,6 +3,7 @@ package com.uptute.backend.services.lessons;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.uptute.backend.entities.Lesson;
@@ -118,7 +119,13 @@ public class LogRepositoryHandlerImpl implements LogRepositoryHandler {
     }
 
     private Long getCreatedExpirationTime(LessonLog log) {
-        return log.getLesson().getLogs().stream().sorted(Comparator.comparingLong(LessonLog::getId).reversed())
-                .findFirst().get().getCreatedAt().getTime() + createdExpirationTime;
+        var logs = log.getLesson()
+                .getLogs()
+                .stream()
+                .sorted(Comparator.comparingLong(LessonLog::getId))
+                .collect(Collectors.toList());
+        var first = logs.get(0).getCreatedAt().getTime();
+        var last = logs.get(logs.size() -1).getCreatedAt().getTime();
+        return last - first + createdExpirationTime;
     }
 }
