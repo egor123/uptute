@@ -89,10 +89,10 @@ public class LogRepositoryHandlerImpl implements LogRepositoryHandler {
         Long expirationTime = null;
         switch (log.getType()) {
             case CREATED:
-                expirationTime = createdExpirationTime;
+                expirationTime = getCreatedExpirationTime(log);
                 break;
             case OFFER:
-                expirationTime = getCreatedExpirationTime(log);
+                expirationTime = offerExpirationTime;
                 break;
             case ACCEPTED:
                 expirationTime = acceptedExpirationTime;

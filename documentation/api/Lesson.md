@@ -56,6 +56,14 @@ Type: `Post`
 Role: `Tutor`
 Path: `/lessons/logs/{logId}/init/{userUUID}`  
 
+RequestBody:
+
+```
+{
+    "zoomLink": String
+}
+```
+
 ResponseBody: CreateLogResponse
 
 <br>
