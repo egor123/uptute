@@ -19,6 +19,7 @@
             { name: 'hours_taught', dir: 'up' },
           ]"
           :label="$l('find.filters.filters.h')"
+          :flat="false"
           :text="
             `${$l('find.filters.filters.' + filter.name)} ${
               filter.dir === 'up' ? '↑' : '↓'
@@ -113,12 +114,7 @@ export default {
       }
     },
     getTutors() {
-      return this.$store.state.studentLessonAPI.info &&
-        this.$store.state.studentLessonAPI.info.record
-        ? this.$store.state.studentLessonAPI.info.record.tutors.map(
-            (tutor) => tutor.record
-          )
-        : [];
+      return this.$store.state.studentLessonAPI.tutors;
     },
   },
   beforeRouteLeave(to, from, next) {
@@ -126,20 +122,16 @@ export default {
     this.untilClick().then(async (val) => {
       this.showAlert = false;
       if (val === "close") {
-        this.$store.dispatch("studentLessonAPI/deleteLesson");
-        await new Promise((r) => setTimeout(r, 3000));
+        await this.$store.dispatch("studentLessonAPI/deleteLesson");
+        // await new Promise((r) => setTimeout(r, 3000));
         next();
       }
     });
   },
   mounted() {
     window.addEventListener("beforeunload", this.preventNav);
-    // this.$store.dispatch("startSearch", null);
     window.addEventListener("resize", this.resized);
     this.resized();
-    // setTimeout(() => {
-    //   console.log(this.$store.getters.getTutors);
-    // }, 10000);
   },
   beforeDestroy() {
     window.removeEventListener("beforeunload", this.preventNav);
