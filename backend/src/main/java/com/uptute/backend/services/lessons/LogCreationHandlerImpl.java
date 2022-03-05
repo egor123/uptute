@@ -85,7 +85,7 @@ public class LogCreationHandlerImpl implements LogCreationHandler {
         validateForDuplicates(parentLog, log);
         addToParentLog(log, parentLog);
         addToLesson(log, parentLog.getLesson());
-        saveLessonStatus(log, ELessonStatus.CONFERENCE_IN_PROGRESS);
+        parentLog.getLesson().setStatus(ELessonStatus.CONFERENCE_IN_PROGRESS);
         return logRepositoryHandler.saveLog(log);
     }
     // ---------------------------------------------------------------
@@ -118,11 +118,5 @@ public class LogCreationHandlerImpl implements LogCreationHandler {
     private void addToLesson(LessonLog log, Lesson lesson) {
         lesson.getLogs().add(log);
         log.setLesson(lesson);
-    }
-
-    private void saveLessonStatus(LessonLog log, ELessonStatus status){
-        var lesson = log.getLesson();
-        lesson.setStatus(status);
-        logRepositoryHandler.saveLesson(lesson);
     }
 }

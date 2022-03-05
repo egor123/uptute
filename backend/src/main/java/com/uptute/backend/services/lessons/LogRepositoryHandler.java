@@ -1,5 +1,6 @@
 package com.uptute.backend.services.lessons;
 
+import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 import com.uptute.backend.entities.Lesson;
@@ -9,7 +10,7 @@ public interface LogRepositoryHandler {
     
     Lesson getLesson(Long id);
 
-    LessonLog getLog(Long id, Boolean validate);
+    LessonLog getLog(Long id, Boolean validate) throws NoSuchElementException;
 
     void saveLesson(Lesson lesson);
     

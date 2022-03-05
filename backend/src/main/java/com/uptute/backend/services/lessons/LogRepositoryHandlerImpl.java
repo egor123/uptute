@@ -52,7 +52,7 @@ public class LogRepositoryHandlerImpl implements LogRepositoryHandler {
     }
 
     @Override
-    public LessonLog getLog(Long id, Boolean validate) {
+    public LessonLog getLog(Long id, Boolean validate) throws NoSuchElementException{
         var log = logRepository.findById(id).get();
         if (validate)
             validateLog(log);
