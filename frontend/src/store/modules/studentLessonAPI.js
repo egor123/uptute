@@ -134,25 +134,30 @@ async function accept({ state }, { offerLogId }) {
 }
 
 async function listenForInit(context) {
-  const res = await apiRequest({
-    method: "get",
-    urlEnd:
-      "/lessons/logs/" +
-      context.state.acceptedLogId +
-      "/init/" +
-      context.state.userUUID,
-  });
-  console.log(res);
-  const initLog = res.data.childLogs.find(
-    (childLog) => childLog.type === "INIT"
-  );
+  const getInitRes = await getRequest(context);
+  const initLog = getInitLog(getInitRes);
   if (initLog) {
-    const zoomLink = normalizeLink(initLog.details).zoomLink;
-    window.open(zoomLink, "_blank");
+    window.open(getZoomLink(initLog), "_blank");
     context.commit("changeState", { state: "conference" });
   }
   return;
-  function normalizeLink(info) {
-    return JSON.parse(info.replace("\\", ""));
+
+  async function getRequest({ state }) {
+    return await apiRequest({
+      method: "get",
+      urlEnd:
+        "/lessons/logs/" + state.acceptedLogId + "/init/" + state.userUUID,
+    });
+  }
+  function getInitLog(getInitRes) {
+    return getInitRes.data.childLogs.find(
+      (childLog) => childLog.type === "INIT"
+    );
+  }
+  function getZoomLink(initLog) {
+    return normalizeLink(initLog.details).zoomLink;
+    function normalizeLink(info) {
+      return JSON.parse(info.replace("\\", ""));
+    }
   }
 }

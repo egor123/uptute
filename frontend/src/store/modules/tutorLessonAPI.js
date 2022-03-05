@@ -89,31 +89,36 @@ async function fetchLessons({ state }) {
 }
 
 async function listenForAccepted(context) {
-  const logArr = await axios.all(
-    context.state.offeredLessons.map((ids) => request(context, { ids }))
-  );
-  var resp = logArr.find((log) =>
-    log.data.childLogs.some((childLog) => childLog.type === "ACCEPTED")
-  );
-  if (resp?.statusText === "OK" && context.state.state === "listening") {
+  const logArr = await getLogArr(context);
+  const acceptedLog = getAcceptedLog(logArr);
+  if (acceptedLog?.statusText === "OK" && context.state.state === "listening") {
     context.commit("changeState", { state: "accepted" });
-    const lessonId = resp.data.lessonId;
-    const acceptedLogId = resp.data.childLogs.find(
-      (childLog) => childLog.type === "ACCEPTED"
-    ).id;
-    cancelOtherLessons(context, { lessonId });
-    const r = await initConference(context, { acceptedLogId });
-    if (r?.statusText === "OK") {
-      context.commit("changeState", { state: "conference" });
-      window.open(context.state.zoomLink, "_blank");
+    const acceptedLogId = getAcceptedLogId(acceptedLog);
+    cancelOtherLessons(context, { lessonId: acceptedLog.data.lessonId });
+    const initRes = await initConference(context, { acceptedLogId });
+    tryOpenConference(context, { initRes });
+  }
+  async function getLogArr({ state }) {
+    return await axios.all(
+      state.offeredLessons.map((ids) => request({ state }, { ids }))
+    );
+    async function request({ state }, { ids }) {
+      return await apiRequest({
+        method: "get",
+        urlEnd:
+          "/lessons/logs/" + ids.offerLogId + "/accepted/" + state.userUUID,
+      });
     }
   }
-
-  async function request({ state }, { ids }) {
-    return await apiRequest({
-      method: "get",
-      urlEnd: "/lessons/logs/" + ids.offerLogId + "/accepted/" + state.userUUID,
-    });
+  function getAcceptedLog(logArr) {
+    return logArr.find((log) =>
+      log.data.childLogs.some((childLog) => childLog.type === "ACCEPTED")
+    );
+  }
+  function getAcceptedLogId(acceptedLog) {
+    return acceptedLog.data.childLogs.find(
+      (childLog) => childLog.type === "ACCEPTED"
+    ).id;
   }
   function cancelOtherLessons(context, { lessonId }) {
     context.commit("deleteOfferedLesson", { lessonId });
@@ -122,7 +127,6 @@ async function listenForAccepted(context) {
     });
   }
   async function initConference({ state }, { acceptedLogId }) {
-    console.log("initing");
     return await apiRequest({
       method: "post",
       urlEnd: "/lessons/logs/" + acceptedLogId + "/init/" + state.userUUID,
@@ -130,6 +134,11 @@ async function listenForAccepted(context) {
         zoomLink: state.zoomLink,
       },
     });
+  }
+  function tryOpenConference(context, { initRes }) {
+    if (initRes?.statusText != "OK") return;
+    context.commit("changeState", { state: "conference" });
+    window.open(context.state.zoomLink, "_blank");
   }
 }
 

@@ -9,7 +9,7 @@ export async function apiRequest({ method, urlEnd, data = {} }) {
     url: "/api" + urlEnd,
     data: data,
     headers: getHeaders(),
-  }).catch((err) => console.error(err.response));
+  }).catch((err) => console.error(err.response.data));
   // saveToStorage(res);
   return res;
 }
