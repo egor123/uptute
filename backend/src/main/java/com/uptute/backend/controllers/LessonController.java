@@ -94,6 +94,15 @@ public class LessonController {
         }
     }
 
+    @GetMapping("/logs/{logId}/init/{userUUID}")
+    public ResponseEntity<?> checkForInit(@PathVariable Long logId) {
+        try {
+            return ResponseEntity.ok(lessonService.observeLog(logId, ELogType.INIT));
+        } catch (NoSuchElementException | LogIsClosedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     // ------------------------------------------------------------------------------------------
 
     @GetMapping("/open/{userUUID}")
