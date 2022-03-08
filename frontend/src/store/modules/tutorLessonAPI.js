@@ -6,7 +6,7 @@ export default {
   state() {
     return {
       state: "idle",
-      userUUID: "tutorUUID",
+      userUUID: getUUID(),
       lessons: [],
       offeredLessons: [],
       zoomLink:
@@ -88,6 +88,13 @@ async function fetchLessons({ state }) {
   }
 }
 
+async function sendOffer({ state }, { logId }) {
+  return await apiRequest({
+    method: "post",
+    urlEnd: "/lessons/logs/" + logId + "/offer/" + state.userUUID,
+  });
+}
+
 async function listenForAccepted(context) {
   const logArr = await getLogArr(context);
   const acceptedLog = getAcceptedLog(logArr);
@@ -98,15 +105,22 @@ async function listenForAccepted(context) {
     const initRes = await initConference(context, { acceptedLogId });
     tryOpenConference(context, { initRes });
   }
-  async function getLogArr({ state }) {
-    return await axios.all(
-      state.offeredLessons.map((ids) => request({ state }, { ids }))
-    );
-    async function request({ state }, { ids }) {
+  async function getLogArr(context) {
+    return await axios
+      .all(context.state.offeredLessons.map((ids) => request(context, { ids })))
+      .then((r) => r.filter((res) => res != undefined));
+
+    async function request(context, { ids }) {
       return await apiRequest({
         method: "get",
         urlEnd:
-          "/lessons/logs/" + ids.offerLogId + "/accepted/" + state.userUUID,
+          "/lessons/logs/" +
+          ids.offerLogId +
+          "/accepted/" +
+          context.state.userUUID,
+      }).then((r) => {
+        if (r === undefined)
+          context.commit("deleteOfferedLesson", { offerLogId: ids.offerLogId });
       });
     }
   }
@@ -142,16 +156,19 @@ async function listenForAccepted(context) {
   }
 }
 
-async function sendOffer({ state }, { logId }) {
-  return await apiRequest({
-    method: "post",
-    urlEnd: "/lessons/logs/" + logId + "/offer/" + state.userUUID,
-  });
-}
-
 async function cancelOffer({ state }, { offerLogId }) {
   return await apiRequest({
     method: "post",
     urlEnd: "/lessons/logs/" + offerLogId + "/close/" + state.userUUID,
   });
+}
+
+// ---------------------------------
+
+// temporary
+
+// ---------------------------------
+
+function getUUID() {
+  return "tutor" + Date.now();
 }

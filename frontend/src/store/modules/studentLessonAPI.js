@@ -40,7 +40,9 @@ export default {
       loop(context);
     },
     async rejectOffer(context, { offerLogId }) {
-      rejectOffer(context, { offerLogId });
+      return await rejectOffer(context, { offerLogId }).then(
+        (r) => r.statusText === "OK"
+      );
     },
     async accept(context, { offerLogId }) {
       const res = await accept(context, { offerLogId });

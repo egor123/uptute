@@ -1,5 +1,5 @@
 <template>
-  <HiddenButtonCard :tutor="tutor" ref="hiddenButtonCard">
+  <HiddenButtonCard v-if="visible" :tutor="tutor" ref="hiddenButtonCard">
     <template v-slot:static>
       <button class="rejectBtn" @click="reject()">
         <v-icon class="rejectIcon">mdi-close</v-icon>
@@ -65,6 +65,7 @@ import BookButton from "@/components/choosing/choosingATutor/BookButton.vue";
 export default {
   data() {
     return {
+      visible: true,
       windowTop: 0,
     };
   },
@@ -85,11 +86,16 @@ export default {
         this.$refs.userImg.$refs.aboutTutorContent.scrollToComments(0);
       }, 0);
     },
-    reject() {
+    async reject() {
       console.log(this.tutor.offerLogId);
-      this.$store.dispatch("studentLessonAPI/rejectOffer", {
-        offerLogId: this.tutor.offerLogId,
-      });
+      const isDelited = await this.$store.dispatch(
+        "studentLessonAPI/rejectOffer",
+        {
+          offerLogId: this.tutor.offerLogId,
+        }
+      );
+      console.log(isDelited);
+      this.visible = !isDelited;
     },
   },
   // mounted() {
