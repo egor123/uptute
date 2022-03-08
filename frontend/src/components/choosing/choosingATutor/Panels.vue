@@ -22,12 +22,12 @@
         </template>
         <span>
           <!-- <Moto :moto="tutor.moto" /> -->
-          <Comments
+          <!-- <Comments
             v-if="isActive"
             :isActive="isActive"
             :id="tutor.uuid"
             :background="tooltipBackground"
-          />
+          /> -->
         </span>
       </v-tooltip>
     </div>
@@ -37,7 +37,7 @@
 <script>
 import Panel from "./Panel.vue";
 // import Moto from "./aboutTutor/Moto.vue";
-import Comments from "@/components/choosing/choosingATutor/aboutTutor/Comments.vue";
+// import Comments from "@/components/choosing/choosingATutor/aboutTutor/Comments.vue";
 
 export default {
   props: {
@@ -46,7 +46,7 @@ export default {
   components: {
     Panel,
     // Moto,
-    Comments,
+    // Comments,
   },
   data() {
     return {

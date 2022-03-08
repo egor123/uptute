@@ -61,7 +61,7 @@ Path: `/lessons/{lessonId}/offer/{userUUID}`
 
 Type: `Post`  
 Role: `Tutor`  
-Path: `/lesson/{lessonId}/offer/cancel/{userUUID}`
+Path: `/lessons/{lessonId}/offer/cancel/{userUUID}`
 
 <br>
 

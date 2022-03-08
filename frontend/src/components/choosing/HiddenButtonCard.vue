@@ -17,6 +17,7 @@
     padding: 10px 0;
     background: #ffffff00 !important;
     .hiddenButtonCard {
+      position: relative;
       cursor: auto;
       display: flex;
       flex-direction: column;

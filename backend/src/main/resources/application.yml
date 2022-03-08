@@ -1,26 +1,26 @@
 server:
-    port: 9000
-    servlet:
-        contextPath: /api
+  port: 9000
+  servlet:
+    contextPath: /api
 spring:
-    datasource:
-        url: jdbc:postgresql://localhost:5432/uptute
-        username: postgres
-        password: adm123
-    jpa:
-        properties:
-# spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation= true
-            hibernate:
-                dialect: org.hibernate.dialect.PostgreSQLDialect
-        hibernate:
-            ddl-auto: update 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/uptute
+    username: postgres
+    password: adm123
+  jpa:
+    properties:
+      # spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation= true
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
 uptute:
-    app:
-        jwtSecret: theMostSecretSecretEver
-        jwtExpirationMs: 3600000
-        jwtRefreshExpirationMs: 86400000
-        logsExpirationMs:
-            created: 300000
-            offer: 100000
-            accepted: 100000
-            init: 600000
+  app:
+    jwtSecret: theMostSecretSecretEver
+    jwtExpirationMs: 3600000
+    jwtRefreshExpirationMs: 86400000
+    logsExpirationMs:
+      created: 100000
+      offer: 50000
+      accepted: 50000
+      init: 600000

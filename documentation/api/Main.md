@@ -18,3 +18,5 @@
 ## [Student Lesson](./StudentLesson.md)
 
 ## [Tutor Lesson](./TutorLesson.md)
+
+## [Lesson](./Lesson.md)

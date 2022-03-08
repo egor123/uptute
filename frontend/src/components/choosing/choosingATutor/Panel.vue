@@ -1,15 +1,18 @@
 <template>
   <HiddenButtonCard :tutor="tutor" ref="hiddenButtonCard">
     <template v-slot:static>
+      <button class="rejectBtn" @click="reject()">
+        <v-icon class="rejectIcon">mdi-close</v-icon>
+      </button>
       <div class="profile">
         <UserImg :tutor="tutor" ref="userImg" />
 
         <div>
           <p class="pph">
-            {{ Math.round(tutor.pph) }} UC/{{ $l("tutor.hour") }}
+            {{ Math.round(tutor.details.pph) }} UC/{{ $l("tutor.hour") }}
           </p>
-          <h3>{{ tutor.firstName }} {{ tutor.lastName }}</h3>
-          <p>{{ tutor.age }} {{ $l("find.filters.tutor_age.p") }}</p>
+          <h3>{{ tutor.details.firstName }} {{ tutor.details.lastName }}</h3>
+          <p>{{ tutor.details.age }} {{ $l("find.filters.tutor_age.p") }}</p>
         </div>
       </div>
     </template>
@@ -25,7 +28,7 @@
                 class="mr-1"
                 src="@/assets/icons/clock.svg"
               />
-              <p>{{ Math.round(tutor.hours) }}{{ $l("tutor.hour") }}</p>
+              <p>{{ Math.round(tutor.details.hours) }}{{ $l("tutor.hour") }}</p>
             </div>
           </template>
           <span>
@@ -33,7 +36,7 @@
           </span>
         </v-tooltip>
 
-        <Rating :valueProp="tutor.rating" class="rating" />
+        <Rating :valueProp="tutor.details.rating" class="rating" />
 
         <div class="commentsDiv" @click="openComments()">
           <img
@@ -42,7 +45,7 @@
             class="mr-1"
             src="@/assets/icons/message.svg"
           />
-          <p>{{ tutor.comments }}</p>
+          <p>{{ tutor.details.comments }}</p>
         </div>
       </div>
     </template>
@@ -82,6 +85,12 @@ export default {
         this.$refs.userImg.$refs.aboutTutorContent.scrollToComments(0);
       }, 0);
     },
+    reject() {
+      console.log(this.tutor.offerLogId);
+      this.$store.dispatch("studentLessonAPI/rejectOffer", {
+        offerLogId: this.tutor.offerLogId,
+      });
+    },
   },
   // mounted() {
   //   window.addEventListener("scroll", () =>
@@ -96,6 +105,20 @@ export default {
 
 * {
   margin: auto 0;
+}
+
+.rejectBtn {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  .rejectIcon {
+    color: var(--v-secondary-darken2);
+    transition: all 500ms;
+    &:hover {
+      transform: rotate(180deg) scale(0.8);
+      color: var(--v-accent-base) !important;
+    }
+  }
 }
 
 .profile {

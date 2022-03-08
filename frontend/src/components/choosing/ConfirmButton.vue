@@ -1,7 +1,7 @@
 <template>
   <Dialog>
     <template v-slot:object>
-      <v-btn rounded outlined color="accent">
+      <v-btn rounded outlined color="accent" @click="acceptOffer()">
         {{ $l("booking.confirm") }}
       </v-btn>
     </template>
@@ -28,6 +28,14 @@ export default {
   },
   props: {
     link: String,
+    tutor: Object,
+  },
+  methods: {
+    acceptOffer() {
+      this.$store.dispatch("studentLessonAPI/accept", {
+        offerLogId: this.tutor.offerLogId,
+      });
+    },
   },
 };
 </script>

@@ -66,15 +66,24 @@ export default {
     PageViewer,
   },
   methods: {
-    sendOffer() {
-      this.$store.dispatch("tutorLessonAPI/sendOffer", {
-        lessonId: this.student.id,
-      });
+    async sendOffer() {
+      const lessonIdAndLogId = {
+        lessonId: this.student.lessonId,
+        logId: this.student.logId,
+      };
+
+      const offerLogId = await this.$store.dispatch(
+        "tutorLessonAPI/sendOffer",
+        {
+          lesson: lessonIdAndLogId,
+        }
+      );
+      this.offerLogId = offerLogId;
       this.state = "offered";
     },
-    canceloffer() {
+    cancelOffer() {
       this.$store.dispatch("tutorLessonAPI/cancelOffer", {
-        lessonId: this.student.id,
+        offerLogId: this.offerLogId,
       });
       this.state = "canceled";
     },
