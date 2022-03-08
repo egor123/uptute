@@ -123,7 +123,6 @@ export default {
       this.showAlert = false;
       if (val === "close") {
         await this.$store.dispatch("studentLessonAPI/deleteLesson");
-        // await new Promise((r) => setTimeout(r, 3000));
         next();
       }
     });

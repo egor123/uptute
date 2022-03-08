@@ -139,8 +139,8 @@ async function listenForInit(context) {
   const getInitRes = await getRequest(context);
   const initLog = getInitLog(getInitRes);
   if (initLog) {
-    window.open(getZoomLink(initLog), "_blank");
     context.commit("changeState", { state: "conference" });
+    window.open(getZoomLink(initLog), "_self");
   }
   return;
 

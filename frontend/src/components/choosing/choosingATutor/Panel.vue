@@ -87,15 +87,10 @@ export default {
       }, 0);
     },
     async reject() {
-      console.log(this.tutor.offerLogId);
-      const isDelited = await this.$store.dispatch(
-        "studentLessonAPI/rejectOffer",
-        {
-          offerLogId: this.tutor.offerLogId,
-        }
-      );
-      console.log(isDelited);
-      this.visible = !isDelited;
+      const offerLogId = this.tutor.offerLogId;
+      this.$store
+        .dispatch("studentLessonAPI/rejectOffer", { offerLogId })
+        .then((isRej) => (this.visible = !isRej));
     },
   },
   // mounted() {

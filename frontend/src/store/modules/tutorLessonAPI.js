@@ -66,7 +66,7 @@ export default {
 async function loop(context) {
   switch (context.state.state) {
     case "listening":
-      context.commit("getLessons", { lessons: await fetchLessons(context) });
+      await getLessons(context);
       await listenForAccepted(context);
       break;
     case "idle":
@@ -77,11 +77,13 @@ async function loop(context) {
   loop(context);
 }
 
-async function fetchLessons({ state }) {
+async function getLessons(context) {
   return await apiRequest({
     method: "get",
-    urlEnd: "/lessons/open/" + state.userUUID,
-  }).then((r) => r.data.lessons.map((lesson) => normalize(lesson)));
+    urlEnd: "/lessons/open/" + context.state.userUUID,
+  })
+    .then((r) => r.data.lessons.map((lesson) => normalize(lesson)))
+    .then((lessons) => context.commit("getLessons", { lessons }));
   function normalize(lesson) {
     lesson.details = JSON.parse(lesson.details.replace("/", ""));
     return lesson;
@@ -97,6 +99,7 @@ async function sendOffer({ state }, { logId }) {
 
 async function listenForAccepted(context) {
   const logArr = await getLogArr(context);
+  console.log(logArr);
   const acceptedLog = getAcceptedLog(logArr);
   if (acceptedLog?.statusText === "OK" && context.state.state === "listening") {
     context.commit("changeState", { state: "accepted" });
@@ -119,8 +122,8 @@ async function listenForAccepted(context) {
           "/accepted/" +
           context.state.userUUID,
       }).then((r) => {
-        if (r === undefined)
-          context.commit("deleteOfferedLesson", { offerLogId: ids.offerLogId });
+        if (r != undefined) return r;
+        context.commit("deleteOfferedLesson", { offerLogId: ids.offerLogId });
       });
     }
   }
@@ -152,7 +155,7 @@ async function listenForAccepted(context) {
   function tryOpenConference(context, { initRes }) {
     if (initRes?.statusText != "OK") return;
     context.commit("changeState", { state: "conference" });
-    window.open(context.state.zoomLink, "_blank");
+    window.open(context.state.zoomLink, "_self");
   }
 }
 
