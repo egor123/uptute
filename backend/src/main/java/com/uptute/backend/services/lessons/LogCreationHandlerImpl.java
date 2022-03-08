@@ -85,7 +85,7 @@ public class LogCreationHandlerImpl implements LogCreationHandler {
         validateForDuplicates(parentLog, log);
         addToParentLog(log, parentLog);
         addToLesson(log, parentLog.getLesson());
-        parentLog.getLesson().setStatus(ELessonStatus.CONFERENCE_IN_PROGRESS);
+        log.getLesson().setStatus(ELessonStatus.CONFERENCE_IN_PROGRESS);
         return logRepositoryHandler.saveLog(log);
     }
     // ---------------------------------------------------------------
