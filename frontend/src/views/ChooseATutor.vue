@@ -118,6 +118,7 @@ export default {
     },
   },
   beforeRouteLeave(to, from, next) {
+    if (this.$store.state.studentLessonAPI.state === "idle") next();
     this.showAlert = true;
     this.untilClick().then(async (val) => {
       this.showAlert = false;

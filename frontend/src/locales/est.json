@@ -1,5 +1,8 @@
 {
   "id": "est",
+  "global": {
+    "wrong": "Miski läks valesti"
+  },
   "auth": {
     "header": {
       "log_in": "Logi sisse",
@@ -256,7 +259,9 @@
         "cancel": "Tühista pakkumine",
         "title": "Su abipakkumine on saadetud",
         "text": "Sind teavitatakse, kui su pakkumine võetaks vastu"
-      }
+      },
+      "accept_fail": "Pakkumise vastuvõtmine ebaõnnestus",
+      "init_fail": "Koosoleku alustamine ebaõnnestus"
     }
   },
   "tutor": {

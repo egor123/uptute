@@ -1,5 +1,8 @@
 {
   "id": "en",
+  "global": {
+    "wrong": "Something went wrong"
+  },
   "auth": {
     "header": {
       "log_in": "Log in",
@@ -253,7 +256,9 @@
         "cancel": "Cancel the offer",
         "title": "Your offer is sent",
         "text": "You will be notified if your offer will be choosen"
-      }
+      },
+      "accept_fail": "Failed to accept an offer",
+      "init_fail": "Failed to start a conference"
     }
   },
   "tutor": {

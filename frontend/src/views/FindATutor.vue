@@ -91,7 +91,10 @@
       <div id="snackButtons">
         <v-btn
           @click="
-            $store.dispatch('studentLessonAPI/request', { info });
+            $store.dispatch('studentLessonAPI/request', {
+              info,
+              vm: getThis(),
+            });
             $router.push({ name: 'ChooseATutor' });
           "
           text
@@ -179,6 +182,9 @@ export default {
     async request() {
       if (this.checkInProgress) return;
       if (await this.$refs.panel.isValid()) this.showAlert = true;
+    },
+    getThis() {
+      return this;
     },
   },
 };

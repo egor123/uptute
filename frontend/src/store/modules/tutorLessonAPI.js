@@ -57,8 +57,8 @@ export default {
       }
     },
     async cancelOffer(context, { offerLogId }) {
-      await cancelOffer(context, { offerLogId });
-      context.commit("deleteOfferedLesson", { offerLogId });
+      const r = await cancelOffer(context, { offerLogId });
+      r ? context.commit("deleteOfferedLesson", { offerLogId }) : null;
     },
   },
 };

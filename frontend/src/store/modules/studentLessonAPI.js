@@ -1,4 +1,5 @@
 import { apiRequest } from "@/services/api.service.js";
+import router from "@/router";
 
 export default {
   state() {
@@ -9,6 +10,7 @@ export default {
       lessonId: "",
       logId: "",
       tutors: [],
+      vm: null,
     };
   },
   mutations: {
@@ -27,13 +29,17 @@ export default {
     getTutors(state, { tutors }) {
       state.tutors = tutors;
     },
+    getVm(state, { vm }) {
+      state.vm = vm;
+    },
     getAcceptedLogId(state, { acceptedLogId }) {
       state.acceptedLogId = acceptedLogId;
     },
   },
   actions: {
-    async request(context, { info }) {
+    async request(context, { info, vm }) {
       context.commit("changeState", { state: "initializing" });
+      context.commit("getVm", { vm });
       info.tutors = [];
       context.state.info = info;
 
@@ -46,6 +52,10 @@ export default {
     },
     async accept(context, { offerLogId }) {
       const res = await accept(context, { offerLogId });
+      if (!res) {
+        alert(context.state.vm.$l("choose_a.student.accept_fail"));
+        return;
+      }
       context.commit("getAcceptedLogId", { acceptedLogId: res.data.logId });
       context.commit("changeState", { state: "accepted" });
     },
@@ -78,6 +88,7 @@ async function loop(context) {
 
 async function initialize(context) {
   let data = await postData(context);
+  if (!exitIfUndefined(context, data)) return;
 
   context.commit("getLessonId", { lessonId: data.lessonId });
   context.commit("getLogId", { logId: data.logId });
@@ -91,12 +102,14 @@ async function initialize(context) {
         subject: state.info.subject,
         details: "Test details",
       },
-    }).then((r) => r.data);
+    }).then((r) => r?.data);
   }
 }
 
 async function getOffers(context) {
   const offerLogIds = await getOfferLogIds(context);
+  if (!exitIfUndefined(context, offerLogIds)) return;
+
   const tutors = await getTutorsDetails({ offerLogIds });
   context.commit("getTutors", { tutors });
 
@@ -111,6 +124,7 @@ async function getOffers(context) {
       return { details: {}, offerLogId };
     });
     // here should be axios.all request for tutor info
+    // handle undefined values
   }
 }
 
@@ -136,7 +150,8 @@ async function accept({ state }, { offerLogId }) {
 }
 
 async function listenForInit(context) {
-  const getInitRes = await getRequest(context);
+  const getInitRes = await getRequest(context).then();
+  if (!stopIfUndefined({ data: getInitRes })) return;
   const initLog = getInitLog(getInitRes);
   if (initLog) {
     context.commit("changeState", { state: "conference" });
@@ -151,6 +166,13 @@ async function listenForInit(context) {
         "/lessons/logs/" + state.acceptedLogId + "/init/" + state.userUUID,
     });
   }
+  function stopIfUndefined({ data }) {
+    if (!data) {
+      alert(context.state.vm.$l("choose_a.student.init_fail"));
+      context.commit("changeState", { state: "listening" });
+    }
+    return data;
+  }
   function getInitLog(getInitRes) {
     return getInitRes.data.childLogs.find(
       (childLog) => childLog.type === "INIT"
@@ -162,4 +184,13 @@ async function listenForInit(context) {
       return JSON.parse(info.replace("\\", ""));
     }
   }
+}
+
+function exitIfUndefined(context, payload) {
+  if (!payload) {
+    alert(context.state.vm.$l("global.wrong"));
+    context.dispatch("deleteLesson");
+    router.go(-1);
+  }
+  return payload;
 }
