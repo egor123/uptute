@@ -82,6 +82,7 @@ async function getLessons(context) {
     method: "get",
     urlEnd: "/lessons/open/" + context.state.userUUID,
   })
+    .then((r) => (r === undefined ? [] : r))
     .then((r) => r.data.lessons.map((lesson) => normalize(lesson)))
     .then((lessons) => context.commit("getLessons", { lessons }));
   function normalize(lesson) {
@@ -99,7 +100,6 @@ async function sendOffer({ state }, { logId }) {
 
 async function listenForAccepted(context) {
   const logArr = await getLogArr(context);
-  console.log(logArr);
   const acceptedLog = getAcceptedLog(logArr);
   if (acceptedLog?.statusText === "OK" && context.state.state === "listening") {
     context.commit("changeState", { state: "accepted" });
