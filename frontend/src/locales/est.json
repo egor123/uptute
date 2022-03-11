@@ -247,7 +247,9 @@
       "anyway": "Siiski välju",
       "cancel": "Tagasi",
       "hours": "õpetamiskogemus",
-      "comments": "kommentaaride arv"
+      "comments": "kommentaaride arv",
+      "reject_fail": "Tunni pakkumise tagasilükkamine ebaõnnestus",
+      "accept_fail": "Pakkumise vastuvõtmine ebaõnnestus"
     },
     "student": {
       "header": "Pakku oma abi",
@@ -260,7 +262,7 @@
         "title": "Su abipakkumine on saadetud",
         "text": "Sind teavitatakse, kui su pakkumine võetaks vastu"
       },
-      "accept_fail": "Pakkumise vastuvõtmine ebaõnnestus",
+      "cancel_fail": "Tunni pakkumise tühistamine ebaõnnestus",
       "init_fail": "Koosoleku alustamine ebaõnnestus"
     }
   },

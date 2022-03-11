@@ -102,7 +102,7 @@ export default {
   },
   beforeMount() {
     // this.settingDate();
-    this.$store.dispatch("tutorLessonAPI/getLessons");
+    this.$store.dispatch("tutorLessonAPI/getLessons", { vm: this });
   },
   mounted() {
     // for (var i = 0; i < 5; i++) {

@@ -46,14 +46,15 @@ export default {
       loop(context);
     },
     async rejectOffer(context, { offerLogId }) {
-      return await rejectOffer(context, { offerLogId }).then(
-        (r) => r.statusText === "OK"
-      );
+      const res = await rejectOffer(context, { offerLogId });
+      const bool = res && res.statusText === "OK";
+      if (!bool) alert(context.state.vm.$l("choose_a.tutor.reject_fail"));
+      return bool;
     },
     async accept(context, { offerLogId }) {
       const res = await accept(context, { offerLogId });
       if (!res) {
-        alert(context.state.vm.$l("choose_a.student.accept_fail"));
+        alert(context.state.vm.$l("choose_a.tutor.accept_fail"));
         return;
       }
       context.commit("getAcceptedLogId", { acceptedLogId: res.data.logId });
@@ -109,8 +110,8 @@ async function initialize(context) {
 async function getOffers(context) {
   const offerLogIds = await getOfferLogIds(context);
   if (!exitIfUndefined(context, offerLogIds)) return;
-
   const tutors = await getTutorsDetails({ offerLogIds });
+  // handle undefined values of tutor
   context.commit("getTutors", { tutors });
 
   async function getOfferLogIds({ state }) {
@@ -124,7 +125,6 @@ async function getOffers(context) {
       return { details: {}, offerLogId };
     });
     // here should be axios.all request for tutor info
-    // handle undefined values
   }
 }
 

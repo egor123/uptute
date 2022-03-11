@@ -244,7 +244,9 @@
       "anyway": "Close anyway",
       "cancel": "Cancel",
       "hours": "hours taught",
-      "comments": "number of comments"
+      "comments": "number of comments",
+      "reject_fail": "Failed to reject the offer",
+      "accept_fail": "Failed to accept an offer"
     },
     "student": {
       "header": "Offer a lesson",
@@ -257,7 +259,7 @@
         "title": "Your offer is sent",
         "text": "You will be notified if your offer will be choosen"
       },
-      "accept_fail": "Failed to accept an offer",
+      "cancel_fail": "Failed to cancel the offer",
       "init_fail": "Failed to start a conference"
     }
   },
