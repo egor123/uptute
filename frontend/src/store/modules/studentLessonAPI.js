@@ -14,32 +14,14 @@ export default {
     };
   },
   mutations: {
-    changeInfo(state, { info }) {
-      state.info = info;
-    },
-    changeState(state, payload) {
-      state.state = payload.state;
-    },
-    getLessonId(state, { lessonId }) {
-      state.lessonId = lessonId;
-    },
-    getLogId(state, { logId }) {
-      state.logId = logId;
-    },
-    getTutors(state, { tutors }) {
-      state.tutors = tutors;
-    },
-    getVm(state, { vm }) {
-      state.vm = vm;
-    },
-    getAcceptedLogId(state, { acceptedLogId }) {
-      state.acceptedLogId = acceptedLogId;
+    mutate(state, { name, val }) {
+      state[name] = val;
     },
   },
   actions: {
     async request(context, { info, vm }) {
-      context.commit("changeState", { state: "initializing" });
-      context.commit("getVm", { vm });
+      context.commit("mutate", { name: "state", val: "initializing" });
+      context.commit("mutate", { name: "vm", val: vm });
       info.tutors = [];
       context.state.info = info;
 
@@ -57,12 +39,12 @@ export default {
         alert(context.state.vm.$l("choose_a.tutor.accept_fail"));
         return;
       }
-      context.commit("getAcceptedLogId", { acceptedLogId: res.data.logId });
-      context.commit("changeState", { state: "accepted" });
+      context.commit("mutate", { name: "acceptedLogId", val: res.data.logId });
+      context.commit("mutate", { name: "state", val: "accepted" });
     },
     async deleteLesson(context) {
-      context.commit("changeState", { state: "idle" });
-      return await deleteLesson(context).then(context.commit("changeInfo", {}));
+      context.commit("mutate", { name: "state", val: "idle" });
+      return await deleteLesson(context);
     },
   },
   namespaced: true,
@@ -91,9 +73,9 @@ async function initialize(context) {
   let data = await postData(context);
   if (!exitIfUndefined(context, data)) return;
 
-  context.commit("getLessonId", { lessonId: data.lessonId });
-  context.commit("getLogId", { logId: data.logId });
-  context.commit("changeState", { state: "listening" });
+  context.commit("mutate", { name: "lessonId", val: data.lessonId });
+  context.commit("mutate", { name: "logId", val: data.logId });
+  context.commit("mutate", { name: "state", val: "listening" });
 
   async function postData({ state }) {
     return await apiRequest({
@@ -108,11 +90,12 @@ async function initialize(context) {
 }
 
 async function getOffers(context) {
+  console.log("got");
   const offerLogIds = await getOfferLogIds(context);
   if (!exitIfUndefined(context, offerLogIds)) return;
   const tutors = await getTutorsDetails({ offerLogIds });
   // handle undefined values of tutor
-  context.commit("getTutors", { tutors });
+  context.commit("mutate", { name: "tutors", val: tutors });
 
   async function getOfferLogIds({ state }) {
     return await apiRequest({
@@ -154,7 +137,7 @@ async function listenForInit(context) {
   if (!stopIfUndefined({ data: getInitRes })) return;
   const initLog = getInitLog(getInitRes);
   if (initLog) {
-    context.commit("changeState", { state: "conference" });
+    context.commit("mutate", { name: "state", val: "conference" });
     window.open(getZoomLink(initLog), "_self");
   }
   return;
@@ -169,7 +152,7 @@ async function listenForInit(context) {
   function stopIfUndefined({ data }) {
     if (!data) {
       alert(context.state.vm.$l("choose_a.student.init_fail"));
-      context.commit("changeState", { state: "listening" });
+      context.commit("mutate", { name: "state", val: "listening" });
     }
     return data;
   }

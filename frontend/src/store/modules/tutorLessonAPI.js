@@ -16,14 +16,8 @@ export default {
   },
 
   mutations: {
-    getLessons(state, payload) {
-      state.lessons = payload.lessons;
-    },
-    getVm(state, { vm }) {
-      state.vm = vm;
-    },
-    changeState(state, payload) {
-      state.state = payload.state;
+    mutate(state, { name, val }) {
+      state[name] = val;
     },
     addOfferedLesson(state, { ids }) {
       state.offeredLessons.push(ids);
@@ -40,8 +34,8 @@ export default {
 
   actions: {
     async getLessons(context, { vm }) {
-      context.commit("changeState", { state: "listening" });
-      context.commit("getVm", { vm });
+      context.commit("mutate", { name: "state", val: "listening" });
+      context.commit("mutate", { name: "vm", val: vm });
       loop(context);
     },
     async sendOffer(context, { lesson }) {
@@ -89,7 +83,7 @@ async function getLessons(context) {
   })
     .then((r) => (!exitIfUndefined(context, r) ? null : r))
     .then((r) => r.data.lessons.map((lesson) => normalize(lesson)))
-    .then((lessons) => context.commit("getLessons", { lessons }));
+    .then((lsns) => context.commit("mutate", { name: "lessons", val: lsns }));
   function normalize(lesson) {
     lesson.details = JSON.parse(lesson.details.replace("/", ""));
     return lesson;
@@ -109,7 +103,7 @@ async function listenForAccepted(context) {
   logArr.forEach((log) => deleteIfUndefined(context, { log }));
   const acceptedLog = getAcceptedLog(logArr);
   if (!acceptedLog) return;
-  context.commit("changeState", { state: "accepted" });
+  context.commit("mutate", { name: "state", val: "accepted" });
   const acceptedLogId = getAcceptedLogId(acceptedLog);
   cancelOtherLessons(context, { lessonId: acceptedLog.data.lessonId });
   const initRes = await initConference(context, { acceptedLogId });
@@ -136,8 +130,8 @@ async function listenForAccepted(context) {
     }
   }
   function deleteIfUndefined({ state }, { log }) {
-    if (log || log?.statusText != "OK")
-      cancelOffer({ state }, { offerLogId: log.data.logId });
+    if (!log || log?.statusText != "OK")
+      cancelOffer({ state }, { offerLogId: log.damta.logId });
   }
   function getAcceptedLog(logArr) {
     return logArr.find((log) =>
@@ -161,7 +155,7 @@ async function listenForAccepted(context) {
   function backToListeningIfUndefined(context, { initRes }) {
     if (!initRes) {
       alert(context.state.vm.$l("global.wrong"));
-      context.commit("changeState", { state: "listening" });
+      context.commit("mutate", { name: "state", val: "listening" });
     }
     return initRes;
   }
@@ -172,7 +166,7 @@ async function listenForAccepted(context) {
     });
   }
   function openConference(context) {
-    context.commit("changeState", { state: "conference" });
+    context.commit("mutate", { name: "state", val: "conference" });
     window.open(context.state.zoomLink, "_self");
   }
 }
@@ -197,7 +191,7 @@ function getUUID() {
 function exitIfUndefined(context, payload) {
   if (!payload) {
     alert(context.state.vm.$l("global.wrong"));
-    context.commit("changeState", { state: "idle" });
+    context.commit("mutate", { name: "state", val: "idle" });
     deleteAllOffers(context);
 
     router.go(-1);
