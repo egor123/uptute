@@ -40,11 +40,12 @@ export default {
     },
     async sendOffer(context, { lesson }) {
       const res = await sendOffer(context, { logId: lesson.logId });
-      if (!exitIfUndefined(context, res)) return null;
-      addOfferedLesson();
+      if (!exitIfUndefined(context, { data: res, alertName: "send" }))
+        return null;
+      addOfferedLesson({ lesson, res });
       return res.data.logId;
 
-      function addOfferedLesson() {
+      function addOfferedLesson({ lesson, res }) {
         context.commit("addOfferedLesson", {
           ids: {
             lessonLogId: lesson.logId,
@@ -57,7 +58,7 @@ export default {
     async cancelOffer(context, { offerLogId }) {
       const r = await cancelOffer(context, { offerLogId });
       if (r) context.commit("deleteOfferedLesson", { offerLogId });
-      else alert(context.state.vm.$l("choose_a.student.cancel_fail"));
+      else alert(context.state.vm.$l("choose_a.student.fail.cancel"));
     },
   },
 };
@@ -81,7 +82,9 @@ async function getLessons(context) {
     method: "get",
     urlEnd: "/lessons/open/" + context.state.userUUID,
   })
-    .then((r) => (!exitIfUndefined(context, r) ? null : r))
+    .then((r) =>
+      !exitIfUndefined(context, { data: r, alertName: "lessons" }) ? null : r
+    )
     .then((r) => r.data.lessons.map((lesson) => normalize(lesson)))
     .then((lsns) => context.commit("mutate", { name: "lessons", val: lsns }));
   function normalize(lesson) {
@@ -99,7 +102,8 @@ async function sendOffer(context, { logId }) {
 
 async function listenForAccepted(context) {
   const logArr = await getLogArr(context);
-  if (!exitIfUndefined(context, logArr)) return;
+  if (!exitIfUndefined(context, { data: logArr, alertName: "listen_accept" }))
+    return;
   logArr.forEach((log) => deleteIfUndefined(context, { log }));
   const acceptedLog = getAcceptedLog(logArr);
   if (!acceptedLog) return;
@@ -154,7 +158,7 @@ async function listenForAccepted(context) {
   }
   function backToListeningIfUndefined(context, { initRes }) {
     if (!initRes) {
-      alert(context.state.vm.$l("global.wrong"));
+      alert(context.state.vm.$l("choose_a.student.fail.conference"));
       context.commit("mutate", { name: "state", val: "listening" });
     }
     return initRes;
@@ -188,15 +192,15 @@ function getUUID() {
   return "tutor" + Date.now();
 }
 
-function exitIfUndefined(context, payload) {
-  if (!payload) {
-    alert(context.state.vm.$l("global.wrong"));
+function exitIfUndefined(context, { data, alertName }) {
+  if (!data) {
+    alert(context.state.vm.$l(`choose_a.student.fail.${alertName}`));
     context.commit("mutate", { name: "state", val: "idle" });
     deleteAllOffers(context);
 
     router.go(-1);
   }
-  return payload;
+  return data;
   async function deleteAllOffers({ state }) {
     axios.all(
       state.offeredLessons.map((offer) =>

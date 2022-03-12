@@ -2,6 +2,7 @@ import { apiRequest } from "@/services/api.service.js";
 import router from "@/router";
 
 export default {
+  namespaced: true,
   state() {
     return {
       state: "idle",
@@ -23,20 +24,20 @@ export default {
       context.commit("mutate", { name: "state", val: "initializing" });
       context.commit("mutate", { name: "vm", val: vm });
       info.tutors = [];
-      context.state.info = info;
+      context.commit("mutate", { name: "info", val: info });
 
       loop(context);
     },
     async rejectOffer(context, { offerLogId }) {
       const res = await rejectOffer(context, { offerLogId });
       const bool = res && res.statusText === "OK";
-      if (!bool) alert(context.state.vm.$l("choose_a.tutor.reject_fail"));
+      if (!bool) alert(context.state.vm.$l("choose_a.tutor.fail.reject"));
       return bool;
     },
     async accept(context, { offerLogId }) {
       const res = await accept(context, { offerLogId });
       if (!res) {
-        alert(context.state.vm.$l("choose_a.tutor.accept_fail"));
+        alert(context.state.vm.$l("choose_a.tutor.fail.accept"));
         return;
       }
       context.commit("mutate", { name: "acceptedLogId", val: res.data.logId });
@@ -47,7 +48,6 @@ export default {
       return await deleteLesson(context);
     },
   },
-  namespaced: true,
 };
 
 async function loop(context) {
@@ -71,7 +71,7 @@ async function loop(context) {
 
 async function initialize(context) {
   let data = await postData(context);
-  if (!exitIfUndefined(context, data)) return;
+  if (!exitIfUndefined(context, { data, alertName: "init" })) return;
 
   context.commit("mutate", { name: "lessonId", val: data.lessonId });
   context.commit("mutate", { name: "logId", val: data.logId });
@@ -90,9 +90,9 @@ async function initialize(context) {
 }
 
 async function getOffers(context) {
-  console.log("got");
   const offerLogIds = await getOfferLogIds(context);
-  if (!exitIfUndefined(context, offerLogIds)) return;
+  if (!exitIfUndefined(context, { data: offerLogIds, alertName: "offers" }))
+    return;
   const tutors = await getTutorsDetails({ offerLogIds });
   // handle undefined values of tutor
   context.commit("mutate", { name: "tutors", val: tutors });
@@ -119,6 +119,8 @@ async function rejectOffer({ state }, { offerLogId }) {
 }
 
 async function deleteLesson({ state }) {
+  console.log("delete");
+  console.log(state.logId);
   return await apiRequest({
     method: "post",
     urlEnd: "/lessons/logs/" + state.logId + "/close/" + state.userUUID,
@@ -151,7 +153,7 @@ async function listenForInit(context) {
   }
   function stopIfUndefined({ data }) {
     if (!data) {
-      alert(context.state.vm.$l("choose_a.student.init_fail"));
+      alert(context.state.vm.$l("choose_a.tutor.fail.conference"));
       context.commit("mutate", { name: "state", val: "listening" });
     }
     return data;
@@ -169,11 +171,11 @@ async function listenForInit(context) {
   }
 }
 
-function exitIfUndefined(context, payload) {
-  if (!payload) {
-    alert(context.state.vm.$l("global.wrong"));
+function exitIfUndefined(context, { data, alertName }) {
+  if (!data) {
+    alert(context.state.vm.$l(`choose_a.tutor.fail.${alertName}`));
     context.dispatch("deleteLesson");
     router.go(-1);
   }
-  return payload;
+  return data;
 }

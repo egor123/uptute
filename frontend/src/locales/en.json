@@ -245,8 +245,13 @@
       "cancel": "Cancel",
       "hours": "hours taught",
       "comments": "number of comments",
-      "reject_fail": "Failed to reject the offer",
-      "accept_fail": "Failed to accept an offer"
+      "fail": {
+        "init": "Failed to create a lesson request",
+        "offers": "Failed to get offers",
+        "reject": "Failed to reject the offer",
+        "accept": "Failed to accept an offer",
+        "conference": "Failed to join a conference"
+      }
     },
     "student": {
       "header": "Offer a lesson",
@@ -259,8 +264,13 @@
         "title": "Your offer is sent",
         "text": "You will be notified if your offer will be choosen"
       },
-      "cancel_fail": "Failed to cancel the offer",
-      "init_fail": "Failed to start a conference"
+      "fail": {
+        "conference": "Failed to start a conference",
+        "cancel": "Failed to cancel the offer",
+        "listen_accept": "Failed to listen for accepted",
+        "lessons": "Failed to get lessons from a server",
+        "send": "Failed to send a lessons offer"
+      }
     }
   },
   "tutor": {
