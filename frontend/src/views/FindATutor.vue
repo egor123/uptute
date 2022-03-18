@@ -59,8 +59,8 @@
           v-model="info.age"
           :label="$l('find.filters.tutor_age.h')"
           :text="info.age.join(' - ')"
-          :min="14"
-          :max="21"
+          :min="15"
+          :max="100"
           :flat="true"
           :backgroundColor="'var(--v-card-lighten3)'"
           :borderRadius="'0px'"
@@ -140,34 +140,34 @@ export default {
       info: {
         name: "Hardcoded", // Pull from account !!!!
         grade: 12, //Pull from account !!!!
-        subject: "Math", // null
+        subject: null, // null
         topic: {
-          title: "topic",
-          text: "Text of the topic...",
+          title: null,
+          text: null,
         },
 
         // ----------------- this are going to be checked but not rendered
-        languages: ["EN"], // []
-        age: [16, 18],
+        languages: [], // ["EN"]
+        age: [15, 100],
         price: [0, 150],
         // -----------------
 
         imgs: [
-          {
-            name: "physics1.jpg",
-            imageUrl:
-              "https://d2vlcm61l7u1fs.cloudfront.net/media%2F8d1%2F8d1789e9-0fb5-467e-906c-7998be55dcf4%2Fphp2hhv2V.png",
-          },
-          {
-            name: "physics2.jpg",
-            imageUrl:
-              "https://slideplayer.com/slide/6196941/18/images/22/Relationships+in+this+problem%3A.jpg",
-          },
-          {
-            name: "physics3.jpg",
-            imageUrl:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROzKLzwCiWjKi4IIQVFeOvHoy2lW0ivmxVzA&usqp=CAU",
-          },
+          // {
+          //   name: "physics1.jpg",
+          //   imageUrl:
+          //     "https://d2vlcm61l7u1fs.cloudfront.net/media%2F8d1%2F8d1789e9-0fb5-467e-906c-7998be55dcf4%2Fphp2hhv2V.png",
+          // },
+          // {
+          //   name: "physics2.jpg",
+          //   imageUrl:
+          //     "https://slideplayer.com/slide/6196941/18/images/22/Relationships+in+this+problem%3A.jpg",
+          // },
+          // {
+          //   name: "physics3.jpg",
+          //   imageUrl:
+          //     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROzKLzwCiWjKi4IIQVFeOvHoy2lW0ivmxVzA&usqp=CAU",
+          // },
         ],
       },
 

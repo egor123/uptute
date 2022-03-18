@@ -118,11 +118,13 @@ export default {
     z-index: -1;
   }
 
-  background-color: $color-main !important;
+  &:not(.errorColor) {
+    background-color: $color-main !important;
+  }
   width: 100%;
   height: max-content;
 
-  transition: all 300ms;
+  transition: transform 300ms;
 
   &:hover {
     transform: scale(0.95);
@@ -168,7 +170,7 @@ export default {
       transform: translateY(-50%);
       top: 50%;
 
-      transition: all 0.25s ease-in-out;
+      transition: transform, top 0.25s ease-in-out;
     }
     img {
       position: absolute;
