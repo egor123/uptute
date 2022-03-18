@@ -9,7 +9,11 @@
       class="loading"
       :isActive="isActive"
     >
-      <div class="wrapper" v-for="comment in comments" :key="comment.lessonsId">
+      <div
+        class="wrapper"
+        v-for="(comment, name, id) in getComments()"
+        :key="id"
+      >
         <div class="commenter">
           <div class="tutor">
             <img
@@ -34,7 +38,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import Loading from "@/components/global/Loading.vue";
 import Rating from "../Rating.vue";
 
@@ -52,18 +56,40 @@ export default {
   },
   props: ["value", "isActive", "id", "background"],
   methods: {
+    getComments() {
+      return this.comments;
+    },
     fetch() {
-      return axios
-        .get(`/api/tutor/${this.id}/comments`, {
-          params: {
-            page: this.value?.page ?? 0,
-            itemsPerPage: this.value?.itemsPerPage ?? 2,
-          },
-        })
-        .then((res) => res.data);
+      // return axios
+      //   .get(`/api/tutor/${this.id}/comments`, {
+      //     params: {
+      //       page: this.value?.page ?? 0,
+      //       itemsPerPage: this.value?.itemsPerPage ?? 2,
+      //     },
+      //   })
+      //   .then((res) => res.data);
+
+      return new Promise((res) => {
+        setTimeout(() => {
+          res({
+            items: [
+              {
+                userFirstName: "Someone",
+                userLastName: "Anyone",
+                rating: 4.3,
+                review: "Kinda cool, actually.",
+              },
+            ],
+            page: 1,
+            itemsPerPage: 5,
+            pagesCount: 1,
+          });
+        }, 2000);
+      });
     },
     callback(data) {
       this.comments = data.items;
+      console.log(this.comments);
       this.currentSettings = {
         page: data.page,
         itemsPerPage: data.itemsPerPage,
@@ -77,7 +103,6 @@ export default {
     setTimeout(() => {
       this.$refs.loading.invoke();
     }, 150); //TODO
-    // console.log(this.isActive);
   },
   watch: {
     value: {
@@ -87,13 +112,13 @@ export default {
           this.$refs.loading.invoke();
       },
     },
-    // isActive: function(val) {
-    //   setTimeout(() => {
-    //     console.log("CHANGED");
+    isActive: function(val) {
+      setTimeout(() => {
+        console.log("CHANGED");
 
-    //     if (val) this.$refs.loading.invoke();
-    //   }, 150); //TODO
-    // },
+        if (val) this.$refs.loading.invoke();
+      }, 150); //TODO
+    },
   },
 };
 </script>

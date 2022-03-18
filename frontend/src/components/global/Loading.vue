@@ -46,7 +46,6 @@ export default {
     },
     executeSequence(props) {
       console.log("started");
-
       // const scrollHeight = 20;
       const slot = this.$refs.slot;
       const holder = this.$refs.holder;
@@ -135,12 +134,19 @@ export default {
       });
     },
     setProperty(el, prop, val, wait = false) {
-      return new Promise((res) => {
+      return new Promise((res, rej) => {
         let stop = el.style[prop] === val;
         el.style[prop] = val;
         if (stop || !wait) res();
-        // console.log("PROP: " + prop);
+
         el.addEventListener("transitionend", () => res(), { once: true });
+        setTimeout(() => {
+          rej();
+        }, 500);
+        // !!!!!! TO-DO
+      }).catch((r) => {
+        console.log("Transition wasn't ended");
+        return r;
       });
     },
     // waitUntilSlotCreated(slot, res) {

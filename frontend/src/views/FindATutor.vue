@@ -140,14 +140,14 @@ export default {
       info: {
         name: "Hardcoded", // Pull from account !!!!
         grade: 12, //Pull from account !!!!
-        subject: null, // null
+        subject: "null", // null
         topic: {
-          title: null,
-          text: null,
+          title: "null",
+          text: "null",
         },
 
         // ----------------- this are going to be checked but not rendered
-        languages: [], // ["EN"]
+        languages: ["EN"], // ["EN"]
         age: [15, 100],
         price: [0, 150],
         // -----------------
