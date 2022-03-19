@@ -4,6 +4,7 @@
     :textColor="textColor"
     :borderRadius="borderRadius"
     :border="border"
+    :padding="padding"
   >
     <template v-slot:title>
       <span>{{ $l("app.pages.begin") }}</span>
@@ -44,6 +45,7 @@ export default {
     textColor: String,
     borderRadius: String,
     border: String,
+    padding: String,
   },
 };
 </script>

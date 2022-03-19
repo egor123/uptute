@@ -20,14 +20,25 @@
 
       <div id="heroWrapper" class="boxShadow">
         <!-- <div id="moto">Fun. Fast. Friendly.</div> -->
-        <div id="beginWrapper">
-          <Begin
-            color="var(--v-background-base)"
-            textColor="var(--v-secondary-darken3)"
-            borderRadius="15px"
-            border="dashed 2px var(--v-accent-base)"
-          />
-        </div>
+        <!-- id="beginWrapper" -->
+
+        <Begin
+          v-if="getStatus"
+          :color="menu.color"
+          :textColor="menu.textColor"
+          :borderRadius="menu.borderRadius"
+          :border="menu.border"
+          :padding="menu.padding"
+        />
+        <LessonMenu
+          v-if="!getStatus"
+          :ifWithIcon="false"
+          :color="menu.color"
+          :textColor="menu.textColor"
+          :borderRadius="menu.borderRadius"
+          :border="menu.border"
+          :padding="menu.padding"
+        />
       </div>
     </div>
 
@@ -135,6 +146,7 @@
 <script>
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
 import Begin from "@/components/header/Begin.vue";
+import LessonMenu from "@/components/header/LessonMenu.vue";
 import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
 import HeroCanvas from "@/components/HeroCanvas.vue";
 
@@ -149,10 +161,19 @@ export default {
     SliderLayout,
     CheckerLayout,
     Begin,
+    LessonMenu,
     HeroCanvas,
   },
   data() {
     return {
+      menu: {
+        color: "var(--v-background-base)",
+        textColor: "var(--v-secondary-darken3)",
+        borderRadius: "15px",
+        border: "dashed 2px var(--v-accent-base)",
+        padding: "1rem 3rem",
+      },
+      getStatus: false,
       url:
         "https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500&enablejsapi=1",
       heroFadeTimeout: 300,
@@ -278,17 +299,17 @@ h1 {
   @include flexbox();
   #heroWrapper {
     border-radius: 15px;
-    // padding: 1rem;
+    // padding: 1rem 3rem;
     @include box-shadow();
     background: #efefefcc;
 
-    & > * {
-      padding: 16px;
-      padding-top: 0;
-      &:first-child {
-        padding-top: 16px;
-      }
-    }
+    // & > * {
+    //   padding: 16px;
+    //   padding-top: 0;
+    //   &:first-child {
+    //     padding-top: 16px;
+    //   }
+    // }
 
     #moto {
       font-size: 28px;

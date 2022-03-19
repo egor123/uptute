@@ -18,14 +18,17 @@
 
       <div ref="rightSide" id="rightSide">
         <div id="buttons" ref="buttons">
-          <LessonMenu v-if="!getStatus" />
-
           <Begin
             color="#000"
             textColor="white"
             borderRadius="0 0 15px 15px"
             border="none"
             v-if="getStatus"
+          />
+          <LessonMenu
+            v-if="!getStatus"
+            :ifWithText="!mv"
+            borderRadius="0 0 15px 15px"
           />
         </div>
         <LocalesMenu />
@@ -62,6 +65,8 @@ export default {
   data() {
     return {
       showSnackbar: false,
+      mv: false,
+      contentWidth: null,
     };
   },
   components: {
@@ -78,33 +83,35 @@ export default {
     goTo(pageName) {
       if (this.$route.name !== pageName) this.$router.push({ name: pageName });
     },
-    resize() {
-      const header = this.$refs.header;
-      const buttons = this.$refs.buttons;
-      const title = this.$refs.title;
-      const navIcon = this.$refs.navIcon;
+    getContentWidth() {
+      this.contentWidth = Array.from(this.$refs.header.children).reduce(
+        (val, el) => (el.id === "navIcon" ? val : val + el.offsetWidth),
+        0
+      );
+    },
+    setResizeObserver() {
+      const header = this.$refs.header,
+        buttons = this.$refs.buttons,
+        title = this.$refs.title,
+        navIcon = this.$refs.navIcon;
 
       const observer = new ResizeObserver(() => {
-        buttons.style.display = "flex";
-        title.style.display = "flex";
-        navIcon.style.display = "none";
+        this.mv = getEmptySpace(this, header) < 0;
+        setView(this, buttons, title, navIcon);
+        this.setMobileView(this.mv);
 
-        let pl = this.padding(header, "padding-left");
-        let pr = this.padding(header, "padding-right");
-
-        let emptySpace = Array.from(header.children).reduce(
-          (val, el) => val - el.offsetWidth,
-          header.offsetWidth - pl - pr
-        );
-
-        var mv = emptySpace < 0;
-
-        buttons.style.display = mv ? "none" : "flex";
-        title.style.display = mv ? "none" : "flex";
-        navIcon.style.display = mv ? "inline" : "none";
-
-        this.setMobileView(mv);
+        function getEmptySpace(self, header) {
+          const pl = Number(self.padding(header, "padding-left")),
+            pr = Number(self.padding(header, "padding-right"));
+          return header.offsetWidth - (self.contentWidth + pl + pr);
+        }
+        function setView(self, buttons, title, navIcon) {
+          // buttons.style.display = self.mv ? "none" : "flex";
+          title.style.display = self.mv ? "none" : "flex";
+          navIcon.style.display = self.mv ? "inline" : "none";
+        }
       });
+
       observer.observe(document.documentElement); //needed for observe on mounted
       observer.observe(header);
     },
@@ -143,11 +150,12 @@ export default {
   },
 
   mounted() {
-    this.scroll();
-    this.subHeader();
-    this.$root.$on("cookiesError", () => (this.showSnackbar = true));
     setTimeout(() => {
-      this.resize();
+      this.getContentWidth();
+      this.scroll();
+      this.subHeader();
+      this.$root.$on("cookiesError", () => (this.showSnackbar = true));
+      this.setResizeObserver();
     }, 0);
   },
 };

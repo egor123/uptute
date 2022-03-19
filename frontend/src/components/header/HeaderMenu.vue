@@ -17,6 +17,8 @@
           --paddingTop: ${paddingTop}; 
           --transformOrigin: ${transformOrigin};
           --rightDistance: ${rightDistance}px;
+          --padding: ${padding};
+
          `
         "
         v-bind="attrs"
@@ -39,7 +41,8 @@
         `--color: ${color}; 
         --textColor: ${textColor}; 
         --borderRadius: ${borderRadius}; 
-        --border: ${border};`
+        --border: ${border};
+        `
       "
     >
       <div id="trianglePointer" />
@@ -57,6 +60,10 @@ export default {
     textColor: String,
     borderRadius: String,
     border: String,
+    padding: {
+      type: String,
+      default: "0px",
+    },
     justifyContent: {
       type: String,
       default: "center",
@@ -119,6 +126,7 @@ div.title {
   position: relative;
   height: 100%;
   cursor: default;
+  padding: var(--padding);
   @include flexbox();
 
   justify-content: var(--justifyContent);
