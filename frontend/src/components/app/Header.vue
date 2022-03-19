@@ -15,6 +15,7 @@
           <h1 id="name">UpTute</h1>
         </button>
       </div>
+      <v-spacer ref="spacer" style="height: 1px" />
 
       <div ref="rightSide" id="rightSide">
         <div id="buttons" ref="buttons">
@@ -66,7 +67,7 @@ export default {
     return {
       showSnackbar: false,
       mv: false,
-      contentWidth: null,
+      spacerD: 0,
     };
   },
   components: {
@@ -77,43 +78,50 @@ export default {
 
     Notifications,
   },
-  computed: mapGetters(["getStatus", "getNavBar"]),
+  computed: {
+    ...mapGetters(["getStatus", "getNavBar"]),
+    header() {
+      return this.$refs.header;
+    },
+    buttons() {
+      return this.$refs.buttons;
+    },
+    title() {
+      return this.$refs.title;
+    },
+    navIcon() {
+      return this.$refs.navIcon;
+    },
+  },
   methods: {
     ...mapActions(["setMobileView", "setNavBar"]),
     goTo(pageName) {
       if (this.$route.name !== pageName) this.$router.push({ name: pageName });
     },
-    getContentWidth() {
-      this.contentWidth = Array.from(this.$refs.header.children).reduce(
-        (val, el) => (el.id === "navIcon" ? val : val + el.offsetWidth),
-        0
-      );
+    resized() {
+      const spacer = this.$refs.spacer;
+      const spacerWidth = spacer.getBoundingClientRect().width;
+      const prevMv = this.mv;
+      this.mv = spacerWidth < 100 + this.spacerD;
+      if (prevMv != this.mv) setView(this, spacerWidth);
+      function setView(self, prevSpacerWidth) {
+        self.setStyles();
+        setSpacerD();
+
+        function setSpacerD() {
+          self.$nextTick(() => {
+            const spacerD =
+              self.$refs.spacer.getBoundingClientRect().width - prevSpacerWidth;
+            self.spacerD = spacerD > 0 ? spacerD : 0;
+          });
+        }
+      }
     },
-    setResizeObserver() {
-      const header = this.$refs.header,
-        buttons = this.$refs.buttons,
-        title = this.$refs.title,
-        navIcon = this.$refs.navIcon;
-
-      const observer = new ResizeObserver(() => {
-        this.mv = getEmptySpace(this, header) < 0;
-        setView(this, buttons, title, navIcon);
-        this.setMobileView(this.mv);
-
-        function getEmptySpace(self, header) {
-          const pl = Number(self.padding(header, "padding-left")),
-            pr = Number(self.padding(header, "padding-right"));
-          return header.offsetWidth - (self.contentWidth + pl + pr);
-        }
-        function setView(self, buttons, title, navIcon) {
-          // buttons.style.display = self.mv ? "none" : "flex";
-          title.style.display = self.mv ? "none" : "flex";
-          navIcon.style.display = self.mv ? "inline" : "none";
-        }
-      });
-
-      observer.observe(document.documentElement); //needed for observe on mounted
-      observer.observe(header);
+    setStyles() {
+      // this.buttons.style.display = this.mv ? "none" : "flex";
+      this.title.style.display = this.mv ? "none" : "flex";
+      this.navIcon.style.display = this.mv ? "inline" : "none";
+      this.setMobileView(this.mv);
     },
     padding(header, side) {
       var pPx = window.getComputedStyle(header, null).getPropertyValue(side);
@@ -133,6 +141,7 @@ export default {
         wrapper.classList.toggle("hide", hidden);
       };
     },
+
     subHeader() {
       const subHeader = this.$refs.subHeader;
 
@@ -148,15 +157,19 @@ export default {
       });
     },
   },
-
   mounted() {
-    setTimeout(() => {
-      this.getContentWidth();
-      this.scroll();
-      this.subHeader();
-      this.$root.$on("cookiesError", () => (this.showSnackbar = true));
-      this.setResizeObserver();
-    }, 0);
+    addEventListener("resize", this.resized);
+    this.$root.$on("cookiesError", () => (this.showSnackbar = true));
+    this.subHeader();
+    this.setStyles();
+    this.scroll();
+
+    document.onreadystatechange = () => {
+      this.resized();
+    };
+  },
+  beforeDestroy() {
+    removeEventListener("resize", this.resized);
   },
 };
 </script>
