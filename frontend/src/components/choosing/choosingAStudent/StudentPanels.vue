@@ -1,19 +1,20 @@
 <template>
   <div>
-    <HiddenButtonCard v-for="student in students" :key="student.id">
+    <HiddenButtonCard v-for="(student, id) in students" :key="id" class="card">
       <template v-slot:static>
         <table>
           <tr>
             <td class="profile">
               <img class="userImg" src="@/assets/icons/user.svg" />
               <div class="nameAndAge">
-                <h3>{{ student.name }}</h3>
+                <h3>{{ student.details ? student.details.name : null }}</h3>
                 <span class="age"
-                  >{{ student.grade }} {{ $l("choose_a.student.grade") }}</span
+                  >{{ student.details ? student.details.grade : null }}
+                  {{ $l("choose_a.student.grade") }}</span
                 >
               </div>
             </td>
-            <td class="dateAndTime">
+            <!-- <td class="dateAndTime">
               <div class="date">
                 {{ $l(`data.days.${student.date.weekday}.short`) }}
                 {{ student.date.day }}
@@ -25,7 +26,7 @@
               <div class="time">
                 {{ student.time.start }} - {{ student.time.end }}
               </div>
-            </td>
+            </td> -->
           </tr>
         </table>
       </template>
@@ -33,12 +34,16 @@
       <template v-slot:moving>
         <div class="infoContainer">
           <div class="subject">
-            {{ student.subject }}
+            {{ student.details ? student.details.subject : null }}
 
             <v-spacer />
 
             <div class="topic">
-              {{ student.topic.title }}
+              {{
+                student.details && student.details.topic
+                  ? student.details.topic.title
+                  : null
+              }}
             </div>
           </div>
         </div>
@@ -65,7 +70,7 @@ export default {
 };
 </script>
 
-<style lang="scss" style>
+<style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
 table {

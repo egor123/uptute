@@ -17,13 +17,13 @@ import SecondarySettingUp from "@/components/account/SecondarySettingUp.vue";
 export default {
   children: [
     {
-      name: "PrimarySettingsUp",
-      path: "",
+      name: "PrimarySettingUp",
+      path: "primary_setting_up",
       component: PrimarySettingUp,
     },
     {
-      name: "SecondarySettingsUp",
-      path: "secondary_settings_up",
+      name: "SecondarySettingUp",
+      path: "secondary_setting_up",
       component: SecondarySettingUp,
     },
   ],

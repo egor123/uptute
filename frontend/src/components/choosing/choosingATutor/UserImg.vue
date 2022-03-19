@@ -1,5 +1,5 @@
 <template>
-  <Dialog class="dialog" :toComments="toComments">
+  <Dialog class="dialog" ref="dialog">
     <template v-slot:object>
       <img class="userImg" src="@/assets/icons/user.svg" />
     </template>
@@ -8,7 +8,11 @@
       <AboutTutorTitle :tutor="tutor" />
     </template>
     <template v-slot:text>
-      <AboutTutorContent :tutor="tutor" :toComments="toComments" />
+      <AboutTutorContent
+        ref="aboutTutorContent"
+        :tutor="tutor"
+        :toComments="toComments"
+      />
     </template>
   </Dialog>
 </template>

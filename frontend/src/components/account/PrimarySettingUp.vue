@@ -35,7 +35,7 @@
         {{ $l("set_up.as_student") }}
       </v-btn>
       <v-btn
-        @click="routerPush('SecondarySettingsUp')"
+        @click="routerPush('SecondarySettingUp')"
         id="tutor"
         rounded
         outlined

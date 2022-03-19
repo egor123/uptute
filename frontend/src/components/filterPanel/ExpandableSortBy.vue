@@ -4,6 +4,7 @@
     v-model="input"
     :label="label"
     :text="text"
+    :flat="flat"
   >
     <div
       class="filter"
@@ -37,8 +38,7 @@ export default {
       def: JSON.parse(JSON.stringify(this.value)),
     };
   },
-  props: ["value", "filters", "label", "text", "convertor", "rules"],
-
+  props: ["value", "filters", "label", "text", "convertor", "rules", "flat"],
   methods: {
     change(item) {
       if (this.input.name == item.name)

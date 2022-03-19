@@ -7,6 +7,7 @@
         <router-view />
       </transition>
     </v-main>
+    <!-- <MessengerChat /> -->
     <Footer />
   </v-app>
 </template>
@@ -16,6 +17,8 @@ import { mapGetters, mapActions } from "vuex";
 import Header from "@/components/app/Header.vue";
 import Footer from "@/components/app/Footer.vue";
 import Navigation from "@/components/app/Navigation.vue";
+// import MessengerChat from "@/components/MessengerChat.vue";
+import { apiRequest } from "@/services/api.service.js";
 
 export default {
   data: () => ({
@@ -25,10 +28,24 @@ export default {
     Header,
     Footer,
     Navigation,
+    // MessengerChat,
   },
   computed: mapGetters(["getStatus"]),
   methods: {
     ...mapActions(["isAuth"]),
+    // ---------
+    async getFirstPost() {
+      const res = await apiRequest({
+        method: "get",
+        urlEnd: `/api/auth/facebook/signin`,
+      }).catch((err) => console.log(err));
+      // console.log("---------------------");
+      // console.log(res);
+      res;
+    },
+  },
+  mounted() {
+    // this.getFirstPost();
   },
 };
 </script>
@@ -36,14 +53,6 @@ export default {
 <style lang="scss">
 @import "./scss/styles.scss";
 @import "./scss/mixins.scss";
-
-@font-face {
-  font-family: "Comfortaa";
-  src: url(//fonts.googleapis.com/css?family=Comfortaa);
-  font-weight: normal;
-  font-style: normal;
-  text-decoration: none;
-}
 
 :root {
   --side-margin: clamp(0.5rem, 18vw, 22rem);
@@ -80,7 +89,9 @@ html {
 }
 
 #app {
-  font-family: Comfortaa;
+  * {
+    font-family: "Comfortaa" !important;
+  }
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -88,11 +99,11 @@ html {
   font-size: 1.1rem;
 
   a:not(.v-btn) {
-    color: var(--v-secondary-darken3);
-    transition: color 400ms;
+    color: var(--v-background-darken4);
+    transition: color 500ms;
     &:hover,
     &:focus {
-      color: var(--v-accent-darken2);
+      color: var(--v-accent-base);
     }
   }
 }

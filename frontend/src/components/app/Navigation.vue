@@ -24,16 +24,39 @@
               alt=""
             />
           </GoogleSignIn>
-          <!-- INSTEAD FACEBOOK SIGN IN !!!!!!!!!!!!!! -->
         </div>
       </div>
 
       <div class="dividor" />
 
-      <v-list class="pr-0 buttonsList" flat dense nav>
+      <v-list class="pr-0 buttonsList" dense flat nav>
         <v-list-item-group active-class="chosenPage">
-          <v-list-item exact active-class="active" :to="{ name: 'Home' }">
+          <v-list-item
+            exact
+            active-class="active"
+            class=".button .v-btn"
+            :to="{ name: 'Home' }"
+          >
+            <v-icon>mdi-home-outline</v-icon>
             {{ $l("app.pages.home") }}
+          </v-list-item>
+          <v-list-item
+            exact
+            active-class="active"
+            class=".button .v-btn"
+            :to="{ name: 'PrivacyPolicy' }"
+          >
+            <v-icon>mdi-file-document-outline</v-icon>
+            {{ $l("app.pages.privacy_policy") }}
+          </v-list-item>
+          <v-list-item
+            exact
+            active-class="active"
+            class=".button .v-btn"
+            :to="{ name: 'TermsOfUse' }"
+          >
+            <v-icon>mdi-file-document-outline</v-icon>
+            {{ $l("app.pages.terms") }}
           </v-list-item>
 
           <!-- <v-list-item link active-class="active" :to="{ name: 'WhyUs' }">
@@ -83,10 +106,9 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-$drawer-background: #fafafa;
 #card,
 #nav {
-  background: $drawer-background;
+  background: var(--v-background-base);
 }
 
 #nav {
@@ -117,8 +139,7 @@ $drawer-background: #fafafa;
 
 #signInOuter {
   @include flexbox();
-  // position: relative;
-  justify-content: center;
+
   padding: 1.5rem 1rem;
   color: var(--v-secondary-darken3);
   #signIn {
@@ -139,30 +160,28 @@ $drawer-background: #fafafa;
 
 .v-list {
   padding: 1.5rem 0.5rem;
-  .buttonsList .v-list-item {
-    border-radius: 5px 0 0 5px !important;
-    &.active {
-      color: var(--v-secondary-darken3) !important;
-      background: var(--v-secondary-darken1) !important;
-    }
-
-    &:not(.active) {
-      color: var(--v-secondary-darken3) !important;
-      // background: var(--v-background-base) !important;
-      // border: 1px dotted var(--v-secondary-darken1);
-    }
-  }
 }
+
 .buttonsList .v-list-item {
-  border-radius: 5px 0 0 5px !important;
+  border-radius: 8px 0 0 8px !important;
+  $color: var(--v-secondary-darken3);
+
+  // @include box-shadow();
+  .v-icon {
+    color: $color;
+    margin-right: 6px;
+  }
   &.active {
-    color: var(--v-secondary-darken3) !important;
+    color: $color !important;
     background: var(--v-secondary-darken1) !important;
   }
 
   &:not(.active) {
-    color: var(--v-secondary-darken3) !important;
-    // background: var(--v-background-base) !important;
+    color: $color !important;
+    // background: var(--v-background-darken1) !important;
+    // border-left: 2px solid var(--v-secondary-darken1);
+    // border-bottom: 2px solid var(--v-secondary-darken1);
+
     // border: 1px dotted var(--v-secondary-darken1);
   }
 }

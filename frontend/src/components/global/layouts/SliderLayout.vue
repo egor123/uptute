@@ -157,6 +157,7 @@ $background: var(--v-header-base);
   }
   position: relative;
   #container {
+    width: 100vw;
     position: relative;
     background: #ffffff00; //!!
     display: flex;
@@ -175,7 +176,7 @@ $background: var(--v-header-base);
 }
 
 #content {
-  width: 100vw;
+  width: 100%;
   background: #ffffff00; //!!
 
   height: $content-height;

@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="container" ref="container">
     <!-- <div class="img">
       <div class="img-container">
         <div class="img-blur">
@@ -10,29 +10,35 @@
         </div>
       </div>
     </div> -->
-    <div id="hero">
+
+    <div id="hero" :style="`--fadeTimeout: ${heroFadeTimeout}ms`">
+      <HeroCanvas
+        :fadeTimeout="heroFadeTimeout"
+        class="heroCanvas"
+        ref="heroCanvas"
+      ></HeroCanvas>
+
       <div id="heroWrapper" class="boxShadow">
-        <div class="iframeWrapper">
-          <iframe
-            ref="iframe"
-            :src="url"
-            frameborder="0"
-            allow="autoplay"
-            webkitallowfullscreen
-            mozallowfullscreen
-            allowfullscreen
-          ></iframe>
-        </div>
-        <div id="heroText" ref="container">
-          <div id="beginWrapper">
-            <Begin
-              color="var(--v-background-base)"
-              textColor="var(--v-secondary-darken3)"
-              borderRadius="15px"
-              border="dashed 2px var(--v-accent-base)"
-            />
-          </div>
-        </div>
+        <!-- <div id="moto">Fun. Fast. Friendly.</div> -->
+        <!-- id="beginWrapper" -->
+
+        <Begin
+          v-if="getStatus"
+          :color="menu.color"
+          :textColor="menu.textColor"
+          :borderRadius="menu.borderRadius"
+          :border="menu.border"
+          :padding="menu.padding"
+        />
+        <LessonMenu
+          v-if="!getStatus"
+          :ifWithIcon="false"
+          :color="menu.color"
+          :textColor="menu.textColor"
+          :borderRadius="menu.borderRadius"
+          :border="menu.border"
+          :padding="menu.padding"
+        />
       </div>
     </div>
 
@@ -139,8 +145,10 @@
 
 <script>
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
-import Begin from "@/components/global/Begin.vue";
+import Begin from "@/components/header/Begin.vue";
+import LessonMenu from "@/components/header/LessonMenu.vue";
 import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
+import HeroCanvas from "@/components/HeroCanvas.vue";
 
 export default {
   name: "Home",
@@ -153,25 +161,32 @@ export default {
     SliderLayout,
     CheckerLayout,
     Begin,
+    LessonMenu,
+    HeroCanvas,
   },
   data() {
     return {
+      menu: {
+        color: "var(--v-background-base)",
+        textColor: "var(--v-secondary-darken3)",
+        borderRadius: "15px",
+        border: "dashed 2px var(--v-accent-base)",
+        padding: "1rem 3rem",
+      },
+      getStatus: false,
       url:
         "https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500&enablejsapi=1",
+      heroFadeTimeout: 300,
     };
   },
   mounted() {
-    document.addEventListener("scroll", this.checkOffset);
+    document.addEventListener("mouseenter", this.$refs.heroCanvas.mouseEnter);
   },
-  methods: {
-    checkOffset() {
-      // console.log(this.$refs.iframe.src);
-      if (window.scrollY > window.innerHeight) {
-        this.$refs.iframe.src = "";
-      } else if (this.$refs.iframe.src !== this.url) {
-        this.$refs.iframe.src = this.url;
-      }
-    },
+  beforeDestroy() {
+    document.removeEventListener(
+      "mouseenter",
+      this.$refs.heroCanvas.mouseEnter
+    );
   },
   //   data() {
   //     return {
@@ -244,9 +259,30 @@ export default {
 <style scoped lang="scss">
 @import "@/scss/mixins.scss";
 
+html:hover .heroCanvas {
+  animation: fadeOutIn calc(var(--fadeTimeout) * 2) ease-out both;
+}
+
 #container {
   #innerContainer {
     margin-top: 100vh;
+  }
+
+  .heroCanvas {
+    opacity: 1;
+    transition: all;
+  }
+
+  @keyframes fadeOutIn {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 }
 
@@ -263,35 +299,26 @@ h1 {
   @include flexbox();
   #heroWrapper {
     border-radius: 15px;
-    padding: 1rem;
+    // padding: 1rem 3rem;
     @include box-shadow();
+    background: #efefefcc;
 
-    .iframeWrapper {
-      @include box-size(fit-content);
-      border-radius: 15px;
-      overflow: hidden;
+    // & > * {
+    //   padding: 16px;
+    //   padding-top: 0;
+    //   &:first-child {
+    //     padding-top: 16px;
+    //   }
+    // }
 
-      iframe {
-        --videoWidth: calc(55vh * 16 / 9);
-        @media (max-width: "900px") {
-          --videoWidth: 85vw;
-        }
-
-        width: var(--videoWidth);
-        height: calc(var(--videoWidth) / 16 * 9);
-        margin-bottom: -7px;
-      }
-    }
-    #heroText {
-      padding: 3rem 0 2rem 0;
-      @include flexbox();
-
-      #beginWrapper {
-        width: max-content;
-      }
+    #moto {
+      font-size: 28px;
+      letter-spacing: 0.5ch;
     }
   }
 }
+
+// ------------------- hero img --------------------------
 
 // .img {
 //   background-image: url("../assets/images/home.jpg");

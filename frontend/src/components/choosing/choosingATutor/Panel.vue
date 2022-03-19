@@ -1,15 +1,18 @@
 <template>
-  <HiddenButtonCard :tutor="tutor">
+  <HiddenButtonCard v-if="visible" :tutor="tutor" ref="hiddenButtonCard">
     <template v-slot:static>
+      <button class="rejectBtn" @click="reject()">
+        <v-icon class="rejectIcon">mdi-close</v-icon>
+      </button>
       <div class="profile">
-        <UserImg :tutor="tutor" :toComments="toComments" />
+        <UserImg :tutor="tutor" ref="userImg" />
 
         <div>
           <p class="pph">
-            {{ Math.round(tutor.pph) }} UC/{{ $l("tutor.hour") }}
+            {{ Math.round(tutor.details.pph) }} UC/{{ $l("tutor.hour") }}
           </p>
-          <h3>{{ tutor.firstName }} {{ tutor.lastName }}</h3>
-          <p>{{ tutor.age }} {{ $l("find.filters.tutor_age.p") }}</p>
+          <h3>{{ tutor.details.firstName }} {{ tutor.details.lastName }}</h3>
+          <p>{{ tutor.details.age }} {{ $l("find.filters.tutor_age.p") }}</p>
         </div>
       </div>
     </template>
@@ -25,7 +28,7 @@
                 class="mr-1"
                 src="@/assets/icons/clock.svg"
               />
-              <p>{{ Math.round(tutor.hours) }}{{ $l("tutor.hour") }}</p>
+              <p>{{ Math.round(tutor.details.hours) }}{{ $l("tutor.hour") }}</p>
             </div>
           </template>
           <span>
@@ -33,7 +36,7 @@
           </span>
         </v-tooltip>
 
-        <Rating :valueProp="tutor.rating" class="rating" />
+        <Rating :valueProp="tutor.details.rating" class="rating" />
 
         <div class="commentsDiv" @click="openComments()">
           <img
@@ -42,7 +45,7 @@
             class="mr-1"
             src="@/assets/icons/message.svg"
           />
-          <p>{{ tutor.comments }}</p>
+          <p>{{ tutor.details.comments }}</p>
         </div>
       </div>
     </template>
@@ -57,12 +60,13 @@ import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
 import Rating from "./Rating.vue";
 import UserImg from "@/components/choosing/choosingATutor/UserImg.vue";
 import BookButton from "@/components/choosing/choosingATutor/BookButton.vue";
+// import { scrolled } from "@/plugins/GlobalMethods";
 
 export default {
   data() {
     return {
+      visible: true,
       windowTop: 0,
-      toComments: false,
     };
   },
   components: {
@@ -75,22 +79,47 @@ export default {
     tooltipUse: String,
     tutor: Object,
   },
-  mounted() {
-    this.$root.$on("dialogClosed", () => {
-      this.toComments = false;
-    });
-  },
   methods: {
     openComments() {
-      this.toComments = !this.toComments;
+      this.$refs.userImg.$refs.dialog.open();
+      setTimeout(() => {
+        this.$refs.userImg.$refs.aboutTutorContent.scrollToComments(0);
+      }, 0);
+    },
+    async reject() {
+      const offerLogId = this.tutor.offerLogId;
+      this.$store
+        .dispatch("studentLessonAPI/rejectOffer", { offerLogId })
+        .then((isRej) => (this.visible = !isRej));
     },
   },
+  // mounted() {
+  //   window.addEventListener("scroll", () =>
+  //     scrolled({ cards: [this.$refs.hiddenButtonCard.$el] })
+  //   );
+  // },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
 * {
   margin: auto 0;
+}
+
+.rejectBtn {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  .rejectIcon {
+    color: var(--v-secondary-darken2);
+    transition: all 500ms;
+    &:hover {
+      transform: rotate(180deg) scale(0.8);
+      color: var(--v-accent-base) !important;
+    }
+  }
 }
 
 .profile {
@@ -115,6 +144,7 @@ export default {
   position: relative;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   .rating {
     position: absolute;
     left: 50%;
@@ -142,7 +172,8 @@ export default {
   opacity: 1 !important;
   width: max-content !important;
   min-width: 0 !important;
-  background: var(--v-secondary-darken2) !important;
-  color: white !important;
+  background: var(--v-background-base) !important;
+  color: var(--v-background-darken3) !important;
+  @include box-shadow();
 }
 </style>

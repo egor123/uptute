@@ -1,0 +1,78 @@
+<template>
+  <HeaderMenu
+    color="#000"
+    textColor="var(--v-background-base)"
+    borderRadius="0 0 15px 15px"
+    border="none"
+  >
+    <template v-slot:title>
+      <img
+        :src="getImgUrl(locale)"
+        :alt="locale"
+        class="flagImg img headerCircle"
+      />
+    </template>
+    <template v-slot:content>
+      <v-list-item
+        v-for="(l, index) in locales"
+        :key="index"
+        v-on:change="changeLocale(l)"
+      >
+        <img :src="getImgUrl(l)" :alt="l" class="flagImg img headerCircle" />
+      </v-list-item>
+    </template>
+  </HeaderMenu>
+</template>
+
+<script>
+import HeaderMenu from "@/components/header/HeaderMenu.vue";
+
+export default {
+  components: {
+    HeaderMenu,
+  },
+  data() {
+    return {
+      locales: [],
+      locale: "",
+    };
+  },
+  created() {
+    this.updateLocales(this.$route.params.locale);
+  },
+  methods: {
+    getImgUrl(locale) {
+      return require("@/assets/icons/flags/" + locale + ".svg");
+    },
+    changeLocale(val) {
+      this.$router.replace({
+        params: { locale: val },
+      });
+      this.updateLocales(val);
+    },
+    updateLocales(locale) {
+      this.locale = locale;
+      let locales = require.context("@/locales", true, /^.*\.json$/).keys();
+      locales = locales.map((l) => l.slice(2, -5));
+      locales.splice(locales.indexOf(locale), 1);
+      this.locales = locales;
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import "@/scss/mixins.scss";
+
+.flagImg {
+  // $iconWidth: calc(30px * 0.845);
+  @include hoverOpacity();
+  border-radius: 1.5px;
+  // width: 30px;
+  // width: $iconWidth;
+  // margin: 0 calc(30px - #{$iconWidth});
+}
+.v-list-item .flagImg {
+  cursor: pointer;
+}
+</style>

@@ -1,15 +1,26 @@
 <template>
-  <v-expansion-panel id="panel" :class="{ errorMovement: errorAnim }">
-    <v-expansion-panel-header hover="false" :class="{ errorColor: error }">
-      {{ label }}
-      <div class="text-right mr-3 secondary--text text--darken-2">
-        {{ text }}
-      </div>
-    </v-expansion-panel-header>
-    <v-expansion-panel-content id="expPanelContent">
-      <slot />
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+  <v-expansion-panels class="panels">
+    <v-expansion-panel
+      ref="panel"
+      class="panel"
+      :class="{ errorMovement: errorAnim }"
+      :style="
+        `--displayShadow: ${flat ? 'none' : 'flex'};
+        --backgroundColor: ${backgroundColor};
+        --borderRadius: ${borderRadius}`
+      "
+    >
+      <v-expansion-panel-header hover="false" :class="{ errorColor: error }">
+        {{ label }}
+        <div class="text-right mr-3 secondary--text text--darken-2">
+          {{ text }}
+        </div>
+      </v-expansion-panel-header>
+      <v-expansion-panel-content id="expPanelContent">
+        <slot />
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>
 
 <script>
@@ -18,10 +29,22 @@ export default {
     error: false,
     errorAnim: false,
   }),
-  props: [
-    "label", // panel's label
-    "text", // panel's text
-  ],
+  props: {
+    label: String, // panel's label
+    text: [Number, String], // panel's text
+    flat: {
+      type: Boolean,
+      default: true,
+    },
+    backgroundColor: {
+      type: String,
+      default: "var(--v-card-base)",
+    },
+    borderRadius: {
+      type: String,
+      default: "15px",
+    },
+  },
 };
 </script>
 
@@ -29,23 +52,20 @@ export default {
 @import "@/scss/errorStyles.scss";
 @import "@/scss/mixins.scss";
 
-#panel {
+.panel {
   transition: transform 400ms;
   margin: 0;
-  background: var(--v-card-base);
+  background-color: var(--backgroundColor) !important;
 
   border-radius: 0;
   &::before {
     @include box-shadow();
+    display: var(--displayShadow);
+    z-index: -1;
   }
-  &:first-child {
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
-  }
-  &:last-child {
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
-  }
+  border-radius: var(--borderRadius) !important;
+
+  // border-radius: inherit !important;
   .v-expansion-panel-header {
     background-color: transparent;
 

@@ -1,16 +1,24 @@
 <template>
   <div class="content">
     <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio labore harum
-      dolores eum deserunt facere dolorem ipsum rem nisi! Dolorum!
+      {{ student.topic ? student.topic.text : null }}
     </p>
 
-    <PageViewer :imgs="imgs" :upload="false" />
+    <PageViewer :imgs="student.imgs" :upload="false" />
 
     <Dialog>
       <template v-slot:object>
-        <v-btn rounded outlined color="accent">
-          {{ $l("choose_a.student.dialog.offer") }}
+        <v-btn
+          @click="state === 'offered' ? cancelOffer() : sendOffer()"
+          rounded
+          outlined
+          color="accent"
+        >
+          {{
+            state === "offered"
+              ? $l("choose_a.student.dialog.cancel")
+              : $l("choose_a.student.dialog.offer")
+          }}
         </v-btn>
       </template>
 
@@ -32,6 +40,7 @@ import PageViewer from "@/components/global/PageViewer.vue";
 export default {
   data() {
     return {
+      state: "notOffered",
       imgs: [
         {
           name: "physics1.jpg",
@@ -51,15 +60,40 @@ export default {
       ],
     };
   },
+  props: ["student"],
   components: {
     Dialog,
     PageViewer,
+  },
+  methods: {
+    async sendOffer() {
+      const lessonIdAndLogId = {
+        lessonId: this.student.lessonId,
+        logId: this.student.logId,
+      };
+
+      const offerLogId = await this.$store.dispatch(
+        "tutorLessonAPI/sendOffer",
+        {
+          lesson: lessonIdAndLogId,
+        }
+      );
+      this.offerLogId = offerLogId;
+      this.state = "offered";
+    },
+    cancelOffer() {
+      this.$store.dispatch("tutorLessonAPI/cancelOffer", {
+        offerLogId: this.offerLogId,
+      });
+      this.state = "canceled";
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .content {
+  width: 100%;
   & > *:not(:last-child) {
     margin-bottom: 5rem;
   }

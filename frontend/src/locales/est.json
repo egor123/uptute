@@ -1,5 +1,8 @@
 {
   "id": "est",
+  "global": {
+    "wrong": "Miski läks valesti"
+  },
   "auth": {
     "header": {
       "log_in": "Logi sisse",
@@ -55,6 +58,7 @@
     "pages": {
       "home": "Avaleht",
       "begin": "Alusta oma seiklus",
+      "account": "Profiil",
       "find_tutor": "Leia õpetaja",
       "become_tutor": "Tule õpetajaks!",
       "blog": "Blogi",
@@ -66,6 +70,24 @@
       "and": "ja",
       "terms": "Kasutustingimused",
       "with_terms": "Kasutustingimustega"
+    },
+    "header": {
+      "lesson": {
+        "title": "Tund",
+        "learn": "Õppi",
+        "teach": "Õpeta"
+      },
+      "notifications": {
+        "nothing": "Teavitused puuduvad",
+        "accepted": {
+          "lesson": "Tund NAME'ga",
+          "link": "siin"
+        },
+        "feedback": {
+          "gave": "COMMENTER andis",
+          "link": "tagasiside"
+        }
+      }
     },
     "footer": {
       "pages_title": "Mõned leheküljed:"
@@ -225,7 +247,14 @@
       "anyway": "Siiski välju",
       "cancel": "Tagasi",
       "hours": "õpetamiskogemus",
-      "comments": "kommentaaride arv"
+      "comments": "kommentaaride arv",
+      "fail": {
+        "init": "Tunni päringu loomine ebaõnnestus",
+        "offers": "Tunni pakkumiste hankimine ebaõnnestus",
+        "reject": "Tunni pakkumise tagasilükkamine ebaõnnestus",
+        "accept": "Pakkumise vastuvõtmine ebaõnnestus",
+        "conference": "Koosolekuga liitumine ebaõnnestus"
+      }
     },
     "student": {
       "header": "Pakku oma abi",
@@ -234,8 +263,16 @@
       "button": "Uuri lähedamalt",
       "dialog": {
         "offer": "Pakku oma abi",
+        "cancel": "Tühista pakkumine",
         "title": "Su abipakkumine on saadetud",
         "text": "Sind teavitatakse, kui su pakkumine võetaks vastu"
+      },
+      "fail": {
+        "conference": "Koosoleku alsutamine ebaõnnestus",
+        "cancel": "Tunni pakkumise tühistamine ebaõnnestus",
+        "listen_accept": "Pakkumise vastuvõtu kontroll ebaõnnestus",
+        "lessons": "Tundide hankimine serverilt ebaõnnestus",
+        "send": "Tunni pakkumise saatmine ebaõnnestus"
       }
     }
   },
@@ -296,9 +333,11 @@
   },
 
   "acc_pages": {
-    "settings": "Seaded",
+    "profile": "Profiil",
     "calendar": "Kalender",
-    "logs": "Varemad tunnid"
+    "logs": "Eelnevad",
+    "settings": "Seaded",
+    "log_out": "Logi välja"
   },
   "settings": {
     "password": "Muuda salasõna",

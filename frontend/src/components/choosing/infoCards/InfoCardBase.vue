@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper" ref="wrapper">
-    <div class="baseCard" ref="card">
+    <div class="baseCard" :style="`border-radius: ${radius}`">
       <slot />
     </div>
   </div>
@@ -12,11 +12,6 @@ export default {
     radius: {
       type: String,
       default: "15px",
-    },
-  },
-  watch: {
-    radius: function(val) {
-      this.$refs.card.style.borderRadius = val;
     },
   },
 };

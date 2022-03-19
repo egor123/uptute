@@ -56,10 +56,11 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item @click="type = 'day'">
+                <v-list-item @click="setType('day')">
                   <v-list-item-title>Day</v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="type = 'month'">
+                <v-list-item @click="setType('month')">
+                  <!-- type = 'month' -->
                   <v-list-item-title>Month</v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -182,9 +183,16 @@ export default {
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
+      this.prev(); // TODO
+      this.next(); // renders a blank calendar without them
     },
     getEventColor(event) {
       return event.color;
+    },
+    setType(type) {
+      this.type = type;
+      this.prev(); // TODO
+      this.next(); // renders a blank calendar without them
     },
     setToday() {
       this.focus = "";
@@ -273,23 +281,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
 $border: 1px solid var(--v-background-base);
+
 ::v-deep {
   #backgroundCard {
-    margin: 70px 0 20px 0;
+    padding: 0 !important;
+    margin: auto;
+    // margin-top: auto !important;
+    // margin-bottom: auto !important;
     .v-calendar {
       height: 75vh;
       width: 80vw;
       &.v-calendar-daily {
-        width: 500px;
+        width: 600px;
       }
     }
     @media (max-width: 800px) {
+      .sheetWrapper {
+        border-radius: 0 !important;
+      }
       .v-calendar,
       .v-calendar.v-calendar-daily {
         width: 100vw;
-        height: calc(100vh - 120px);
-        border-radius: 0 !important;
+        height: calc(100vh - 200px);
       }
       width: 100vw;
       margin-top: 56px;
@@ -304,12 +319,15 @@ $border: 1px solid var(--v-background-base);
     border-radius: 15px;
     overflow: hidden;
     border: $border;
+    // background: red;
+    @include box-shadow();
   }
   .v-sheet {
     overflow: hidden;
-    &.v-toolbar,
-    &.v-toolbar__content {
-      background: #ffffff00;
+    .v-toolbar__content {
+      & > *:not(:last-child) {
+        margin-right: 1rem !important;
+      }
       .v-toolbar__title {
         opacity: 0;
         transition: opacity 400ms ease-in-out;
@@ -363,12 +381,17 @@ $border: 1px solid var(--v-background-base);
             }
           }
           .v-event-timed-container {
-            margin-right: 0;
+            width: 97%;
+            margin: 0 auto;
             .v-event-timed {
               border: none !important;
               border-top: 1px solid !important;
               border-bottom: 1px solid !important;
-              border-radius: 0 !important;
+              border-radius: 15px !important;
+              @include flexbox();
+              .pl-1 {
+                padding-left: 0 !important;
+              }
             }
           }
         }

@@ -29,39 +29,41 @@
 export default {
   data() {
     return {
-      showDialog: this.showDialogProp,
+      showDialog: false,
     };
-  },
-  props: {
-    toComments: Boolean,
-    showDialogProp: Boolean,
-  },
-  created() {
-    this.showDialog = this.toComments;
   },
   methods: {
     crossClick() {
       this.showDialog = false;
     },
+    open() {
+      setTimeout(() => {
+        this.showDialog = true;
+        setTimeout(() => {
+          this.$refs.start.scrollIntoView({ block: "start" });
+        }, 0);
+      }, 0);
+    },
+    scrollToComments() {},
   },
   watch: {
-    toComments: function(val) {
-      this.showDialog = val;
+    showDialog: function(val) {
+      !val ? this.$emit("closed") : null;
     },
-    showDialog: function() {
-      if (this.showDialog === true) {
-        this.$root.$emit("dialogOpened");
-        this.$nextTick(() => {
-          this.$refs.start.scrollIntoView({ block: "start" });
-        });
-      } else {
-        this.$root.$emit("dialogClosed");
-        this.$emit("dialogClosed");
-      }
-    },
-    showDialogProp: function() {
-      this.showDialog = this.showDialogProp;
-    },
+    // showDialog: function(val) {
+    //   if (this.showDialog === true) {
+    //     this.$root.$emit("dialogOpened");
+    //     this.$nextTick(() => {
+    //       this.$refs.start.scrollIntoView({ block: "start" });
+    //     });
+    //   } else {
+    //     this.$root.$emit("dialogClosed");
+    //     this.$emit("dialogClosed");
+    //   }
+    // },
+    // showDialogProp: function(val) {
+    //   this.showDialog = val;
+    // },
   },
 };
 </script>
@@ -86,7 +88,6 @@ export default {
     scrollbar-width: none;
   }
   .v-card {
-    // overflow-x: hidden;
     #cardTitle {
       z-index: 10;
       font-family: Comfortaa !important;

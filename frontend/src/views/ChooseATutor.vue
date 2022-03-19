@@ -19,6 +19,7 @@
             { name: 'hours_taught', dir: 'up' },
           ]"
           :label="$l('find.filters.filters.h')"
+          :flat="false"
           :text="
             `${$l('find.filters.filters.' + filter.name)} ${
               filter.dir === 'up' ? '↑' : '↓'
@@ -27,7 +28,7 @@
           :convertor="(item) => $l('find.filters.filters.' + item.name)"
         />
       </FilterPanel>
-      <Panels id="panels" :tutors="$store.getters.getTutors" />
+      <Panels id="panels" :tutors="getTutors()" />
     </div>
     <v-snackbar max-width="800" color="error" timeout="-1" v-model="showAlert">
       {{ $l("choose_a.tutor.ended") }}
@@ -69,6 +70,7 @@ export default {
   },
   data() {
     return {
+      tutors: [],
       filter: { name: "rating", dir: "up" },
       showAlert: false,
       closeButton: false,
@@ -111,17 +113,23 @@ export default {
         this.radiusLowerInfo = "15px";
       }
     },
+    getTutors() {
+      return this.$store.state.studentLessonAPI.tutors;
+    },
   },
   beforeRouteLeave(to, from, next) {
+    if (this.$store.state.studentLessonAPI.state === "idle") next();
     this.showAlert = true;
-    this.untilClick().then((val) => {
+    this.untilClick().then(async (val) => {
       this.showAlert = false;
-      if (val === "close") next();
+      if (val === "close") {
+        await this.$store.dispatch("studentLessonAPI/deleteLesson");
+        next();
+      }
     });
   },
   mounted() {
     window.addEventListener("beforeunload", this.preventNav);
-    this.$store.dispatch("startSearch", null);
     window.addEventListener("resize", this.resized);
     this.resized();
   },
@@ -148,7 +156,7 @@ $inner-content-width: 350px;
 }
 
 .innerContent {
-  margin: calc(106px + 3rem) auto auto auto;
+  margin: calc(106px + 3rem) auto 3rem auto;
   width: $inner-content-width;
 }
 

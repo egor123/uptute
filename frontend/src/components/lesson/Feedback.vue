@@ -1,13 +1,10 @@
 <template>
-  <Dialog :showDialogProp="showDialog">
-    <!-- <template v-slot:object>
-      <img class="userImg" src="@/assets/icons/user.svg" />
-    </template> -->
+  <Dialog ref="dialog">
     <template v-slot:title>
       How was your lesson?
     </template>
     <template v-slot:text>
-      <Rating id="rating" :choosable="true" />
+      <Rating id="rating" valueProp="5" :choosable="true" />
       <TextField
         id="textField"
         :label="$l('lesson.feedback.comment')"
@@ -30,22 +27,11 @@ export default {
     Rating,
     TextField,
   },
-  data() {
-    return {
-      showDialog: this.showDialogProp,
-    };
-  },
-  props: {
-    showDialogProp: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  mounted() {
-    setTimeout(() => {
-      this.showDialog = true;
-    }, 2000);
-  },
+  // mounted() {
+  //   setTimeout(() => {
+  //     this.$refs.dialog.open();
+  //   }, 2000);
+  // },
 };
 </script>
 

@@ -1,15 +1,34 @@
 <template>
   <div id="main">
-    <div v-for="(tutor, index) in tutors" :key="index">
-      <v-tooltip left content-class="tooltip" open-delay="300">
+    <div v-for="(tutor, index) in tutors" class="vForDiv" :key="index">
+      <v-tooltip
+        :attach="`#panel-${tutor.uuid}`"
+        content-class="tooltip"
+        open-delay="300"
+        absolute
+        ref="tooltip"
+      >
         <template v-slot:activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on">
-            <Panel :tutor="tutor" />
-          </div>
+          <v-hover v-model="isActive">
+            <div
+              v-bind="attrs"
+              v-on="on"
+              class="panelWrapper"
+              :id="`panel-${tutor.uuid}`"
+            >
+              <Panel :tutor="tutor" class="panel" />
+            </div>
+          </v-hover>
         </template>
         <span>
-          <Moto :moto="tutor.moto" />
-          <Comments :id="tutor.uuid" :background="tooltipBackground" />
+          <!-- <Moto :moto="tutor.moto" /> -->
+          <!-- v-if="isActive" -->
+
+          <Comments
+            :isActive="isActive"
+            :id="tutor.uuid"
+            :background="tooltipBackground"
+          />
         </span>
       </v-tooltip>
     </div>
@@ -18,7 +37,7 @@
 
 <script>
 import Panel from "./Panel.vue";
-import Moto from "./aboutTutor/Moto.vue";
+// import Moto from "./aboutTutor/Moto.vue";
 import Comments from "@/components/choosing/choosingATutor/aboutTutor/Comments.vue";
 
 export default {
@@ -27,14 +46,16 @@ export default {
   },
   components: {
     Panel,
-    Moto,
+    // Moto,
     Comments,
   },
   data() {
     return {
+      isActive: false,
       tooltipBackground: "var(--v-background-base)",
     };
   },
+
   mounted() {
     this.$nextTick(() => {
       document.styleSheets[0].insertRule(`:root{
@@ -67,22 +88,38 @@ $card-rows-margin: 5px;
   }
 }
 
-::v-deep {
-  .comments {
-    margin-top: 1rem;
-  }
-  #moto {
-    margin: 1rem auto 2.5rem auto;
+// ::v-deep {
+// #moto {
+//   margin: 1rem auto;
+//   border-radius: 15px;
+// }
+// }
+
+.vForDiv:last-child {
+  & .tooltip {
+    bottom: 0 !important;
   }
 }
 
-.tooltip {
-  margin-left: -1.5rem; // hard-cocded
-  background: var(--tooltipBackground) !important;
-  @include box-shadow();
-  @media (max-width: 1120px) {
-    display: none;
+.panelWrapper {
+  position: relative;
+  @include flexbox();
+
+  .panel {
+    @include box-size(100%);
+    // margin: 10px auto;
   }
-  // transform: translateY(calc(50% - 93.5px));
+  .tooltip {
+    left: auto !important;
+    top: auto !important;
+    right: calc(100% + 3rem);
+    top: auto !important;
+
+    background: var(--tooltipBackground) !important;
+    @include box-shadow();
+    @media (max-width: 1120px) {
+      display: none;
+    }
+  }
 }
 </style>

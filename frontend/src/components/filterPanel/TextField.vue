@@ -3,8 +3,17 @@
     class="textInput"
     ref="textInput"
     :class="{ errorMovement: errorAnim, errorColor: error }"
+    :style="
+      `--displayShadow: ${flat ? 'none' : 'flex'};
+      --backgroundColor: ${backgroundColor}; 
+      --borderRadius: ${borderRadius}`
+    "
   >
-    <div class="slot" ref="slot">
+    <div
+      class="slot"
+      ref="slot"
+      :style="`paddingRight:${img ? '30px' : '0px'}`"
+    >
       <textarea
         v-if="area"
         type="text"
@@ -38,14 +47,25 @@ export default {
       def: JSON.parse(JSON.stringify(this.value ?? "")),
     };
   },
-  props: [
-    "value",
-    "rules", // validation, always true if undef
-    "label", // panel's label
-    "area", // changes to textarea
-    "img",
-    "flat",
-  ],
+  props: {
+    value: String,
+    rules: Function, // validation, always true if undef
+    label: String, // panel's label
+    area: Boolean, // changes to textarea
+    img: String,
+    flat: {
+      type: Boolean,
+      default: false,
+    },
+    backgroundColor: {
+      type: String,
+      default: "var(--v-card-base)",
+    },
+    borderRadius: {
+      type: String,
+      default: "15px",
+    },
+  },
   watch: {
     input: function(val) {
       if (this.area) {
@@ -76,19 +96,6 @@ export default {
       return require(`@/assets/icons/${img}.svg`);
     },
   },
-  mounted() {
-    if (this.img) {
-      this.$refs.slot.style.paddingRight = "30px";
-    }
-    if (this.flat) {
-      console.log(this.$refs.textInput);
-      this.$refs.textInput.style.setProperty("--displayShadow", "none");
-      this.$refs.textInput.style.setProperty(
-        "background",
-        "var(--v-background-base)"
-      );
-    } else this.$refs.textInput.style.setProperty("--displayShadow", "flex");
-  },
 };
 </script>
 
@@ -97,19 +104,10 @@ export default {
 @import "@/scss/mixins.scss";
 
 .textInput {
-  $color-main: var(--v-card-base);
+  $color-main: var(--backgroundColor);
   $color-sec: var(--v-secondary-darken2);
-  border-radius: 0;
+  border-radius: var(--borderRadius) !important;
   position: relative;
-
-  &:first-of-type {
-    border-top-right-radius: inherit;
-    border-top-left-radius: inherit;
-  }
-  &:last-of-type {
-    border-bottom-right-radius: inherit;
-    border-bottom-left-radius: inherit;
-  }
 
   &::before {
     @include box-shadow();
@@ -120,11 +118,13 @@ export default {
     z-index: -1;
   }
 
-  background: $color-main;
+  &:not(.errorColor) {
+    background-color: $color-main !important;
+  }
   width: 100%;
   height: max-content;
 
-  transition: all 300ms;
+  transition: transform 300ms;
 
   &:hover {
     transform: scale(0.95);
@@ -170,7 +170,7 @@ export default {
       transform: translateY(-50%);
       top: 50%;
 
-      transition: all 0.25s ease-in-out;
+      transition: transform, top 0.25s ease-in-out;
     }
     img {
       position: absolute;

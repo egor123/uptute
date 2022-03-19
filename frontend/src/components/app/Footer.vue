@@ -78,11 +78,12 @@ export default {
     }).observe(wrapper);
   },
   beforeMount() {
-    if (!this.getStatus) {
-      this.pages.splice(1, 0, { name: "register", route: "Register" });
-    } else {
-      this.pages.splice(1, 0, { name: "find_tutor", route: "FindATutor" });
-    }
+    // if (!this.getStatus) {
+    //   this.pages.splice(1, 0, { name: "register", route: "Register" });
+    // } else {
+
+    // }
+    this.pages.splice(1, 0, { name: "find_tutor", route: "FindATutor" });
   },
   // methods: {
   //   scrollToBottom() {

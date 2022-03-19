@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 // import lessons from './modules/lessons'
 // import auth from './modules/auth'
 // import navigation from './modules/navigation'
@@ -7,13 +7,17 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 function init() {
-  const components = require.context('./modules', false, /.js$/);
-  console.log(components.keys());
-  return components.keys().map(key => components(key).default);
+  const components = require.context("./modules", false, /.js$/);
+
+  let arrOfModules = components.keys().map((key) => {
+    let moduleName = key.substring(2, key.length - 3),
+      obj = components(key).default;
+    return [moduleName, obj];
+  });
+
+  return Object.fromEntries(arrOfModules);
 }
 
 export default new Vuex.Store({
-  modules: {
-    ...init(),
-  }
+  modules: init(),
 });

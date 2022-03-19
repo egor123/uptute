@@ -9,11 +9,13 @@
         v-model="name"
         :label="$l('set_up.name')"
         :rules="(val) => val != '' && val != null"
+        :borderRadius="'15px 15px 0px 0px'"
       />
       <TextField
         v-model="surname"
         :label="$l('set_up.surname')"
         :rules="(val) => val != '' && val != null"
+        :borderRadius="'0px 0px 15px 15px'"
       />
     </FilterPanel>
 

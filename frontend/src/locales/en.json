@@ -1,5 +1,8 @@
 {
   "id": "en",
+  "global": {
+    "wrong": "Something went wrong"
+  },
   "auth": {
     "header": {
       "log_in": "Log in",
@@ -54,6 +57,7 @@
     "pages": {
       "home": "Home",
       "begin": "Begin your journey",
+      "account": "Account",
       "find_tutor": "Find your tutor",
       "blog": "Our blog",
       "why_us": "Why us?",
@@ -64,6 +68,24 @@
       "and": "and",
       "terms": "Terms",
       "with_terms": "Terms"
+    },
+    "header": {
+      "lesson": {
+        "title": "Lesson",
+        "learn": "Learn",
+        "teach": "Teach"
+      },
+      "notifications": {
+        "nothing": "Nothing here",
+        "accepted": {
+          "lesson": "A lesson with NAME",
+          "link": "here"
+        },
+        "feedback": {
+          "gave": "COMMENTER gave you a",
+          "link": "feedback"
+        }
+      }
     },
     "footer": {
       "pages_title": "Some pages:"
@@ -222,7 +244,14 @@
       "anyway": "Close anyway",
       "cancel": "Cancel",
       "hours": "hours taught",
-      "comments": "number of comments"
+      "comments": "number of comments",
+      "fail": {
+        "init": "Failed to create a lesson request",
+        "offers": "Failed to get offers",
+        "reject": "Failed to reject the offer",
+        "accept": "Failed to accept an offer",
+        "conference": "Failed to join a conference"
+      }
     },
     "student": {
       "header": "Offer a lesson",
@@ -231,8 +260,16 @@
       "button": "Details",
       "dialog": {
         "offer": "Offer your help",
+        "cancel": "Cancel the offer",
         "title": "Your offer is sent",
         "text": "You will be notified if your offer will be choosen"
+      },
+      "fail": {
+        "conference": "Failed to start a conference",
+        "cancel": "Failed to cancel the offer",
+        "listen_accept": "Failed to listen for accepted",
+        "lessons": "Failed to get lessons from a server",
+        "send": "Failed to send a lessons offer"
       }
     }
   },
@@ -294,9 +331,11 @@
   },
 
   "acc_pages": {
-    "settings": "Settings",
+    "profile": "Profile",
     "calendar": "Calendar",
-    "logs": "Previous lessons"
+    "logs": "Previous",
+    "settings": "Settings",
+    "log_out": "Log out"
   },
   "main": {
     "messenger": "Messenger link",
