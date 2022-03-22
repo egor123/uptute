@@ -5,7 +5,11 @@
       <v-btn @click="refresh()" small text rounded id="refreshBtn">
         {{ $l("find.filters.refresh") }}
       </v-btn>
-      <FilterPanel ref="panel" @next="(action) => $refs.panel2[action]()">
+      <FilterPanel
+        ref="panel"
+        @next="(action, callback) => ifPanel2IsValid(action, callback)"
+      >
+        <!-- $refs.panel2[action]() -->
         <ExpandableListSelector
           v-model="info.subject"
           :label="$l('find.filters.subject.h')"
@@ -55,12 +59,14 @@
           :backgroundColor="'var(--v-card-lighten3)'"
           :borderRadius="'15px 15px 0px 0px'"
         />
+
         <ExpandableSlider
           v-model="info.age"
           :label="$l('find.filters.tutor_age.h')"
           :text="info.age.join(' - ')"
           :min="15"
           :max="100"
+          :rules="(item) => item.length > 0"
           :flat="true"
           :backgroundColor="'var(--v-card-lighten3)'"
           :borderRadius="'0px'"
@@ -75,6 +81,7 @@
           "
           :min="0"
           :max="150"
+          :rules="(item) => item.length > 0"
           :flat="true"
           :backgroundColor="'var(--v-card-lighten3)'"
           :borderRadius="'0px 0px 15px 15px'"
@@ -181,10 +188,14 @@ export default {
     },
     async request() {
       if (this.checkInProgress) return;
+
       if (await this.$refs.panel.isValid()) this.showAlert = true;
     },
     getThis() {
       return this;
+    },
+    ifPanel2IsValid(action, callback) {
+      callback(this.$refs.panel2[action]());
     },
   },
 };

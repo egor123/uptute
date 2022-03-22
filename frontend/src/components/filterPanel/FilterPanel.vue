@@ -16,13 +16,18 @@ export default {
     async isValid() {
       if (this.inProgress) return;
       this.inProgress = true;
-      let val = true;
+      var val = true;
+
       for (const el of this.$refs.panel.$children) {
         if (!el.isValid()) val = false;
         await new Promise((res) => setTimeout(res, 100));
       }
-      if ((await this.$emit("next", "isValid")) === false) val = false;
+      var val2Promise = Promise;
+      this.$emit("next", "isValid", (r) => (val2Promise = r));
+
+      if (val2Promise == false) val = false;
       if (!val) await new Promise((res) => setTimeout(res, 1100));
+
       this.inProgress = false;
 
       return val;
