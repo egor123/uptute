@@ -12,9 +12,6 @@
 
     <template v-slot:text>
       {{ $l("booking.dialog.text") }}
-      <a target="_blank" :href="link">
-        {{ $l("booking.dialog.here") }}
-      </a>
     </template>
   </Dialog>
 </template>

@@ -278,7 +278,7 @@
   "tutor": {
     "hour": "h",
     "clarification": "Next 7 days, your time zone:",
-    "btn": "Book a lesson",
+    "btn": "Accept the offer",
     "subjects": "Subjects",
     "languages": "Languages",
     "age": "My age",
@@ -289,18 +289,17 @@
     "comments": "Comments"
   },
   "booking": {
-    "subheader": "Book the lesson",
+    "subheader": "Accept the offer",
     "date": "Date of the lesson",
     "time": "Time of the lesson",
     "card_name": "Card holder name...",
     "card_int": ["Card number...", "MM/YY", "CVC"],
     "cost": "Cost",
     "tooltip": "Cost of the lesson is calculated at the end of the session based on its length",
-    "confirm": "Confirm the booking",
+    "confirm": "Confirm the lesson",
     "dialog": {
-      "title": "Your lesson's link",
-      "here": "here",
-      "text": "Your lesson will be hosted"
+      "title": "Lesson initiated",
+      "text": "Conference will open soon"
     }
   },
   "set_up": {

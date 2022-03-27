@@ -281,7 +281,7 @@
   "tutor": {
     "hour": "t",
     "clarification": "Järgmised 7 päeva, Sinu ajavöönd:",
-    "btn": "Broneeri tund",
+    "btn": "Võta pakkumine vastu",
     "subjects": "Õppeained",
     "languages": "Keeled",
     "age": "Mu vanus",
@@ -292,18 +292,17 @@
     "comments": "Tagasiside"
   },
   "booking": {
-    "subheader": "Broneeri tund",
+    "subheader": "Võta pakkumine vastu",
     "date": "Tunni kuupäev",
     "time": "Tunni kellaaeg",
     "card_name": "Kaardi omaniku nimi...",
     "card_int": ["Kaardi number...", "KK/AA", "CVC"],
     "cost": "Hind",
     "tooltip": "Eratunni hind arvutatakse sessiooni lõpus arvestades selle pikkust",
-    "confirm": "Kinnita broneering",
+    "confirm": "Kinnita tund",
     "dialog": {
-      "title": "Su eratunni link",
-      "here": "siit",
-      "text": "Oma eratunni leiad"
+      "title": "Tund alustatud",
+      "text": "Konferents kohe avaneb"
     }
   },
   "set_up": {
