@@ -5,8 +5,9 @@
   },
   "auth": {
     "header": {
-      "log_in": "Log in",
-      "register": "Register"
+      "register": "Register",
+      "sign_in": "Sign in",
+      "sign_up": "Sign up"
     },
     "google": "Use Google",
     "facebook": "Use Facebook",
@@ -15,12 +16,14 @@
       "log_in": "Log in",
       "register": "Register"
     },
-    "email": "Your email...",
-    "password": "Your password...",
+    "email": "Email",
+    "name": "Name",
+    "password": "Password",
     "forgot": "Forgot your password?",
     "account_yet": "Don't have an account yet?",
-    "create": "Create a passwrod",
-    "repeat": "Repeat the password...",
+    "account_already": "Have an account already?",
+    "create": "Passwrod",
+    "repeat": "Repeat the password",
     "must_agree": "We need your agreement to continue",
     "privacy": "Agree to ",
     "receive": "I'd like to receive UpTute's news and promotions.",
@@ -37,7 +40,7 @@
       },
       "password": {
         "require": "Password is required",
-        "not_matching": "Password are not matching",
+        "not_matching": "Passwords are not matching",
         "lenght": {
           "max": "Password must be less than ${n} characters",
           "min": "Min ${n} characters"
@@ -185,7 +188,7 @@
   },
   "find": {
     "header": "Find your tutor",
-    "search": "Type the tutor's name...",
+    "search": "The tutor's name",
     "filters": {
       "subject": {
         "h": "Subject",
@@ -198,7 +201,7 @@
       },
       "location": {
         "h": "Location",
-        "p": "Your location..."
+        "p": "Your location"
       },
       "audience": {
         "h": "Grades you tech"
@@ -292,8 +295,8 @@
     "subheader": "Accept the offer",
     "date": "Date of the lesson",
     "time": "Time of the lesson",
-    "card_name": "Card holder name...",
-    "card_int": ["Card number...", "MM/YY", "CVC"],
+    "card_name": "Card holder name",
+    "card_int": ["Card number", "MM/YY", "CVC"],
     "cost": "Cost",
     "tooltip": "Cost of the lesson is calculated at the end of the session based on its length",
     "confirm": "Confirm the lesson",
@@ -344,9 +347,9 @@
   },
   "settings": {
     "password": "Change your password",
-    "old": "Old password...",
-    "new": "New password...",
-    "repeat": "Repeat the new password...",
+    "old": "Old password",
+    "new": "New password",
+    "repeat": "Repeat the new password",
     "delete": "Delete the acount",
     "save": "Save changes"
   },
@@ -365,13 +368,13 @@
   "calendar": {
     "cancel": "Cancel the lesson",
     "sure": "Are you sure you want to cancel the lesson?",
-    "why": "Comment on why...",
+    "why": "Comment on why",
     "yes": "Yes, cancel it",
     "no": "Nope, go back"
   },
   "feedback": {
     "title": "How did you like the lesson?",
-    "comment": "Your comment...",
+    "comment": "Your comment",
     "button1": "Skip",
     "button2": "Save"
   },
@@ -490,3 +493,4 @@
     "audience": "Audience"
   }
 }
+

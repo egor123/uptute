@@ -1,6 +1,5 @@
 <template>
   <div id="container">
-    <coming-soon />
     <Subheader :title="$l('auth.header.register')" />
 
     <v-card id="card">
@@ -32,7 +31,7 @@
           @click:append="showPassword = !showPassword"
           :label="$l('auth.create')"
           required
-          loading
+          :loading="password.length != 0"
         >
           <template v-slot:progress>
             <v-progress-linear
@@ -60,6 +59,7 @@
           <v-checkbox
             v-model="checkbox"
             :rules="[(v) => !!v || '']"
+            color="red"
             required
           ></v-checkbox>
           <p>
@@ -74,7 +74,10 @@
           </p>
         </div>
         <v-btn
-          class="mr-4 orangeBackground"
+          class="mr-4"
+          rounded
+          outlined
+          color="accent"
           @click="
             if ($refs.form.validate()) {
               signup({ name: name, email: email, password: password }).then(
@@ -98,6 +101,9 @@
       >
         {{ errorMessage }}
       </v-alert>
+      <p class="link" @click="goTo('LogIn')">
+        {{ $l("auth.account_already") }}
+      </p>
     </v-card>
   </div>
 </template>
@@ -105,6 +111,7 @@
 <script>
 import { mapActions } from "vuex";
 import Subheader from "../components/app/Subheader.vue";
+import { goTo } from "@/plugins/GlobalMethods.js";
 
 export default {
   data() {
@@ -176,6 +183,7 @@ export default {
   },
   methods: {
     ...mapActions(["signup"]),
+    goTo,
   },
   components: {
     Subheader,
@@ -183,7 +191,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/scss/mixins.scss";
+
 #container {
   overflow: auto;
 }
@@ -192,11 +202,20 @@ export default {
   margin: calc(106px + 3rem) auto 3rem auto;
   padding: 30px;
   width: min(90%, 400px);
+  @include box-shadow;
+  border-radius: 15px;
+
+  ::v-deep {
+    .v-messages__message {
+      font-size: 12px !important;
+    }
+  }
 }
 
 .checkbox {
   display: flex;
-  margin-bottom: 40px;
+  margin-bottom: 1rem;
+  opacity: 0.5;
 }
 .checkbox p {
   position: absolute;
@@ -205,4 +224,15 @@ export default {
   margin-right: 30px;
   text-align: left;
 }
+
+p.link {
+  color: var(--v-secondary-darken2);
+  font-size: 87.5%;
+  cursor: pointer;
+  &:hover {
+    color: var(--v-secondary-darken3);
+  }
+  margin: 1rem 0 0 0;
+}
 </style>
+

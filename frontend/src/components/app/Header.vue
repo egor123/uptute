@@ -19,12 +19,20 @@
 
       <div ref="rightSide" id="rightSide">
         <div id="buttons" ref="buttons">
-          <Begin
+          <!-- <Begin
+            v-if="!getStatus"
             color="#000"
             textColor="white"
             borderRadius="0 0 15px 15px"
             border="none"
-            v-if="getStatus"
+          /> -->
+
+          <LogIn
+            v-if="!getStatus"
+            color="#000"
+            textColor="white"
+            :ifWithText="!mv"
+            borderRadius="0 0 15px 15px"
           />
           <LessonMenu
             v-if="!getStatus"
@@ -56,7 +64,8 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import LessonMenu from "@/components/header/LessonMenu.vue";
-import Begin from "@/components/header/Begin.vue";
+// import Begin from "@/components/header/Begin.vue";
+import LogIn from "@/components/header/LogIn.vue";
 import LocalesMenu from "@/components/header/LocalesMenu.vue";
 import AccountMenu from "@/components/header/AccountMenu.vue";
 
@@ -72,7 +81,8 @@ export default {
   },
   components: {
     LessonMenu,
-    Begin,
+    // Begin,
+    LogIn,
     LocalesMenu,
     AccountMenu,
 
@@ -190,7 +200,7 @@ $gap: 0.6rem;
   }
 }
 #header {
-  $gap: 1rem !important;
+  // $gap: 1rem !important;
   @include box-shadow();
 
   @include flexbox();
@@ -231,7 +241,7 @@ $gap: 0.6rem;
   #buttons {
     height: 100%;
     @include flexbox();
-    padding: 0 2rem 0 2rem;
+    // padding: 0 2rem;
   }
 
   #nav a {
@@ -264,10 +274,16 @@ $gap: 0.6rem;
       margin: 0 ($circleSize - $imgSize) / 2 !important;
     }
   }
-  #buttons > *,
+
   #rightSide {
     & > * {
       padding: 0 calc(#{$gap} / 2);
+    }
+    min-width: max-content;
+  }
+  #buttons > * {
+    & {
+      padding: 0 calc(#{$gap} * 1.5);
     }
     min-width: max-content;
   }

@@ -1,7 +1,6 @@
 <template>
   <div id="container">
     <Subheader :title="$l('auth.header.log_in')" />
-    <coming-soon />
 
     <v-card id="card">
       <v-form ref="form" v-model="valid" lazy-validation>
@@ -27,7 +26,10 @@
         </v-text-field>
 
         <v-btn
-          class="mr-4 orangeBackground"
+          class="mr-4"
+          rounded
+          outlined
+          color="accent"
           @click="
             if ($refs.form.validate())
               signin({ name: name, password: password }).then(
@@ -50,9 +52,6 @@
         {{ errorMessage }}
       </v-alert>
 
-      <v-btn id="google" @click="logIn()">
-        <v-icon>mdi-google</v-icon>Sign in with Google
-      </v-btn>
       <v-snackbar
         max-width="800"
         color="error"
@@ -62,7 +61,7 @@
         <p class="errorSnackbar ma-0" v-html="$l('auth.allow_cookies')"></p>
       </v-snackbar>
       <p>{{ $l("auth.forgot") }}</p>
-      <p @click="goToRegisterPage()">{{ $l("auth.account_yet") }}</p>
+      <p @click="goTo('Register')">{{ $l("auth.account_yet") }}</p>
     </v-card>
   </div>
 </template>
@@ -71,6 +70,8 @@
 //import { mapActions } from "vuex";
 import Subheader from "@/components/app/Subheader.vue";
 import { GoogleAuthService } from "@/services/index";
+import { goTo } from "@/plugins/GlobalMethods.js";
+
 export default {
   data() {
     return {
@@ -106,6 +107,7 @@ export default {
   },
   //methods: mapActions(["signin"]),
   methods: {
+    goTo,
     logIn() {
       GoogleAuthService.signIn().catch((e) => {
         if (e.error === "idpiframe_initialization_failed") {
@@ -116,9 +118,6 @@ export default {
     logOut() {
       GoogleAuthService.signOut();
     },
-    goToRegisterPage() {
-      this.$router.push({ name: "Register" });
-    },
   },
   components: {
     Subheader,
@@ -127,6 +126,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/scss/mixins.scss";
+
 ::v-deep .v-snack__wrapper {
   border-radius: 15px !important;
 }
@@ -139,6 +140,13 @@ export default {
   padding: 30px;
   width: min(90%, 400px);
   margin: calc(106px + 3rem) auto 3rem auto;
+  border-radius: 15px;
+  @include box-shadow;
+  ::v-deep {
+    .v-messages__message {
+      font-size: 12px !important;
+    }
+  }
 }
 
 #google .v-icon {
@@ -152,11 +160,8 @@ p:not(.errorSnackbar) {
   &:hover {
     color: var(--v-secondary-darken3);
   }
-  &:first-of-type {
-    margin: 2rem 0 1rem 0;
-  }
-  &:last-of-type {
-    margin: 1rem 0 0 0;
-  }
+
+  margin: 1rem 0 0 0;
 }
 </style>
+

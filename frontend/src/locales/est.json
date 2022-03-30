@@ -5,8 +5,9 @@
   },
   "auth": {
     "header": {
-      "log_in": "Logi sisse",
-      "register": "Registreeru"
+      "register": "Registreeru",
+      "sign_in": "Logi sisse",
+      "sign_up": "Loo konto"
     },
     "google": "Sisene Google'iga",
     "facebook": "Sisene Facebook'iga",
@@ -15,12 +16,14 @@
       "log_in": "Logi sisse",
       "register": "Registreeru"
     },
-    "email": "Emaili aadress...",
-    "password": "Salasõna...",
+    "email": "E-post",
+    "name": "Nimi",
+    "password": "Salasõna",
     "forgot": "Unustasid salasõna?",
-    "account_yet": "Pole veel registreerunud?",
-    "create": "Loo salasõna",
-    "repeat": "Korda salasõna...",
+    "account_yet": "Konto veel puudub?",
+    "account_already": "Konto juba olemas?",
+    "create": "Salasõna",
+    "repeat": "Korda salasõna",
     "must_agree": "Jätkamiseks vajame su nõusolekut",
     "privacy": "Nõustun ",
     "receive": "Soovin saada UpTute'i uudiskirju.",
@@ -187,7 +190,7 @@
   },
   "find": {
     "header": "Leia õpetaja ",
-    "search": "Trüki õpetaja nimi...",
+    "search": "Õpetaja nimi",
     "filters": {
       "subject": {
         "h": "Õppeaine",
@@ -200,7 +203,7 @@
       },
       "location": {
         "h": "Asukoht",
-        "p": "Tunni asukoht..."
+        "p": "Tunni asukoht"
       },
       "audience": {
         "h": "Klass"
@@ -295,8 +298,8 @@
     "subheader": "Võta pakkumine vastu",
     "date": "Tunni kuupäev",
     "time": "Tunni kellaaeg",
-    "card_name": "Kaardi omaniku nimi...",
-    "card_int": ["Kaardi number...", "KK/AA", "CVC"],
+    "card_name": "Kaardi omaniku nimi",
+    "card_int": ["Kaardi number", "KK/AA", "CVC"],
     "cost": "Hind",
     "tooltip": "Eratunni hind arvutatakse sessiooni lõpus arvestades selle pikkust",
     "confirm": "Kinnita tund",
@@ -481,3 +484,4 @@
     "audience": "Sihtrühm"
   }
 }
+
