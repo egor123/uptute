@@ -1,9 +1,8 @@
 package com.uptute.backend.enums;
 
 public enum ERole {
-    USER,
-    STUDENT,
-    TUTOR,
-    MODERATOR,
-    ADMIN
+    ROLE_STUDENT,
+    ROLE_TUTOR,
+    ROLE_MODERATOR,
+    ROLE_ADMIN
 }

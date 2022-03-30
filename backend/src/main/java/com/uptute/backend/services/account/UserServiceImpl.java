@@ -2,27 +2,28 @@ package com.uptute.backend.services.account;
 
 import java.util.Optional;
 
-import com.uptute.backend.entities.Account;
+import com.uptute.backend.entities.User;
 import com.uptute.backend.exceptions.WrongUUIDException;
 import com.uptute.backend.payloads.account.GetUserDetailsResponse;
 import com.uptute.backend.payloads.account.UpdateUserDetailsRequest;
-import com.uptute.backend.repositories.AccountRepository;
+import com.uptute.backend.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccountServiceImpl implements AccountService {
+public class UserServiceImpl implements UserService {
     @Autowired
-    private AccountRepository repository;
+    private UserRepository repository;
 
     @Override
-    public Optional<Account> getAccount(String provider, String id) {
-        return repository.findByProviderAndId(provider, id);
+    public Optional<User> getAccount(String provider, String id) {
+        // return repository.findByProviderAndId(provider, id);
+        return null;
     }
 
     @Override
-    public void registerNewAccaunt(Account accaunt) {
+    public void registerNewAccaunt(User accaunt) {
         repository.save(accaunt);
     }
 
@@ -32,19 +33,19 @@ public class AccountServiceImpl implements AccountService {
         var usrDet = account.getUserDetails();
         usrDet.setFirstName((details.firstName == "") ? usrDet.getFirstName() : details.getFirstName());
         usrDet.setFirstName((details.lastName == "") ? usrDet.getLastName() : details.getLastName());
-        usrDet.setFirstName((details.email == "") ? usrDet.getEmail() : details.getEmail());
         usrDet.setFirstName((details.pictureURL == "") ? usrDet.getPictureURL() : details.getPictureURL());
         repository.save(account);
     }
 
     @Override
     public GetUserDetailsResponse getUserDetails(String UUID) throws WrongUUIDException {
-        var det = getAccount(UUID).getUserDetails();
+        var user = getAccount(UUID);
+        var det = user.getUserDetails();
         return GetUserDetailsResponse.builder().firstName(det.getFirstName()).lastName(det.getLastName())
-                .email(det.getEmail()).pictureURL(det.getPictureURL()).build();
+                .email(user.getEmail()).pictureURL(det.getPictureURL()).build();
     }
 
-    private Account getAccount(String UUID) throws WrongUUIDException {
+    private User getAccount(String UUID) throws WrongUUIDException {
         var optional = repository.findByUUID(UUID);
         if (optional.isPresent())
             return optional.get();
