@@ -31,8 +31,6 @@ ResponseBody:
 
 <br>
 
-# Authenticate
-
 ## **SIGNIN**
 
 Type: `Post`  
