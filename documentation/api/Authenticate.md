@@ -2,15 +2,48 @@
 
 # Authenticate
 
-## **AUTHENTICATE**
+## **SIGNUP**
 
 Type: `Post`  
-Path: `/auth/{provider}/signin`  
-Provider: `facebook, google`
+Path: `/auth/signup`  
 RequestBody:
 
 ```
-{ "accessToken": String }
+{ 
+    "email": String,
+    "password": String,
+    "firstName": String,
+    "lastName": String
+}
+```
+
+ResponseBody:
+
+```
+{
+    "jwt": String,
+    "tokenType": "Bearer",
+    "refrershToken": String,
+    "UUID": String,
+    "roles": Array
+}
+```
+
+<br>
+
+# Authenticate
+
+## **SIGNIN**
+
+Type: `Post`  
+Path: `/auth/signin`  
+RequestBody:
+
+```
+{ 
+    "email": String,
+    "password": String,
+}
 ```
 
 ResponseBody:
