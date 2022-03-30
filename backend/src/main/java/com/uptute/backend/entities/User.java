@@ -4,14 +4,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 import com.uptute.backend.converters.UserDetailsConverter;
 import com.uptute.backend.converters.TutorDetailsConverter;
-import com.uptute.backend.converters.UserDetailsConvrter;
+import com.uptute.backend.converters.StudentDetailsConverter;
 import com.uptute.backend.domain.UserDetails;
 import com.uptute.backend.domain.TutorDetails;
 import com.uptute.backend.domain.StudentDetails;
-import com.uptute.backend.enums.EProvider;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -21,27 +22,28 @@ import lombok.*;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "accaunts")
-public class Account {
+@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
+public class User {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String UUID;
     @NonNull
-    @Enumerated(EnumType.ORDINAL)
-    private EProvider provider;
+    @Size(max = 50)
+    @Email
+    private String email;
     @NonNull
-    private String id;
+    @Size(max = 120)
+    private String password;
+    // --------------------------------------------------------
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "accaunt_roles", joinColumns = @JoinColumn(name = "accaunt_uuid"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_uuid"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-    @NonNull
+    // --------------------------------------------------------
     @Convert(converter = UserDetailsConverter.class)
     private UserDetails userDetails;
-    @NonNull
-    @Convert(converter = UserDetailsConvrter.class)
+    @Convert(converter = StudentDetailsConverter.class)
     private StudentDetails studentDetails;
-    @NonNull
     @Convert(converter = TutorDetailsConverter.class)
     private TutorDetails tutorDetails;
 }

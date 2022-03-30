@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.uptute.backend.entities.RefreshToken;
 import com.uptute.backend.exceptions.TokenRefreshException;
-import com.uptute.backend.repositories.AccountRepository;
+import com.uptute.backend.repositories.UserRepository;
 import com.uptute.backend.repositories.RefreshTokenRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     private RefreshTokenRepository refreshTokenRepository;
 
     @Autowired
-    private AccountRepository accauntRepository;
+    private UserRepository accauntRepository;
 
     @Override
     public String createRefreshToken(String uuid) {

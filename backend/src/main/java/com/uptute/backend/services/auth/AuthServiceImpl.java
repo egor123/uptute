@@ -2,21 +2,35 @@ package com.uptute.backend.services.auth;
 
 import java.util.stream.Collectors;
 
-import com.uptute.backend.entities.Role;
-import com.uptute.backend.enums.EProvider;
+import com.uptute.backend.domain.UserDetails;
+import com.uptute.backend.domain.UserDetailsImpl;
+import com.uptute.backend.entities.User;
 import com.uptute.backend.enums.ERole;
-import com.uptute.backend.exceptions.AuthProviderException;
-import com.uptute.backend.exceptions.AccessTokenException;
+import com.uptute.backend.exceptions.EmailIsAlreadyTakenException;
 import com.uptute.backend.exceptions.TokenRefreshException;
 import com.uptute.backend.payloads.auth.JwtResponse;
+import com.uptute.backend.payloads.auth.SigninRequest;
+import com.uptute.backend.payloads.auth.SignupRequest;
 import com.uptute.backend.payloads.auth.TokenRefreshResponse;
+import com.uptute.backend.repositories.RoleRepository;
+import com.uptute.backend.repositories.UserRepository;
 import com.uptute.backend.security.jwt.JwtUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService {
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -25,37 +39,50 @@ public class AuthServiceImpl implements AuthService {
     private RefreshTokenService refreshTokenService;
 
     @Autowired
-    private GoogleClientImpl googleClient;
+    private UserRepository userRepository;
 
     @Autowired
-    private FacebookClientImpl facebookClient;
+    private RoleRepository roleRepository;
 
     @Override
-    public JwtResponse logIn(String accessToken, String provider) throws AuthProviderException, AccessTokenException {
-        var accaunt = getAuthClient(provider).logIn(accessToken);
-        var token = jwtUtils.generateToken(accaunt);
-        var refrehToken = refreshTokenService.createRefreshToken(accaunt.getUUID());
-        var roles = accaunt.getRoles().stream().map(Role::getName).map(ERole::toString).collect(Collectors.toList());
-        return new JwtResponse(token, refrehToken, accaunt.getUUID(), roles);
+    public JwtResponse signup(SignupRequest request) throws EmailIsAlreadyTakenException {
+        var email = request.getEmail();
+        var password = request.getPassword();
+        if (userRepository.existsByEmail(email))
+            throw new EmailIsAlreadyTakenException(email);
+        var user = new User(email, encoder.encode(password));
+        user.setUserDetails(
+                UserDetails.builder().firstName(request.getFirstName()).lastName(request.getLastName()).build());
+        user.getRoles().add(roleRepository.findByName(ERole.ROLE_STUDENT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found")));
+        userRepository.save(user);
+        return signin(new SigninRequest(email, password));
     }
 
-    private AuthClient getAuthClient(String provider) throws AuthProviderException {
-        switch (EProvider.valueOf(provider.toUpperCase())) {
-            case GOOGLE:
-                return googleClient;
-            case FACEBOOK:
-                return facebookClient;
-            default:
-                throw new AuthProviderException(provider);
-        }
+    @Override
+    public JwtResponse signin(SigninRequest request) {
+        var UUID = userRepository.findByEmail(request.getEmail()).get().getUUID();
+        var authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(UUID, request.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        var jwt = jwtUtils.generateJwtToken(authentication);
+        var userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        var roles = userDetails.getAuthorities().stream()
+                .map(c -> c.getAuthority())
+                .collect(Collectors.toList());
+        // var refreshToken = refreshTokenService.createRefreshToken();
+        var refreshToken = ""; // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return new JwtResponse(jwt, refreshToken, userDetails.getUUID(), roles);
+        // TODO throw exception!!!!!!?????
     }
 
     @Override
     public TokenRefreshResponse refreshToken(String refreshToken) throws TokenRefreshException {
-        var token = refreshTokenService.getByToken(refreshToken);
-        refreshTokenService.verifyExpiration(token);
-        var accaunt = token.getAccaunt();
-        var jwt = jwtUtils.generateToken(accaunt);
-        return new TokenRefreshResponse(jwt, refreshToken);
+        // var token = refreshTokenService.getByToken(refreshToken);
+        // refreshTokenService.verifyExpiration(token);
+        // var user = token.getAccaunt();
+        // var jwt = jwtUtils.generateJwtToken(user);
+        // return new TokenRefreshResponse(jwt, refreshToken);
+        return null;
     }
 }
