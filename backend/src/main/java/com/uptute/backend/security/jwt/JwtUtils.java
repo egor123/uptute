@@ -27,10 +27,11 @@ public class JwtUtils {
     public String generateJwtToken(Authentication authentication) {
         var userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         var now = new Date();
+        var exprirationTime = new Date(now.getTime() + jwtExpirationMs);
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + jwtExpirationMs))
+                .setExpiration(exprirationTime)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }

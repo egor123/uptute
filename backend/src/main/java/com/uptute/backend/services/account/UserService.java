@@ -1,18 +1,25 @@
 package com.uptute.backend.services.account;
 
-import java.util.Optional;
+import com.uptute.backend.payloads.account.UserDetailsResponse;
 
-import com.uptute.backend.entities.User;
-import com.uptute.backend.exceptions.WrongUUIDException;
-import com.uptute.backend.payloads.account.GetUserDetailsResponse;
+import java.util.NoSuchElementException;
+
+import com.uptute.backend.exceptions.UserAlreadyHasRoleException;
+import com.uptute.backend.exceptions.UserHasNotRoleException;
+import com.uptute.backend.payloads.account.StudentDetailsResponse;
+import com.uptute.backend.payloads.account.TutorDetailsResponse;
 import com.uptute.backend.payloads.account.UpdateUserDetailsRequest;
 
+import org.springframework.security.core.Authentication;
+
 public interface UserService {
-    Optional<User> getAccount(String provider, String id);
+    UserDetailsResponse updateUserDetails(Authentication auth, UpdateUserDetailsRequest details);
 
-    void registerNewAccaunt(User accaunt);
+    UserDetailsResponse getUserDetails(Authentication auth);
 
-    void updateUserDetails(String UUID, UpdateUserDetailsRequest details) throws WrongUUIDException;
+    Boolean upgradeToTutor(Authentication auth) throws UserAlreadyHasRoleException;
 
-    GetUserDetailsResponse getUserDetails(String UUID) throws WrongUUIDException;
+    StudentDetailsResponse getStudentDetails(String UUID) throws NoSuchElementException, UserHasNotRoleException;
+
+    TutorDetailsResponse getTutorDetails(String UUID) throws NoSuchElementException, UserHasNotRoleException;
 }
