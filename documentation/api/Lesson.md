@@ -6,7 +6,7 @@
 
 Type: `Post`  
 Role: `Student`  
-Path: `/lessons/create/{userUUID}`  
+Path: `/lessons/create`  
 RequestBody:
 
 ```
@@ -23,8 +23,8 @@ ResponseBody: CreateLogResponse
 ## **CANCEL LOG**
 
 Type: `Post`  
-Role: `Student, Tutor` //depends on ctx  
-Path: `/lessons/logs/{logId}/close/{userUUID}`  
+Role: `Student, Tutor, Moderator, Admin` //depends on ctx  
+Path: `/lessons/logs/{logId}/close`  
 
 ResponseBody: CreateLogResponse
 
@@ -34,7 +34,7 @@ ResponseBody: CreateLogResponse
 
 Type: `Post`  
 Role: `Tutor`
-Path: `/lessons/logs/{logId}/offer/{userUUID}`  
+Path: `/lessons/logs/{logId}/offer`  
 
 ResponseBody: CreateLogResponse
 
@@ -44,7 +44,7 @@ ResponseBody: CreateLogResponse
 
 Type: `Post`  
 Role: `Student`
-Path: `/lessons/logs/{logId}/accept/{userUUID}`  
+Path: `/lessons/logs/{logId}/accept`  
 
 ResponseBody: CreateLogResponse
 
@@ -54,7 +54,7 @@ ResponseBody: CreateLogResponse
 
 Type: `Post`  
 Role: `Tutor`
-Path: `/lessons/logs/{logId}/init/{userUUID}`  
+Path: `/lessons/logs/{logId}/init`  
 
 RequestBody:
 
@@ -72,7 +72,7 @@ ResponseBody: CreateLogResponse
 
 Type: `Get`  
 Role: `Student`
-Path: `/lessons/logs/{logId}/offer/{userUUID}`  
+Path: `/lessons/logs/{logId}/offer`  
 
 ResponseBody: OserveLogResponse
 
@@ -82,7 +82,7 @@ ResponseBody: OserveLogResponse
 
 Type: `Get`  
 Role: `Tutor`
-Path: `/lessons/logs/{logId}/accepted/{userUUID}`  
+Path: `/lessons/logs/{logId}/accepted`  
 
 ResponseBody: OserveLogResponse
 
@@ -92,7 +92,7 @@ ResponseBody: OserveLogResponse
 
 Type: `Get`  
 Role: `Tutor`
-Path: `/lessons/open/{userUUID}`  
+Path: `/lessons/open`  
 
 ResponseBody: 
 
@@ -114,11 +114,11 @@ Lesson:
 
 <br>
 
-## **GET OPEN LESSONS**
+## **GET LESSON LOGS**
 
 Type: `Get`  
-Role: `Moderator`
-Path: `/lessons/{lessonId}/{userUUID}`  
+Role: `Moderator, Admin `
+Path: `/lessons/{lessonId}`  
 
 Lesson:
 
