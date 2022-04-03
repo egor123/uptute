@@ -1,6 +1,6 @@
 ### [Back](./Main.md)
 
-# Authenticate
+# Authentication
 
 ## **SIGNUP**
 
