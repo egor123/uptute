@@ -1,6 +1,6 @@
 ### [Back](./Main.md)
 
-# ULTIMATE Lesson
+# Lesson
 
 ## **CREATE LESSON**
 
