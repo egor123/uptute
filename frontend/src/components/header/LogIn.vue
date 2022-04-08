@@ -7,7 +7,7 @@
     :padding="padding"
   >
     <template v-slot:title>
-      <v-icon class="icon">
+      <v-icon v-if="ifWithIcon" class="icon">
         mdi-account-plus-outline
       </v-icon>
       <span v-if="ifWithText">{{ $l("auth.header.register") }}</span>
@@ -34,6 +34,10 @@ import { goTo } from "@/plugins/GlobalMethods.js";
 export default {
   props: {
     ifWithText: {
+      type: Boolean,
+      default: true,
+    },
+    ifWithIcon: {
       type: Boolean,
       default: true,
     },

@@ -9,13 +9,13 @@
     <Dialog>
       <template v-slot:object>
         <v-btn
-          @click="offered ? cancelOffer() : sendOffer()"
+          @click="isOffered ? cancelOffer() : sendOffer()"
           rounded
           outlined
           color="accent"
         >
           {{
-            offered
+            isOffered
               ? $l("choose_a.student.dialog.cancel")
               : $l("choose_a.student.dialog.offer")
           }}
@@ -40,7 +40,6 @@ import PageViewer from "@/components/global/PageViewer.vue";
 export default {
   data() {
     return {
-      // state: "notOffered",
       imgs: [
         {
           name: "physics1.jpg",
@@ -61,14 +60,9 @@ export default {
     };
   },
   computed: {
-    offered: function() {
+    isOffered: function() {
       return this.$store.state.tutorLessonAPI.offeredLessons.length > 0;
     },
-  },
-  mounted() {
-    setInterval(() => {
-      console.log(this.offered);
-    }, 1000);
   },
   props: ["student"],
   components: {
@@ -87,7 +81,6 @@ export default {
       });
     },
     cancelOffer() {
-      console.log();
       this.$store.dispatch("tutorLessonAPI/cancelOffer", {
         offerLogId: this.student.offerLogId,
       });

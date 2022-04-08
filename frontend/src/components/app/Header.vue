@@ -20,22 +20,21 @@
       <div ref="rightSide" id="rightSide">
         <div id="buttons" ref="buttons">
           <!-- <Begin
-            v-if="!this.$store.getters['auth/getStatus']"
+            v-if="roles.length == 0"
             color="#000"
             textColor="white"
             borderRadius="0 0 15px 15px"
             border="none"
           /> -->
-
           <LogIn
-            v-if="!this.$store.getters['auth/getStatus']"
+            v-if="roles.length == 0"
             color="#000"
             textColor="white"
             :ifWithText="!mv"
             borderRadius="0 0 15px 15px"
           />
           <LessonMenu
-            v-if="!this.$store.getters['auth/getStatus']"
+            v-if="roles.length > 0"
             :ifWithText="!mv"
             borderRadius="0 0 15px 15px"
           />
@@ -101,6 +100,9 @@ export default {
     },
     navIcon() {
       return this.$refs.navIcon;
+    },
+    roles() {
+      return this.$store.state.auth.roles;
     },
   },
   methods: {
