@@ -107,7 +107,7 @@ public class LessonController {
     }
 
     @GetMapping("/logs/{logId}/init")
-    @PreAuthorize("hasRole('STUDENT')")
+    @PreAuthorize("hasAnyRole('STUDENT','TUTOR')")
     public ResponseEntity<?> checkForInit(@PathVariable Long logId, Authentication auth) {
         try {
             return ResponseEntity.ok(lessonService.observeLog(logId, ELogType.INIT, auth));
