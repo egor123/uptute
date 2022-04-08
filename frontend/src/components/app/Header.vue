@@ -67,7 +67,6 @@ import LessonMenu from "@/components/header/LessonMenu.vue";
 import LogIn from "@/components/header/LogIn.vue";
 import LocalesMenu from "@/components/header/LocalesMenu.vue";
 import AccountMenu from "@/components/header/AccountMenu.vue";
-
 import Notifications from "@/components/notifications/Notifications.vue";
 
 export default {
@@ -101,10 +100,11 @@ export default {
     navIcon() {
       return this.$refs.navIcon;
     },
-    roles() {
-      return this.$store.state.auth.roles;
+    roles: function() {
+      return this.$store.state.auth.user?.roles || [];
     },
   },
+
   methods: {
     ...mapActions(["setMobileView", "setNavBar"]),
     goTo(pageName) {
@@ -153,7 +153,6 @@ export default {
         wrapper.classList.toggle("hide", hidden);
       };
     },
-
     subHeader() {
       const subHeader = this.$refs.subHeader;
 

@@ -190,8 +190,8 @@ export default {
     };
   },
   computed: {
-    roles() {
-      return this.$store.state.auth.roles;
+    roles: function() {
+      return this.$store.state.auth.user?.roles || [];
     },
   },
   mounted() {

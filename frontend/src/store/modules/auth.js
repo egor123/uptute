@@ -4,8 +4,9 @@ import auth from "../../services/auth.service";
 export default {
   namespaced: true,
   state: {
-    roles: [],
+    user: null,
   },
+
   actions: {
     async signup(ctx, form) {
       var response = await auth.signup(form);
@@ -20,7 +21,6 @@ export default {
       const res = await auth.signin(form);
       console.log(res.data);
       if (res.statusText == "OK") {
-        ctx.commit("mutate", { name: "roles", val: res.data.roles });
         router.push({ name: "PrimarySettingUp" });
         return true;
       } else {
@@ -43,13 +43,22 @@ export default {
     //   ctx.commit("updateStatus", val);
     //   return val;
     // },
+    tryAddRole(ctx, { role }) {
+      let user = JSON.parse(sessionStorage.getItem("user"));
+      if (!user.roles.includes(role)) {
+        sessionStorage.setItem("user", JSON.stringify(user));
+        ctx.dispatch("updateUser");
+      }
+    },
+    updateUser(ctx) {
+      console.log("try update");
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      ctx.commit("mutate", { name: "user", val: user });
+    },
   },
   mutations: {
     mutate(state, { name, val }) {
       state[name] = val;
-    },
-    tryAddRole(state, { role }) {
-      if (!state.roles.includes(role)) state.roles.push(role);
     },
   },
 };

@@ -12,18 +12,18 @@ export async function apiRequest({ method, urlEnd, data = {} }) {
 }
 
 function getHeaders() {
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  // jwt: getJwt(sessionStorage.getItem("user"), user),
   let headers = {
-    // refreshToken: localStorage.getItem("refreshToken"),
-    // jwt: getJwt(sessionStorage.getItem("refreshToken")),
-    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+    Authorization: `Bearer ${user.jwt}`,
     "Content-Type": "application/json",
   };
 
   return headers;
 }
 
-// async function getJwt(refreshToken) {
-//   let jwt = sessionStorage.getItem("jwt");
+// async function getJwt(refreshToken, user) {
+//   let jwt = user.jwt;
 //   if ((jwt == undefined || isJwtExpired(jwt)) && refreshToken != undefined) {
 //     const res = await apiRequest({
 //       method: "post",

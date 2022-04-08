@@ -7,7 +7,6 @@ export default {
     return {
       state: "idle",
       info: {},
-      userUUID: localStorage.getItem("uuid"),
       lessonId: "",
       logId: "",
       tutors: [],

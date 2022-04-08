@@ -7,7 +7,6 @@ export default {
   state() {
     return {
       state: "idle",
-      userUUID: localStorage.getItem("uuid"),
       lessons: [],
       offeredLessons: [],
       zoomLink:
