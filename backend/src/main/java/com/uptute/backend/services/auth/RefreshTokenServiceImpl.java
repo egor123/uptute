@@ -37,17 +37,12 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Override
     public RefreshToken getByToken(String refreshToken) throws TokenRefreshException {
-        return refreshTokenRepository.findByToken(refreshToken)
+        var token = refreshTokenRepository.findByToken(refreshToken)
                 .orElseThrow(() -> new TokenRefreshException(refreshToken, "Refresh token is not in database!"));
-    }
-
-    @Override
-    public RefreshToken verifyExpiration(RefreshToken token) throws TokenRefreshException {
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
             refreshTokenRepository.delete(token);
             throw new TokenRefreshException(token.getToken(), "Refresh token was expired.");
         }
         return token;
     }
-
 }

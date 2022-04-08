@@ -1,5 +1,6 @@
 package com.uptute.backend.services.auth;
 
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import com.uptute.backend.domain.UserDetails;
@@ -19,6 +20,7 @@ import com.uptute.backend.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,8 +37,8 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     JwtUtils jwtUtils;
 
-    // @Autowired
-    // private RefreshTokenService refreshTokenService;
+    @Autowired
+    private RefreshTokenService refreshTokenService;
 
     @Autowired
     private UserRepository userRepository;
@@ -56,33 +58,33 @@ public class AuthServiceImpl implements AuthService {
         user.getRoles().add(roleRepository.findByName(ERole.ROLE_STUDENT)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found")));
         userRepository.save(user);
-        return signin(new SigninRequest(email, password));
+        try {
+            return signin(new SigninRequest(email, password));
+        } catch (NoSuchElementException | AuthenticationException e) {
+            return null;
+        }
     }
 
     @Override
-    public JwtResponse signin(SigninRequest request) {
-        var UUID = userRepository.findByEmail(request.getEmail()).get().getUUID();
+    public JwtResponse signin(SigninRequest request) throws NoSuchElementException, AuthenticationException {
+        var uuid = userRepository.findByEmail(request.getEmail()).get().getUUID();
         var authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(UUID, request.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(uuid, request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        var jwt = jwtUtils.generateJwtToken(authentication);
         var userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        var jwt = jwtUtils.generateJwtToken(userDetails.getUUID());
         var roles = userDetails.getAuthorities().stream()
                 .map(c -> c.getAuthority())
                 .collect(Collectors.toList());
-        // var refreshToken = refreshTokenService.createRefreshToken();
-        var refreshToken = ""; // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        var refreshToken = refreshTokenService.createRefreshToken(uuid);
         return new JwtResponse(jwt, refreshToken, userDetails.getUUID(), roles);
-        // TODO throw exception!!!!!!?????
     }
 
     @Override
     public TokenRefreshResponse refreshToken(String refreshToken) throws TokenRefreshException {
-        // var token = refreshTokenService.getByToken(refreshToken);
-        // refreshTokenService.verifyExpiration(token);
-        // var user = token.getAccaunt();
-        // var jwt = jwtUtils.generateJwtToken(user);
-        // return new TokenRefreshResponse(jwt, refreshToken);
-        return null;
+        var token = refreshTokenService.getByToken(refreshToken);
+        var user = token.getAccaunt();
+        var jwt = jwtUtils.generateJwtToken(user.getUUID());
+        return new TokenRefreshResponse(jwt, refreshToken);
     }
 }
