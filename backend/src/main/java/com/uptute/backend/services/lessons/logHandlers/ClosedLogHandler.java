@@ -17,7 +17,7 @@ public class ClosedLogHandler extends AbstractLogHandler {
     @Override
     protected EPermision[] getReceivingPermisions() { return null; }
     @Override
-    protected Long getExpirationTime() { return null; }
+    protected Long getExpirationTime() { return Long.MAX_VALUE; }
     @Override
     protected void logIsCreated(LessonLog log) { 
         var parentLog = log.getParentLog();
