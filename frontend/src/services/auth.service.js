@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiRequest } from "@/services/api.service.js";
 
 export default {
   async signup(form) {
@@ -8,7 +9,6 @@ export default {
       data: form,
     }).catch((err) => handleErr(err));
   },
-
   async signin(form) {
     const res = await axios({
       method: "post",
@@ -26,6 +26,18 @@ export default {
         localStorage.setItem("uuid", res.data.uuid);
       }
     }
+  },
+  async upgradeToTutor() {
+    return await apiRequest({
+      method: "post",
+      urlEnd: "/account/me/tutor",
+    });
+  },
+  async getUserDetails() {
+    return await apiRequest({
+      method: "get",
+      urlEnd: "/account/me",
+    });
   },
   logout() {
     localStorage.removeItem("user");

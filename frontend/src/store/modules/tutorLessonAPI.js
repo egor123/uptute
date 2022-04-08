@@ -80,7 +80,7 @@ async function loop(context) {
 async function getLessons(context) {
   return await apiRequest({
     method: "get",
-    urlEnd: "/lessons/open/" + context.state.userUUID,
+    urlEnd: "/lessons/open",
   })
     .then((r) =>
       !exitIfUndefined(context, { data: r, alertName: "lessons" }) ? null : r
@@ -96,7 +96,7 @@ async function getLessons(context) {
 async function sendOffer(context, { logId }) {
   return await apiRequest({
     method: "post",
-    urlEnd: "/lessons/logs/" + logId + "/offer/" + context.state.userUUID,
+    urlEnd: "/lessons/logs/" + logId + "/offer",
   });
 }
 
@@ -122,11 +122,7 @@ async function listenForAccepted(context) {
     async function request(context, { ids }) {
       return await apiRequest({
         method: "get",
-        urlEnd:
-          "/lessons/logs/" +
-          ids.offerLogId +
-          "/accepted/" +
-          context.state.userUUID,
+        urlEnd: "/lessons/logs/" + ids.offerLogId + "/accepted",
       }).then((r) => {
         if (r != undefined) return r;
         context.commit("deleteOfferedLesson", { offerLogId: ids.offerLogId });
@@ -150,7 +146,7 @@ async function listenForAccepted(context) {
   async function initConference({ state }, { acceptedLogId }) {
     return await apiRequest({
       method: "post",
-      urlEnd: "/lessons/logs/" + acceptedLogId + "/init/" + state.userUUID,
+      urlEnd: "/lessons/logs/" + acceptedLogId + "/init",
       data: {
         zoomLink: state.zoomLink,
       },
@@ -175,10 +171,10 @@ async function listenForAccepted(context) {
   }
 }
 
-async function cancelOffer({ state }, { offerLogId }) {
+async function cancelOffer(context, { offerLogId }) {
   return await apiRequest({
     method: "post",
-    urlEnd: "/lessons/logs/" + offerLogId + "/close/" + state.userUUID,
+    urlEnd: "/lessons/logs/" + offerLogId + "/close",
   });
 }
 

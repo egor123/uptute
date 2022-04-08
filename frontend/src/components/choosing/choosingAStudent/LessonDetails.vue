@@ -9,13 +9,13 @@
     <Dialog>
       <template v-slot:object>
         <v-btn
-          @click="state === 'offered' ? cancelOffer() : sendOffer()"
+          @click="offered ? cancelOffer() : sendOffer()"
           rounded
           outlined
           color="accent"
         >
           {{
-            state === "offered"
+            offered
               ? $l("choose_a.student.dialog.cancel")
               : $l("choose_a.student.dialog.offer")
           }}
@@ -40,7 +40,7 @@ import PageViewer from "@/components/global/PageViewer.vue";
 export default {
   data() {
     return {
-      state: "notOffered",
+      // state: "notOffered",
       imgs: [
         {
           name: "physics1.jpg",
@@ -60,6 +60,16 @@ export default {
       ],
     };
   },
+  computed: {
+    offered: function() {
+      return this.$store.state.tutorLessonAPI.offeredLessons.length > 0;
+    },
+  },
+  mounted() {
+    setInterval(() => {
+      console.log(this.offered);
+    }, 1000);
+  },
   props: ["student"],
   components: {
     Dialog,
@@ -72,20 +82,15 @@ export default {
         logId: this.student.logId,
       };
 
-      const offerLogId = await this.$store.dispatch(
-        "tutorLessonAPI/sendOffer",
-        {
-          lesson: lessonIdAndLogId,
-        }
-      );
-      this.offerLogId = offerLogId;
-      this.state = "offered";
+      this.$store.dispatch("tutorLessonAPI/sendOffer", {
+        lesson: lessonIdAndLogId,
+      });
     },
     cancelOffer() {
+      console.log();
       this.$store.dispatch("tutorLessonAPI/cancelOffer", {
-        offerLogId: this.offerLogId,
+        offerLogId: this.student.offerLogId,
       });
-      this.state = "canceled";
     },
   },
 };

@@ -1,16 +1,11 @@
 <template>
-<div>
-  <!-- <AccountBase :title="$l('set_up.subheader')"> -->
-    <Subheader :title="$l('set_up.subheader')"/>
+  <div>
+    <!-- <AccountBase :title="$l('set_up.subheader')"> -->
+    <Subheader :title="$l('set_up.subheader')" />
     <SecondarySettings />
-    <v-btn
-      @click="routerPush('ChooseAStudent')"
-      id="done"
-      rounded
-      outlined
-      color="accent"
-      >{{ $l("set_up.button") }}</v-btn
-    >
+    <v-btn @click="done()" id="done" rounded outlined color="accent">{{
+      $l("set_up.button")
+    }}</v-btn>
   </div>
 </template>
 
@@ -24,11 +19,20 @@ export default {
   },
   components: {
     SecondarySettings,
-    Subheader
+    Subheader,
   },
   methods: {
     routerPush(to) {
       this.$router.push({ name: to });
+    },
+    async done() {
+      const bool = await this.$store
+        .dispatch("auth/upgradeToTutor")
+        .then((r) => r.data);
+      // const r = await this.$store.dispatch("auth/getUserDetails");
+      if (bool) this.$store.commit("auth/tryAddRole", { role: "ROLE_TUTOR" });
+
+      this.routerPush("ChooseAStudent");
     },
   },
 };
@@ -44,3 +48,4 @@ export default {
   margin-top: 3rem;
 }
 </style>
+
