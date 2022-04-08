@@ -1,5 +1,6 @@
 import router from "@/router";
 import auth from "../../services/auth.service";
+import store from "@/store/index.js";
 
 export default {
   namespaced: true,
@@ -11,21 +12,28 @@ export default {
     async signup(ctx, form) {
       var response = await auth.signup(form);
       if (response.statusText == "OK") {
-        router.push({ name: "LogIn" });
-      } else {
-        alert(response.response.data); //Change to something from locales
-      }
+        const r = await ctx.dispatch("signin", {
+          form,
+          routeName: "PrimarySettingUp",
+        });
+        console.log(r);
+        if (r.statusText != "OK") router.push({ name: "LogIn" });
+      } else alert(response.response.data); //Change to something from locales
+
       return response;
     },
-    async signin(ctx, form) {
+    async signin(ctx, { form, routeName = null }) {
       const res = await auth.signin(form);
-      console.log(res.data);
-      if (res.statusText == "OK") {
-        router.push({ name: "PrimarySettingUp" });
-        return true;
-      } else {
-        alert("Wrong username or password"); //Change to something from locales
-        return false;
+      if (res.statusText == "OK") routerPush(routeName);
+      else alert("Wrong username or password"); //Change to something from locales
+      return res;
+
+      function routerPush(routeName) {
+        const roles = store?.state?.auth?.user?.roles || [];
+        if (routeName) router.push({ name: routeName });
+        else if (roles.includes("ROLE_TUTOR"))
+          router.push({ name: "ChooseAStudent" });
+        else router.push({ name: "FindATutor" });
       }
     },
     async upgradeToTutor() {
@@ -43,15 +51,18 @@ export default {
     //   ctx.commit("updateStatus", val);
     //   return val;
     // },
-    tryAddRole(ctx, { role }) {
+    async tryAddRole(ctx, { role }) {
       let user = JSON.parse(sessionStorage.getItem("user"));
       if (!user.roles.includes(role)) {
+        user.roles.push(role);
         sessionStorage.setItem("user", JSON.stringify(user));
-        ctx.dispatch("updateUser");
+        const r = await ctx.dispatch("updateUser");
+        console.log(ctx.state.user.roles);
+        return r;
       }
+      return false;
     },
     updateUser(ctx) {
-      console.log("try update");
       const user = JSON.parse(sessionStorage.getItem("user"));
       ctx.commit("mutate", { name: "user", val: user });
     },

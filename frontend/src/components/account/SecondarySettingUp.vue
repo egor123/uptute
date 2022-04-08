@@ -31,7 +31,8 @@ export default {
         .dispatch("auth/upgradeToTutor")
         .then((r) => r.data);
       // const r = await this.$store.dispatch("auth/getUserDetails");
-      if (bool) this.$store.dispatch("auth/tryAddRole", { role: "ROLE_TUTOR" });
+      if (bool)
+        await this.$store.dispatch("auth/tryAddRole", { role: "ROLE_TUTOR" });
 
       this.routerPush("ChooseAStudent");
     },

@@ -123,8 +123,10 @@ export default {
       if (this.$refs.form.validate())
         this.$store
           .dispatch("auth/signin", {
-            email: this.email,
-            password: this.password,
+            form: {
+              email: this.email,
+              password: this.password,
+            },
           })
           .then((val) => (this.errorMessage = val));
     },

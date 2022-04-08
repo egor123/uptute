@@ -43,7 +43,6 @@ export function createRoutes(prefix = "") {
 
 function configurePermissions(permissions) {
   return (to, from, next) => {
-    console.log(store?.state?.auth?.user?.roles);
     if (
       isPermisionsValid(
         store?.state?.auth?.user?.roles,
