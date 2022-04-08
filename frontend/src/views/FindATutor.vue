@@ -129,7 +129,7 @@ import PageViewer from "@/components/global/PageViewer.vue";
 
 export default {
   permisions: {
-    roles: "USER",
+    roles: ["ROLE_STUDENT"],
     redirect: "LogIn",
   },
   components: {

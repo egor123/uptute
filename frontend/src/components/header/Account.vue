@@ -10,7 +10,7 @@
       <v-icon v-if="ifWithIcon" class="icon">
         mdi-account-plus-outline
       </v-icon>
-      <span v-if="ifWithText">{{ $l("auth.header.register") }}</span>
+      <span v-if="ifWithText">{{ $l("auth.header.account") }}</span>
     </template>
     <template v-slot:content>
       <v-list-item>

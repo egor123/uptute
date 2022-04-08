@@ -30,7 +30,7 @@
           :border="menu.border"
           :padding="menu.padding"
         /> -->
-        <LogIn
+        <Account
           v-if="roles.length == 0"
           :ifWithIcon="false"
           :color="menu.color"
@@ -155,7 +155,7 @@
 <script>
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
 // import Begin from "@/components/header/Begin.vue";
-import LogIn from "@/components/header/LogIn.vue";
+import Account from "@/components/header/Account.vue";
 import LessonMenu from "@/components/header/LessonMenu.vue";
 import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
 import HeroCanvas from "@/components/HeroCanvas.vue";
@@ -171,7 +171,7 @@ export default {
     SliderLayout,
     CheckerLayout,
     // Begin,
-    LogIn,
+    Account,
     LessonMenu,
     HeroCanvas,
   },

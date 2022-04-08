@@ -2,9 +2,7 @@
   <div id="container">
     <Subheader :title="$l('acc_pages.settings')" />
     <PrimarySettings />
-    <SecondarySettings />
-    <!-- v-if="this.$store.getter["auth/getStatus"] === 'TUTOR'" -->
-    <!-- bind status!! -->
+    <SecondarySettings v-if="roles.includes('ROLE_TUTOR')" />
     <v-btn id="save" rounded outlined color="accent">
       {{ $l("settings.save") }}</v-btn
     >
@@ -20,12 +18,18 @@ export default {
   name: "Settings",
   path: "/settings",
   permisions: {
-    roles: "ALL",
+    roles: ["ROLE_STUDENT"],
+    redirect: "LogIn",
   },
   components: {
     Subheader,
     PrimarySettings,
     SecondarySettings,
+  },
+  computed: {
+    roles: function() {
+      return this.$store.state.auth.user?.roles || [];
+    },
   },
 };
 </script>

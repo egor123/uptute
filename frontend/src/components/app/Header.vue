@@ -26,7 +26,7 @@
             borderRadius="0 0 15px 15px"
             border="none"
           /> -->
-          <LogIn
+          <Account
             v-if="roles.length == 0"
             color="#000"
             textColor="white"
@@ -40,8 +40,8 @@
           />
         </div>
         <LocalesMenu />
-        <Notifications />
-        <AccountMenu />
+        <Notifications v-if="roles.length > 0" />
+        <AccountMenu v-if="roles.length > 0" />
       </div>
       <!-- </div> -->
     </div>
@@ -64,7 +64,7 @@
 import { mapGetters, mapActions } from "vuex";
 import LessonMenu from "@/components/header/LessonMenu.vue";
 // import Begin from "@/components/header/Begin.vue";
-import LogIn from "@/components/header/LogIn.vue";
+import Account from "@/components/header/Account.vue";
 import LocalesMenu from "@/components/header/LocalesMenu.vue";
 import AccountMenu from "@/components/header/AccountMenu.vue";
 import Notifications from "@/components/notifications/Notifications.vue";
@@ -80,7 +80,7 @@ export default {
   components: {
     LessonMenu,
     // Begin,
-    LogIn,
+    Account,
     LocalesMenu,
     AccountMenu,
 

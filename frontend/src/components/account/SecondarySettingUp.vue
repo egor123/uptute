@@ -15,7 +15,8 @@ import Subheader from "@/components/app/Subheader.vue";
 
 export default {
   permisions: {
-    roles: "ALL",
+    roles: ["ROLE_STUDENT"],
+    redirect: "LogIn",
   },
   components: {
     SecondarySettings,
