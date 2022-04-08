@@ -88,6 +88,16 @@ ResponseBody: OserveLogResponse
 
 <br>
 
+## **CHECK FOR INIT**
+
+Type: `Get`  
+Role: `Student, Tutor`
+Path: `/lessons/logs/{logId}/init`  
+
+ResponseBody: OserveLogResponse
+
+<br>
+
 ## **GET OPEN LESSONS**
 
 Type: `Get`  
