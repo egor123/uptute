@@ -112,7 +112,7 @@ export default {
     // }
   },
   beforeRouteLeave(to, from, next) {
-    this.$store.commit("tutorLessonAPI/changeState", { state: "idle" });
+    this.$store.commit("tutorLessonAPI/mutate", { name: "state", val: "idle" });
     next();
   },
 };
