@@ -35,8 +35,8 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     JwtUtils jwtUtils;
 
-    @Autowired
-    private RefreshTokenService refreshTokenService;
+    // @Autowired
+    // private RefreshTokenService refreshTokenService;
 
     @Autowired
     private UserRepository userRepository;
@@ -51,8 +51,8 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByEmail(email))
             throw new EmailIsAlreadyTakenException(email);
         var user = new User(email, encoder.encode(password));
-        user.setUserDetails(
-                UserDetails.builder().firstName(request.getFirstName()).lastName(request.getLastName()).build());
+        var details = UserDetails.builder().firstName(request.getFirstName()).lastName(request.getLastName()).build();
+        user.setUserDetails(details);
         user.getRoles().add(roleRepository.findByName(ERole.ROLE_STUDENT)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found")));
         userRepository.save(user);

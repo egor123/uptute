@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.*;
 
 @Data
-public class GetOpenLessonsResponse {
+public class OpenLessonsResponse {
     @NonNull
-    private List<GetLessonDetailsResponse> lessons;
+    private List<LessonDetailsResponse> lessons;
 }

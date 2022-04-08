@@ -1,6 +1,6 @@
 ### [Back](./Main.md)
 
-# Authenticate
+# Authentication
 
 ## **SIGNUP**
 
@@ -58,7 +58,7 @@ ResponseBody:
 
 <br>
 
-## **REFRESH TOKEN**
+<!-- ## **REFRESH TOKEN**
 
 Type: `Post`  
 Path: `/auth/refreshToken`  
@@ -75,5 +75,5 @@ ResponseBody:
     "jwt": String,
     "tokenType": "Bearer",
     "refrershToken": String,
-}
-```
+} 
+```-->
