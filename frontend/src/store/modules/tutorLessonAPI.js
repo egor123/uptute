@@ -7,7 +7,7 @@ export default {
   state() {
     return {
       state: "idle",
-      userUUID: getUUID(),
+      userUUID: localStorage.getItem("uuid"),
       lessons: [],
       offeredLessons: [],
       zoomLink:
@@ -187,10 +187,6 @@ async function cancelOffer({ state }, { offerLogId }) {
 // temporary
 
 // ---------------------------------
-
-function getUUID() {
-  return "tutor" + Date.now();
-}
 
 function exitIfUndefined(context, { data, alertName }) {
   if (!data) {

@@ -13,6 +13,15 @@
           :label="$l('auth.name')"
           required
         ></v-text-field>
+        <v-text-field
+          filled
+          rounded
+          v-model="surname"
+          :counter="surnameLength"
+          :rules="surnameRules"
+          :label="$l('auth.surname')"
+          required
+        ></v-text-field>
 
         <v-text-field
           filled
@@ -59,7 +68,6 @@
           <v-checkbox
             v-model="checkbox"
             :rules="[(v) => !!v || '']"
-            color="red"
             required
           ></v-checkbox>
           <p>
@@ -78,13 +86,7 @@
           rounded
           outlined
           color="accent"
-          @click="
-            if ($refs.form.validate()) {
-              signup({ name: name, email: email, password: password }).then(
-                (val) => (errorMessage = val.message)
-              );
-            }
-          "
+          @click="tryRegister()"
         >
           {{ $l("auth.btn.register") }}
         </v-btn>
@@ -109,7 +111,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import Subheader from "../components/app/Subheader.vue";
 import { goTo } from "@/plugins/GlobalMethods.js";
 
@@ -118,8 +119,11 @@ export default {
     return {
       valid: true,
       name: "",
+      surname: "",
       nameLength: 20,
+      surnameLength: 20,
       nameMinLength: 3,
+      surnameMinLength: 3,
       nameRules: [
         (v) => !!v || this.$l("auth.rules.require"),
         (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
@@ -132,6 +136,20 @@ export default {
           (v && v.length <= this.nameLength) ||
           this.$l("auth.rules.name.lenght.max", {
             n: this.nameLength,
+          }),
+      ],
+      surnameRules: [
+        (v) => !!v || this.$l("auth.rules.require"),
+        (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
+        (v) =>
+          (v && v.length >= this.surnameMinLength) ||
+          this.$l("auth.rules.surname.lenght.min", {
+            n: this.surnameMinLength,
+          }),
+        (v) =>
+          (v && v.length <= this.surnameLength) ||
+          this.$l("auth.rules.surname.lenght.max", {
+            n: this.surenameLength,
           }),
       ],
       email: "",
@@ -181,9 +199,28 @@ export default {
       return "success";
     },
   },
+  mounted() {
+    addEventListener("keypress", this.keyPressed);
+  },
+  beforeDestroy() {
+    removeEventListener("keypress", this.keyPressed);
+  },
   methods: {
-    ...mapActions(["signup"]),
     goTo,
+    keyPressed(e) {
+      if (e.key === "Enter") this.tryRegister();
+    },
+    async tryRegister() {
+      if (this.$refs.form.validate()) {
+        const form = {
+          firstName: this.name,
+          lastName: this.surname,
+          email: this.email,
+          password: this.password,
+        };
+        this.$store.dispatch("auth/signup", form);
+      }
+    },
   },
   components: {
     Subheader,

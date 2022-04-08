@@ -20,7 +20,7 @@
       <div ref="rightSide" id="rightSide">
         <div id="buttons" ref="buttons">
           <!-- <Begin
-            v-if="!getStatus"
+            v-if="!this.$store.getters['auth/getStatus']"
             color="#000"
             textColor="white"
             borderRadius="0 0 15px 15px"
@@ -28,14 +28,14 @@
           /> -->
 
           <LogIn
-            v-if="!getStatus"
+            v-if="!this.$store.getters['auth/getStatus']"
             color="#000"
             textColor="white"
             :ifWithText="!mv"
             borderRadius="0 0 15px 15px"
           />
           <LessonMenu
-            v-if="!getStatus"
+            v-if="!this.$store.getters['auth/getStatus']"
             :ifWithText="!mv"
             borderRadius="0 0 15px 15px"
           />
@@ -89,7 +89,7 @@ export default {
     Notifications,
   },
   computed: {
-    ...mapGetters(["getStatus", "getNavBar"]),
+    ...mapGetters(["getNavBar"]),
     header() {
       return this.$refs.header;
     },

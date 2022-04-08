@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 import Header from "@/components/app/Header.vue";
 import Footer from "@/components/app/Footer.vue";
 import Navigation from "@/components/app/Navigation.vue";
@@ -30,7 +30,6 @@ export default {
     Navigation,
     // MessengerChat,
   },
-  computed: mapGetters(["getStatus"]),
   methods: {
     ...mapActions(["isAuth"]),
     // ---------
@@ -133,3 +132,4 @@ html {
   opacity: 0;
 }
 </style>
+

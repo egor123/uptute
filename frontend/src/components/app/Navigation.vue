@@ -98,7 +98,7 @@ export default {
       this.value = val;
     },
   },
-  computed: mapGetters(["getStatus", "getNavBar", "isMobileView"]),
+  computed: mapGetters(["getNavBar", "isMobileView"]),
   methods: mapActions(["setNavBar"]),
 };
 </script>
@@ -186,3 +186,4 @@ export default {
   }
 }
 </style>
+

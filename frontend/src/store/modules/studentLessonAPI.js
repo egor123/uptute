@@ -7,7 +7,7 @@ export default {
     return {
       state: "idle",
       info: {},
-      userUUID: "testuser123",
+      userUUID: localStorage.getItem("uuid"),
       lessonId: "",
       logId: "",
       tutors: [],
@@ -80,7 +80,7 @@ async function initialize(context) {
   async function postData({ state }) {
     return await apiRequest({
       method: "post",
-      urlEnd: "/lessons/create/" + state.userUUID,
+      urlEnd: "/lessons/init/" + state.userUUID, //was "create" instead of "init"
       data: {
         subject: state.info.subject,
         details: "Test details",

@@ -3,7 +3,7 @@
     <Subheader :title="$l('acc_pages.settings')" />
     <PrimarySettings />
     <SecondarySettings />
-    <!-- v-if="getStatus === 'TUTOR'" -->
+    <!-- v-if="this.$store.getter["auth/getStatus"] === 'TUTOR'" -->
     <!-- bind status!! -->
     <v-btn id="save" rounded outlined color="accent">
       {{ $l("settings.save") }}</v-btn
@@ -15,7 +15,6 @@
 import Subheader from "@/components/app/Subheader.vue";
 import PrimarySettings from "@/components/account/PrimarySettings.vue";
 import SecondarySettings from "@/components/account/SecondarySettings.vue";
-import { mapGetters } from "vuex";
 
 export default {
   name: "Settings",
@@ -28,7 +27,6 @@ export default {
     PrimarySettings,
     SecondarySettings,
   },
-  computed: mapGetters(["getStatus"]),
 };
 </script>
 
@@ -46,3 +44,4 @@ export default {
   margin-top: 3rem;
 }
 </style>
+

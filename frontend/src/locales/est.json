@@ -18,6 +18,7 @@
     },
     "email": "E-post",
     "name": "Nimi",
+    "surname": "Perekonnanimi",
     "password": "Salasõna",
     "forgot": "Unustasid salasõna?",
     "account_yet": "Konto veel puudub?",

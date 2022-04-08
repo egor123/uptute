@@ -30,12 +30,7 @@
           rounded
           outlined
           color="accent"
-          @click="
-            if ($refs.form.validate())
-              signin({ name: name, password: password }).then(
-                (val) => (errorMessage = val)
-              );
-          "
+          @click="trySignin()"
         >
           {{ $l("auth.btn.log_in") }}
         </v-btn>
@@ -69,8 +64,9 @@
 <script>
 //import { mapActions } from "vuex";
 import Subheader from "@/components/app/Subheader.vue";
-import { GoogleAuthService } from "@/services/index";
+// import { GoogleAuthService } from "@/services/index";
 import { goTo } from "@/plugins/GlobalMethods.js";
+import axios from "axios";
 
 export default {
   data() {
@@ -104,19 +100,41 @@ export default {
   },
   mounted() {
     // GoogleAuthService.currentUser();
+    addEventListener("keypress", this.keyPressed);
   },
-  //methods: mapActions(["signin"]),
+  beforeDestroy() {
+    removeEventListener("keypress", this.keyPressed);
+  },
   methods: {
     goTo,
-    logIn() {
-      GoogleAuthService.signIn().catch((e) => {
-        if (e.error === "idpiframe_initialization_failed") {
-          this.showSnackbar = true;
-        }
-      });
+    // logIn() {
+    //   GoogleAuthService.signIn().catch((e) => {
+    //     if (e.error === "idpiframe_initialization_failed") {
+    //       this.showSnackbar = true;
+    //     }
+    //   });
+    // },
+    // logOut() {
+    //   GoogleAuthService.signOut();
+    // },
+    keyPressed(e) {
+      if (e.key === "Enter") this.trySignin();
     },
-    logOut() {
-      GoogleAuthService.signOut();
+    trySignin() {
+      if (this.$refs.form.validate())
+        this.$store
+          .dispatch("auth/signin", {
+            email: this.email,
+            password: this.password,
+          })
+          .then((val) => (this.errorMessage = val));
+      setTimeout(() => {
+        const uuid = localStorage.getItem("uuid");
+        axios({
+          method: "get",
+          url: `/account/${uuid}/user`,
+        }).then((r) => console.log(r));
+      }, 3000);
     },
   },
   components: {
