@@ -20,29 +20,28 @@
       <div ref="rightSide" id="rightSide">
         <div id="buttons" ref="buttons">
           <!-- <Begin
-            v-if="!this.$store.getters['auth/getStatus']"
+            v-if="roles.length == 0"
             color="#000"
             textColor="white"
             borderRadius="0 0 15px 15px"
             border="none"
           /> -->
-
-          <LogIn
-            v-if="!this.$store.getters['auth/getStatus']"
+          <Account
+            v-if="roles.length == 0"
             color="#000"
             textColor="white"
             :ifWithText="!mv"
             borderRadius="0 0 15px 15px"
           />
           <LessonMenu
-            v-if="!this.$store.getters['auth/getStatus']"
+            v-if="roles.length > 0"
             :ifWithText="!mv"
             borderRadius="0 0 15px 15px"
           />
         </div>
         <LocalesMenu />
-        <Notifications />
-        <AccountMenu />
+        <Notifications v-if="roles.length > 0" />
+        <AccountMenu v-if="roles.length > 0" />
       </div>
       <!-- </div> -->
     </div>
@@ -65,10 +64,9 @@
 import { mapGetters, mapActions } from "vuex";
 import LessonMenu from "@/components/header/LessonMenu.vue";
 // import Begin from "@/components/header/Begin.vue";
-import LogIn from "@/components/header/LogIn.vue";
+import Account from "@/components/header/Account.vue";
 import LocalesMenu from "@/components/header/LocalesMenu.vue";
 import AccountMenu from "@/components/header/AccountMenu.vue";
-
 import Notifications from "@/components/notifications/Notifications.vue";
 
 export default {
@@ -82,7 +80,7 @@ export default {
   components: {
     LessonMenu,
     // Begin,
-    LogIn,
+    Account,
     LocalesMenu,
     AccountMenu,
 
@@ -102,7 +100,11 @@ export default {
     navIcon() {
       return this.$refs.navIcon;
     },
+    roles: function() {
+      return this.$store.state.auth.user?.roles || [];
+    },
   },
+
   methods: {
     ...mapActions(["setMobileView", "setNavBar"]),
     goTo(pageName) {
@@ -151,7 +153,6 @@ export default {
         wrapper.classList.toggle("hide", hidden);
       };
     },
-
     subHeader() {
       const subHeader = this.$refs.subHeader;
 

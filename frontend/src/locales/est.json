@@ -5,7 +5,7 @@
   },
   "auth": {
     "header": {
-      "register": "Registreeru",
+      "account": "Konto",
       "sign_in": "Logi sisse",
       "sign_up": "Loo konto"
     },

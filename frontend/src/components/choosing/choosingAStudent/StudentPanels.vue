@@ -34,7 +34,7 @@
       <template v-slot:moving>
         <div class="infoContainer">
           <div class="subject">
-            {{ student.details ? student.details.subject : null }}
+            {{ getSubject(student) }}
 
             <v-spacer />
 
@@ -66,6 +66,13 @@ export default {
   },
   props: {
     students: Array,
+  },
+  methods: {
+    getSubject(student) {
+      return student.details
+        ? this.$l(`data.subjects.${student.details.subject}`)
+        : null;
+    },
   },
 };
 </script>

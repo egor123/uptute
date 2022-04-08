@@ -15,7 +15,8 @@ import Subheader from "@/components/app/Subheader.vue";
 
 export default {
   permisions: {
-    roles: "ALL",
+    roles: ["ROLE_STUDENT"],
+    redirect: "LogIn",
   },
   components: {
     SecondarySettings,
@@ -30,7 +31,7 @@ export default {
         .dispatch("auth/upgradeToTutor")
         .then((r) => r.data);
       // const r = await this.$store.dispatch("auth/getUserDetails");
-      if (bool) this.$store.commit("auth/tryAddRole", { role: "ROLE_TUTOR" });
+      if (bool) this.$store.dispatch("auth/tryAddRole", { role: "ROLE_TUTOR" });
 
       this.routerPush("ChooseAStudent");
     },

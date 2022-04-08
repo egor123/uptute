@@ -18,12 +18,12 @@ export default {
   children: [
     {
       name: "PrimarySettingUp",
-      path: "primary_setting_up",
+      path: "primary",
       component: PrimarySettingUp,
     },
     {
       name: "SecondarySettingUp",
-      path: "secondary_setting_up",
+      path: "secondary",
       component: SecondarySettingUp,
     },
   ],
@@ -35,3 +35,4 @@ export default {
 </script>
 
 <style scoped lang="scss"></style>
+

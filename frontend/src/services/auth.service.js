@@ -1,5 +1,6 @@
 import axios from "axios";
 import { apiRequest } from "@/services/api.service.js";
+import store from "@/store/index.js";
 
 export default {
   async signup(form) {
@@ -15,15 +16,15 @@ export default {
       url: "/api/auth/signin",
       data: form,
     }).catch((err) => handleErr(err));
-
     trySetTokens(res);
     return res;
 
     function trySetTokens(res) {
       if (res.statusText == "OK") {
-        sessionStorage.setItem("jwt", res.data.jwt);
         localStorage.setItem("refreshToken", res.data.refreshToken);
-        localStorage.setItem("uuid", res.data.uuid);
+        delete res.data.refreshToken;
+        sessionStorage.setItem("user", JSON.stringify(res.data));
+        store.dispatch("auth/updateUser");
       }
     }
   },
@@ -39,13 +40,13 @@ export default {
       urlEnd: "/account/me",
     });
   },
-  logout() {
-    localStorage.removeItem("user");
-  },
-  isAuth() {
-    let user = JSON.parse(localStorage.getItem("user"));
-    return Boolean(user && user.accessToken);
-  },
+  // logout() {
+  //   localStorage.removeItem("user");
+  // },
+  // isAuth() {
+  //   let user = JSON.parse(localStorage.getItem("user"));
+  //   return Boolean(user && user.accessToken);
+  // },
 };
 
 function handleErr(err) {

@@ -1,5 +1,3 @@
-// const ROLES = ["USER"]; //TO DO!!!!!!!!
-
 /* EXAMPLE:
 import SubRoute from "@src/...";
 export default {

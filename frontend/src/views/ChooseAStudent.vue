@@ -35,6 +35,10 @@ import SortBy from "@/components/filterPanel/ExpandableSortBy.vue";
 import StudentPanels from "@/components/choosing/choosingAStudent/StudentPanels.vue";
 
 export default {
+  permisions: {
+    roles: "ROLE_TUTOR",
+    redirect: "/setting_up/secondary",
+  },
   components: {
     Background,
     Subheader,

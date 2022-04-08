@@ -22,8 +22,17 @@
         <!-- <div id="moto">Fun. Fast. Friendly.</div> -->
         <!-- id="beginWrapper" -->
 
-        <Begin
-          v-if="this.$store.getters['auth/getStatus']"
+        <!-- <Begin
+          v-if="roles.length == 0"
+          :color="menu.color"
+          :textColor="menu.textColor"
+          :borderRadius="menu.borderRadius"
+          :border="menu.border"
+          :padding="menu.padding"
+        /> -->
+        <Account
+          v-if="roles.length == 0"
+          :ifWithIcon="false"
           :color="menu.color"
           :textColor="menu.textColor"
           :borderRadius="menu.borderRadius"
@@ -31,7 +40,7 @@
           :padding="menu.padding"
         />
         <LessonMenu
-          v-if="!this.$store.getters['auth/getStatus']"
+          v-if="roles.length > 0"
           :ifWithIcon="false"
           :color="menu.color"
           :textColor="menu.textColor"
@@ -145,7 +154,8 @@
 
 <script>
 import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
-import Begin from "@/components/header/Begin.vue";
+// import Begin from "@/components/header/Begin.vue";
+import Account from "@/components/header/Account.vue";
 import LessonMenu from "@/components/header/LessonMenu.vue";
 import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
 import HeroCanvas from "@/components/HeroCanvas.vue";
@@ -160,7 +170,8 @@ export default {
   components: {
     SliderLayout,
     CheckerLayout,
-    Begin,
+    // Begin,
+    Account,
     LessonMenu,
     HeroCanvas,
   },
@@ -177,6 +188,11 @@ export default {
         "https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500&enablejsapi=1",
       heroFadeTimeout: 300,
     };
+  },
+  computed: {
+    roles: function() {
+      return this.$store.state.auth.user?.roles || [];
+    },
   },
   mounted() {
     document.addEventListener("mouseenter", this.$refs.heroCanvas.mouseEnter);
