@@ -74,15 +74,14 @@ public class LessonServiceImpl implements LessonService {
     // ---------------------------------------------------------------------------
 
     private Boolean validateLesson(Lesson lesson, Authentication auth) {
-        for (var log : lesson.getLogs()) {
-            try {
-                logWrapper.valideteLogForExpiration(log);
-            } catch (AutoExpiredException e) {
-                return false;
-            }
-            if (log.getCreatedBy().equals(auth.getName())) {
-                return false;
-            }
+        var log = lesson.getLogs().iterator().next();
+        try {
+            logWrapper.valideteLogForExpiration(log);
+        } catch (AutoExpiredException e) {
+            return false;
+        }
+        if (log.getCreatedBy().equals(auth.getName())) {
+            return false;
         }
         return true;
     }
