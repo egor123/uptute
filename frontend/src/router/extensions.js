@@ -35,7 +35,7 @@ function createMeta(component) {
     return {
         allowedOrigins: convertToPermisions(component.permisions?.allowedOrigins),
         allowedRoles: convertToPermisions(component.permisions?.roles),
-        redirect: (component.permisions?.redirect == null) ? "Home" : component.permisions.redirect
+        redirect: (component.permisions?.redirect == null) ? "LogIn" : component.permisions.redirect
     }
 }
 
