@@ -18,6 +18,7 @@
     },
     "email": "Email",
     "name": "Name",
+    "surname": "Surname",
     "password": "Password",
     "forgot": "Forgot your password?",
     "account_yet": "Don't have an account yet?",
@@ -51,6 +52,14 @@
         "max": "Name must be less than ${n} characters",
         "lenght": {
           "max": "Name must be less than ${n} characters",
+          "min": "Min ${n} characters"
+        }
+      },
+      "surname": {
+        "require": "Surname is required",
+        "max": "Surname must be less than ${n} characters",
+        "lenght": {
+          "max": "Surname must be less than ${n} characters",
           "min": "Min ${n} characters"
         }
       }

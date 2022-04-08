@@ -1,25 +1,35 @@
 import router from "@/router";
 import auth from "../../services/auth.service";
+
 export default {
+  namespaced: true,
+  state: {
+    signedIn: false,
+    roles: [],
+    // uuid: null,
+  },
   actions: {
     async signup(ctx, form) {
-      var response = await auth.signup(form.name, form.email, form.password);
-      if (response.ok) {
+      var response = await auth.signup(form);
+      if (response.statusText == "OK") {
         router.push({ name: "LogIn" });
       } else {
-        ctx.commit("updateStatus", false);
+        alert(response.response.data); //Change to something from locales
       }
-      return await response.json();
+      return response;
     },
     async signin(ctx, form) {
-      var response = await auth.signin(form.name, form.password);
-      if (response.ok) {
+      const res = await auth.signin(form);
+      if (res.statusText == "OK") {
+        ctx.commit("mutate", { name: "roles", val: res.data.roles });
+        // ctx.commit("mutate", { name: "uuid", val: res.data.uuid });
         ctx.commit("updateStatus", true);
         router.push({ name: "Home" });
-        return "";
+        return true;
       } else {
         ctx.commit("updateStatus", false);
-        return "Wrong username or password";
+        alert("Wrong username or password"); //Change to something from locales
+        return false;
       }
     },
     logout(ctx) {
@@ -38,9 +48,9 @@ export default {
       state.signedIn = signedIn;
       console.log("signedIn:" + signedIn);
     },
-  },
-  state: {
-    signedIn: false,
+    mutate(state, { name, val }) {
+      state[name] = val;
+    },
   },
   getters: {
     getStatus(state) {
@@ -48,3 +58,4 @@ export default {
     },
   },
 };
+

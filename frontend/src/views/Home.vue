@@ -23,7 +23,7 @@
         <!-- id="beginWrapper" -->
 
         <Begin
-          v-if="getStatus"
+          v-if="this.$store.getters['auth/getStatus']"
           :color="menu.color"
           :textColor="menu.textColor"
           :borderRadius="menu.borderRadius"
@@ -31,7 +31,7 @@
           :padding="menu.padding"
         />
         <LessonMenu
-          v-if="!getStatus"
+          v-if="!this.$store.getters['auth/getStatus']"
           :ifWithIcon="false"
           :color="menu.color"
           :textColor="menu.textColor"
@@ -173,7 +173,6 @@ export default {
         border: "dashed 2px var(--v-accent-base)",
         padding: "1rem 3rem",
       },
-      getStatus: false,
       url:
         "https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500&enablejsapi=1",
       heroFadeTimeout: 300,

@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
   data() {
     return {
@@ -68,7 +66,6 @@ export default {
       ],
     };
   },
-  computed: mapGetters(["getStatus"]),
 
   async mounted() {
     const footer = this.$refs.footer;
@@ -78,7 +75,7 @@ export default {
     }).observe(wrapper);
   },
   beforeMount() {
-    // if (!this.getStatus) {
+    // if (!this.$store.getter["auth/getStatus"]) {
     //   this.pages.splice(1, 0, { name: "register", route: "Register" });
     // } else {
 
@@ -164,3 +161,4 @@ export default {
   }
 }
 </style>
+

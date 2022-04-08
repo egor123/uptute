@@ -9,19 +9,23 @@ export async function apiRequest({ method, urlEnd, data = {} }) {
     url: "/api" + urlEnd,
     data: data,
     headers: getHeaders(),
-  }).catch((err) => console.error(err.response.data));
+  }).catch((err) => handleErr(err));
   // saveToStorage(res);
   return res;
 }
 
 function getHeaders() {
-  let header = {
-    // refreshToken: localStorage.getItem("refreshToken"),
-    // jwt: getJwt(localStorage.getItem("refreshToken")),
+  let headers = {
+    refreshToken: localStorage.getItem("refreshToken"),
+    // jwt: getJwt(sessionStorage.getItem("refreshToken")),
+    jwt: sessionStorage.getItem("jwt"),
 
     "Content-Type": "application/json",
   };
-  return header;
+  console.log(headers.refreshToken);
+  console.log(headers.jwt);
+
+  return headers;
 }
 
 // async function getJwt(refreshToken) {
@@ -55,3 +59,8 @@ function getHeaders() {
 //     localStorage.setItem("refreshToken", res.refreshToken);
 //   if (res.jwt != undefined) sessionStorage.setItem("refreshToken", res.jwt);
 // }
+
+function handleErr(err) {
+  console.error(err.response.data);
+  return err;
+}
