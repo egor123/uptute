@@ -24,12 +24,12 @@ public class JwtUtils {
     @Value("${uptute.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) {
-        var userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+    public String generateJwtToken(String uuid) {
+        // var userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         var now = new Date();
         var exprirationTime = new Date(now.getTime() + jwtExpirationMs);
         return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
+                .setSubject(uuid)
                 .setIssuedAt(now)
                 .setExpiration(exprirationTime)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

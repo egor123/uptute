@@ -58,7 +58,7 @@ ResponseBody:
 
 <br>
 
-<!-- ## **REFRESH TOKEN**
+## **REFRESH TOKEN**
 
 Type: `Post`  
 Path: `/auth/refreshToken`  
@@ -76,4 +76,4 @@ ResponseBody:
     "tokenType": "Bearer",
     "refrershToken": String,
 } 
-```-->
+```
