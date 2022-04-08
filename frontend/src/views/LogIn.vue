@@ -66,7 +66,6 @@
 import Subheader from "@/components/app/Subheader.vue";
 // import { GoogleAuthService } from "@/services/index";
 import { goTo } from "@/plugins/GlobalMethods.js";
-import axios from "axios";
 
 export default {
   data() {
@@ -128,13 +127,6 @@ export default {
             password: this.password,
           })
           .then((val) => (this.errorMessage = val));
-      setTimeout(() => {
-        const uuid = localStorage.getItem("uuid");
-        axios({
-          method: "get",
-          url: `/account/${uuid}/user`,
-        }).then((r) => console.log(r));
-      }, 3000);
     },
   },
   components: {

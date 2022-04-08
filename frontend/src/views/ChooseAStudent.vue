@@ -20,10 +20,7 @@
         "
         :convertor="(item) => $l('find.filters.filters.' + item.name)"
       />
-      <StudentPanels
-        id="panels"
-        :students="this.$store.state.tutorLessonAPI.lessons"
-      />
+      <StudentPanels id="panels" :students="getStudentsArr()" />
     </div>
   </Background>
 </template>
@@ -99,6 +96,11 @@ export default {
     //     year: date.getFullYear(),
     //   };
     // },
+    getStudentsArr() {
+      const stateObj = this.$store.state.tutorLessonAPI;
+      if (stateObj.offeredLessons.length > 0) return stateObj.offeredLessons;
+      return stateObj.lessons;
+    },
   },
   beforeMount() {
     // this.settingDate();

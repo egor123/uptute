@@ -24,7 +24,7 @@ ResponseBody: CreateLogResponse
 
 Type: `Post`  
 Role: `Student, Tutor, Moderator, Admin` //depends on ctx  
-Path: `/lessons/logs/{logId}/close`  
+Path: `/lessons/logs/{logId}/close`
 
 ResponseBody: CreateLogResponse
 
@@ -34,17 +34,17 @@ ResponseBody: CreateLogResponse
 
 Type: `Post`  
 Role: `Tutor`
-Path: `/lessons/logs/{logId}/offer`  
+Path: `/lessons/logs/{logId}/offer`
 
 ResponseBody: CreateLogResponse
 
 <br>
 
-## **CREATE OFFER**
+## **ACCEPT OFFER**
 
 Type: `Post`  
 Role: `Student`
-Path: `/lessons/logs/{logId}/accept`  
+Path: `/lessons/logs/{logId}/accept`
 
 ResponseBody: CreateLogResponse
 
@@ -54,7 +54,7 @@ ResponseBody: CreateLogResponse
 
 Type: `Post`  
 Role: `Tutor`
-Path: `/lessons/logs/{logId}/init`  
+Path: `/lessons/logs/{logId}/init`
 
 RequestBody:
 
@@ -72,7 +72,7 @@ ResponseBody: CreateLogResponse
 
 Type: `Get`  
 Role: `Student`
-Path: `/lessons/logs/{logId}/offer`  
+Path: `/lessons/logs/{logId}/offer`
 
 ResponseBody: OserveLogResponse
 
@@ -82,7 +82,7 @@ ResponseBody: OserveLogResponse
 
 Type: `Get`  
 Role: `Tutor`
-Path: `/lessons/logs/{logId}/accepted`  
+Path: `/lessons/logs/{logId}/accepted`
 
 ResponseBody: OserveLogResponse
 
@@ -92,9 +92,9 @@ ResponseBody: OserveLogResponse
 
 Type: `Get`  
 Role: `Tutor`
-Path: `/lessons/open`  
+Path: `/lessons/open`
 
-ResponseBody: 
+ResponseBody:
 
 ```
 {
@@ -118,7 +118,7 @@ Lesson:
 
 Type: `Get`  
 Role: `Moderator, Admin `
-Path: `/lessons/{lessonId}`  
+Path: `/lessons/{lessonId}`
 
 Lesson:
 
@@ -163,3 +163,4 @@ LessonLog:
     "details": String //required conversion to object
 }
 ```
+

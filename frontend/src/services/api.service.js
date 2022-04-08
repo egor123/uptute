@@ -1,8 +1,5 @@
 import axios from "axios";
 
-// localStorage.setItem("refreshToken", "asda31fg24g");
-// sessionStorage.setItem("jwt", "23f224gga");
-
 export async function apiRequest({ method, urlEnd, data = {} }) {
   const res = await axios({
     method,
@@ -16,14 +13,11 @@ export async function apiRequest({ method, urlEnd, data = {} }) {
 
 function getHeaders() {
   let headers = {
-    refreshToken: localStorage.getItem("refreshToken"),
+    // refreshToken: localStorage.getItem("refreshToken"),
     // jwt: getJwt(sessionStorage.getItem("refreshToken")),
-    jwt: sessionStorage.getItem("jwt"),
-
+    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
     "Content-Type": "application/json",
   };
-  console.log(headers.refreshToken);
-  console.log(headers.jwt);
 
   return headers;
 }

@@ -80,7 +80,7 @@ async function initialize(context) {
   async function postData({ state }) {
     return await apiRequest({
       method: "post",
-      urlEnd: "/lessons/init/" + state.userUUID, //was "create" instead of "init"
+      urlEnd: "/lessons/create",
       data: {
         subject: state.info.subject,
         details: "Test details",
@@ -100,7 +100,7 @@ async function getOffers(context) {
   async function getOfferLogIds({ state }) {
     return await apiRequest({
       method: "get",
-      urlEnd: "/lessons/logs/" + state.logId + "/offer/" + state.userUUID,
+      urlEnd: "/lessons/logs/" + state.logId + "/offer",
     }).then((r) => r.data.childLogs.map((obj) => obj.id));
   }
   async function getTutorsDetails({ offerLogIds }) {
@@ -110,11 +110,10 @@ async function getOffers(context) {
     // here should be axios.all request for tutor info
   }
 }
-
-async function rejectOffer({ state }, { offerLogId }) {
+async function rejectOffer(context, { offerLogId }) {
   return await apiRequest({
     method: "post",
-    urlEnd: "/lessons/logs/" + offerLogId + "/close/" + state.userUUID,
+    urlEnd: "/lessons/logs/" + offerLogId + "/close",
   });
 }
 
@@ -123,19 +122,19 @@ async function deleteLesson({ state }) {
   console.log(state.logId);
   return await apiRequest({
     method: "post",
-    urlEnd: "/lessons/logs/" + state.logId + "/close/" + state.userUUID,
+    urlEnd: "/lessons/logs/" + state.logId + "/close",
   });
 }
 
-async function accept({ state }, { offerLogId }) {
+async function accept(context, { offerLogId }) {
   return await apiRequest({
     method: "post",
-    urlEnd: "/lessons/logs/" + offerLogId + "/accept/" + state.userUUID,
+    urlEnd: "/lessons/logs/" + offerLogId + "/accept",
   });
 }
 
 async function listenForInit(context) {
-  const getInitRes = await getRequest(context).then();
+  const getInitRes = await getRequest(context);
   if (!stopIfUndefined({ data: getInitRes })) return;
   const initLog = getInitLog(getInitRes);
   if (initLog) {
@@ -147,8 +146,7 @@ async function listenForInit(context) {
   async function getRequest({ state }) {
     return await apiRequest({
       method: "get",
-      urlEnd:
-        "/lessons/logs/" + state.acceptedLogId + "/init/" + state.userUUID,
+      urlEnd: "/lessons/logs/" + state.acceptedLogId + "/init",
     });
   }
   function stopIfUndefined({ data }) {

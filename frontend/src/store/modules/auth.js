@@ -6,7 +6,6 @@ export default {
   state: {
     signedIn: false,
     roles: [],
-    // uuid: null,
   },
   actions: {
     async signup(ctx, form) {
@@ -20,17 +19,24 @@ export default {
     },
     async signin(ctx, form) {
       const res = await auth.signin(form);
+      console.log(res.data);
       if (res.statusText == "OK") {
         ctx.commit("mutate", { name: "roles", val: res.data.roles });
         // ctx.commit("mutate", { name: "uuid", val: res.data.uuid });
         ctx.commit("updateStatus", true);
-        router.push({ name: "Home" });
+        router.push({ name: "PrimarySettingUp" });
         return true;
       } else {
         ctx.commit("updateStatus", false);
         alert("Wrong username or password"); //Change to something from locales
         return false;
       }
+    },
+    async upgradeToTutor() {
+      return await auth.upgradeToTutor();
+    },
+    async getUserDetails() {
+      return await auth.getUserDetails();
     },
     logout(ctx) {
       ctx.commit("updateStatus", false);
@@ -50,6 +56,9 @@ export default {
     },
     mutate(state, { name, val }) {
       state[name] = val;
+    },
+    tryAddRole(state, { role }) {
+      if (!state.roles.includes(role)) state.roles.push(role);
     },
   },
   getters: {
