@@ -2,8 +2,6 @@ package com.uptute.backend.security.jwt;
 
 import java.util.Date;
 
-import com.uptute.backend.domain.UserDetailsImpl;
-
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.*;
@@ -11,7 +9,6 @@ import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 
 @Component
 public class JwtUtils {
@@ -25,7 +22,6 @@ public class JwtUtils {
     private int jwtExpirationMs;
 
     public String generateJwtToken(String uuid) {
-        // var userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         var now = new Date();
         var exprirationTime = new Date(now.getTime() + jwtExpirationMs);
         return Jwts.builder()

@@ -5,6 +5,7 @@ import com.uptute.backend.enums.lesson.ELessonStatus;
 import com.uptute.backend.enums.lesson.ELogType;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,5 +23,5 @@ public class InitLogHandler extends AbstractLogHandler {
     @Override
     protected Long getExpirationTime() { return expirationTime; }
     @Override
-    protected void logIsCreated(LessonLog log) { log.getLesson().setStatus(ELessonStatus.CONFERENCE_IN_PROGRESS); }
+    protected void logIsCreated(Authentication auth, LessonLog log) { log.getLesson().setStatus(ELessonStatus.CONFERENCE_IN_PROGRESS); }
 }

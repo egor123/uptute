@@ -66,20 +66,25 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public OpenLessonsResponse getOpenLessons(Authentication auth) {
-        var lessons = lessonRepository.findByStatus(ELessonStatus.OPEN).stream().filter(l -> validateLesson(l, auth));
-        var lessonDets = lessons.map(l -> getLessonDetailsResponse(l)).collect(Collectors.toList());
+        var lessons = lessonRepository.findByStatus(ELessonStatus.OPEN);
+        if (lessons == null)
+            return null;
+        var lessonDets = lessons.stream()
+                .filter(l -> validateLesson(l, auth))
+                .map(l -> getLessonDetailsResponse(l))
+                .collect(Collectors.toList());
         return new OpenLessonsResponse(lessonDets);
     }
 
     // ---------------------------------------------------------------------------
 
     private Boolean validateLesson(Lesson lesson, Authentication auth) {
+        try {
+            logWrapper.validateLogForExpiration(lesson.getLogs().iterator().next());
+        } catch (AutoExpiredException e) {
+            return false;
+        }
         for (var log : lesson.getLogs()) {
-            try {
-                logWrapper.valideteLogForExpiration(log);
-            } catch (AutoExpiredException e) {
-                return false;
-            }
             if (log.getCreatedBy().equals(auth.getName())) {
                 return false;
             }

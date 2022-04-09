@@ -4,6 +4,7 @@ import com.uptute.backend.entities.LessonLog;
 import com.uptute.backend.enums.lesson.ELessonStatus;
 import com.uptute.backend.enums.lesson.ELogType;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +20,7 @@ public class ClosedLogHandler extends AbstractLogHandler {
     @Override
     protected Long getExpirationTime() { return Long.MAX_VALUE; }
     @Override
-    protected void logIsCreated(LessonLog log) { 
+    protected void logIsCreated(Authentication auth, LessonLog log) { 
         var parentLog = log.getParentLog();
         disableLog(parentLog);
         if(parentLog.getType().equals(ELogType.CREATED))

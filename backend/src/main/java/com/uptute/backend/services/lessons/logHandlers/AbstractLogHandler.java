@@ -13,6 +13,7 @@ import com.uptute.backend.exceptions.LogIsClosedException;
 import com.uptute.backend.exceptions.UnsupportedParentLogType;
 import com.uptute.backend.repositories.LessonLogRepository;
 import com.uptute.backend.repositories.LessonRepository;
+import com.uptute.backend.services.lessons.LogWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,9 +25,11 @@ public abstract class AbstractLogHandler {
     protected LessonLogRepository logRepository;
     @Autowired
     protected LessonRepository lessonRepository;
+    @Autowired
+    protected LogWrapper logWrapper;
 
     public LessonLog create(Long parentLogId, String details, Authentication auth)
-            throws UnsupportedParentLogType, LogAlreadyExists, LogIsClosedException {
+            throws UnsupportedParentLogType, LogAlreadyExists, LogIsClosedException, AutoExpiredException {
         var userDet = (UserDetailsImpl) ((auth == null) ? null : auth.getPrincipal());
         var userUUID = userDet == null ? "" : userDet.getUUID();
         var log = new LessonLog(getType(), userUUID, details);
@@ -42,16 +45,18 @@ public abstract class AbstractLogHandler {
             lesson = lessonRepository.save(new Lesson(userUUID));
         }
         addToLesson(lesson, log);
-        logIsCreated(log);
+        logIsCreated(auth, log);
+        logWrapper.validateLogForExpiration(log);
         return logRepository.save(log);
     }
 
-    public LessonLog get(Long id, Authentication auth) throws LogIsClosedException, UnsupportedParentLogType {
+    public LessonLog get(Long id, Authentication auth) throws LogIsClosedException, UnsupportedParentLogType, AutoExpiredException {
         var log = logRepository.findById(id).get();
         if (!log.getActive())
             throw new LogIsClosedException(log);
         validateForSupportedParentType(log, getSupportedParentTypes());
         validateAuthentication(log, auth, getReceivingPermisions());
+        logWrapper.validateLogForExpiration(log);
         return log;
     }
 
@@ -76,7 +81,7 @@ public abstract class AbstractLogHandler {
 
     protected abstract Long getExpirationTime();
 
-    protected abstract void logIsCreated(LessonLog log);
+    protected abstract void logIsCreated(Authentication auth, LessonLog log);
 
     protected static void disableLog(LessonLog log) {
         log.setActive(false);
