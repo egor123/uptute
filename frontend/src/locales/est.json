@@ -61,11 +61,11 @@
           "max": "Mitte rohkem kui ${n} tähemärki",
           "min": "Vähemalt ${n} tähemärki"
         }
-      },
-      "error": {
-        "email_exists": "Konto sellise meiliga juba eksisteerib",
-        "email_or_password": "Vale meil või salasõna"
       }
+    },
+    "error": {
+      "email_exists": "Konto sellise meiliga juba eksisteerib",
+      "email_or_password": "Vale meil või salasõna"
     }
   },
   "app": {

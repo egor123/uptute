@@ -1,7 +1,8 @@
 import router from "@/router";
 import auth from "../../services/auth.service";
 import store from "@/store/index.js";
-import l from "@/services/locale.service.js";
+// import l from "@/services/locale.service.js";
+import { vm } from "@/main";
 
 export default {
   namespaced: true,
@@ -23,18 +24,19 @@ export default {
           routeName: "PrimarySettingUp",
         });
         if (r.statusText != "OK") router.push({ name: "LogIn" });
-      } else alert(l.auth.error.email_exists); //Change to something from locales // response.response.data
+      } else alert(vm.$l("auth.error.email_exists")); //Change to something from locales // response.response.data
 
       return response;
     },
     async signin(ctx, { form, routeName = null }) {
+      console.log(vm);
       const res = await auth.signin(form);
       if (res.statusText == "OK") routerPush(routeName);
-      else alert(l.auth.error.email_or_password); //Change to something from locales
+      else alert(vm.$l("auth.error.email_or_password")); //Change to something from locales
       return res;
 
       function routerPush(routeName) {
-        const roles = store?.state?.auth?.user?.roles || [];
+        const roles = store.state.auth.user?.roles || [];
         if (routeName) router.push({ name: routeName });
         else if (roles.includes("ROLE_TUTOR"))
           router.push({ name: "ChooseAStudent" });
