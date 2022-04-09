@@ -67,6 +67,9 @@ import Subheader from "@/components/app/Subheader.vue";
 import { goTo } from "@/plugins/GlobalMethods.js";
 
 export default {
+  permisions: {
+    roles: "ALL",
+  },
   data() {
     return {
       valid: true,

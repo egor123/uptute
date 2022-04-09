@@ -7,7 +7,10 @@
             <h3>{{ $l("app.footer.pages_title") }}</h3>
             <ul>
               <li v-for="page in checkRoles(pages)" :key="page.index">
-                <router-link class="link" :to="{ name: page.route }">
+                <router-link
+                  class="link"
+                  :to="{ path: '/' + $route.params.locale + page.route }"
+                >
                   {{ $l("app.pages." + page.name) }}
                 </router-link>
               </li>
@@ -60,22 +63,26 @@ export default {
         },
       ],
       pages: [
-        { name: "home", route: "Home", roles: ["ALL"] },
-        { name: "log_in", route: "LogIn", roles: ["NONE"] },
-        { name: "register", route: "Register", roles: ["NONE"] },
-        { name: "find_a_tutor", route: "FindATutor", roles: ["ROLE_STUDENT"] },
+        { name: "home", route: "/home", roles: ["ALL"] },
+        { name: "log_in", route: "/log_in", roles: ["NONE"] },
+        { name: "register", route: "/register", roles: ["NONE"] },
+        {
+          name: "find_a_tutor",
+          route: "/find_a_tutor",
+          roles: ["ROLE_STUDENT"],
+        },
         {
           name: "choose_a_student",
-          route: "ChooseAStudent",
+          route: "/choose_a_student",
           roles: ["ROLE_TUTOR"],
         },
-        // {
-        //   name: "settings",
-        //   route: "Account/Settings",
-        //   roles: ["ROLE_STUDENT"],
-        // },
-        { name: "terms", route: "TermsOfUse", roles: ["ALL"] },
-        { name: "privacy_policy", route: "PrivacyPolicy", roles: ["ALL"] },
+        {
+          name: "account.settings",
+          route: "/account/settings",
+          roles: ["ROLE_STUDENT"],
+        },
+        { name: "terms", route: "/terms_of_use", roles: ["ALL"] },
+        { name: "privacy_policy", route: "/privacy_policy", roles: ["ALL"] },
       ],
     };
   },

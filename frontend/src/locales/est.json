@@ -72,7 +72,9 @@
     "pages": {
       "home": "Avaleht",
       "begin": "Alusta oma seiklus",
-      "account": "Profiil",
+      "account": {
+        "settings": "Sätted"
+      },
       "find_a_tutor": "Leia õpetaja",
       "choose_a_student": "Õpeta",
       "become_tutor": "Tule õpetajaks!",

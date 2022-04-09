@@ -71,7 +71,9 @@
     "pages": {
       "home": "Home",
       "begin": "Begin your journey",
-      "account": "Account",
+      "account": {
+        "settings": "Settings"
+      },
       "find_a_tutor": "Find your tutor",
       "choose_a_student": "Teach",
       "blog": "Our blog",
