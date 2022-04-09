@@ -16,7 +16,6 @@ export default {
           form,
           routeName: "PrimarySettingUp",
         });
-        console.log(r);
         if (r.statusText != "OK") router.push({ name: "LogIn" });
       } else alert(response.response.data); //Change to something from locales
 
@@ -42,10 +41,10 @@ export default {
     async getUserDetails() {
       return await auth.getUserDetails();
     },
-    // logout(ctx) {
-    //   ctx.commit("updateStatus", false);
-    //   router.push({ name: "LogIn" });
-    // },
+    async logout(ctx) {
+      ctx.dispatch("updateUser", {});
+      router.push({ name: "LogIn" });
+    },
     // isAuth(ctx) {
     //   const val = auth.isAuth();
     //   ctx.commit("updateStatus", val);
@@ -55,15 +54,13 @@ export default {
       let user = JSON.parse(sessionStorage.getItem("user"));
       if (!user.roles.includes(role)) {
         user.roles.push(role);
-        sessionStorage.setItem("user", JSON.stringify(user));
-        const r = await ctx.dispatch("updateUser");
-        console.log(ctx.state.user.roles);
-        return r;
+        ctx.dispatch("updateUser", user);
+        return true;
       }
       return false;
     },
-    updateUser(ctx) {
-      const user = JSON.parse(sessionStorage.getItem("user"));
+    async updateUser(ctx, user) {
+      sessionStorage.setItem("user", JSON.stringify(user));
       ctx.commit("mutate", { name: "user", val: user });
     },
   },

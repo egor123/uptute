@@ -24,7 +24,7 @@ export default {
         localStorage.setItem("refreshToken", res.data.refreshToken);
         delete res.data.refreshToken;
         sessionStorage.setItem("user", JSON.stringify(res.data));
-        store.dispatch("auth/updateUser");
+        store.dispatch("auth/updateUser", res.data);
       }
     }
   },

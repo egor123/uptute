@@ -40,7 +40,8 @@
           />
         </div>
         <LocalesMenu />
-        <Notifications v-if="roles.length > 0" />
+        <Notifications v-if="false" />
+        <!-- v-if="roles.length > 0" -->
         <AccountMenu v-if="roles.length > 0" />
       </div>
       <!-- </div> -->
