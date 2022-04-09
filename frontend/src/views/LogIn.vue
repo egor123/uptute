@@ -36,7 +36,7 @@
         </v-btn>
       </v-form>
       <br />
-      <v-alert
+      <!-- <v-alert
         v-if="errorMessage != ''"
         dense
         outlined
@@ -45,16 +45,15 @@
         type="warning"
       >
         {{ errorMessage }}
-      </v-alert>
-
-      <v-snackbar
+      </v-alert> -->
+      <!-- <v-snackbar
         max-width="800"
         color="error"
         timeout="15000"
         v-model="showSnackbar"
       >
         <p class="errorSnackbar ma-0" v-html="$l('auth.allow_cookies')"></p>
-      </v-snackbar>
+      </v-snackbar> -->
       <p>{{ $l("auth.forgot") }}</p>
       <p @click="goTo('Register')">{{ $l("auth.account_yet") }}</p>
     </v-card>
@@ -93,8 +92,8 @@ export default {
           (v && v.length <= this.passwordLength) ||
           this.$l("auth.rules.password.lenght.max", { n: this.passwordLength }),
       ],
-      errorMessage: "",
-      showSnackbar: false,
+      // errorMessage: "",
+      // showSnackbar: false,
     };
   },
   mounted() {

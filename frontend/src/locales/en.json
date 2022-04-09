@@ -49,7 +49,6 @@
       },
       "name": {
         "require": "Name is required",
-        "max": "Name must be less than ${n} characters",
         "lenght": {
           "max": "Name must be less than ${n} characters",
           "min": "Min ${n} characters"
@@ -57,12 +56,15 @@
       },
       "surname": {
         "require": "Surname is required",
-        "max": "Surname must be less than ${n} characters",
         "lenght": {
           "max": "Surname must be less than ${n} characters",
           "min": "Min ${n} characters"
         }
       }
+    },
+    "errors": {
+      "email_exists": "There already exists an account with this email",
+      "email_or_password": "Wrong email or password"
     }
   },
   "app": {

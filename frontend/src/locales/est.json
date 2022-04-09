@@ -43,18 +43,28 @@
         "password": {
           "require": "Vajame su salasõna",
           "lenght": {
-            "max": "Salasõna peaks olema lühem kui ${n} tähemärki",
+            "max": "Mitte rohkem kui ${n} tähemärki",
             "min": "Vähemalt ${n} tähemärki"
           }
         }
       },
       "name": {
-        "require": "Vajame su kasutajanime",
-        "max": "Name must be less than ${n} characters",
+        "require": "Vajame su nime",
         "lenght": {
-          "max": "Kasutajanimi peaks olema lühem kui ${n} tähemärki",
+          "max": "Mitte rohkem kui ${n} tähemärki",
           "min": "Vähemalt ${n} tähemärki"
         }
+      },
+      "surname": {
+        "require": "Vajame su perekonnanime",
+        "lenght": {
+          "max": "Mitte rohkem kui ${n} tähemärki",
+          "min": "Vähemalt ${n} tähemärki"
+        }
+      },
+      "errors": {
+        "email_exists": "Konto sellise meiliga juba eksisteerib",
+        "email_or_password": "Vale meil või salasõna"
       }
     }
   },

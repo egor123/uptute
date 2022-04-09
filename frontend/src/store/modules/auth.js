@@ -29,7 +29,7 @@ export default {
     async signin(ctx, { form, routeName = null }) {
       const res = await auth.signin(form);
       if (res.statusText == "OK") routerPush(routeName);
-      else alert("Wrong username or password"); //Change to something from locales
+      else alert("Wrong email or password"); //Change to something from locales
       return res;
 
       function routerPush(routeName) {
