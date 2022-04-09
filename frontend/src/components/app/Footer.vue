@@ -6,7 +6,7 @@
           <div id="container-text">
             <h3>{{ $l("app.footer.pages_title") }}</h3>
             <ul>
-              <li v-for="page in pages" :key="page.index">
+              <li v-for="page in checkRoles(pages)" :key="page.index">
                 <router-link class="link" :to="{ name: page.route }">
                   {{ $l("app.pages." + page.name) }}
                 </router-link>
@@ -60,13 +60,30 @@ export default {
         },
       ],
       pages: [
-        { name: "home", route: "Home" },
-        { name: "terms", route: "TermsOfUse" },
-        { name: "privacy_policy", route: "PrivacyPolicy" },
+        { name: "home", route: "Home", roles: ["ALL"] },
+        { name: "log_in", route: "LogIn", roles: ["NONE"] },
+        { name: "register", route: "Register", roles: ["NONE"] },
+        { name: "find_a_tutor", route: "FindATutor", roles: ["ROLE_STUDENT"] },
+        {
+          name: "choose_a_student",
+          route: "ChooseAStudent",
+          roles: ["ROLE_TUTOR"],
+        },
+        // {
+        //   name: "settings",
+        //   route: "Account/Settings",
+        //   roles: ["ROLE_STUDENT"],
+        // },
+        { name: "terms", route: "TermsOfUse", roles: ["ALL"] },
+        { name: "privacy_policy", route: "PrivacyPolicy", roles: ["ALL"] },
       ],
     };
   },
-
+  computed: {
+    roles: function() {
+      return this.$store.getters["auth/roles"];
+    },
+  },
   async mounted() {
     const footer = this.$refs.footer;
     const wrapper = this.$refs.wrapper;
@@ -74,19 +91,23 @@ export default {
       footer.style.height = wrapper.offsetHeight + "px";
     }).observe(wrapper);
   },
-  beforeMount() {
-    // if (!this.$store.getter["auth/getStatus"]) {
-    //   this.pages.splice(1, 0, { name: "register", route: "Register" });
-    // } else {
-
-    // }
-    this.pages.splice(1, 0, { name: "find_tutor", route: "FindATutor" });
+  methods: {
+    checkRoles(pages) {
+      return pages.filter((page) => ifShow(this, page));
+      function ifShow(self, page) {
+        if (
+          page.roles.includes("ALL") ||
+          page.roles.includes("NONE" && self.roles.length == 0) ||
+          page.roles.some((role) => self.roles.includes(role))
+        )
+          return true;
+        return false;
+      }
+    },
+    //   scrollToBottom() {
+    //     window.scrollTo({ top: document.body.scrollHeight });
+    //   },
   },
-  // methods: {
-  //   scrollToBottom() {
-  //     window.scrollTo({ top: document.body.scrollHeight });
-  //   },
-  // },
 };
 </script>
 

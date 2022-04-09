@@ -55,3 +55,4 @@ function convertToPermisions(val) {
 export function redirect(path, redirect) {
   return { path, redirect };
 }
+

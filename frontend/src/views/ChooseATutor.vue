@@ -56,7 +56,7 @@ import ExpandableSortBy from "@/components/filterPanel/ExpandableSortBy.vue";
 
 export default {
   permisions: {
-    roles: "USER",
+    roles: "ROLE_STUDENT",
     allowedOrigins: "FindATutor",
     redirect: "FindATutor",
   },
