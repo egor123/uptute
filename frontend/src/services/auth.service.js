@@ -1,20 +1,21 @@
-import axios from "axios";
 import { apiRequest } from "@/services/api.service.js";
 import store from "@/store/index.js";
 
 export default {
   async signup(form) {
-    return await axios({
+    return await apiRequest({
       method: "post",
-      url: "/api/auth/signup",
+      urlEnd: "/auth/signup",
       data: form,
+      withJwt: false,
     }).catch((err) => handleErr(err));
   },
   async signin(form) {
-    const res = await axios({
+    const res = await apiRequest({
       method: "post",
-      url: "/api/auth/signin",
+      urlEnd: "/auth/signin",
       data: form,
+      withJwt: false,
     }).catch((err) => handleErr(err));
     trySetTokens(res);
     return res;

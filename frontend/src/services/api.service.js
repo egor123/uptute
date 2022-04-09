@@ -1,25 +1,58 @@
 import axios from "axios";
+import store from "@/store/index.js";
+// import router from "@/router";
 
-export async function apiRequest({ method, urlEnd, data = {} }) {
+export async function apiRequest({
+  method,
+  urlEnd,
+  data = {},
+  withJwt = true,
+}) {
+  if (withJwt && checkJwtExpiration()) return new Error("JWT expired");
   const res = await axios({
     method,
     url: "/api" + urlEnd,
     data: data,
-    headers: getHeaders(),
+    headers: getHeaders(withJwt),
   }).catch((err) => handleErr(err));
   // saveToStorage(res);
   return res;
 }
 
-function getHeaders() {
+function checkJwtExpiration() {
+  if (isJwtExpired()) {
+    store.dispatch("auth/logout");
+    alert("Session expired"); // Change to sth from locales
+    return true;
+  }
+  return false;
+}
+
+export function isJwtExpired() {
+  const jwt = JSON.parse(sessionStorage.getItem("user")).jwt;
+  if (!jwt) return true;
+  const decodedJwt = parseJwt(jwt);
+  return Date.now() > decodedJwt.exp * 1000;
+
+  function parseJwt(token) {
+    try {
+      return JSON.parse(atob(token.split(".")[1]));
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
+function getHeaders(withJwt) {
   const user = JSON.parse(sessionStorage.getItem("user"));
-  // jwt: getJwt(sessionStorage.getItem("user"), user),
-  let headers = {
-    Authorization: `Bearer ${user.jwt}`,
+  return {
+    Authorization: withJwt ? `Bearer ${getJwt(user)}` : null,
     "Content-Type": "application/json",
   };
 
-  return headers;
+  function getJwt(user) {
+    return user.jwt;
+  }
 }
 
 // async function getJwt(refreshToken, user) {
@@ -32,26 +65,6 @@ function getHeaders() {
 //     jwt = res.jwt;
 //   }
 //   return jwt;
-// }
-
-// function isJwtExpired(jwt) {
-//   var base64Url = jwt.split(".")[1];
-//   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-//   var jsonPayload = decodeURIComponent(
-//     atob(base64)
-//       .split("")
-//       .map(function(c) {
-//         return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-//       })
-//       .join("")
-//   );
-//   return Date.now() > JSON.parse(jsonPayload).exp;
-// }
-
-// function saveToStorage(res) {
-//   if (res.refreshToken != undefined)
-//     localStorage.setItem("refreshToken", res.refreshToken);
-//   if (res.jwt != undefined) sessionStorage.setItem("refreshToken", res.jwt);
 // }
 
 function handleErr(err) {

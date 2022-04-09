@@ -29,7 +29,6 @@ export default {
       return response;
     },
     async signin(ctx, { form, routeName = null }) {
-      console.log(vm);
       const res = await auth.signin(form);
       if (res.statusText == "OK") routerPush(routeName);
       else alert(vm.$l("auth.error.email_or_password")); //Change to something from locales
@@ -49,7 +48,7 @@ export default {
     async getUserDetails() {
       return await auth.getUserDetails();
     },
-    async logout(ctx) {
+    logout(ctx) {
       ctx.dispatch("updateUser", {});
       router.push({ name: "LogIn" });
     },

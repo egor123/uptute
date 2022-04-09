@@ -96,16 +96,7 @@
     <v-snackbar max-width="800" color="accent" timeout="-1" v-model="showAlert">
       {{ $l("find.sure") }}
       <div id="snackButtons">
-        <v-btn
-          @click="
-            $store.dispatch('studentLessonAPI/request', {
-              info,
-              vm: getThis(),
-            });
-            $router.push({ name: 'ChooseATutor' });
-          "
-          text
-        >
+        <v-btn @click="sendLessonRequest()" text>
           {{ $l("find.begin") }}
         </v-btn>
         <v-btn @click="showAlert = false" text>
@@ -196,6 +187,13 @@ export default {
     },
     ifPanel2IsValid(action, callback) {
       callback(this.$refs.panel2[action]());
+    },
+    async sendLessonRequest() {
+      const bool = await this.$store.dispatch("studentLessonAPI/request", {
+        info: this.info,
+        vm: this.getThis(),
+      });
+      if (bool) this.$router.push({ name: "ChooseATutor" });
     },
   },
 };

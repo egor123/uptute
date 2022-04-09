@@ -53,6 +53,7 @@ import Searching from "@/components/choosing/Searching.vue";
 import LessonInfo from "@/components/choosing/infoCards/LessonInfo.vue";
 import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
 import ExpandableSortBy from "@/components/filterPanel/ExpandableSortBy.vue";
+import { isJwtExpired } from "@/services/api.service.js";
 
 export default {
   permisions: {
@@ -119,7 +120,8 @@ export default {
     },
   },
   beforeRouteLeave(to, from, next) {
-    if (this.$store.state.studentLessonAPI.state === "idle") next();
+    if (this.$store.state.studentLessonAPI.state === "idle" || isJwtExpired())
+      next();
     this.showAlert = true;
     this.untilClick().then(async (val) => {
       this.showAlert = false;

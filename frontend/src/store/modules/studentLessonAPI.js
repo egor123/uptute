@@ -25,7 +25,10 @@ export default {
       info.tutors = [];
       context.commit("mutate", { name: "info", val: info });
 
+      const bool = await initialize(context);
+      if (!bool) return false;
       loop(context);
+      return true;
     },
     async rejectOffer(context, { offerLogId }) {
       const res = await rejectOffer(context, { offerLogId });
@@ -51,9 +54,9 @@ export default {
 
 async function loop(context) {
   switch (context.state.state) {
-    case "initializing":
-      await initialize(context);
-      break;
+    // case "initializing":
+    //   await initialize(context);
+    //   break;
     case "listening":
       await getOffers(context);
       break;
@@ -70,11 +73,13 @@ async function loop(context) {
 
 async function initialize(context) {
   let data = await postData(context);
-  if (!exitIfUndefined(context, { data, alertName: "init" })) return;
+  if (!exitIfUndefined(context, { data, alertName: "init" })) return false;
 
   context.commit("mutate", { name: "lessonId", val: data.lessonId });
   context.commit("mutate", { name: "logId", val: data.logId });
   context.commit("mutate", { name: "state", val: "listening" });
+
+  return true;
 
   async function postData({ state }) {
     return await apiRequest({
@@ -169,7 +174,7 @@ async function listenForInit(context) {
 }
 
 function exitIfUndefined(context, { data, alertName }) {
-  if (!data) {
+  if (!data && context.state.logId != "") {
     alert(context.state.vm.$l(`choose_a.tutor.fail.${alertName}`));
     context.dispatch("deleteLesson");
     router.go(-1);

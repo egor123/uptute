@@ -17,7 +17,7 @@ spring:
 uptute:
   app:
     jwtSecret: theMostSecretSecretEver
-    jwtExpirationMs: 3600000
+    jwtExpirationMs: 5000 # 3600000
     jwtRefreshExpirationMs: 86400000
     logsExpirationMs:
       created: 1200000
