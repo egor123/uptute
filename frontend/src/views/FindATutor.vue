@@ -18,7 +18,7 @@
           :convertor="(item) => $l('data.subjects.' + item)"
           :searchLabel="$l('find.filters.subject.search')"
           :rules="(item) => item != null"
-          :flat="true"
+          :flat="false"
           :backgroundColor="'var(--v-card-lighten3)'"
           :borderRadius="'15px 15px 0px 0px'"
         />
@@ -28,7 +28,7 @@
           :label="$l('find.filters.topic')"
           :rules="(val) => val != '' && val != null"
           :area="false"
-          :flat="true"
+          :flat="false"
           :backgroundColor="'var(--v-card-lighten3)'"
           :borderRadius="'0px'"
         />
@@ -37,7 +37,7 @@
           :label="$l('find.filters.details')"
           :rules="(val) => val != '' && val != null"
           :area="true"
-          :flat="true"
+          :flat="false"
           :backgroundColor="'var(--v-card-lighten3)'"
           :borderRadius="'0px 0px 15px 15px'"
         />
@@ -55,7 +55,7 @@
           :list="['EN', 'EST', 'RU']"
           :convertor="(item) => $l('data.languages.' + item)"
           :rules="(item) => item.length > 0"
-          :flat="true"
+          :flat="false"
           :backgroundColor="'var(--v-card-lighten3)'"
           :borderRadius="'15px 15px 0px 0px'"
         />
@@ -67,7 +67,7 @@
           :min="15"
           :max="100"
           :rules="(item) => item.length > 0"
-          :flat="true"
+          :flat="false"
           :backgroundColor="'var(--v-card-lighten3)'"
           :borderRadius="'0px'"
         />
@@ -82,7 +82,7 @@
           :min="0"
           :max="150"
           :rules="(item) => item.length > 0"
-          :flat="true"
+          :flat="false"
           :backgroundColor="'var(--v-card-lighten3)'"
           :borderRadius="'0px 0px 15px 15px'"
         />

@@ -6,6 +6,7 @@
         :label="$l('set_up.motto')"
         :rules="(val) => val != '' && val != null"
         :borderRadius="'15px 15px 0px 0px'"
+        :flat="false"
       />
       <TextField
         :area="true"
@@ -13,6 +14,7 @@
         :label="$l('set_up.about')"
         :rules="(val) => val != '' && val != null"
         :borderRadius="'0px 0px 15px 15px'"
+        :flat="false"
       />
     </FilterPanel>
 
@@ -21,7 +23,12 @@
       @next="(action) => $refs.panel3[action]()"
       id="zoomDiv"
     >
-      <TextField class="zoom" :label="$l('set_up.zoom')" img="zoom-icon" />
+      <TextField
+        class="zoom"
+        :label="$l('set_up.zoom')"
+        img="zoom-icon"
+        :flat="false"
+      />
       <div id="dialogContainer">
         <Dialog>
           <template v-slot:object>
@@ -55,6 +62,7 @@
         :searchLabel="$l('find.filters.subject.search')"
         :rules="(item) => item.length > 0"
         borderRadius="15px 15px 0px 0px"
+        :flat="false"
       />
       <ExpandableSlider
         v-model="audience"
@@ -63,6 +71,7 @@
         :min="1"
         :max="12"
         borderRadius="0px"
+        :flat="false"
       />
       <ExpandableListSelector
         v-model="languages"
@@ -73,6 +82,7 @@
         :multiple="true"
         :rules="(item) => item.length > 0"
         borderRadius="0px 0px 15px 15px"
+        :flat="false"
       />
     </FilterPanel>
   </div>

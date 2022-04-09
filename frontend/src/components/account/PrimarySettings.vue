@@ -10,12 +10,14 @@
         :label="$l('set_up.name')"
         :rules="(val) => val != '' && val != null"
         :borderRadius="'15px 15px 0px 0px'"
+        :flat="false"
       />
       <TextField
         v-model="surname"
         :label="$l('set_up.surname')"
         :rules="(val) => val != '' && val != null"
         :borderRadius="'0px 0px 15px 15px'"
+        :flat="false"
       />
     </FilterPanel>
 
@@ -26,6 +28,7 @@
         :text="birthday"
         :rules="(item) => item != null"
         borderRadius="15px 15px 0px 0px"
+        :flat="false"
       />
       <ExpandableSlider
         v-model="grade"
@@ -34,6 +37,7 @@
         :min="1"
         :max="12"
         borderRadius="0px 0px 15px 15px"
+        :flat="false"
       />
     </FilterPanel>
   </div>
