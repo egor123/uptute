@@ -35,23 +35,32 @@ public class LogWrapperImpl implements LogWrapper {
 
     @Override
     public LessonLog createLog(Long parentLogId, ELogType type, Authentication auth, String details)
-            throws NoSuchElementException, LogIsClosedException, LogAlreadyExists, UnsupportedParentLogType, AutoExpiredException {
-        var log = getHandler(type).create(parentLogId, details, auth);
-        validateLogForExpiration(log);
-        return log;
+            throws NoSuchElementException, LogIsClosedException, LogAlreadyExists, UnsupportedParentLogType,
+            AutoExpiredException {
+        return getHandler(type).create(parentLogId, details, auth);
     }
 
     @Override
     public LessonLog getLog(Long id, ELogType type, Authentication auth)
             throws LogIsClosedException, AutoExpiredException, UnsupportedParentLogType {
-        var log = getHandler(type).get(id, auth);
-        validateLogForExpiration(log);
-        return log;
+        return getHandler(type).get(id, auth);
     }
 
     @Override
-    public void valideteLogForExpiration(LessonLog log) throws AutoExpiredException {
-        validateLogForExpiration(log);        
+    public void validateLogForExpiration(LessonLog log) throws AutoExpiredException {
+        if (log == null || !log.getActive())
+            return;
+        validateLogForExpiration(log.getParentLog());
+        try {
+            getHandler(log.getType()).valideteLogForExpiration(log);
+        } catch (AutoExpiredException e) {
+            try {
+                createLog(log.getId(), ELogType.CLOSED, null, "AUTO_EXPIRED");
+            } catch (NoSuchElementException | LogIsClosedException | LogAlreadyExists | UnsupportedParentLogType e1) {
+                throw new RuntimeException(e1.getMessage());
+            }
+            throw e;
+        }
     }
 
     private AbstractLogHandler getHandler(ELogType type) {
@@ -68,22 +77,6 @@ public class LogWrapperImpl implements LogWrapper {
                 return initLogHandler;
             default:
                 throw new UnsupportedOperationException();
-        }
-    }
-
-    private void validateLogForExpiration(LessonLog log) throws AutoExpiredException {
-        var parentLog = log.getParentLog();
-        if (parentLog != null)
-            validateLogForExpiration(parentLog);
-        try {
-            getHandler(log.getType()).valideteLogForExpiration(log);
-        } catch (AutoExpiredException e) {
-            try {
-                createLog(log.getId(), ELogType.CLOSED, null, "AUTO_EXPIRED");
-            } catch (NoSuchElementException | LogIsClosedException | LogAlreadyExists | UnsupportedParentLogType e1) {
-                e1.printStackTrace();
-            }
-            throw e;
         }
     }
 }

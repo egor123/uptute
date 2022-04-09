@@ -17,5 +17,5 @@ public interface LogWrapper {
 
     LessonLog getLog(Long id, ELogType type, Authentication auth) throws NoSuchElementException, AutoExpiredException, LogIsClosedException, LogAlreadyExists, UnsupportedParentLogType;
 
-    void valideteLogForExpiration(LessonLog log) throws AutoExpiredException;
+    void validateLogForExpiration(LessonLog log) throws AutoExpiredException;
 }
