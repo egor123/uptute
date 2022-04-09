@@ -62,7 +62,7 @@
         }
       }
     },
-    "errors": {
+    "error": {
       "email_exists": "There already exists an account with this email",
       "email_or_password": "Wrong email or password"
     }

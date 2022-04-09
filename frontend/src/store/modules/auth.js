@@ -1,6 +1,7 @@
 import router from "@/router";
 import auth from "../../services/auth.service";
 import store from "@/store/index.js";
+import l from "@/services/locale.service.js";
 
 export default {
   namespaced: true,
@@ -10,7 +11,7 @@ export default {
   getters: {
     roles(state) {
       pullUser(state);
-      return state.user.roles || [];
+      return state?.user?.roles || [];
     },
   },
   actions: {
@@ -22,14 +23,14 @@ export default {
           routeName: "PrimarySettingUp",
         });
         if (r.statusText != "OK") router.push({ name: "LogIn" });
-      } else alert(response.response.data); //Change to something from locales
+      } else alert(l.auth.error.email_exists); //Change to something from locales // response.response.data
 
       return response;
     },
     async signin(ctx, { form, routeName = null }) {
       const res = await auth.signin(form);
       if (res.statusText == "OK") routerPush(routeName);
-      else alert("Wrong email or password"); //Change to something from locales
+      else alert(l.auth.error.email_or_password); //Change to something from locales
       return res;
 
       function routerPush(routeName) {
