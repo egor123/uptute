@@ -102,7 +102,7 @@ export default {
       return this.$refs.navIcon;
     },
     roles: function() {
-      return this.$store.state.auth.user?.roles || [];
+      return this.$store.getters["auth/roles"];
     },
   },
 

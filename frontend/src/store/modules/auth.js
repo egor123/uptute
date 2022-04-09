@@ -7,7 +7,12 @@ export default {
   state: {
     user: null,
   },
-
+  getters: {
+    roles(state) {
+      pullUser(state);
+      return state.user.roles || [];
+    },
+  },
   actions: {
     async signup(ctx, form) {
       var response = await auth.signup(form);
@@ -70,4 +75,8 @@ export default {
     },
   },
 };
+
+function pullUser(state) {
+  if (!state.user) state.user = JSON.parse(sessionStorage.getItem("user"));
+}
 
