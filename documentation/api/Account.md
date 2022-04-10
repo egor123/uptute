@@ -2,10 +2,10 @@
 
 # Account
 
-## **UPGRADE TO STUDENT**
+## **UPGRADE TO USER**
 
 Type: `POST`  
-Path: `/account/me/student`
+Path: `/account/me/user`
 
 RequestBody:
 
@@ -24,7 +24,30 @@ ResponseBody:
 {
     "jwt": String,
     "tokenType": "Bearer",
-    "refrershToken": String,
+    "UUID": String,
+    "roles": Array
+}
+```
+
+## **UPGRADE TO STUDENT**
+
+Type: `POST`  
+Path: `/account/me/student`
+
+RequestBody:
+
+```
+{
+    "grade": Number
+}
+```
+
+ResponseBody:
+
+```
+{
+    "jwt": String,
+    "tokenType": "Bearer",
     "UUID": String,
     "roles": Array
 }
@@ -49,7 +72,6 @@ ResponseBody:
 {
     "jwt": String,
     "tokenType": "Bearer",
-    "refrershToken": String,
     "UUID": String,
     "roles": Array
 }

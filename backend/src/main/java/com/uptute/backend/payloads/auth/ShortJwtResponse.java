@@ -13,7 +13,7 @@ public class ShortJwtResponse {
     private String jwt;
     private String tokenType = "Bearer";
     @NonNull
-    private String refreshToken;
+    private String UUID;
     @NonNull
     private List<String> roles;
 }
