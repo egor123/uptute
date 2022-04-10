@@ -2,7 +2,6 @@ package com.uptute.backend.services.lessons.logHandlers;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.NoSuchElementException;
 
 import com.uptute.backend.domain.UserDetailsImpl;
 import com.uptute.backend.entities.Lesson;
