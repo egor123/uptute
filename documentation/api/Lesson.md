@@ -12,7 +12,9 @@ RequestBody:
 ```
 {
     "subject": String,
+    "topic": String,
     "details": String,
+
 }
 ```
 
@@ -92,7 +94,7 @@ ResponseBody: OserveLogResponse
 
 Type: `Get`  
 Role: `Student, Tutor`
-Path: `/lessons/logs/{logId}/init`  
+Path: `/lessons/logs/{logId}/init`
 
 ResponseBody: OserveLogResponse
 
