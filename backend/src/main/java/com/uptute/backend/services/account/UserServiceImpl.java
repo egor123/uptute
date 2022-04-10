@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
         var usrDet = user.getUserDetails();
         user.setEmail((details.getEmail() == "") ? user.getEmail() : details.getEmail());
         usrDet.setFirstName((details.getFirstName() == "") ? usrDet.getFirstName() : details.getFirstName());
-        usrDet.setFirstName((details.getLastName() == "") ? usrDet.getLastName() : details.getLastName());
+        usrDet.setLastName((details.getLastName() == "") ? usrDet.getLastName() : details.getLastName());
         return getUserDetails(userRepository.save(user));
     }
 

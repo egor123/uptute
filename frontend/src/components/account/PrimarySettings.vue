@@ -6,14 +6,14 @@
     </label>
     <FilterPanel ref="panel" @next="(action) => $refs.panel2[action]()">
       <TextField
-        v-model="name"
+        v-model="data.firstName"
         :label="$l('set_up.name')"
         :rules="(val) => val != '' && val != null"
         :borderRadius="'15px 15px 0px 0px'"
         :flat="false"
       />
       <TextField
-        v-model="surname"
+        v-model="data.lastName"
         :label="$l('set_up.surname')"
         :rules="(val) => val != '' && val != null"
         :borderRadius="'0px 0px 15px 15px'"
@@ -63,10 +63,8 @@ export default {
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9tbe0h9I_HCaMS2lyCsdTRXmznpSg9Rn5iA&usqp=CAU",
       },
-      name: "",
-      surname: "",
-      birthday: null,
-      grade: 1,
+      birthday: null, //"2003-07-24"
+      grade: null, //12
     };
   },
   methods: {
@@ -81,6 +79,9 @@ export default {
     async isValid() {
       await this.$refs.panel.isValid();
     },
+  },
+  props: {
+    data: Object,
   },
 };
 </script>
