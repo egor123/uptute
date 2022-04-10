@@ -5,6 +5,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 public class TutorDetailsResponse {
+    private String UUID;
     private String firstName;
     private String lastName;
 }

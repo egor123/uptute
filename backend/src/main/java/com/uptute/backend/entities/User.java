@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 
 import com.uptute.backend.converters.UserDetailsConverter;
 import com.uptute.backend.converters.TutorDetailsConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.uptute.backend.converters.StudentDetailsConverter;
 import com.uptute.backend.domain.UserDetails;
 import com.uptute.backend.domain.TutorDetails;
@@ -33,6 +34,7 @@ public class User {
     @Email
     private String email;
     @NonNull
+    @JsonIgnore
     @Size(max = 120)
     private String password;
     // --------------------------------------------------------

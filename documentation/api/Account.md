@@ -86,12 +86,12 @@ ResponseBody:
 
 ```
 {
-    "firstName": String,
-    "lastName": String,
+    "uuid": String,
     "email": String,
-    "grade": Number,
-    "birthday": String,
-    "conferenceLink": String,
+    "roles": Array,
+    "userDetails": Object,
+    "studentDetails": Object,
+    "tutorDetails": Object,
 }
 ```
 
@@ -104,10 +104,10 @@ ResponseBody:
 
 ```
 {
+    "UUID": String,
     "firstName": String,
     "lastName": String,
     "grade": Number,
-    "birthday": String,
 }
 ```
 
@@ -120,9 +120,9 @@ ResponseBody:
 
 ```
 {
+    "UUID": String
     "firstName": String,
     "lastName": String,
-    "birthday": String,
 }
 ```
 

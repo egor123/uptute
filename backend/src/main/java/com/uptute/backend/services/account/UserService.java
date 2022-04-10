@@ -1,9 +1,8 @@
 package com.uptute.backend.services.account;
 
-import com.uptute.backend.payloads.account.UserDetailsResponse;
-
 import java.util.NoSuchElementException;
 
+import com.uptute.backend.entities.User;
 import com.uptute.backend.exceptions.UserHasNotRoleException;
 import com.uptute.backend.payloads.account.StudentDetailsResponse;
 import com.uptute.backend.payloads.account.TutorDetailsResponse;
@@ -11,7 +10,7 @@ import com.uptute.backend.payloads.account.TutorDetailsResponse;
 import org.springframework.security.core.Authentication;
 
 public interface UserService {
-    UserDetailsResponse getUserDetails(Authentication auth);
+    User getUserDetails(Authentication auth);
 
     StudentDetailsResponse getStudentDetails(String UUID) throws NoSuchElementException, UserHasNotRoleException;
 
