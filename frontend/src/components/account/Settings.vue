@@ -2,7 +2,7 @@
   <div id="container">
     <Subheader :title="$l('acc_pages.settings')" />
     <PrimarySettings :data="data" />
-    <SecondarySettings :data="data" v-if="roles.includes('ROLE_TUTOR')" />
+    <TutorSettings :data="data" v-if="roles.includes('ROLE_TUTOR')" />
     <v-btn
       @click="updateUserDetails(data)"
       id="save"
@@ -18,7 +18,7 @@
 <script>
 import Subheader from "@/components/app/Subheader.vue";
 import PrimarySettings from "@/components/account/PrimarySettings.vue";
-import SecondarySettings from "@/components/account/SecondarySettings.vue";
+import TutorSettings from "@/components/account/TutorSettings.vue";
 // import { apiRequest } from "@/services/api.service.js";
 
 export default {
@@ -31,7 +31,7 @@ export default {
   components: {
     Subheader,
     PrimarySettings,
-    SecondarySettings,
+    TutorSettings,
   },
   computed: {
     roles: function() {
