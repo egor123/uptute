@@ -41,6 +41,21 @@ export default {
       urlEnd: "/account/me",
     });
   },
+  async refreshJwt() {
+    const refreshToken = localStorage.getItem("refreshToken");
+    return await apiRequest({
+      method: "post",
+      urlEnd: "/auth/refreshToken",
+      data: { refreshToken },
+      withJwt: false,
+    }).then((r) => {
+      localStorage.setItem("refreshToken", r.data.refreshToken);
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      user.jwt = r.data.jwt;
+      store.dispatch("auth/updateUser", user);
+      return user.jwt;
+    });
+  },
   // logout() {
   //   localStorage.removeItem("user");
   // },

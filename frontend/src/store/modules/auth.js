@@ -48,6 +48,9 @@ export default {
     async getUserDetails() {
       return await auth.getUserDetails();
     },
+    async refreshJwt() {
+      return await auth.refreshJwt();
+    },
     logout(ctx) {
       ctx.dispatch("updateUser", {});
       router.push({ name: "LogIn" });

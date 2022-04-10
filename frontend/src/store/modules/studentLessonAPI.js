@@ -54,9 +54,6 @@ export default {
 
 async function loop(context) {
   switch (context.state.state) {
-    // case "initializing":
-    //   await initialize(context);
-    //   break;
     case "listening":
       await getOffers(context);
       break;
