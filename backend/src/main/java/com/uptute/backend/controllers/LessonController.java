@@ -10,7 +10,6 @@ import com.uptute.backend.enums.lesson.ELogType;
 import com.uptute.backend.exceptions.AutoExpiredException;
 import com.uptute.backend.exceptions.LogAlreadyExists;
 import com.uptute.backend.payloads.lessons.CreateLessonRequest;
-import com.uptute.backend.payloads.lessons.InitializeConferenceRequest;
 import com.uptute.backend.services.lessons.LessonService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,10 +74,9 @@ public class LessonController {
 
     @PostMapping("/logs/{logId}/init")
     @PreAuthorize("hasRole('TUTOR')")
-    public ResponseEntity<?> initiateConference(@PathVariable Long logId, Authentication auth,
-            @RequestBody InitializeConferenceRequest request) {
+    public ResponseEntity<?> initiateConference(@PathVariable Long logId, Authentication auth) {
         try {
-            return ResponseEntity.ok(lessonService.createLog(logId, ELogType.INIT, auth, request));
+            return ResponseEntity.ok(lessonService.createLog(logId, ELogType.INIT, auth, null));
         } catch (NoSuchElementException | LogIsClosedException | LogAlreadyExists | UnsupportedParentLogType | AutoExpiredException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

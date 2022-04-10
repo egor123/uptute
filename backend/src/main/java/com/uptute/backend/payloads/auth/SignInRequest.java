@@ -1,12 +1,17 @@
 package com.uptute.backend.payloads.auth;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
+@AllArgsConstructor
 public class SigninRequest {
-    @NonNull
+    @NotBlank(message = "{validation.email.required}")
+    @Email(message = "{validation.email.invalid}")
     private String email;
-    @NonNull
+    @NotBlank(message = "{validation.email.password}")
     private String password;
 }

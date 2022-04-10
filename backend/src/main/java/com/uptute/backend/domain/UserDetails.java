@@ -1,5 +1,7 @@
 package com.uptute.backend.domain;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,5 +14,5 @@ import lombok.NoArgsConstructor;
 public class UserDetails {
     private String firstName;
     private String lastName;
-    private String pictureURL;
+    private Date birthday;
 }

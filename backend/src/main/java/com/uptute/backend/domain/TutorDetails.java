@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class TutorDetails {
-    private String[] lessonsId;
+    private String conferenceLink;
 }

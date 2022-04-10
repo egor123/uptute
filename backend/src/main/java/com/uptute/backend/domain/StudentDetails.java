@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class StudentDetails {
-    private String[] lessonsId;
+    private int grade;
 }

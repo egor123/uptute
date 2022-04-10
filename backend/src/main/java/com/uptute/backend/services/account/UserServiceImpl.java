@@ -4,13 +4,11 @@ import java.util.NoSuchElementException;
 
 import com.uptute.backend.entities.User;
 import com.uptute.backend.enums.ERole;
-import com.uptute.backend.exceptions.UserAlreadyHasRoleException;
 import com.uptute.backend.exceptions.UserHasNotRoleException;
 import com.uptute.backend.payloads.account.UserDetailsResponse;
 import com.uptute.backend.payloads.account.StudentDetailsResponse;
 import com.uptute.backend.payloads.account.TutorDetailsResponse;
 import com.uptute.backend.payloads.account.UpdateUserDetailsRequest;
-import com.uptute.backend.repositories.RoleRepository;
 import com.uptute.backend.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +20,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Override
     public UserDetailsResponse updateUserDetails(Authentication auth, UpdateUserDetailsRequest details) {
@@ -38,17 +34,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetailsResponse getUserDetails(Authentication auth) {
         return getUserDetails(getUser(auth));
-    }
-
-    @Override
-    public Boolean upgradeToTutor(Authentication auth) throws UserAlreadyHasRoleException {
-        var user = getUser(auth);
-        if (hasRole(user, ERole.ROLE_TUTOR))
-            throw new UserAlreadyHasRoleException(auth.getName(), ERole.ROLE_TUTOR);
-        user.getRoles().add(roleRepository.findByName(ERole.ROLE_TUTOR)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found")));
-        userRepository.save(user);
-        return true;
     }
 
     @Override
