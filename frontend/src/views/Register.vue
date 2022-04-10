@@ -169,8 +169,6 @@ export default {
     async tryRegister() {
       if (this.$refs.form.validate() && !this.inProcess) {
         const form = {
-          firstName: this.name,
-          lastName: this.surname,
           email: this.email,
           password: this.password,
         };
@@ -231,7 +229,7 @@ p.link {
 }
 
 ::v-deep {
-  .v-input__slot {
+  .v-text-field .v-input__slot {
     overflow: hidden;
   }
 }

@@ -14,7 +14,7 @@ export async function apiRequest({
     method,
     url: "/api" + urlEnd,
     data: data,
-    headers: getHeaders(jwt),
+    headers: getHeaders(jwt, withJwt),
   }).catch((err) => handleErr(err));
   // saveToStorage(res);
   return res;
@@ -43,11 +43,12 @@ export function isJwtExpired(jwt) {
   }
 }
 
-function getHeaders(jwt) {
-  return {
-    Authorization: `Bearer ${jwt}`,
+function getHeaders(jwt, withJwt) {
+  let headers = {
     "Content-Type": "application/json",
   };
+  if (withJwt) headers.Authorization = `Bearer ${jwt}`;
+  return headers;
 }
 
 export async function getJwt() {

@@ -42,9 +42,7 @@ export default {
         else router.push({ name: "FindATutor" });
       }
     },
-    async upgradeToTutor() {
-      return await auth.upgradeToTutor();
-    },
+
     async getUserDetails() {
       return await auth.getUserDetails();
     },

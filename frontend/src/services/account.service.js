@@ -15,4 +15,25 @@ export default {
       data,
     });
   },
+  async upgradeToUser({ data }) {
+    return await apiRequest({
+      method: "post",
+      urlEnd: "/account/me/user",
+      data,
+    });
+  },
+  async upgradeToStudent({ data }) {
+    return await apiRequest({
+      method: "post",
+      urlEnd: "/account/me/student",
+      data,
+    });
+  },
+  async upgradeToTutor({ data }) {
+    return await apiRequest({
+      method: "post",
+      urlEnd: "/account/me/tutor",
+      data,
+    });
+  },
 };

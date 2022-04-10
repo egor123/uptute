@@ -29,12 +29,6 @@ export default {
       }
     }
   },
-  async upgradeToTutor() {
-    return await apiRequest({
-      method: "post",
-      urlEnd: "/account/me/tutor",
-    });
-  },
   async getUserDetails() {
     return await apiRequest({
       method: "get",

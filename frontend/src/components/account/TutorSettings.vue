@@ -24,11 +24,11 @@
       id="zoomDiv"
     >
       <TextField
+        v-model="data.conferenceLink"
         class="zoom"
         :label="$l('set_up.zoom')"
         img="zoom-icon"
         :flat="false"
-        :value="data.conferenceLink"
       />
       <div id="dialogContainer">
         <Dialog>

@@ -2,7 +2,7 @@
   <div>
     <Subheader :title="$l('set_up.subheader')" />
     <StudentSettings :data="data" />
-    <v-btn @click="done()" id="done" rounded outlined color="accent">{{
+    <v-btn @click="done(data)" id="done" rounded outlined color="accent">{{
       $l("set_up.button")
     }}</v-btn>
   </div>
@@ -21,6 +21,7 @@ export default {
     return {
       data: {
         grade: null,
+        inProcess: false,
       },
     };
   },
@@ -28,15 +29,24 @@ export default {
     routerPush(to) {
       this.$router.push({ name: to });
     },
-    async done() {
-      const bool = await this.$store
-        .dispatch("auth/upgradeToStudent")
-        .then((r) => r.data);
-      bool;
-      // if (bool)
-      //   await this.$store.dispatch("auth/tryAddRole", { role: "ROLE_STUDENT" });
+    // async done() {
+    //   const bool = await this.$store
+    //     .dispatch("auth/upgradeToStudent")
+    //     .then((r) => r.data);
+    //   bool;
+    //   // if (bool)
+    //   //   await this.$store.dispatch("auth/tryAddRole", { role: "ROLE_STUDENT" });
 
-      this.routerPush("ChooseAStudent");
+    //   this.routerPush("ChooseAStudent");
+    // },
+    async done(data) {
+      if (this.inProcess) return;
+      this.inProcess = true;
+      const res = await this.$store.dispatch("account/upgradeToStudent", {
+        data,
+      });
+      this.inProcess = false;
+      if (res.statusText == "OK") this.routerPush("FindATutor");
     },
   },
 };

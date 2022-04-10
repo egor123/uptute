@@ -5,22 +5,10 @@
     <PrimarySettings :data="data" />
 
     <div id="buttons">
-      <v-btn
-        @click="routerPush('StudentSettingUp')"
-        id="student"
-        rounded
-        outlined
-        color="accent"
-      >
+      <v-btn @click="asStudent()" id="student" rounded outlined color="accent">
         {{ $l("set_up.as_student") }}
       </v-btn>
-      <v-btn
-        @click="routerPush('TutorSettingUp')"
-        id="tutor"
-        rounded
-        outlined
-        color="accent"
-      >
+      <v-btn @click="asTutor()" id="tutor" rounded outlined color="accent">
         {{ $l("set_up.as_tutor") }}</v-btn
       >
     </div>
@@ -43,13 +31,27 @@ export default {
         firstName: null,
         lastName: null,
         birthday: null,
-        grade: null,
       },
     };
   },
   methods: {
     routerPush(to) {
       this.$router.push({ name: to });
+    },
+    async asStudent() {
+      const r = await this.upgradeToUser();
+      if (r.statusText == "OK") this.routerPush("StudentSettingUp");
+      else alert("Check your input"); // Validate instead
+    },
+    async asTutor() {
+      const r = await this.upgradeToUser();
+      if (r.statusText == "OK") this.routerPush("TutorSettingUp");
+      else alert("Check your input"); // Validate instead
+    },
+    async upgradeToUser() {
+      const data = this.data;
+      const res = await this.$store.dispatch("account/upgradeToUser", { data });
+      return res;
     },
     // async updateUserDetails(data) {
     //   console.log(data);
