@@ -16,4 +16,5 @@ import lombok.NoArgsConstructor;
 public class TutorDetails {
     @NotBlank(message = "{validation.conference_link.required}")
     @URL(message = "{validation.conference_link.invalid}")
-    private String conferenceLink;}
+    private String conferenceLink;
+}

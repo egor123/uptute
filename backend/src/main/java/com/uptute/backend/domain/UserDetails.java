@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 @Data
@@ -25,5 +26,6 @@ public class UserDetails {
     @Size(max = 20, message = "{validation.last_name.size.too_long}")
     private String lastName;
     @NotNull(message = "{validation.birthday.required}")
+    @Past(message = "{validation.birthday.invalid}")
     private Date birthday; //yyyy-MM-dd  
 }
