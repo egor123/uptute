@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpgradeToTutorRequest {
+public class TutorDetailsPayload {
     @NotBlank(message = "{validation.conference_link.required}")
     @URL(message = "{validation.conference_link.invalid}")
     private String conferenceLink;
