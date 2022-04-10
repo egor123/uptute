@@ -53,6 +53,7 @@ export default {
     },
     logout(ctx) {
       ctx.dispatch("updateUser", {});
+      localStorage.removeItem("refreshToken");
       router.push({ name: "LogIn" });
     },
     // isAuth(ctx) {

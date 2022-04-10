@@ -8,19 +8,20 @@ export async function apiRequest({
   data = {},
   withJwt = true,
 }) {
-  if (withJwt && checkJwtExpiration()) return new Error("JWT expired");
+  const jwt = withJwt ? await getJwt() : null;
+  if (withJwt && checkJwtExpiration(jwt)) return new Error("JWT expired");
   const res = await axios({
     method,
     url: "/api" + urlEnd,
     data: data,
-    headers: await getHeaders(withJwt),
+    headers: getHeaders(jwt),
   }).catch((err) => handleErr(err));
   // saveToStorage(res);
   return res;
 }
 
-function checkJwtExpiration() {
-  if (isJwtExpired()) {
+function checkJwtExpiration(jwt) {
+  if (isJwtExpired(jwt) || !jwt) {
     store.dispatch("auth/logout");
     alert(vm.$l("auth.error.expired"));
     return true;
@@ -28,8 +29,7 @@ function checkJwtExpiration() {
   return false;
 }
 
-export function isJwtExpired() {
-  const jwt = JSON.parse(sessionStorage.getItem("user")).jwt;
+export function isJwtExpired(jwt) {
   if (!jwt) return true;
   const decodedJwt = parseJwt(jwt);
   return Date.now() > decodedJwt.exp * 1000;
@@ -43,19 +43,16 @@ export function isJwtExpired() {
   }
 }
 
-async function getHeaders(withJwt) {
-  let jwt = null;
-  if (withJwt) jwt = await getJwt();
+function getHeaders(jwt) {
   return {
     Authorization: `Bearer ${jwt}`,
     "Content-Type": "application/json",
   };
+}
 
-  async function getJwt() {
-    const jwt = await store.dispatch("auth/refreshJwt");
-    console.log(jwt);
-    return jwt;
-  }
+export async function getJwt() {
+  const jwt = await store.dispatch("auth/refreshJwt").then((r) => r?.data?.jwt);
+  return jwt;
 }
 
 function handleErr(err) {

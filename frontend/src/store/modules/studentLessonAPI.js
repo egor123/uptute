@@ -1,4 +1,4 @@
-import { apiRequest } from "@/services/api.service.js";
+import { apiRequest, isJwtExpired } from "@/services/api.service.js";
 import router from "@/router";
 
 export default {
@@ -102,7 +102,7 @@ async function getOffers(context) {
     return await apiRequest({
       method: "get",
       urlEnd: "/lessons/logs/" + state.logId + "/offer",
-    }).then((r) => r.data.childLogs.map((obj) => obj.id));
+    }).then((r) => r.data?.childLogs?.map((obj) => obj.id));
   }
   async function getTutorsDetails({ offerLogIds }) {
     return offerLogIds.map((offerLogId) => {
@@ -158,7 +158,7 @@ async function listenForInit(context) {
     return data;
   }
   function getInitLog(getInitRes) {
-    return getInitRes.data.childLogs.find(
+    return getInitRes.data?.childLogs.find(
       (childLog) => childLog.type === "INIT"
     );
   }
@@ -171,7 +171,10 @@ async function listenForInit(context) {
 }
 
 function exitIfUndefined(context, { data, alertName }) {
-  if (!data && context.state.logId != "") {
+  const jwt = JSON.parse(sessionStorage.getItem("user")).jwt;
+  if (isJwtExpired(jwt))
+    context.commit("mutate", { name: "state", val: "idle" });
+  else if (!data && context.state.logId != "") {
     alert(context.state.vm.$l(`choose_a.tutor.fail.${alertName}`));
     context.dispatch("deleteLesson");
     router.go(-1);

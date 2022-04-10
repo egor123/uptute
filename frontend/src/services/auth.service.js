@@ -48,13 +48,17 @@ export default {
       urlEnd: "/auth/refreshToken",
       data: { refreshToken },
       withJwt: false,
-    }).then((r) => {
-      localStorage.setItem("refreshToken", r.data.refreshToken);
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      user.jwt = r.data.jwt;
-      store.dispatch("auth/updateUser", user);
-      return user.jwt;
-    });
+    }).then((r) => tryUpdateInfo(r));
+
+    function tryUpdateInfo(r) {
+      if (r.statusText == "OK") {
+        localStorage.setItem("refreshToken", r.data.refreshToken);
+        const user = JSON.parse(sessionStorage.getItem("user"));
+        user.jwt = r.data.jwt;
+        store.dispatch("auth/updateUser", user);
+      }
+      return r;
+    }
   },
   // logout() {
   //   localStorage.removeItem("user");
@@ -67,6 +71,7 @@ export default {
 
 function handleErr(err) {
   console.error(err.response.data);
+  console.log("ERROR");
   return err;
 }
 

@@ -119,8 +119,12 @@ export default {
       return this.$store.state.studentLessonAPI.tutors;
     },
   },
-  beforeRouteLeave(to, from, next) {
-    if (this.$store.state.studentLessonAPI.state === "idle" || isJwtExpired())
+  async beforeRouteLeave(to, from, next) {
+    const jwt = JSON.parse(sessionStorage.getItem("user")).jwt;
+    if (
+      this.$store.state.studentLessonAPI.state === "idle" ||
+      isJwtExpired(jwt)
+    )
       next();
     this.showAlert = true;
     this.untilClick().then(async (val) => {
