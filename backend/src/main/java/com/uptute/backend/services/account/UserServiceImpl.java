@@ -41,12 +41,13 @@ public class UserServiceImpl implements UserService {
         var user = userRepository.findByUUID(UUID).get();
         validateRoles(user, ERole.ROLE_TUTOR);
         var uDet = user.getUserDetails();
-        var age = new Date(new Date().getTime() - uDet.getBirthday().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+        var age = new Date(new Date().getTime() - uDet.getBirthday().getTime()).toInstant()
+                .atZone(ZoneId.systemDefault()).toLocalDate().getYear();
         return new TutorDetailsResponse(UUID, uDet.getFirstName(), uDet.getLastName(), age);
     }
 
-    private void validateRoles(User user, ERole role) throws UserHasNotRoleException{
-        if(user.getRoles().stream().anyMatch(r -> r.getName().equals(role)))
+    private void validateRoles(User user, ERole role) throws UserHasNotRoleException {
+        if (!user.getRoles().stream().anyMatch(r -> r.getName().equals(role)))
             throw new UserHasNotRoleException(user.getUUID(), role);
     }
 }
