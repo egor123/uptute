@@ -83,6 +83,10 @@ public class LessonServiceImpl implements LessonService {
             logWrapper.validateLogForExpiration(lesson.getLogs().iterator().next());
         } catch (AutoExpiredException e) {
             return false;
+        } catch (NoSuchElementException e) {
+            lesson.setStatus(ELessonStatus.CLOSED);
+            lessonRepository.save(lesson);
+            return false;
         }
         for (var log : lesson.getLogs()) {
             if (log.getCreatedBy().equals(auth.getName())) {

@@ -48,19 +48,8 @@ public class LogWrapperImpl implements LogWrapper {
 
     @Override
     public void validateLogForExpiration(LessonLog log) throws AutoExpiredException {
-        if (log == null || !log.getActive())
-            return;
-        validateLogForExpiration(log.getParentLog());
-        try {
+        if (log != null)
             getHandler(log.getType()).valideteLogForExpiration(log);
-        } catch (AutoExpiredException e) {
-            try {
-                createLog(log.getId(), ELogType.CLOSED, null, "AUTO_EXPIRED");
-            } catch (NoSuchElementException | LogIsClosedException | LogAlreadyExists | UnsupportedParentLogType e1) {
-                throw new RuntimeException(e1.getMessage());
-            }
-            throw e;
-        }
     }
 
     private AbstractLogHandler getHandler(ELogType type) {

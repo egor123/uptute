@@ -2,6 +2,7 @@ package com.uptute.backend.services.lessons.logHandlers;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 import com.uptute.backend.domain.UserDetailsImpl;
 import com.uptute.backend.entities.Lesson;
@@ -50,7 +51,8 @@ public abstract class AbstractLogHandler {
         return logRepository.save(log);
     }
 
-    public LessonLog get(Long id, Authentication auth) throws LogIsClosedException, UnsupportedParentLogType, AutoExpiredException {
+    public LessonLog get(Long id, Authentication auth)
+            throws LogIsClosedException, UnsupportedParentLogType, AutoExpiredException {
         var log = logRepository.findById(id).get();
         if (!log.getActive())
             throw new LogIsClosedException(log);
@@ -61,8 +63,17 @@ public abstract class AbstractLogHandler {
     }
 
     public void valideteLogForExpiration(LessonLog log) throws AutoExpiredException {
-        if ((new Date().getTime() - log.getCreatedAt().getTime()) > getExpirationTime())
+        if (!log.getActive())
+            return;
+        logWrapper.validateLogForExpiration(log.getParentLog());
+        if ((new Date().getTime() - log.getCreatedAt().getTime()) > getExpirationTime()) {
+            try {
+                logWrapper.createLog(log.getId(), ELogType.CLOSED, null, "AUTO_EXPIRED");
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
             throw new AutoExpiredException();
+        }
     }
 
     protected enum EPermision {
