@@ -46,7 +46,7 @@ public abstract class AbstractLogHandler {
         }
         addToLesson(lesson, log);
         logIsCreated(auth, log);
-        logWrapper.validateLogForExpiration(log);
+        logWrapper.validateLogForExpiration(log.getParentLog());
         return logRepository.save(log);
     }
 
