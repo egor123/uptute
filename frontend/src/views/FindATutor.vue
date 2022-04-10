@@ -195,6 +195,15 @@ export default {
       });
       if (bool) this.$router.push({ name: "ChooseATutor" });
     },
+    keyPressed(e) {
+      if (e.key === "Enter") this.request();
+    },
+  },
+  mounted() {
+    addEventListener("keypress", this.keyPressed);
+  },
+  beforeDestroy() {
+    removeEventListener("keypress", this.keyPressed);
   },
 };
 </script>
