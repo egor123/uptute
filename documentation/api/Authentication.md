@@ -9,11 +9,9 @@ Path: `/auth/signup`
 RequestBody:
 
 ```
-{ 
+{
     "email": String,
     "password": String,
-    "firstName": String,
-    "lastName": String
 }
 ```
 
@@ -38,7 +36,7 @@ Path: `/auth/signin`
 RequestBody:
 
 ```
-{ 
+{
     "email": String,
     "password": String,
 }
@@ -75,5 +73,5 @@ ResponseBody:
     "jwt": String,
     "tokenType": "Bearer",
     "refrershToken": String,
-} 
+}
 ```
