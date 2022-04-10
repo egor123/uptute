@@ -16,7 +16,7 @@
               class="panelWrapper"
               :id="`panel-${tutor.uuid}`"
             >
-              <Panel :tutor="tutor" class="panel" />
+              <Panel :tutor="tutor" :lesson="lesson" class="panel" />
             </div>
           </v-hover>
         </template>
@@ -43,6 +43,7 @@ import Comments from "@/components/choosing/choosingATutor/aboutTutor/Comments.v
 export default {
   props: {
     tutors: Array,
+    lesson: Object,
   },
   components: {
     Panel,

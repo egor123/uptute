@@ -1,10 +1,14 @@
 <template>
   <div class="content">
     <p>
-      {{ student.topic ? student.topic.text : null }}
+      {{ student.details.details || null }}
     </p>
 
-    <PageViewer :imgs="student.imgs" :upload="false" />
+    <PageViewer
+      v-if="student.details.imgs && student.details.imgs.length > 0"
+      :imgs="student.imgs"
+      :upload="false"
+    />
 
     <Dialog>
       <template v-slot:object>

@@ -7,7 +7,14 @@
             <td class="profile">
               <img class="userImg" src="@/assets/icons/user.svg" />
               <div class="nameAndAge">
-                <h3>{{ student.details ? student.details.name : null }}</h3>
+                <div id="nameWrapper">
+                  <h3>
+                    {{ student.details ? student.details.firstName : null }}
+                  </h3>
+                  <h3>
+                    {{ student.details ? student.details.lastName : null }}
+                  </h3>
+                </div>
                 <span class="age"
                   >{{ student.details ? student.details.grade : null }}
                   {{ $l("choose_a.student.grade") }}</span
@@ -35,13 +42,12 @@
         <div class="infoContainer">
           <div class="subject">
             {{ getSubject(student) }}
-
             <v-spacer />
 
             <div class="topic">
               {{
                 student.details && student.details.topic
-                  ? student.details.topic.title
+                  ? student.details.topic
                   : null
               }}
             </div>
@@ -97,6 +103,12 @@ table {
       }
       .nameAndAge {
         @include flexbox(column);
+        #nameWrapper {
+          @include flexbox(row);
+          & > *:first-child {
+            margin-right: 0.5ch;
+          }
+        }
         .age {
           margin-right: auto;
         }

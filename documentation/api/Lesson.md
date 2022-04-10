@@ -14,7 +14,6 @@ RequestBody:
     "subject": String,
     "topic": String,
     "details": String,
-
 }
 ```
 

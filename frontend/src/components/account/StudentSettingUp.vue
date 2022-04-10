@@ -29,16 +29,6 @@ export default {
     routerPush(to) {
       this.$router.push({ name: to });
     },
-    // async done() {
-    //   const bool = await this.$store
-    //     .dispatch("auth/upgradeToStudent")
-    //     .then((r) => r.data);
-    //   bool;
-    //   // if (bool)
-    //   //   await this.$store.dispatch("auth/tryAddRole", { role: "ROLE_STUDENT" });
-
-    //   this.routerPush("ChooseAStudent");
-    // },
     async done(data) {
       if (this.inProcess) return;
       this.inProcess = true;

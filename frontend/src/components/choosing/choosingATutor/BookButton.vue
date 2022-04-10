@@ -24,7 +24,7 @@
       {{ $l("booking.subheader") }}
     </template>
     <template v-slot:text>
-      <BookTheLesson :tutor="tutor" />
+      <BookTheLesson :tutor="tutor" :lesson="lesson" />
     </template>
   </Dialog>
 </template>
@@ -40,6 +40,7 @@ export default {
   },
   props: {
     tutor: Object,
+    lesson: Object,
   },
 };
 </script>

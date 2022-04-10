@@ -1,5 +1,6 @@
 import { apiRequest, isJwtExpired } from "@/services/api.service.js";
 import router from "@/router";
+import axios from "axios";
 
 export default {
   namespaced: true,
@@ -79,36 +80,52 @@ async function initialize(context) {
   return true;
 
   async function postData({ state }) {
+    let data = state.info;
     return await apiRequest({
       method: "post",
       urlEnd: "/lessons/create",
-      data: {
-        subject: state.info.subject,
-        details: "Test details",
-      },
+      data,
     }).then((r) => r?.data);
   }
 }
 
 async function getOffers(context) {
-  const offerLogIds = await getOfferLogIds(context);
-  if (!exitIfUndefined(context, { data: offerLogIds, alertName: "offers" }))
+  const offerLogs = await getOfferLogs(context);
+  if (!exitIfUndefined(context, { data: offerLogs, alertName: "offers" }))
     return;
-  const tutors = await getTutorsDetails({ offerLogIds });
+  const tutors = await getTutorsDetails({ offerLogs });
   // handle undefined values of tutor
+  console.log(tutors);
   context.commit("mutate", { name: "tutors", val: tutors });
 
-  async function getOfferLogIds({ state }) {
+  async function getOfferLogs({ state }) {
     return await apiRequest({
       method: "get",
       urlEnd: "/lessons/logs/" + state.logId + "/offer",
-    }).then((r) => r.data?.childLogs?.map((obj) => obj.id));
+    }).then((r) => r.data?.childLogs?.map((obj) => obj));
   }
-  async function getTutorsDetails({ offerLogIds }) {
-    return offerLogIds.map((offerLogId) => {
-      return { details: {}, offerLogId };
-    });
+  async function getTutorsDetails({ offerLogs }) {
+    return await axios.all(offerLogs.map((offerLog) => getObj(offerLog)));
     // here should be axios.all request for tutor info
+    async function getObj(offerLog) {
+      const details = await requestDetails(offerLog.createdBy)
+        .then((r) => r.data)
+        .then((r) => hardcodeDetails(r));
+      return { details, offerLog: offerLog.id };
+      async function requestDetails(tutorUUID) {
+        return await apiRequest({
+          method: "get",
+          urlEnd: `/account/${tutorUUID}/tutor`,
+        });
+      }
+      function hardcodeDetails(details) {
+        details.pph = 12;
+        details.hours = 194;
+        details.rating = 3.6;
+        details.comments = 3;
+        return details;
+      }
+    }
   }
 }
 async function rejectOffer(context, { offerLogId }) {

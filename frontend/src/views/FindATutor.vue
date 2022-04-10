@@ -29,7 +29,7 @@
         />
 
         <TextField
-          v-model="info.topic.title"
+          v-model="info.topic"
           :label="$l('find.filters.topic')"
           :rules="(val) => val != '' && val != null"
           :area="false"
@@ -38,7 +38,7 @@
           :borderRadius="'0px'"
         />
         <TextField
-          v-model="info.topic.text"
+          v-model="info.details"
           :label="$l('find.filters.details')"
           :rules="(val) => val != '' && val != null"
           :area="true"
@@ -144,10 +144,8 @@ export default {
         name: "Someone", // Pull from account !!!!
         grade: 12, //Pull from account !!!!
         subject: null, // null
-        topic: {
-          title: "",
-          text: "",
-        },
+        topic: "",
+        details: "",
 
         // ----------------- this are going to be checked but not rendered
         languages: [], // ["EN"]

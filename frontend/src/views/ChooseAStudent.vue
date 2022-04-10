@@ -102,6 +102,7 @@ export default {
     // },
     getStudentsArr() {
       const stateObj = this.$store.state.tutorLessonAPI;
+      console.log(stateObj);
       if (stateObj.offeredLessons.length > 0) return stateObj.offeredLessons;
       return stateObj.lessons;
     },

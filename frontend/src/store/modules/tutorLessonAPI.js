@@ -85,10 +85,32 @@ async function getLessons(context) {
       !exitIfUndefined(context, { data: r, alertName: "lessons" }) ? null : r
     )
     .then((r) => r.data.lessons.map((lesson) => normalize(lesson)))
+    .then(async (lessons) => await getStudentInfo(lessons))
     .then((lsns) => context.commit("mutate", { name: "lessons", val: lsns }));
+
   function normalize(lesson) {
     lesson.details = JSON.parse(lesson.details.replace("/", ""));
     return lesson;
+  }
+  async function getStudentInfo(lessons) {
+    return await axios.all(
+      lessons.map(
+        (lesson) => addStudentInfo(lesson)
+        // cancelOffer({ state }, { offerLogId: offer.offerLogId })
+      )
+    );
+    async function addStudentInfo(lesson) {
+      return await requestInfo(lesson);
+    }
+    async function requestInfo(lesson) {
+      const res = await apiRequest({
+        method: "get",
+        urlEnd: `/account/${lesson.studentUUID}/student`,
+      });
+
+      for (const key in res.data) lesson.details[key] = res.data[key];
+      return lesson;
+    }
   }
 }
 

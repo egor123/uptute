@@ -50,7 +50,7 @@
       </div>
     </template>
     <template v-slot:activator>
-      <BookButton :tutor="tutor" />
+      <BookButton :tutor="tutor" :lesson="lesson" />
     </template>
   </HiddenButtonCard>
 </template>
@@ -78,6 +78,7 @@ export default {
   props: {
     tooltipUse: String,
     tutor: Object,
+    lesson: Object,
   },
   methods: {
     openComments() {
