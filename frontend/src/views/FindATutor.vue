@@ -7,7 +7,12 @@
       </v-btn>
       <FilterPanel
         ref="panel"
-        @next="(action, callback) => ifPanel2IsValid(action, callback)"
+        @next="
+          (action, callback) =>
+            action == 'isValid'
+              ? ifPanel2IsValid(action, callback)
+              : refreshPanel2(action)
+        "
       >
         <!-- $refs.panel2[action]() -->
         <ExpandableListSelector
@@ -187,6 +192,9 @@ export default {
     },
     ifPanel2IsValid(action, callback) {
       callback(this.$refs.panel2[action]());
+    },
+    refreshPanel2(action) {
+      this.$refs.panel2[action]();
     },
     async sendLessonRequest() {
       const bool = await this.$store.dispatch("studentLessonAPI/request", {
