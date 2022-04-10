@@ -6,34 +6,38 @@
     </label>
     <FilterPanel ref="panel" @next="(action) => $refs.panel2[action]()">
       <TextField
-        v-model="name"
+        v-model="data.firstName"
+        :counter="nameLength"
         :label="$l('set_up.name')"
-        :rules="(val) => val != '' && val != null"
+        :rules="(v) => v.length > 0"
         :borderRadius="'15px 15px 0px 0px'"
         :flat="false"
+        required
       />
       <TextField
-        v-model="surname"
+        v-model="data.lastName"
+        :counter="surnameLength"
         :label="$l('set_up.surname')"
-        :rules="(val) => val != '' && val != null"
+        :rules="(v) => v.length > 0"
         :borderRadius="'0px 0px 15px 15px'"
         :flat="false"
+        required
       />
     </FilterPanel>
 
     <FilterPanel ref="panel2">
       <ExpandableCalendar
-        v-model="birthday"
+        v-model="data.birthday"
         :label="$l('set_up.birth')"
-        :text="birthday"
+        :text="data.birthday"
         :rules="(item) => item != null"
         borderRadius="15px 15px 0px 0px"
         :flat="false"
       />
       <ExpandableSlider
-        v-model="grade"
+        v-model="data.grade"
         :label="$l('set_up.grade')"
-        :text="grade"
+        :text="data.grade"
         :min="1"
         :max="12"
         borderRadius="0px 0px 15px 15px"
@@ -63,10 +67,40 @@ export default {
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9tbe0h9I_HCaMS2lyCsdTRXmznpSg9Rn5iA&usqp=CAU",
       },
-      name: "",
-      surname: "",
-      birthday: null,
-      grade: 1,
+      // birthday: null, //"2003-07-24"
+      // grade: null, //12
+      nameLength: 20,
+      surnameLength: 20,
+      nameMinLength: 3,
+      surnameMinLength: 3,
+      // nameRules: [
+      //   (v) => !!v || this.$l("auth.rules.require"),
+      //   (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
+      //   (v) =>
+      //     (v && v.length >= this.nameMinLength) ||
+      //     this.$l("auth.rules.name.lenght.min", {
+      //       n: this.nameMinLength,
+      //     }),
+      //   (v) =>
+      //     (v && v.length <= this.nameLength) ||
+      //     this.$l("auth.rules.name.lenght.max", {
+      //       n: this.nameLength,
+      //     }),
+      // ],
+      // surnameRules: [
+      //   (v) => !!v || this.$l("auth.rules.require"),
+      //   (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
+      //   (v) =>
+      //     (v && v.length >= this.surnameMinLength) ||
+      //     this.$l("auth.rules.surname.lenght.min", {
+      //       n: this.surnameMinLength,
+      //     }),
+      //   (v) =>
+      //     (v && v.length <= this.surnameLength) ||
+      //     this.$l("auth.rules.surname.lenght.max", {
+      //       n: this.surenameLength,
+      //     }),
+      // ],
     };
   },
   methods: {
@@ -80,6 +114,11 @@ export default {
     },
     async isValid() {
       await this.$refs.panel.isValid();
+    },
+  },
+  props: {
+    data: {
+      type: Object,
     },
   },
 };

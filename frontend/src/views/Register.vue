@@ -7,25 +7,6 @@
         <v-text-field
           filled
           rounded
-          v-model="name"
-          :counter="nameLength"
-          :rules="nameRules"
-          :label="$l('auth.name')"
-          required
-        ></v-text-field>
-        <v-text-field
-          filled
-          rounded
-          v-model="surname"
-          :counter="surnameLength"
-          :rules="surnameRules"
-          :label="$l('auth.surname')"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          filled
-          rounded
           v-model="email"
           :rules="emailRules"
           :label="$l('auth.email')"
@@ -33,6 +14,8 @@
         ></v-text-field>
 
         <v-text-field
+          filled
+          rounded
           v-model="password"
           :rules="passwordRules"
           :type="showPassword ? 'text' : 'password'"
@@ -48,12 +31,14 @@
               :value="progress"
               :color="color"
               absolute
-              height="7"
+              id="progressBar"
             ></v-progress-linear>
           </template>
         </v-text-field>
 
         <v-text-field
+          filled
+          rounded
           v-model="password2"
           :rules="password2Rules"
           :type="showPassword2 ? 'text' : 'password'"
@@ -121,41 +106,8 @@ export default {
   data() {
     return {
       valid: true,
-      name: "",
-      surname: "",
-      nameLength: 20,
-      surnameLength: 20,
-      nameMinLength: 3,
-      surnameMinLength: 3,
+
       inProcess: false,
-      nameRules: [
-        (v) => !!v || this.$l("auth.rules.require"),
-        (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
-        (v) =>
-          (v && v.length >= this.nameMinLength) ||
-          this.$l("auth.rules.name.lenght.min", {
-            n: this.nameMinLength,
-          }),
-        (v) =>
-          (v && v.length <= this.nameLength) ||
-          this.$l("auth.rules.name.lenght.max", {
-            n: this.nameLength,
-          }),
-      ],
-      surnameRules: [
-        (v) => !!v || this.$l("auth.rules.require"),
-        (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
-        (v) =>
-          (v && v.length >= this.surnameMinLength) ||
-          this.$l("auth.rules.surname.lenght.min", {
-            n: this.surnameMinLength,
-          }),
-        (v) =>
-          (v && v.length <= this.surnameLength) ||
-          this.$l("auth.rules.surname.lenght.max", {
-            n: this.surenameLength,
-          }),
-      ],
       email: "",
       emailRules: [
         (v) => !!v || this.$l("auth.rules.email.require"),
@@ -276,6 +228,19 @@ p.link {
     color: var(--v-secondary-darken3);
   }
   margin: 1rem 0 0 0;
+}
+
+::v-deep {
+  .v-input__slot {
+    overflow: hidden;
+  }
+}
+
+#progressBar {
+  $bar_height: 4px;
+  height: $bar_height !important;
+  margin-top: -0.5 * $bar_height;
+  opacity: 0.5;
 }
 </style>
 

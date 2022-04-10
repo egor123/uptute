@@ -28,6 +28,7 @@
         :label="$l('set_up.zoom')"
         img="zoom-icon"
         :flat="false"
+        :value="data.conferenceLink"
       />
       <div id="dialogContainer">
         <Dialog>
@@ -107,18 +108,21 @@ export default {
   },
   data() {
     return {
-      moto: "",
-      about: "",
-      zoomLink: "",
-      subjects: [],
-      audience: [1, 12],
-      languages: [],
+      moto: "", //"My moto"
+      about: "", //"Something about me"
+      // zoomLink: "",
+      subjects: [], //["MATH"]
+      audience: [], //[1, 12]
+      languages: [], //["EN"]
     };
   },
   methods: {
     async isValid() {
       await this.$refs.panel.isValid();
     },
+  },
+  props: {
+    data: Object,
   },
 };
 </script>

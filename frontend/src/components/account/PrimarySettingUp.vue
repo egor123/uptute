@@ -2,7 +2,7 @@
   <!-- <AccountBase :title="$l('set_up.subheader')"> -->
   <div>
     <Subheader :title="$l('set_up.subheader')" />
-    <PrimarySettings />
+    <PrimarySettings :data="data" />
 
     <div class="checkbox">
       <v-checkbox
@@ -59,12 +59,25 @@ export default {
   data() {
     return {
       checkbox: false,
+      data: {
+        firstName: null,
+        lastName: null,
+        birthday: null,
+        grade: null,
+      },
     };
   },
   methods: {
     routerPush(to) {
       this.$router.push({ name: to });
     },
+    // async updateUserDetails(data) {
+    //   console.log(data);
+    //   if (this.isUpdating) return;
+    //   this.isUpdating = true;
+    //   await this.$store.dispatch("account/updateUserDetails", { data });
+    //   this.isUpdating = false;
+    // },
   },
 };
 </script>
