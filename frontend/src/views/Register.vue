@@ -93,7 +93,7 @@
       </v-form>
 
       <br />
-      <v-alert
+      <!-- <v-alert
         v-if="errorMessage != ''"
         dense
         outlined
@@ -102,7 +102,7 @@
         type="warning"
       >
         {{ errorMessage }}
-      </v-alert>
+      </v-alert> -->
       <p class="link" @click="goTo('LogIn')">
         {{ $l("auth.account_already") }}
       </p>
@@ -127,6 +127,7 @@ export default {
       surnameLength: 20,
       nameMinLength: 3,
       surnameMinLength: 3,
+      inProcess: false,
       nameRules: [
         (v) => !!v || this.$l("auth.rules.require"),
         (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
@@ -186,7 +187,7 @@ export default {
           this.$l("auth.rules.password.not_matching"),
       ],
       checkbox: false,
-      errorMessage: "",
+      // errorMessage: "",
     };
   },
   computed: {
@@ -214,14 +215,16 @@ export default {
       if (e.key === "Enter") this.tryRegister();
     },
     async tryRegister() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && !this.inProcess) {
         const form = {
           firstName: this.name,
           lastName: this.surname,
           email: this.email,
           password: this.password,
         };
-        this.$store.dispatch("auth/signup", form);
+        this.inProcess = true;
+        await this.$store.dispatch("auth/signup", form);
+        this.inProcess = false;
       }
     },
   },

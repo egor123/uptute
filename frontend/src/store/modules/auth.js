@@ -24,7 +24,7 @@ export default {
           routeName: "PrimarySettingUp",
         });
         if (r.statusText != "OK") router.push({ name: "LogIn" });
-      } else alert(vm.$l("auth.error.email_exists")); //Change to something from locales // response.response.data
+      } else alert(vm.$l("auth.error.email_exists"));
 
       return response;
     },
