@@ -1,17 +1,18 @@
 package com.uptute.backend.services.account;
 
+import com.uptute.backend.domain.StudentDetails;
+import com.uptute.backend.domain.TutorDetails;
+import com.uptute.backend.domain.UserDetails;
 import com.uptute.backend.exceptions.InvalidParamException;
-import com.uptute.backend.payloads.account.StudentDetailsPayload;
-import com.uptute.backend.payloads.account.TutorDetailsPayload;
-import com.uptute.backend.payloads.account.UserDetailsPayload;
+
 
 import org.springframework.security.core.Authentication;
 
 public interface UserUpdateService {
-    UserDetailsPayload updateUserDetails(Authentication auth, UserDetailsPayload request) throws InvalidParamException;
+    UserDetails updateUserDetails(Authentication auth, UserDetails request) throws InvalidParamException;
 
-    StudentDetailsPayload updateStudentDetails(Authentication auth, StudentDetailsPayload request) throws InvalidParamException;
+    StudentDetails updateStudentDetails(Authentication auth, StudentDetails request) throws InvalidParamException;
 
-    TutorDetailsPayload updateTutorDetails(Authentication auth, TutorDetailsPayload request) throws InvalidParamException;
+    TutorDetails updateTutorDetails(Authentication auth, TutorDetails request) throws InvalidParamException;
 
 }

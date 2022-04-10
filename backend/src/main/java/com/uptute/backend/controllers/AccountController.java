@@ -4,12 +4,12 @@ import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
+import com.uptute.backend.domain.StudentDetails;
+import com.uptute.backend.domain.TutorDetails;
+import com.uptute.backend.domain.UserDetails;
 import com.uptute.backend.exceptions.AccountAlreadyHasRoleException;
 import com.uptute.backend.exceptions.InvalidParamException;
 import com.uptute.backend.exceptions.UserHasNotRoleException;
-import com.uptute.backend.payloads.account.StudentDetailsPayload;
-import com.uptute.backend.payloads.account.TutorDetailsPayload;
-import com.uptute.backend.payloads.account.UserDetailsPayload;
 import com.uptute.backend.services.account.UserService;
 import com.uptute.backend.services.account.UserUpdateService;
 import com.uptute.backend.services.account.UserUpgradeService;
@@ -46,7 +46,7 @@ public class AccountController {
     @PreAuthorize("hasRole('USER')")
     @PatchMapping("/me/user")
     public ResponseEntity<?> updateUserDetails(Authentication auth,
-            @RequestBody UserDetailsPayload request) {
+            @RequestBody UserDetails request) {
         try {
             return ResponseEntity.ok(updateService.updateUserDetails(auth, request));
         } catch (InvalidParamException e) {
@@ -55,7 +55,7 @@ public class AccountController {
     }
 
     @PostMapping("/me/user")
-    public ResponseEntity<?> upgradeToUser(Authentication auth, @RequestBody @Valid UserDetailsPayload request) {
+    public ResponseEntity<?> upgradeToUser(Authentication auth, @RequestBody @Valid UserDetails request) {
         try {
             return ResponseEntity.ok(upgradeService.upgradeToUser(auth, request));
         } catch (AccountAlreadyHasRoleException e) {
@@ -65,7 +65,7 @@ public class AccountController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/me/student")
-    public ResponseEntity<?> upgradeToStudent(Authentication auth, @RequestBody @Valid StudentDetailsPayload request) {
+    public ResponseEntity<?> upgradeToStudent(Authentication auth, @RequestBody @Valid StudentDetails request) {
         try {
             return ResponseEntity.ok(upgradeService.upgradeToStudent(auth, request));
         } catch (AccountAlreadyHasRoleException e) {
@@ -75,7 +75,7 @@ public class AccountController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/me/tutor")
-    public ResponseEntity<?> upgradeToTutor(Authentication auth, @RequestBody @Valid TutorDetailsPayload request) {
+    public ResponseEntity<?> upgradeToTutor(Authentication auth, @RequestBody @Valid TutorDetails request) {
         try {
             return ResponseEntity.ok(upgradeService.upgradeToTutor(auth, request));
         } catch (AccountAlreadyHasRoleException e) {

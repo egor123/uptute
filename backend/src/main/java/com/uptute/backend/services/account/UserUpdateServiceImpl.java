@@ -6,9 +6,9 @@ import javax.validation.Validator;
 
 import com.uptute.backend.entities.User;
 import com.uptute.backend.exceptions.InvalidParamException;
-import com.uptute.backend.payloads.account.StudentDetailsPayload;
-import com.uptute.backend.payloads.account.TutorDetailsPayload;
-import com.uptute.backend.payloads.account.UserDetailsPayload;
+import com.uptute.backend.domain.StudentDetails;
+import com.uptute.backend.domain.TutorDetails;
+import com.uptute.backend.domain.UserDetails;
 import com.uptute.backend.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,24 +25,25 @@ public class UserUpdateServiceImpl implements UserUpdateService {
     private Validator validator;
 
     @Override
-    public UserDetailsPayload updateUserDetails(Authentication auth, UserDetailsPayload request)
+    public UserDetails updateUserDetails(Authentication auth, UserDetails request)
             throws InvalidParamException {
         return updateDetails(request, auth, User::getUserDetails);
     }
 
     @Override
-    public StudentDetailsPayload updateStudentDetails(Authentication auth, StudentDetailsPayload request)
+    public StudentDetails updateStudentDetails(Authentication auth, StudentDetails request)
             throws InvalidParamException {
         return updateDetails(request, auth, User::getStudentDetails);
     }
 
     @Override
-    public TutorDetailsPayload updateTutorDetails(Authentication auth, TutorDetailsPayload request)
+    public TutorDetails updateTutorDetails(Authentication auth, TutorDetails request)
             throws InvalidParamException {
         return updateDetails(request, auth, User::getTutorDetails);
     }
 
-    private <T> T updateDetails(T request, Authentication auth, Function<User, Object> getDetails) throws InvalidParamException{
+    private <T> T updateDetails(T request, Authentication auth, Function<User, T> getDetails)
+            throws InvalidParamException {
         validateRequest(request);
         var user = userRepository.findByUUID(auth.getName()).get();
         setDetails(getDetails.apply(user), request);
@@ -57,17 +58,13 @@ public class UserUpdateServiceImpl implements UserUpdateService {
         }
     }
 
-    private void setDetails(Object details, Object request) {
+    private <T> void setDetails(T details, T request) {
         try {
-            for (var requestField : request.getClass().getDeclaredFields()) {
-                var detailsField = details.getClass().getDeclaredField(requestField.getName());
-                detailsField.setAccessible(true);
-                requestField.setAccessible(true);
-                var requestValue = requestField.get(request);
-                var value = (requestValue != null) ? requestValue : detailsField.get(details);
-                detailsField.set(details, value);
-                requestField.set(request, value);
+            for (var field : details.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                field.set(details, (field.get(request) != null) ? field.get(request) : field.get(details));
             }
+            request = details;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
