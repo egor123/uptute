@@ -65,7 +65,8 @@
     },
     "error": {
       "email_exists": "Konto sellise meiliga juba eksisteerib",
-      "email_or_password": "Vale meil või salasõna"
+      "email_or_password": "Vale meil või salasõna",
+      "expired": "Sessioon on aegunud"
     }
   },
   "app": {

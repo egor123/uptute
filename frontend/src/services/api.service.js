@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "@/store/index.js";
-// import router from "@/router";
+import { vm } from "@/main.js";
 
 export async function apiRequest({
   method,
@@ -13,7 +13,7 @@ export async function apiRequest({
     method,
     url: "/api" + urlEnd,
     data: data,
-    headers: getHeaders(withJwt),
+    headers: await getHeaders(withJwt),
   }).catch((err) => handleErr(err));
   // saveToStorage(res);
   return res;
@@ -22,7 +22,7 @@ export async function apiRequest({
 function checkJwtExpiration() {
   if (isJwtExpired()) {
     store.dispatch("auth/logout");
-    alert("Session expired"); // Change to sth from locales
+    alert(vm.$l("auth.error.expired"));
     return true;
   }
   return false;
@@ -43,29 +43,20 @@ export function isJwtExpired() {
   }
 }
 
-function getHeaders(withJwt) {
-  const user = JSON.parse(sessionStorage.getItem("user"));
+async function getHeaders(withJwt) {
+  let jwt = null;
+  if (withJwt) jwt = await getJwt();
   return {
-    Authorization: withJwt ? `Bearer ${getJwt(user)}` : null,
+    Authorization: `Bearer ${jwt}`,
     "Content-Type": "application/json",
   };
 
-  function getJwt(user) {
-    return user.jwt;
+  async function getJwt() {
+    const jwt = await store.dispatch("auth/refreshJwt");
+    console.log(jwt);
+    return jwt;
   }
 }
-
-// async function getJwt(refreshToken, user) {
-//   let jwt = user.jwt;
-//   if ((jwt == undefined || isJwtExpired(jwt)) && refreshToken != undefined) {
-//     const res = await apiRequest({
-//       method: "post",
-//       urlEnd: "/auth/refreshToken",
-//     });
-//     jwt = res.jwt;
-//   }
-//   return jwt;
-// }
 
 function handleErr(err) {
   console.error(err.response.data);
