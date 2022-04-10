@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UpgradeToUserRequst {
+public class UserDetailsPayload {
     @NotBlank(message = "{validation.firstName.required}")
     @Size(min = 3, message = "{validation.firstName.size.too_short}")
     @Size(max = 20, message = "{validation.firstName.size.too_long}")

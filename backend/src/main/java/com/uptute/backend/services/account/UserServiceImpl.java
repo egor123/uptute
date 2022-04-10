@@ -8,7 +8,6 @@ import com.uptute.backend.exceptions.UserHasNotRoleException;
 import com.uptute.backend.payloads.account.UserDetailsResponse;
 import com.uptute.backend.payloads.account.StudentDetailsResponse;
 import com.uptute.backend.payloads.account.TutorDetailsResponse;
-import com.uptute.backend.payloads.account.UpdateUserDetailsRequest;
 import com.uptute.backend.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +16,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepository userRepository;
-
-
-    @Override
-    public UserDetailsResponse updateUserDetails(Authentication auth, UpdateUserDetailsRequest details) {
-        var user = getUser(auth);
-        var usrDet = user.getUserDetails();
-        user.setEmail((details.getEmail() == "") ? user.getEmail() : details.getEmail());
-        usrDet.setFirstName((details.getFirstName() == "") ? usrDet.getFirstName() : details.getFirstName());
-        usrDet.setLastName((details.getLastName() == "") ? usrDet.getLastName() : details.getLastName());
-        return getUserDetails(userRepository.save(user));
-    }
 
     @Override
     public UserDetailsResponse getUserDetails(Authentication auth) {

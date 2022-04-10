@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpgradeToStudentRequest {
+public class StudentDetailsPayload {
     @NotNull(message = "{validation.grade.required}")
     @Min(value = 3, message = "{validation.last_name.size.too_short}")
     @Max(value = 20, message = "{validation.last_name.size.too_long}")
