@@ -2,7 +2,7 @@
   <div>
     <!-- <AccountBase :title="$l('set_up.subheader')"> -->
     <Subheader :title="$l('set_up.subheader')" />
-    <SecondarySettings />
+    <TutorSettings :data="data" />
     <v-btn @click="done()" id="done" rounded outlined color="accent">{{
       $l("set_up.button")
     }}</v-btn>
@@ -10,16 +10,23 @@
 </template>
 
 <script>
-import SecondarySettings from "./SecondarySettings.vue";
+import TutorSettings from "./TutorSettings.vue";
 import Subheader from "@/components/app/Subheader.vue";
 
 export default {
+  data() {
+    return {
+      data: {
+        conferenceLink: null,
+      },
+    };
+  },
   permisions: {
     roles: ["ROLE_STUDENT"],
     redirect: "LogIn",
   },
   components: {
-    SecondarySettings,
+    TutorSettings,
     Subheader,
   },
   methods: {
@@ -41,11 +48,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep {
-  #buttonWrapper {
-    display: none;
-  }
-}
 #done.v-btn {
   margin-top: 3rem;
 }

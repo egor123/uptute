@@ -37,7 +37,7 @@ import StudentPanels from "@/components/choosing/choosingAStudent/StudentPanels.
 export default {
   permisions: {
     roles: "ROLE_TUTOR",
-    redirect: "/setting_up/secondary",
+    redirect: "/setting_up/tutor",
   },
   components: {
     Background,

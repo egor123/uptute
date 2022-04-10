@@ -12,7 +12,8 @@
 import Background from "@/components/global/background/Background.vue";
 import BackgroundCard from "@/components/global/background/BackgroundCard.vue";
 import PrimarySettingUp from "@/components/account/PrimarySettingUp.vue";
-import SecondarySettingUp from "@/components/account/SecondarySettingUp.vue";
+import StudentSettingUp from "@/components/account/StudentSettingUp.vue";
+import TutorSettingUp from "@/components/account/TutorSettingUp.vue";
 
 export default {
   children: [
@@ -22,9 +23,14 @@ export default {
       component: PrimarySettingUp,
     },
     {
-      name: "SecondarySettingUp",
-      path: "secondary",
-      component: SecondarySettingUp,
+      name: "StudentSettingUp",
+      path: "student",
+      component: StudentSettingUp,
+    },
+    {
+      name: "TutorSettingUp",
+      path: "tutor",
+      component: TutorSettingUp,
     },
   ],
   components: {

@@ -31,16 +31,7 @@
         :label="$l('set_up.birth')"
         :text="data.birthday"
         :rules="(item) => item != null"
-        borderRadius="15px 15px 0px 0px"
-        :flat="false"
-      />
-      <ExpandableSlider
-        v-model="data.grade"
-        :label="$l('set_up.grade')"
-        :text="data.grade"
-        :min="1"
-        :max="12"
-        borderRadius="0px 0px 15px 15px"
+        borderRadius="15px"
         :flat="false"
       />
     </FilterPanel>
@@ -50,14 +41,12 @@
 <script>
 import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
 import ExpandableCalendar from "@/components/filterPanel/ExpandableCalendar.vue";
-import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 import TextField from "@/components/filterPanel/TextField";
 
 export default {
   components: {
     FilterPanel,
     ExpandableCalendar,
-    ExpandableSlider,
     TextField,
   },
   data() {

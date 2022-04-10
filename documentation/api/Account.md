@@ -13,7 +13,6 @@ RequestBody:
 {
     "firstName": String,
     "lastName": String,
-    "grade": Number,
     "birthday": String,
 }
 ```
@@ -191,3 +190,4 @@ ResponseBody:
     "conferenceLink": String,
 }
 ```
+
