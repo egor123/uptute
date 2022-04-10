@@ -23,10 +23,11 @@ const router = new VueRouter({
     return { x: 0, y: 0 };
   },
 });
+store;
 router.beforeEach((to, from, next) => {
   if (Object.keys(to.meta).length === 0) return next(); //TODO fix children
   const redirect = to.meta.redirect.includes("/")
-    ? { path: to.meta.redirect }
+    ? { path: "/" + to.params.locale + to.meta.redirect }
     : { name: to.meta.redirect };
   if (!to.meta.allowedOrigins.includes("ALL"))
     if (
