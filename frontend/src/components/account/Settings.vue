@@ -3,7 +3,13 @@
     <Subheader :title="$l('acc_pages.settings')" />
     <PrimarySettings :data="data" />
     <SecondarySettings :data="data" v-if="roles.includes('ROLE_TUTOR')" />
-    <v-btn @click="saveChanges(data)" id="save" rounded outlined color="accent">
+    <v-btn
+      @click="updateUserDetails(data)"
+      id="save"
+      rounded
+      outlined
+      color="accent"
+    >
       {{ $l("settings.save") }}</v-btn
     >
   </div>
@@ -13,7 +19,7 @@
 import Subheader from "@/components/app/Subheader.vue";
 import PrimarySettings from "@/components/account/PrimarySettings.vue";
 import SecondarySettings from "@/components/account/SecondarySettings.vue";
-import { apiRequest } from "@/services/api.service.js";
+// import { apiRequest } from "@/services/api.service.js";
 
 export default {
   name: "Settings",
@@ -35,6 +41,7 @@ export default {
   data() {
     return {
       data: {},
+      isUpdating: false,
     };
   },
   mounted() {
@@ -42,17 +49,15 @@ export default {
   },
   methods: {
     async getUserDetails() {
-      this.data = await apiRequest({
-        method: "get",
-        urlEnd: "/account/me",
-      }).then((r) => r.data);
+      this.data = await this.$store
+        .dispatch("account/getUserDetails")
+        .then((r) => r.data);
     },
-    async saveChanges(data) {
-      await apiRequest({
-        method: "patch",
-        urlEnd: "/account/me",
-        data,
-      });
+    async updateUserDetails(data) {
+      if (this.isUpdating) return;
+      this.isUpdating = true;
+      await this.$store.dispatch("account/updateUserDetails", { data });
+      this.isUpdating = false;
     },
   },
 };

@@ -56,11 +56,6 @@ export default {
       localStorage.removeItem("refreshToken");
       router.push({ name: "LogIn" });
     },
-    // isAuth(ctx) {
-    //   const val = auth.isAuth();
-    //   ctx.commit("updateStatus", val);
-    //   return val;
-    // },
     async tryAddRole(ctx, { role }) {
       let user = JSON.parse(sessionStorage.getItem("user"));
       if (!user.roles.includes(role)) {
