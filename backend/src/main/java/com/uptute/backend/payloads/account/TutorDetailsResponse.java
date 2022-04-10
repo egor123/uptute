@@ -8,4 +8,5 @@ public class TutorDetailsResponse {
     private String UUID;
     private String firstName;
     private String lastName;
+    private int age;
 }

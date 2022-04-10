@@ -122,6 +122,7 @@ ResponseBody:
     "UUID": String
     "firstName": String,
     "lastName": String,
+    "age": Number
 }
 ```
 
