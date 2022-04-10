@@ -1,7 +1,8 @@
 package com.uptute.backend.services.account;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
+import java.time.temporal.ChronoUnit;
 import java.util.NoSuchElementException;
 
 import com.uptute.backend.entities.User;
@@ -41,13 +42,17 @@ public class UserServiceImpl implements UserService {
         var user = userRepository.findByUUID(UUID).get();
         validateRoles(user, ERole.ROLE_TUTOR);
         var uDet = user.getUserDetails();
-        var age = new Date(new Date().getTime() - uDet.getBirthday().getTime()).toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDate().getYear();
-        return new TutorDetailsResponse(UUID, uDet.getFirstName(), uDet.getLastName(), age);
+        return new TutorDetailsResponse(UUID, uDet.getFirstName(), uDet.getLastName(), getAge(user));
     }
 
     private void validateRoles(User user, ERole role) throws UserHasNotRoleException {
         if (!user.getRoles().stream().anyMatch(r -> r.getName().equals(role)))
             throw new UserHasNotRoleException(user.getUUID(), role);
+    }
+
+    private long getAge(User user) {
+        var now = LocalDate.now();
+        var birthday = user.getUserDetails().getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return ChronoUnit.YEARS.between(birthday, now);
     }
 }
