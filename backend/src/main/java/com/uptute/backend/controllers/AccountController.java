@@ -83,6 +83,7 @@ public class AccountController {
         }
     }
 
+    @PreAuthorize("hasRole('TUTOR')")
     @GetMapping("/{UUID}/student")
     public ResponseEntity<?> getStudentDetails(@PathVariable String UUID) {
         try {
@@ -92,6 +93,7 @@ public class AccountController {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{UUID}/tutor")
     public ResponseEntity<?> getTutorDetails(@PathVariable String UUID) {
         try {
