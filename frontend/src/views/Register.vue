@@ -123,12 +123,12 @@ export default {
         (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.rules.no_spaces"),
         (v) =>
           (v && v.length >= this.passwordMinLength) ||
-          this.$l("auth.rules.password.lenght.min", {
+          this.$l("auth.rules.password.length.min", {
             n: this.passwordMinLength,
           }),
         (v) =>
           (v && v.length <= this.passwordLength) ||
-          this.$l("auth.rules.password.lenght.max", { n: this.passwordLength }),
+          this.$l("auth.rules.password.length.max", { n: this.passwordLength }),
       ],
       password2: "",
       showPassword2: false,

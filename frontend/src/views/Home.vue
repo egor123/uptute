@@ -58,15 +58,15 @@
         :elements="[
           {
             img: 'happiness',
-            txt: $l('home.mission.list.0'),
+            txt: $l('home.mission.list.process'),
           },
           {
             img: 'heart',
-            txt: $l('home.mission.list.1'),
+            txt: $l('home.mission.list.passion'),
           },
           {
             img: 'coins',
-            txt: $l('home.mission.list.2'),
+            txt: $l('home.mission.list.affordable'),
           },
         ]"
       />
@@ -78,23 +78,23 @@
         :rows="[
           {
             img: 'howItWorks/filter',
-            title: $l('home.how_it_works.list.0.h'),
-            txt: $l('home.how_it_works.list.0.p'),
+            title: $l('home.how_it_works.list.filters.h'),
+            txt: $l('home.how_it_works.list.filters.p'),
           },
           {
             img: 'howItWorks/choosing',
-            title: $l('home.how_it_works.list.1.h'),
-            txt: $l('home.how_it_works.list.1.p'),
+            title: $l('home.how_it_works.list.choose.h'),
+            txt: $l('home.how_it_works.list.choose.p'),
           },
           {
             img: 'howItWorks/notebook',
-            title: $l('home.how_it_works.list.2.h'),
-            txt: $l('home.how_it_works.list.2.p'),
+            title: $l('home.how_it_works.list.lesson.h'),
+            txt: $l('home.how_it_works.list.lesson.p'),
           },
           {
             img: 'howItWorks/rating',
-            title: $l('home.how_it_works.list.3.h'),
-            txt: $l('home.how_it_works.list.3.p'),
+            title: $l('home.how_it_works.list.rate.h'),
+            txt: $l('home.how_it_works.list.rate.p'),
           },
         ]"
       />
@@ -106,18 +106,18 @@
         :rows="[
           {
             img: 'whyUpTute/forStudent/piggy-bank',
-            title: $l('why_us.student.list.0.h'),
-            txt: $l('why_us.student.list.0.p'),
+            title: $l('why_us.student.list.price.h'),
+            txt: $l('why_us.student.list.price.p'),
           },
           {
             img: 'whyUpTute/forStudent/fast',
-            title: $l('why_us.student.list.1.h'),
-            txt: $l('why_us.student.list.1.p'),
+            title: $l('why_us.student.list.now.h'),
+            txt: $l('why_us.student.list.now.p'),
           },
           {
             img: 'whyUpTute/forStudent/friend',
-            title: $l('why_us.student.list.2.h'),
-            txt: $l('why_us.student.list.2.p'),
+            title: $l('why_us.student.list.understand.h'),
+            txt: $l('why_us.student.list.understand.p'),
           },
         ]"
       />
@@ -128,23 +128,23 @@
         :rows="[
           {
             img: 'whyUpTute/forTutor/goal',
-            title: $l('why_us.tutor.list.0.h'),
-            txt: $l('why_us.tutor.list.0.p'),
+            title: $l('why_us.tutor.list.not_just.h'),
+            txt: $l('why_us.tutor.list.not_just.p'),
           },
           {
             img: 'whyUpTute/forTutor/money-bag',
-            title: $l('why_us.tutor.list.1.h'),
-            txt: $l('why_us.tutor.list.1.p'),
+            title: $l('why_us.tutor.list.salary.h'),
+            txt: $l('why_us.tutor.list.salary.p'),
           },
           {
             img: 'whyUpTute/forTutor/algorithm',
-            title: $l('why_us.tutor.list.2.h'),
-            txt: $l('why_us.tutor.list.2.p'),
+            title: $l('why_us.tutor.list.price.h'),
+            txt: $l('why_us.tutor.list.price.p'),
           },
           {
             img: 'whyUpTute/forTutor/time-management',
-            title: $l('why_us.tutor.list.3.h'),
-            txt: $l('why_us.tutor.list.3.p'),
+            title: $l('why_us.tutor.list.flexible.h'),
+            txt: $l('why_us.tutor.list.flexible.p'),
           },
         ]"
       />

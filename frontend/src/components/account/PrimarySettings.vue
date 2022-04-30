@@ -67,12 +67,12 @@ export default {
       //   (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
       //   (v) =>
       //     (v && v.length >= this.nameMinLength) ||
-      //     this.$l("auth.rules.name.lenght.min", {
+      //     this.$l("auth.rules.name.length.min", {
       //       n: this.nameMinLength,
       //     }),
       //   (v) =>
       //     (v && v.length <= this.nameLength) ||
-      //     this.$l("auth.rules.name.lenght.max", {
+      //     this.$l("auth.rules.name.length.max", {
       //       n: this.nameLength,
       //     }),
       // ],
@@ -81,12 +81,12 @@ export default {
       //   (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
       //   (v) =>
       //     (v && v.length >= this.surnameMinLength) ||
-      //     this.$l("auth.rules.surname.lenght.min", {
+      //     this.$l("auth.rules.surname.length.min", {
       //       n: this.surnameMinLength,
       //     }),
       //   (v) =>
       //     (v && v.length <= this.surnameLength) ||
-      //     this.$l("auth.rules.surname.lenght.max", {
+      //     this.$l("auth.rules.surname.length.max", {
       //       n: this.surenameLength,
       //     }),
       // ],
