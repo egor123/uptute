@@ -18,8 +18,8 @@ export default {
     mutate(state, { name, val }) {
       state[name] = val;
     },
-    addOfferedLesson(state, { ids }) {
-      state.offeredLessons.push(ids);
+    addOfferedLesson(state, { lesson }) {
+      state.offeredLessons.push(lesson);
     },
     deleteOfferedLesson(state, { lessonId, offerLogId }) {
       if (!lessonId && !offerLogId) return;
@@ -38,18 +38,27 @@ export default {
       loop(context);
     },
     async sendOffer(context, { lesson }) {
+      const lessonCopy = getLessonCopy(lesson);
       const res = await sendOffer(context, { logId: lesson.logId });
       if (!exitIfUndefined(context, { data: res, alertName: "send" }))
         return null;
-      addOfferedLesson({ lesson, res });
+      addOfferedLesson({ lessonCopy, res });
       return res.data.logId;
 
-      function addOfferedLesson({ lesson, res }) {
+      function getLessonCopy(lesson) {
+        const info = context.state.lessons.find(
+          (el) => el.lessonId == lesson.lessonId
+        );
+        return JSON.parse(JSON.stringify(info));
+      }
+      function addOfferedLesson({ lessonCopy, res }) {
         context.commit("addOfferedLesson", {
-          ids: {
+          lesson: {
+            details: lessonCopy.details,
             lessonLogId: lesson.logId,
             lessonId: lesson.lessonId,
             offerLogId: res.data.logId,
+            studentUUID: lessonCopy.studentUUID,
           },
         });
       }

@@ -49,6 +49,7 @@
 import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
 import ExpandableCalendar from "@/components/filterPanel/ExpandableCalendar.vue";
 import TextField from "@/components/filterPanel/TextField";
+import { ruleBase } from "@/plugins/GlobalMethods.js";
 
 export default {
   components: {
@@ -83,6 +84,9 @@ export default {
     },
   },
   methods: {
+    // ruleBase(params) {
+    //   return ruleBase(params);
+    // },
     addImg(e) {
       const file = e.target.files[0];
 
@@ -96,19 +100,19 @@ export default {
       this[title].errMsg = "";
 
       const ifNotNull = (v) =>
-        ruleBase({
+        rule({
           condition: !!v,
           pathEnd: `${title}.require`,
         });
 
       const ifNoSpaces = (v) =>
-        ruleBase({
+        rule({
           condition: v.indexOf(" ") < 0,
           pathEnd: `no_spaces`,
         });
 
       const ifMoreThanMin = (v) =>
-        ruleBase({
+        rule({
           condition: v.length >= this.minLength,
           pathEnd: `${title}.length.min`,
           lParams: {
@@ -117,7 +121,7 @@ export default {
         });
 
       const ifLessThanMax = (v) =>
-        ruleBase({
+        rule({
           condition: v.length <= this.maxLength,
           pathEnd: `${title}.length.max`,
           lParams: {
@@ -129,10 +133,14 @@ export default {
         ifNotNull(v) && ifNoSpaces(v) && ifMoreThanMin(v) && ifLessThanMax(v)
       );
 
-      function ruleBase({ condition, pathEnd, lParams }) {
-        if (!condition)
-          self[title].errMsg = self.$l(`auth.rules.${pathEnd}`, lParams || {});
-        return condition;
+      function rule({ condition, pathEnd, lParams }) {
+        return ruleBase({
+          self,
+          title,
+          condition,
+          pathEnd,
+          lParams,
+        });
       }
     },
     async isValid() {

@@ -1,26 +1,31 @@
 <template>
-  <div id="wrapper">
-    <FilterPanel ref="panel" @next="(action) => $refs.panel2[action]()">
+  <div id="wrapper" ref="tutorSettingsWrapper">
+    <FilterPanel
+      ref="panel"
+      @next="(action, callback) => callback($refs.panel2[action]())"
+    >
       <TextField
-        v-model="moto"
+        v-model="data.moto"
         :label="$l('set_up.motto')"
-        :rules="(val) => val != '' && val != null"
         :borderRadius="'15px 15px 0px 0px'"
         :flat="false"
+        :rules="() => true"
       />
+      <!-- :rules="(val) => val != '' && val != null" -->
       <TextField
         :area="true"
-        v-model="about"
+        v-model="data.about"
         :label="$l('set_up.about')"
-        :rules="(val) => val != '' && val != null"
         :borderRadius="'0px 0px 15px 15px'"
         :flat="false"
+        :rules="() => true"
       />
+      <!-- :rules="(val) => val != '' && val != null" -->
     </FilterPanel>
 
     <FilterPanel
       ref="panel2"
-      @next="(action) => $refs.panel3[action]()"
+      @next="(action, callback) => callback($refs.panel3[action]())"
       id="zoomDiv"
     >
       <TextField
@@ -29,9 +34,11 @@
         :label="$l('set_up.zoom')"
         img="zoom-icon"
         :flat="false"
+        :rules="linkRules"
+        :errMsg="link.errMsg"
       />
       <div id="dialogContainer">
-        <Dialog>
+        <Dialog class="notInput">
           <template v-slot:object>
             <button id="dialog">?</button>
           </template>
@@ -55,9 +62,9 @@
 
     <FilterPanel ref="panel3">
       <ExpandableListSelector
-        v-model="subjects"
+        v-model="data.subjects"
         :label="$l('set_up.subjects')"
-        :text="subjects.map((l) => $l('data.subjects.' + l)).join(', ')"
+        :text="data.subjects.map((l) => $l('data.subjects.' + l)).join(', ')"
         :list="['MATH', 'BIOL', 'ESL', 'PHYS', 'GEOG', 'CHEM', 'CIS']"
         :convertor="(item) => $l('data.subjects.' + item)"
         :searchLabel="$l('find.filters.subject.search')"
@@ -66,18 +73,19 @@
         :flat="false"
       />
       <ExpandableSlider
-        v-model="audience"
+        v-model="data.audience"
         :label="$l('find.filters.audience.h')"
-        :text="audience.join(' - ')"
+        :text="data.audience.join(' - ')"
         :min="1"
         :max="12"
         borderRadius="0px"
+        :rules="() => true"
         :flat="false"
       />
       <ExpandableListSelector
-        v-model="languages"
+        v-model="data.languages"
         :label="$l('find.filters.language.h')"
-        :text="languages.map((l) => $l('data.languages.' + l)).join(', ')"
+        :text="data.languages.map((l) => $l('data.languages.' + l)).join(', ')"
         :list="['EN', 'EST', 'RU']"
         :convertor="(item) => $l('data.languages.' + item)"
         :multiple="true"
@@ -96,6 +104,7 @@ import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 import TextField from "@/components/filterPanel/TextField";
 
 import Dialog from "@/components/global/Dialog.vue";
+import { ruleBase } from "@/plugins/GlobalMethods.js";
 
 export default {
   components: {
@@ -108,17 +117,42 @@ export default {
   },
   data() {
     return {
-      moto: "", //"My moto"
-      about: "", //"Something about me"
-      // zoomLink: "",
-      subjects: [], //["MATH"]
-      audience: [], //[1, 12]
-      languages: [], //["EN"]
+      link: {
+        errMsg: "",
+      },
     };
   },
   methods: {
     async isValid() {
-      await this.$refs.panel.isValid();
+      return await this.$refs.panel.isValid();
+    },
+    linkRules(v) {
+      const title = "link";
+      const self = this;
+      this.link.errMsg = "";
+      const ifNotNull = (v) =>
+        rule({
+          condition: !!v && v.length > 0,
+          pathEnd: "link.require",
+        });
+
+      const ifHasHttp = (v) =>
+        rule({
+          condition: v.match(new RegExp("https?://")),
+          pathEnd: "link.valid",
+        });
+
+      return ifNotNull(v) && ifHasHttp(v);
+
+      function rule({ condition, pathEnd, lParams }) {
+        return ruleBase({
+          self,
+          title,
+          condition,
+          pathEnd,
+          lParams,
+        });
+      }
     },
   },
   props: {

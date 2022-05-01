@@ -2,7 +2,7 @@
   <div>
     <!-- <AccountBase :title="$l('set_up.subheader')"> -->
     <Subheader :title="$l('set_up.subheader')" />
-    <TutorSettings :data="data" />
+    <TutorSettings ref="tutorSettings" :data="data" />
     <v-btn @click="done(data)" id="done" rounded outlined color="accent">{{
       $l("set_up.button")
     }}</v-btn>
@@ -17,9 +17,14 @@ export default {
   data() {
     return {
       data: {
-        conferenceLink: null,
-        inProcess: false,
+        conferenceLink: "",
+        moto: "", //"My moto"
+        about: "", //"Something about me"
+        subjects: [], //["MATH"]
+        audience: [1, 12], //[1, 12]
+        languages: [], //["EN"]
       },
+      inProcess: false,
     };
   },
   permisions: {
@@ -35,6 +40,7 @@ export default {
       this.$router.push({ name: to });
     },
     async done(data) {
+      if (!(await this.checkRules())) return;
       if (this.inProcess) return;
       this.inProcess = true;
       const res = await this.$store.dispatch("account/upgradeToTutor", {
@@ -42,6 +48,9 @@ export default {
       });
       this.inProcess = false;
       if (res.statusText == "OK") this.routerPush("ChooseAStudent");
+    },
+    async checkRules() {
+      return await this.$refs.tutorSettings.isValid();
     },
   },
 };

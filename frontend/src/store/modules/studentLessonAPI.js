@@ -157,7 +157,7 @@ async function listenForInit(context) {
   const initLog = getInitLog(getInitRes);
   if (initLog) {
     context.commit("mutate", { name: "state", val: "conference" });
-    window.open(getZoomLink(initLog), "_self");
+    window.open(getLink(initLog), "_self");
   }
   return;
 
@@ -179,11 +179,8 @@ async function listenForInit(context) {
       (childLog) => childLog.type === "INIT"
     );
   }
-  function getZoomLink(initLog) {
-    return normalizeLink(initLog.details).zoomLink;
-    function normalizeLink(info) {
-      return JSON.parse(info.replace("\\", ""));
-    }
+  function getLink(initLog) {
+    return initLog.details;
   }
 }
 

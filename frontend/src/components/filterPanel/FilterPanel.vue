@@ -18,15 +18,21 @@ export default {
       this.inProgress = true;
       var val = true;
 
-      for (const el of this.$refs.panel.$children) {
+      const inputFields = this.$refs.panel.$children.filter(
+        (el) => !el.$el.classList.contains("notInput")
+      );
+
+      for (const el of inputFields) {
         if (!el.isValid()) val = false;
         await new Promise((res) => setTimeout(res, 100));
       }
-      var val2Promise = Promise;
-      this.$emit("next", "isValid", (r) => (val2Promise = r));
+      var nextValPromise = Promise;
 
-      if (val2Promise == false) val = false;
-      if (!val) await new Promise((res) => setTimeout(res, 1100));
+      this.$emit("next", "isValid", (r) => (nextValPromise = r));
+
+      var bool = await Promise.resolve(nextValPromise);
+      if (bool == false) val = false;
+      // if (!val) await new Promise((res) => setTimeout(res, 300));
 
       this.inProgress = false;
 

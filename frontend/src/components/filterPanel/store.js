@@ -6,7 +6,7 @@ export function isValid() {
   if (this.rules !== undefined) val = this.rules(this.input);
   this.$refs.base.errorAnim = false;
   setTimeout(() => {
-    this.$refs.base.errorAnim = !val;
+    this.$refs.base ? (this.$refs.base.errorAnim = !val) : null;
   }, 50);
   this.$refs.base.error = !val;
   return val;

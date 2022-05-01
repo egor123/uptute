@@ -29,8 +29,10 @@ export default {
   },
   methods: {
     acceptOffer() {
+      console.log("!!!");
+      console.log(this.tutor);
       this.$store.dispatch("studentLessonAPI/accept", {
-        offerLogId: this.tutor.offerLogId,
+        offerLogId: this.tutor.offerLog,
       });
     },
   },
