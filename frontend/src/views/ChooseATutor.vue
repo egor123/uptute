@@ -29,11 +29,8 @@
           borderRadius="15px"
         />
       </FilterPanel>
-      <Panels
-        id="panels"
-        :tutors="getTutors()"
-        :lesson="$store.state.studentLessonAPI.info"
-      />
+      <Panels id="panels" :tutors="getTutors()" />
+      <!-- :lesson="$store.state.studentLessonAPI.info" -->
     </div>
     <v-snackbar max-width="800" color="error" timeout="-1" v-model="showAlert">
       {{ $l("choose_a.tutor.ended") }}

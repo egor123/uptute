@@ -36,12 +36,14 @@ export default {
   },
   props: {
     tutor: Object,
-    lesson: Object,
+  },
+  computed: {
+    lesson: function() {
+      return this.$store.state.studentLessonAPI.info;
+    },
   },
   created() {
     this.pph = Math.round(this.tutor.pph);
-    console.log("CREATED");
-    console.log(this.lesson);
   },
 };
 </script>

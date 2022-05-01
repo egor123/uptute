@@ -4,28 +4,35 @@
       <img :src="img.imageUrl" alt="" />
       <input type="file" accept="image/*" @change="addImg" />
     </label>
-    <FilterPanel ref="panel" @next="(action) => $refs.panel2[action]()">
+    <FilterPanel
+      class="inputPanel"
+      ref="panel"
+      @next="(action) => $refs.panel2[action]()"
+    >
       <TextField
         v-model="data.firstName"
-        :counter="nameLength"
+        :counter="name.length"
         :label="$l('set_up.name')"
-        :rules="(v) => v.length > 0"
+        :rules="(v) => ifPassesRules({ v, title: 'name' })"
         :borderRadius="'15px 15px 0px 0px'"
         :flat="false"
+        :errMsg="name.errMsg"
         required
       />
+
       <TextField
         v-model="data.lastName"
-        :counter="surnameLength"
+        :counter="surname.length"
         :label="$l('set_up.surname')"
-        :rules="(v) => v.length > 0"
+        :rules="(v) => ifPassesRules({ v, title: 'surname' })"
         :borderRadius="'0px 0px 15px 15px'"
         :flat="false"
+        :errMsg="surname.errMsg"
         required
       />
     </FilterPanel>
 
-    <FilterPanel ref="panel2">
+    <FilterPanel class="inputPanel" ref="panel2">
       <ExpandableCalendar
         v-model="data.birthday"
         :label="$l('set_up.birth')"
@@ -58,39 +65,22 @@ export default {
       },
       // birthday: null, //"2003-07-24"
       // grade: null, //12
-      nameLength: 20,
-      surnameLength: 20,
-      nameMinLength: 3,
-      surnameMinLength: 3,
-      // nameRules: [
-      //   (v) => !!v || this.$l("auth.rules.require"),
-      //   (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
-      //   (v) =>
-      //     (v && v.length >= this.nameMinLength) ||
-      //     this.$l("auth.rules.name.length.min", {
-      //       n: this.nameMinLength,
-      //     }),
-      //   (v) =>
-      //     (v && v.length <= this.nameLength) ||
-      //     this.$l("auth.rules.name.length.max", {
-      //       n: this.nameLength,
-      //     }),
-      // ],
-      // surnameRules: [
-      //   (v) => !!v || this.$l("auth.rules.require"),
-      //   (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
-      //   (v) =>
-      //     (v && v.length >= this.surnameMinLength) ||
-      //     this.$l("auth.rules.surname.length.min", {
-      //       n: this.surnameMinLength,
-      //     }),
-      //   (v) =>
-      //     (v && v.length <= this.surnameLength) ||
-      //     this.$l("auth.rules.surname.length.max", {
-      //       n: this.surenameLength,
-      //     }),
-      // ],
+      maxLength: 20,
+      minLength: 3,
+      name: {
+        length: 0,
+        errMsg: "",
+      },
+      surname: {
+        length: 0,
+        errMsg: "",
+      },
     };
+  },
+  props: {
+    data: {
+      type: Object,
+    },
   },
   methods: {
     addImg(e) {
@@ -101,13 +91,52 @@ export default {
         imageUrl: URL.createObjectURL(file),
       };
     },
+    ifPassesRules({ v, title }) {
+      const self = this;
+      this[title].errMsg = "";
+
+      const ifNotNull = (v) =>
+        ruleBase({
+          condition: !!v,
+          pathEnd: `${title}.require`,
+        });
+
+      const ifNoSpaces = (v) =>
+        ruleBase({
+          condition: v.indexOf(" ") < 0,
+          pathEnd: `no_spaces`,
+        });
+
+      const ifMoreThanMin = (v) =>
+        ruleBase({
+          condition: v.length >= this.minLength,
+          pathEnd: `${title}.length.min`,
+          lParams: {
+            n: this.minLength,
+          },
+        });
+
+      const ifLessThanMax = (v) =>
+        ruleBase({
+          condition: v.length <= this.maxLength,
+          pathEnd: `${title}.length.max`,
+          lParams: {
+            n: this.maxLength,
+          },
+        });
+
+      return (
+        ifNotNull(v) && ifNoSpaces(v) && ifMoreThanMin(v) && ifLessThanMax(v)
+      );
+
+      function ruleBase({ condition, pathEnd, lParams }) {
+        if (!condition)
+          self[title].errMsg = self.$l(`auth.rules.${pathEnd}`, lParams || {});
+        return condition;
+      }
+    },
     async isValid() {
       await this.$refs.panel.isValid();
-    },
-  },
-  props: {
-    data: {
-      type: Object,
     },
   },
 };

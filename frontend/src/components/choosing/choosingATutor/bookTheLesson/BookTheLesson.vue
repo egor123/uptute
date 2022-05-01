@@ -5,7 +5,7 @@
       <h3>{{ tutor.firstName }} {{ tutor.lastName }}</h3>
     </div>
 
-    <InfoTable :tutor="tutor" :lesson="lesson" />
+    <InfoTable :tutor="tutor" />
 
     <ConfirmButton :tutor="tutor" :link="tutor.zoomLink" />
   </div>
@@ -29,7 +29,6 @@ export default {
   },
   props: {
     tutor: Object,
-    lesson: Object,
   },
 };
 </script>

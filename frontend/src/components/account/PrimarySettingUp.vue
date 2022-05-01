@@ -2,7 +2,7 @@
   <!-- <AccountBase :title="$l('set_up.subheader')"> -->
   <div>
     <Subheader :title="$l('set_up.subheader')" />
-    <PrimarySettings :data="data" />
+    <PrimarySettings ref="primarySettings" :data="data" />
 
     <div id="buttons">
       <v-btn @click="asStudent()" id="student" rounded outlined color="accent">
@@ -39,17 +39,31 @@ export default {
       this.$router.push({ name: to });
     },
     async asStudent() {
+      if (!this.checkRules()) return;
       const r = await this.upgradeToUser();
       if (r.statusText == "OK") this.routerPush("StudentSettingUp");
       else alert("Check your input"); // Validate instead
     },
     async asTutor() {
+      if (!this.checkRules()) return;
       const r = await this.upgradeToUser();
       if (r.statusText == "OK") this.routerPush("TutorSettingUp");
       else alert("Check your input"); // Validate instead
     },
+    checkRules() {
+      const primarySettings = this.$refs.primarySettings;
+
+      const inputFields = primarySettings.$children.reduce(
+        (pr, cur) => pr.concat(cur.$children[0].$children),
+        []
+      );
+      inputFields.forEach((el) => el.isValid());
+      const isValid = inputFields.every((el) => el.isValid());
+      return isValid;
+    },
     async upgradeToUser() {
       const data = this.data;
+      console.log(data);
       const res = await this.$store.dispatch("account/upgradeToUser", { data });
       return res;
     },
