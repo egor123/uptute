@@ -1,99 +1,65 @@
 <template>
   <div>
     <div id="buttons">
-      <button @click="createRoom()">Create</button>
-
-      <Dialog>
-        <template v-slot:object>
-          <button>Join</button>
-        </template>
-
-        <template v-slot:title id="title"> Room id </template>
-
-        <template v-slot:text>
-          <TextField
-            v-model="roomId"
-            label="Room id"
-            :rules="(v) => true"
-            :borderRadius="'15px 15px 15px 15px'"
-            :flat="false"
-            :errMsg="join.errMsg"
-            required
-          />
-          <button @click="joinRoom()">Enter</button>
-        </template>
-      </Dialog>
+      <CreateButton @create="createRoom" />
+      <JoinButton @join="joinRoom" />
     </div>
-    <video
-      :srcObject.prop="localStream"
-      ref="localVideo"
-      class="localVideo"
-      muted
-      playsinline
-      autoplay
-    ></video>
-    <!-- UNMUTE -->
-    <video
-      :srcObject.prop="remoteStream"
-      ref="remoteVideo"
-      class="remoteVideo"
-      playsinline
-      autoplay
-    ></video>
-    <div id="conferenceId">Conference ID: {{ roomId }}</div>
+    <LocalVideo :stream="streams.local" />
+    <RemoteVideo :stream="streams.remote" />
+    <div id="conferenceId">
+      Conference ID: {{ room.ref ? room.ref.id : "" }}
+    </div>
   </div>
 </template>
 
 <script>
 import { db, firestore } from "@/firebase.js";
-import Dialog from "@/components/global/Dialog.vue";
-import TextField from "@/components/filterPanel/TextField.vue";
+import { config, constraints } from "@/constants/peer-connection.js";
+
+import CreateButton from "@/components/conference/buttons/Create.vue";
+import JoinButton from "@/components/conference/buttons/Join.vue";
+import LocalVideo from "@/components/conference/videos/Local.vue";
+import RemoteVideo from "@/components/conference/videos/Remote.vue";
 
 export default {
   data() {
     return {
       peerConnection: null,
-      candidatesCollections: {
+      candidateCollections: {
         caller: null,
         callee: null,
       },
-      localStream: null,
-      remoteStream: null,
-      roomId: null,
-      roomRef: null,
-      join: {
-        errMsg: "",
+      streams: {
+        local: null,
+        remote: null,
       },
-      roomSnapshotData: null,
-      configuration: {
-        iceServers: [
-          {
-            urls: [
-              "stun:stun1.l.google.com:19302",
-              "stun:stun2.l.google.com:19302",
-            ],
-          },
-        ],
-        iceCandidatePoolSize: 10,
+      room: {
+        ref: null,
+        data: null,
       },
     };
   },
   components: {
-    Dialog,
-    TextField,
+    JoinButton,
+    CreateButton,
+    LocalVideo,
+    RemoteVideo,
   },
   async mounted() {
-    await this.setLocalStream();
-    this.remoteStream = new MediaStream();
+    const self = this;
+    createStreams();
+    setLocalTracks();
+
+    function createStreams() {
+      self.streams.remote = new MediaStream();
+      self.streams.local = new MediaStream();
+    }
+    async function setLocalTracks() {
+      const media = await navigator.mediaDevices.getUserMedia(constraints);
+      media.getTracks().forEach((track) => self.streams.local.addTrack(track));
+    }
   },
   methods: {
-    async setLocalStream() {
-      this.localStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-      return;
-    },
     async createRoom() {
       const self = this;
 
@@ -105,189 +71,232 @@ export default {
 
       this.listenForNewTracks();
 
-      await listenForRemoteSessionDescription();
+      listenForRemoteDescription();
 
       this.listenForRemoteICECandidates({ isCaller: true });
 
       async function sendOffer() {
-        const offer = await self.peerConnection.createOffer();
-        await self.peerConnection.setLocalDescription(offer);
-        console.log("Created offer:", offer);
-
-        const roomWithOffer = {
-          offer: {
-            type: offer.type,
-            sdp: offer.sdp,
-          },
-        };
-
-        const res = await firestore.addDoc(
-          firestore.collection(db, "rooms"),
-          roomWithOffer
-        );
-        self.roomId = res.id;
-        await self.getRoomRef();
-        console.log(`New room created with SDP offer. Room ID: ${self.roomId}`);
-
+        const offer = await createSDPOffer();
+        await setLocalDescription(offer);
+        await createRoom(offer);
         return;
+
+        async function createSDPOffer() {
+          return await self.peerConnection
+            .createOffer()
+            .then((offer) => self.getObjectCopy(offer));
+        }
+        async function setLocalDescription(offer) {
+          await self.peerConnection.setLocalDescription(offer);
+          console.log("Created offer:", offer);
+          return;
+        }
+        async function createRoom(offer) {
+          const rooms = firestore.collection(db, "rooms");
+          self.room.ref = await firestore.addDoc(rooms, { offer });
+
+          console.log("New room created with SDP offer.");
+          console.log(`Room ID: ${self.room.ref.id}`);
+
+          return;
+        }
       }
-      async function listenForRemoteSessionDescription() {
-        firestore.onSnapshot(self.roomRef, async (snapshot) => {
-          const data = snapshot.data();
-          if (
-            !self.peerConnection.currentRemoteDescription &&
-            data &&
-            data.answer
-          ) {
-            console.log("Got remote description: ", data.answer);
-            const rtcSessionDescription = new RTCSessionDescription(
-              data.answer
-            );
-            await self.peerConnection.setRemoteDescription(
-              rtcSessionDescription
-            );
-          }
-        });
+      function listenForRemoteDescription() {
+        firestore.onSnapshot(self.room.ref, setRemoteDescription);
+
+        async function setRemoteDescription(snapshot) {
+          const answer = snapshot.data()?.answer;
+          const alreadyExists = !!self.peerConnection.currentRemoteDescription;
+
+          if (alreadyExists || !answer) return;
+          console.log("Got remote description: ", answer);
+          const description = new RTCSessionDescription(answer);
+          await self.peerConnection.setRemoteDescription(description);
+        }
       }
     },
-    async joinRoom() {
+    async joinRoom(roomId) {
       const self = this;
       // Validate input
-      await getRoomSnapshot();
 
-      if (this.roomSnapshotData) {
-        this.setUpPeerConnection();
-        this.collectICECandidates({ isCaller: false });
-        this.listenForNewTracks();
-        await createSDPAnswer();
-        this.listenForRemoteICECandidates({ isCaller: false });
+      await getRoomRef();
+      listenForRoomData();
+      await getRoomData();
+
+      if (!this.room.data) return;
+      this.setUpPeerConnection();
+      this.collectICECandidates({ isCaller: false });
+      this.listenForNewTracks();
+      await setRemoteDescription();
+      await createSDPAnswer();
+      this.listenForRemoteICECandidates({ isCaller: false });
+
+      async function getRoomRef() {
+        self.room.ref = await firestore.doc(db, "rooms", roomId);
+        return;
       }
-      async function getRoomSnapshot() {
-        await self.getRoomRef();
-        firestore.onSnapshot(self.roomRef, (doc) => {
-          self.roomSnapshotData = doc.data();
-          console.log("Current room info: ", self.roomSnapshotData);
-        });
-        self.roomSnapshotData = await firestore
-          .getDoc(self.roomRef)
+      function listenForRoomData() {
+        firestore.onSnapshot(self.room.ref, pullData);
+
+        function pullData(doc) {
+          self.room.data = doc.data();
+          console.log("Current room info: ", self.room.data);
+        }
+      }
+      async function getRoomData() {
+        self.room.data = await firestore
+          .getDoc(self.room.ref)
           .then((doc) => doc.data());
         return;
       }
-      async function createSDPAnswer() {
-        const offer = self.roomSnapshotData.offer;
-        console.log("Got offer:", offer);
-        await self.peerConnection.setRemoteDescription(
-          new RTCSessionDescription(offer)
-        );
-        const answer = await self.peerConnection.createAnswer();
-        console.log("Created answer:", answer);
-        await self.peerConnection.setLocalDescription(answer);
+      async function setRemoteDescription() {
+        const offer = getOffer();
+        const description = new RTCSessionDescription(offer);
+        return await self.peerConnection.setRemoteDescription(description);
 
-        const roomWithAnswer = {
-          answer: {
-            type: answer.type,
-            sdp: answer.sdp,
-          },
-        };
-        await firestore.updateDoc(self.roomRef, roomWithAnswer);
+        function getOffer() {
+          const offer = self.room.data.offer;
+          console.log("Got offer:", offer);
+          return offer;
+        }
+      }
+      async function createSDPAnswer() {
+        const answer = await createAnswer();
+        await setLocalDescription(answer);
+        await updateStore(answer);
         return;
+
+        async function createAnswer() {
+          const answer = await self.peerConnection
+            .createAnswer()
+            .then((answer) => self.getObjectCopy(answer));
+          console.log("Created answer:", answer);
+          return answer;
+        }
+        async function setLocalDescription(answer) {
+          return await self.peerConnection.setLocalDescription(answer);
+        }
+        async function updateStore(answer) {
+          await firestore.updateDoc(self.room.ref, { answer });
+        }
       }
     },
-    async getRoomRef() {
-      this.roomRef = await firestore.doc(db, "rooms", this.roomId);
-      return;
-    },
+
     setUpPeerConnection() {
       const self = this;
-      console.log(
-        "Create PeerConnection with configuration: ",
-        this.configuration
-      );
-      this.peerConnection = new RTCPeerConnection(this.configuration);
+      console.log("Create PeerConnection with configuration: ", config);
+
+      this.peerConnection = new RTCPeerConnection(config);
       registerPeerConnectionListeners();
-      this.localStream.getTracks().forEach((track) => {
-        this.peerConnection.addTrack(track, this.localStream);
-      });
+      connectLocalTracks();
 
       function registerPeerConnectionListeners() {
-        self.peerConnection.addEventListener("icegatheringstatechange", () => {
-          console.log(
-            `ICE gathering state changed: ${self.peerConnection.iceGatheringState}`
-          );
+        const pc = self.peerConnection;
+
+        addListener({
+          name: "icegatheringstatechange",
+          log: `ICE gathering state changed: ${pc.iceGatheringState}`,
+        });
+        addListener({
+          name: "connectionstatechange",
+          log: `Connection state change: ${pc.connectionState}`,
+        });
+        addListener({
+          name: "signalingstatechange",
+          log: `Signaling state change: ${pc.signalingState}`,
+        });
+        addListener({
+          name: "iceconnectionstatechange",
+          log: `ICE connection state change: ${pc.iceConnectionState}`,
         });
 
-        self.peerConnection.addEventListener("connectionstatechange", () => {
-          console.log(
-            `Connection state change: ${self.peerConnection.connectionState}`
-          );
-        });
-
-        self.peerConnection.addEventListener("signalingstatechange", () => {
-          console.log(
-            `Signaling state change: ${self.peerConnection.signalingState}`
-          );
-        });
-
-        self.peerConnection.addEventListener(
-          "iceconnectionstatechange ",
-          () => {
-            console.log(
-              `ICE connection state change: ${self.peerConnection.iceConnectionState}`
-            );
-          }
-        );
+        function addListener({ name, log }) {
+          pc.addEventListener(name, () => console.log(log));
+        }
+      }
+      function connectLocalTracks() {
+        const stream = self.streams.local;
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => self.peerConnection.addTrack(track, stream));
       }
     },
     collectICECandidates({ isCaller }) {
-      const collectionName = isCaller ? "callerCandidates" : "calleeCandidates";
+      const self = this;
       const path = isCaller ? "caller" : "callee";
-      this.candidatesCollections[path] = firestore.collection(
-        this.roomRef,
-        collectionName
-      );
 
-      this.peerConnection.addEventListener("icecandidate", (event) => {
-        if (!event.candidate) {
-          console.log("Got final candidate!");
-          return;
+      getCollectionRef();
+      addListener();
+
+      function getCollectionRef() {
+        const name = isCaller ? "callerCandidates" : "calleeCandidates";
+
+        const collectionRef = firestore.collection(self.room.ref, name);
+        self.candidateCollections[path] = collectionRef;
+      }
+      function addListener() {
+        self.peerConnection.addEventListener("icecandidate", pushToStore);
+
+        function pushToStore(event) {
+          if (!event.candidate) return console.log("Got final candidate!");
+
+          console.log("Got candidate: ", event.candidate);
+          const collection = self.candidateCollections[path];
+          const candidateJSON = event.candidate.toJSON();
+          firestore.addDoc(collection, candidateJSON);
         }
-        console.log("Got candidate: ", event.candidate);
-        firestore.addDoc(
-          this.candidatesCollections[path],
-          event.candidate.toJSON()
-        );
-      });
+      }
     },
     listenForNewTracks() {
-      this.peerConnection.addEventListener("track", (event) => {
-        console.log("Got remote track:", event.streams[0]);
-        event.streams[0].getTracks().forEach((track) => {
-          console.log("Add a track to the remoteStream:", track);
-          this.remoteStream.addTrack(track);
-        });
-      });
+      const self = this;
+      this.peerConnection.addEventListener("track", pullFromStreams);
+
+      function pullFromStreams(event) {
+        console.log("Got remote track:", event.streams);
+        event.streams.forEach(pullTracks);
+
+        function pullTracks(stream) {
+          stream.getTracks().forEach(pullTrack);
+
+          function pullTrack(track) {
+            console.log("Add a track to the remoteStream:", track);
+            self.streams.remote.addTrack(track);
+          }
+        }
+      }
     },
     listenForRemoteICECandidates({ isCaller }) {
-      const collectionName = isCaller ? "calleeCandidates" : "callerCandidates";
+      const self = this;
       const path = isCaller ? "callee" : "caller";
-      this.candidatesCollections[path] = firestore.collection(
-        this.roomRef,
-        collectionName
-      );
-      firestore.onSnapshot(this.candidatesCollections[path], (snapshot) => {
-        // console.log("!!!!", snapshot.docChanges());
-        snapshot.docChanges().forEach(async (change) => {
-          if (change.type == "added") {
+
+      getCollectionRef();
+      addListener();
+
+      function getCollectionRef() {
+        const name = isCaller ? "calleeCandidates" : "callerCandidates";
+
+        const collectionRef = firestore.collection(self.room.ref, name);
+        self.candidateCollections[path] = collectionRef;
+      }
+      function addListener() {
+        const remoteCandidates = self.candidateCollections[path];
+        firestore.onSnapshot(remoteCandidates, pullCandidates);
+
+        function pullCandidates(snapshot) {
+          snapshot.docChanges().forEach(tryPullCandidate);
+
+          async function tryPullCandidate(change) {
+            if (change.type != "added") return;
             let data = change.doc.data();
-            console.log(
-              `Got new remote ICE candidate: ${JSON.stringify(data)}`
-            );
-            await this.peerConnection.addIceCandidate(
-              new RTCIceCandidate(data)
-            );
+            console.log("Got new remote ICE candidate: ", data);
+            const candidate = new RTCIceCandidate(data);
+            await self.peerConnection.addIceCandidate(candidate);
           }
-        });
-      });
+        }
+      }
+    },
+
+    getObjectCopy(obj) {
+      return JSON.parse(JSON.stringify(obj));
     },
   },
 };
@@ -296,35 +305,12 @@ export default {
 <style scoped lang="scss">
 @import "@/scss/styles.scss";
 
-video {
-  border-radius: 15px;
-  &.localVideo {
-    position: fixed;
-    top: 100px; // CHANGE
-    right: 20px; // CHANGE
-    width: 160px;
-    height: 120px;
-  }
-}
 #buttons {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  button {
-    background: var(--v-accent-base);
-    padding: 8px 16px;
-    margin: 8px;
-    border-radius: 15px;
-  }
 }
-.v-dialog {
-  button {
-    @include box-shadow;
-    padding: 8px 16px;
-    margin: 8px;
-    border-radius: 15px;
-  }
-}
+
 #conferenceId {
   position: fixed;
   bottom: 16px;
