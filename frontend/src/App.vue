@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navigation />
+    <Navigation v-if="ifNavigation" />
     <Header v-if="ifHeader" />
     <v-main>
       <transition name="fade" mode="out-in">
@@ -47,6 +47,9 @@ export default {
     console.log(rules.no);
   },
   computed: {
+    ifNavigation() {
+      return !rules.no.navigation.includes(this.$route.name);
+    },
     ifHeader() {
       return !rules.no.header.includes(this.$route.name);
     },
