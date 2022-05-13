@@ -16,7 +16,9 @@
         :errMsg="errMsg"
         required
       />
-      <button @click="emitJoin()">Enter</button>
+      <v-btn rounded outlined color="accent" class="mt-4" @click="emitJoin()"
+        >Enter</v-btn
+      >
     </template>
   </Dialog>
 </template>

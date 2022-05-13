@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <div id="buttons">
-      <CreateButton @create="createRoom" />
-      <JoinButton @join="joinRoom" />
-    </div>
-    <LocalVideo :stream="streams.local" />
-    <RemoteVideo :stream="streams.remote" />
-    <div id="conferenceId">
-      Conference ID: {{ room.ref ? room.ref.id : "" }}
-    </div>
+  <div id="main">
+    <PreConference v-if="isLive" />
+    <Interface
+      v-if="!isLive"
+      :streams="streams"
+      :room="room"
+      :peerConnection="peerConnection"
+    />
   </div>
 </template>
 
@@ -16,14 +14,13 @@
 import { db, firestore } from "@/firebase.js";
 import { config, constraints } from "@/constants/peer-connection.js";
 
-import CreateButton from "@/components/conference/buttons/Create.vue";
-import JoinButton from "@/components/conference/buttons/Join.vue";
-import LocalVideo from "@/components/conference/videos/Local.vue";
-import RemoteVideo from "@/components/conference/videos/Remote.vue";
+import PreConference from "@/components/conference/PreConference.vue";
+import Interface from "@/components/conference/Interface.vue";
 
 export default {
   data() {
     return {
+      isLive: false, // TODO: TEMPORARY - DELETE
       peerConnection: null,
       candidateCollections: {
         caller: null,
@@ -40,10 +37,8 @@ export default {
     };
   },
   components: {
-    JoinButton,
-    CreateButton,
-    LocalVideo,
-    RemoteVideo,
+    PreConference,
+    Interface,
   },
   async mounted() {
     const self = this;
@@ -57,6 +52,10 @@ export default {
     async function setLocalTracks() {
       const media = await navigator.mediaDevices.getUserMedia(constraints);
       media.getTracks().forEach((track) => self.streams.local.addTrack(track));
+      self.streams.local.onaddtrack();
+
+      media.getTracks().forEach((track) => self.streams.remote.addTrack(track)); // FOR TESTING ONLY !!! TODO: DELETE
+      self.streams.remote.onaddtrack(); // FOR TESTING ONLY !!! TODO: DELETE
     }
   },
   methods: {
@@ -74,6 +73,8 @@ export default {
       listenForRemoteDescription();
 
       this.listenForRemoteICECandidates({ isCaller: true });
+
+      this.isLive = true; // TODO: TEMPORARY - DELETE
 
       async function sendOffer() {
         const offer = await createSDPOffer();
@@ -124,12 +125,20 @@ export default {
       await getRoomData();
 
       if (!this.room.data) return;
+
       this.setUpPeerConnection();
+
       this.collectICECandidates({ isCaller: false });
+
       this.listenForNewTracks();
+
       await setRemoteDescription();
+
       await createSDPAnswer();
+
       this.listenForRemoteICECandidates({ isCaller: false });
+
+      this.isLive = true; // TODO: TEMPORARY - DELETE
 
       async function getRoomRef() {
         self.room.ref = await firestore.doc(db, "rooms", roomId);
@@ -260,6 +269,7 @@ export default {
           function pullTrack(track) {
             console.log("Add a track to the remoteStream:", track);
             self.streams.remote.addTrack(track);
+            self.streams.remote.onaddtrack();
           }
         }
       }
@@ -305,16 +315,10 @@ export default {
 <style scoped lang="scss">
 @import "@/scss/styles.scss";
 
-#buttons {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-#conferenceId {
-  position: fixed;
-  bottom: 16px;
-  left: 50%;
-  transform: translate(-50%);
+#main {
+  // background: var(--v-background-base);
+  background: #131313;
+  @include box-size(100%);
+  position: relative;
 }
 </style>

@@ -44,7 +44,6 @@ export default {
   },
   mounted() {
     // this.getFirstPost();
-    console.log(rules.no);
   },
   computed: {
     ifNavigation() {
