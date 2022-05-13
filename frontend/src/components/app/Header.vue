@@ -101,7 +101,7 @@ export default {
     navIcon() {
       return this.$refs.navIcon;
     },
-    roles: function() {
+    roles: function () {
       return this.$store.getters["auth/roles"];
     },
   },

@@ -1,14 +1,14 @@
 <template>
   <v-app>
     <Navigation />
-    <Header />
+    <Header v-if="ifHeader" />
     <v-main>
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
     </v-main>
     <!-- <MessengerChat /> -->
-    <Footer />
+    <Footer v-if="ifFooter" />
   </v-app>
 </template>
 
@@ -19,6 +19,7 @@ import Footer from "@/components/app/Footer.vue";
 import Navigation from "@/components/app/Navigation.vue";
 // import MessengerChat from "@/components/MessengerChat.vue";
 import { apiRequest } from "@/services/api.service.js";
+import rules from "@/router/rules.js";
 
 export default {
   data: () => ({
@@ -38,13 +39,20 @@ export default {
         method: "get",
         urlEnd: `/api/auth/facebook/signin`,
       }).catch((err) => console.log(err));
-      // console.log("---------------------");
-      // console.log(res);
       res;
     },
   },
   mounted() {
     // this.getFirstPost();
+    console.log(rules.no);
+  },
+  computed: {
+    ifHeader() {
+      return !rules.no.header.includes(this.$route.name);
+    },
+    ifFooter() {
+      return !rules.no.footer.includes(this.$route.name);
+    },
   },
 };
 </script>
