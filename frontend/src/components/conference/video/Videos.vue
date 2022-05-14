@@ -36,10 +36,11 @@ export default {
       const self = this;
       const ratios = getVideoRatios();
 
-      if (!ratios.local || !ratios.remote) return;
+      if (!ifAllExist(ratios)) return;
 
       const sumRatios = getSumRatios(ratios);
       const ifRow = getIfRow(sumRatios);
+
       this.sumRatio = ifRow ? sumRatios.row : sumRatios.col;
       this.flexDir = ifRow ? "row" : "column";
       this.axis = getAxis();
@@ -50,6 +51,9 @@ export default {
           remote: self.$refs.remote.ratio,
         };
       }
+      function ifAllExist(ratios) {
+        return !!ratios.local && !!ratios.remote;
+      }
       function getSumRatios(ratios) {
         return {
           row: ratios.local + ratios.remote,
@@ -57,40 +61,30 @@ export default {
         };
       }
       function getIfRow(sumRatios) {
-        const percent = {
-          row: getPercent(sumRatios.row),
-          col: getPercent(sumRatios.col),
-        };
+        return getFraction(sumRatios.row) > getFraction(sumRatios.col);
 
-        return percent.row > percent.col;
-
-        function getPercent(sumRatio) {
+        function getFraction(sumRatio) {
           const windowRatio = innerWidth / innerHeight;
-          if (sumRatio < windowRatio) return (100 * sumRatio) / windowRatio;
-          else return (100 * windowRatio) / sumRatio;
+          if (sumRatio < windowRatio) return sumRatio / windowRatio;
+          else return windowRatio / sumRatio;
         }
       }
       function getAxis() {
         const ifXFilled = getIfXFilled();
         const m = self.$refs.local.margin;
-        return {
-          x: getX(),
-          y: getY(),
-        };
+        return { x: getX(), y: getY() };
 
         function getIfXFilled() {
           const windowRatio = innerWidth / innerHeight;
           return self.sumRatio > windowRatio ? true : false;
         }
         function getX() {
-          const grossX = ifXFilled ? null : self.sumRatio * innerHeight;
-          const margins = self.flexDir == "row" ? 4 * m : 2 * m;
-          return grossX ? grossX - margins : null;
+          const my = self.flexDir == "column" ? 4 * m : 2 * m;
+          return ifXFilled ? null : self.sumRatio * (innerHeight - my);
         }
         function getY() {
-          const grossY = ifXFilled ? innerWidth / self.sumRatio : null;
-          const margins = self.flexDir == "column" ? 4 * m : 2 * m;
-          return grossY ? grossY - margins : null;
+          const mx = self.flexDir == "row" ? 4 * m : 2 * m;
+          return ifXFilled ? (innerWidth - mx) / self.sumRatio : null;
         }
       }
     },

@@ -5,8 +5,8 @@
     playsinline
     autoplay
     :style="`
-    --w: ${Math.floor(w)}px; 
-    --h: ${Math.floor(h)}px;
+    --w: ${Math.floor(rect.w)}px; 
+    --h: ${Math.floor(rect.h)}px;
     --margin: ${margin}px;
     `"
   ></video>
@@ -17,8 +17,10 @@ export default {
   data() {
     return {
       ratio: 0,
-      w: 0,
-      h: 0,
+      rect: {
+        w: 0,
+        h: 0,
+      },
       margin: 6,
     };
   },
@@ -30,45 +32,59 @@ export default {
       default: false,
     },
   },
-  mounted() {},
+  mounted() {
+    const self = this;
+    if (ifTracks()) this.getRatio();
+
+    function ifTracks() {
+      return self.stream?.getVideoTracks()?.length > 0;
+    }
+  },
   methods: {
-    onResize() {
+    getRatio() {
+      const settings = this.stream.getVideoTracks()[0].getSettings();
+      this.ratio = settings.width / settings.height;
+      this.$parent.onResize();
+    },
+    recalcRect() {
       const self = this;
+      var rect = { w: null, h: null };
 
-      var size = getFromAxis();
-      size = checkOutOfBounds(size);
+      rect = getFromAxis(rect);
+      rect = checkOutOfBounds(rect);
 
-      this.w = size.w;
-      this.h = size.h;
+      this.rect = rect;
 
-      function getFromAxis() {
-        var w = null;
-        var h = null;
-        const axis = self.axis;
+      function getFromAxis(rect) {
+        const ratio = self.ratio;
+        const a = self.axis;
+        var w = rect.w;
+        var h = rect.h;
 
-        if (axis.x) {
-          w = axis.x;
-          h = w / self.ratio;
-        } else if (axis.y) {
-          h = axis.y;
-          w = self.ratio * h;
+        if (a.x) {
+          w = a.x;
+          h = w / ratio;
+        } else if (a.y) {
+          h = a.y;
+          w = ratio * h;
         }
 
         return { w, h };
       }
-      function checkOutOfBounds(size) {
-        var w = size.w;
-        var h = size.h;
-
+      function checkOutOfBounds(rect) {
+        const ratio = self.ratio;
+        const m = 2 * self.margin;
+        var w = rect.w;
+        var h = rect.h;
         const maxW = innerWidth;
         const maxH = innerHeight;
 
         if (w > maxW) {
-          w = maxW - 2 * self.margin;
-          h = w / self.ratio;
+          w = maxW - m;
+          h = w / ratio;
         } else if (h > maxH) {
-          h = maxH - 2 * self.margin;
-          w = h * self.ratio;
+          h = maxH - m;
+          w = h * ratio;
         }
 
         return { w, h };
@@ -77,17 +93,10 @@ export default {
   },
   watch: {
     stream(stream) {
-      const self = this;
-      stream.onaddtrack = getRatio;
-
-      function getRatio() {
-        const settings = stream.getVideoTracks()[0].getSettings();
-        self.ratio = settings.width / settings.height;
-        self.$parent.onResize();
-      }
+      stream.onaddtrack = this.getRatio;
     },
     axis() {
-      this.onResize();
+      this.recalcRect();
     },
   },
 };
