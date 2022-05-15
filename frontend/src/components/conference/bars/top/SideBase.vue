@@ -1,10 +1,7 @@
 <template>
-  <div
-    ref="panel"
-    id="container"
-    class="isLeft"
-    :class="{ isOpened: isOpened }"
-  >
+  <div ref="panel" id="container" class="isLeft">
+    <!-- :class="{ isOpened: isOpened }" -->
+
     <div id="card">
       <slot />
     </div>
@@ -13,19 +10,33 @@
 
 <script>
 export default {
-  data() {
-    return {
-      isOpened: true,
-    };
-  },
-  mounted() {
-    setTimeout(() => {
-      this.isOpened = false;
-      setTimeout(() => {
-        this.isOpened = true;
-      }, 1000);
-    }, 1000);
-  },
+  // data() {
+  //   return {
+  //     isOpened: true,
+  //   };
+  // },
+  // computed: {
+  //   panel() {
+  //     return this.$refs.panel;
+  //   },
+  // },
+  // mounted() {
+  //   this.panel.addEventListener("transitionend", this.onTransitionEnd);
+  //   setTimeout(() => {
+  //     this.isOpened = false;
+  //     setTimeout(() => {
+  //       this.isOpened = true;
+  //     }, 3000);
+  //   }, 3000);
+  // },
+  // beforeDestroy() {
+  //   this.panel.removeEventListener("transitionend", this.onTransitionEnd);
+  // },
+  // methods: {
+  //   onTransitionEnd() {
+  //     dispatchEvent(new Event("resize"));
+  //   },
+  // },
 };
 </script>
 
@@ -50,8 +61,13 @@ export default {
     padding: 6px;
     overflow: scroll;
   }
-  &:not(.isOpened) {
-    display: none;
-  }
+
+  // transition: min-width 1s 1s, max-width 1s 1s, transform 1s;
+  // &:not(.isOpened) {
+  //   min-width: 0px;
+  //   max-width: 0px;
+  //   // padding: 0px;
+  //   transform: translate(-100%);
+  // }
 }
 </style>

@@ -1,10 +1,9 @@
 <template>
-  <div
-    id="videos"
-    :style="`--flexDir: ${flexDir}; --h: ${rect.h}px; --w: ${rect.w}px;`"
-  >
-    <Video ref="local" :stream="streams.local" :axis="axis" muted />
-    <Video ref="remote" :stream="streams.remote" :axis="axis" muted />
+  <div id="videosWrapper">
+    <div id="videos" :style="`--flexDir: ${flexDir}; `">
+      <Video ref="local" :stream="streams.local" :axis="axis" muted />
+      <Video ref="remote" :stream="streams.remote" :axis="axis" muted />
+    </div>
   </div>
 </template>
 
@@ -28,7 +27,6 @@ export default {
   },
   props: {
     streams: Object,
-    colW: Number,
   },
   components: {
     Video,
@@ -42,8 +40,6 @@ export default {
   methods: {
     async onResize() {
       const self = this;
-      this.rect.h = getHeight();
-      this.rect.w = getWidth();
 
       await this.sleep();
 
@@ -58,14 +54,6 @@ export default {
       this.flexDir = ifRow ? "row" : "column";
       this.axis = getAxis();
 
-      function getHeight() {
-        const topBarH = self.$parent.$refs.topBar?.$el.offsetHeight || 0;
-        const bottomBarH = self.$parent.$refs.bottomBar?.$el.offsetHeight || 0;
-        return innerHeight - (topBarH + bottomBarH);
-      }
-      function getWidth() {
-        return self.colW;
-      }
       function getVideoRatios() {
         return {
           local: self.$refs.local.ratio,
@@ -122,10 +110,15 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/styles.scss";
 
-#videos {
-  $flex-direction: var(--flexDir);
-  @include flexbox($flex-direction);
-  width: var(--w);
-  height: var(--h);
+#videosWrapper {
+  @include box-size(100%);
+  position: relative;
+  #videos {
+    position: absolute;
+    @include box-size(100%);
+    $flex-direction: var(--flexDir);
+    @include flexbox($flex-direction);
+    // transition: all 1000ms;
+  }
 }
 </style>

@@ -3,13 +3,13 @@
     <!-- <div id="conferenceId">
       Conference ID: {{ room.ref ? room.ref.id : "" }}
     </div> -->
-    <Settings ref="leftPanel" />
-    <div id="centerCol" :style="`--w: ${centerColWidth}px`">
-      <TopBar ref="topBar" :room="room" />
-      <Videos :streams="streams" :colW="centerColWidth" />
-      <BottomBar ref="bottomBar" />
+    <Settings />
+    <div id="centerCol">
+      <TopBar :room="room" />
+      <Videos :streams="streams" />
+      <BottomBar />
     </div>
-    <Chat ref="rightPanel" />
+    <Chat />
   </div>
 </template>
 
@@ -27,11 +27,6 @@ export default {
     streams: Object,
     room: Object,
   },
-  data() {
-    return {
-      centerColWidth: null,
-    };
-  },
   components: {
     Settings,
 
@@ -40,22 +35,6 @@ export default {
     BottomBar,
 
     Chat,
-  },
-  mounted() {
-    addEventListener("resize", this.onResize);
-    this.onResize();
-  },
-  methods: {
-    onResize() {
-      const self = this;
-      self.centerColWidth = getCenterColWidth();
-
-      function getCenterColWidth() {
-        const lPanelW = self.$refs.leftPanel?.$el.offsetWidth || 0;
-        const rPanelW = self.$refs.rightPanel?.$el.offsetWidth || 0;
-        return innerWidth - (lPanelW + rPanelW);
-      }
-    },
   },
 };
 </script>
@@ -72,8 +51,10 @@ export default {
   //   transform: translate(-50%);
   // }
   #centerCol {
-    width: var(--w);
     @include flexbox(column);
+    // transition: all 1000ms;
+    height: 100vh;
+    flex: 1;
   }
 }
 </style>
