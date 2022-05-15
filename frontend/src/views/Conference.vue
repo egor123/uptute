@@ -14,7 +14,7 @@
 import { db, firestore } from "@/firebase.js";
 import { config, constraints } from "@/constants/peer-connection.js";
 
-import PreConference from "@/components/conference/PreConference.vue";
+import PreConference from "@/components/conference/preConference/PreConference.vue";
 import Interface from "@/components/conference/Interface.vue";
 
 export default {
@@ -42,6 +42,7 @@ export default {
   },
   async mounted() {
     const self = this;
+    this.$vuetify.theme.dark = true;
     createStreams();
     setLocalTracks();
 
@@ -316,9 +317,8 @@ export default {
 @import "@/scss/styles.scss";
 
 #main {
-  // background: var(--v-background-base);
-  background: #131313;
   @include box-size(100%);
   position: relative;
+  overflow: hidden;
 }
 </style>

@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import CreateButton from "@/components/conference/buttons/Create.vue";
-import JoinButton from "@/components/conference/buttons/Join.vue";
+import CreateButton from "@/components/conference/preConference/Create.vue";
+import JoinButton from "@/components/conference/preConference/Join.vue";
 
 export default {
   components: {

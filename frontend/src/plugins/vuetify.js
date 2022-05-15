@@ -25,6 +25,14 @@ export default new Vuetify({
         innerThumb: "ddd",
         innerThumbHover: "d6d6d6",
       },
+      dark: {
+        background: "131313",
+        btnOn: "333",
+        btnOff: "131313",
+        light: "bbb",
+        card: "333",
+      },
     },
   },
 });
+

@@ -76,13 +76,14 @@ export default {
         const m = 2 * self.margin;
         var w = rect.w;
         var h = rect.h;
-        const maxW = innerWidth;
-        const maxH = innerHeight;
+        const maxW = self.$parent.$el.offsetWidth;
+        const maxH = self.$parent.$el.offsetHeight;
 
         if (w > maxW) {
           w = maxW - m;
           h = w / ratio;
-        } else if (h > maxH) {
+        }
+        if (h > maxH) {
           h = maxH - m;
           w = h * ratio;
         }
@@ -110,5 +111,11 @@ video {
   margin: var(--margin);
   width: var(--w);
   height: var(--h);
+
+  transition: transform 300ms;
+  &:hover {
+    cursor: pointer;
+    transform: scale(0.99);
+  }
 }
 </style>
