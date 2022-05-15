@@ -1,5 +1,5 @@
 <template>
-  <BtnBase :mdiIcon="icons.on" />
+  <BtnBase :icons="icons" :isToggled="isToggled" />
 </template>
 
 <script>

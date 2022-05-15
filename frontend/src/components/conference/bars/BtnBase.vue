@@ -4,17 +4,37 @@
     :style="`--background: ${bgColor};`"
     :color="bgColor"
   >
-    <v-icon color="light">mdi-{{ mdiIcon }}</v-icon>
+    <v-icon color="light"> mdi-{{ curIcon }} </v-icon>
   </button>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      curIcon: "",
+    };
+  },
   props: {
-    mdiIcon: String,
+    icons: Object,
     bgColor: {
       type: String,
       default: "var(--v-btnOn-base)",
+    },
+    isToggled: Boolean,
+  },
+  mounted() {
+    this.setCurIcon();
+  },
+  methods: {
+    setCurIcon() {
+      const type = this.isToggled ? "on" : "off";
+      this.curIcon = this.icons[type];
+    },
+  },
+  watch: {
+    isToggled() {
+      this.setCurIcon();
     },
   },
 };

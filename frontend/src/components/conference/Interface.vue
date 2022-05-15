@@ -3,17 +3,18 @@
     <!-- <div id="conferenceId">
       Conference ID: {{ room.ref ? room.ref.id : "" }}
     </div> -->
-    <Settings :isOpen="isOpen.settings" />
+    <Settings :isToggled="isToggled.top.settings" />
     <div id="centerCol">
       <TopBar
         :room="room"
-        @toggleSettings="isOpen.settings = !isOpen.settings"
-        @toggleChat="isOpen.chat = !isOpen.chat"
+        @toggleSettings="isToggled.top.settings = !isToggled.top.settings"
+        @toggleChat="isToggled.top.chat = !isToggled.top.chat"
+        :isToggled="isToggled.top"
       />
       <Videos :streams="streams" />
-      <BottomBar />
+      <BottomBar :isToggled="isToggled.bottom" />
     </div>
-    <Chat :isOpen="isOpen.chat" />
+    <Chat :isToggled="isToggled.top.chat" />
   </div>
 </template>
 
@@ -29,9 +30,18 @@ import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 export default {
   data() {
     return {
-      isOpen: {
-        settings: true,
-        chat: true,
+      isToggled: {
+        top: {
+          settings: true,
+          chat: true,
+        },
+        bottom: {
+          micOff: false,
+          camOff: false,
+          end: false,
+          screenShare: false,
+          whiteboard: false,
+        },
       },
     };
   },
@@ -55,7 +65,8 @@ export default {
     }, 1000);
 
     function closePanels() {
-      Object.keys(self.isOpen).forEach((key) => (self.isOpen[key] = false));
+      const keys = Object.keys(self.isToggled.top);
+      keys.forEach((key) => (self.isToggled.top[key] = false));
     }
   },
 };

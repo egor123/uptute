@@ -1,8 +1,11 @@
 <template>
   <BarBase :isTopBar="true">
-    <SettingsBtn @click="$emit('toggleSettings')" />
+    <SettingsBtn
+      @click="$emit('toggleSettings')"
+      :isToggled="isToggled.settings"
+    />
     <v-spacer />
-    <ChatBtn @click="$emit('toggleChat')" />
+    <ChatBtn @click="$emit('toggleChat')" :isToggled="isToggled.chat" />
   </BarBase>
 </template>
 
@@ -13,5 +16,8 @@ import ChatBtn from "@/components/conference/bars/top/chat/Btn.vue";
 
 export default {
   components: { BarBase, SettingsBtn, ChatBtn },
+  props: {
+    isToggled: Object,
+  },
 };
 </script>

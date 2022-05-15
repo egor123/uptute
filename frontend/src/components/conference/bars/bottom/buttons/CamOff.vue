@@ -1,5 +1,5 @@
 <template>
-  <BtnBase :mdiIcon="icons.on" />
+  <BtnBase :icons="icons" :isToggled="isToggled" />
 </template>
 
 <script>
@@ -17,5 +17,10 @@ export default {
   components: {
     BtnBase,
   },
+  props: {
+    isToggled: Boolean,
+  },
 };
 </script>
+
+<style lang="scss" scoped></style>

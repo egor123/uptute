@@ -1,10 +1,10 @@
 <template>
   <BarBase :isTopBar="false">
-    <MicOff />
-    <CamOff />
-    <End />
-    <ScreenShare />
-    <Whiteboard />
+    <MicOff isToggled.micOff />
+    <CamOff isToggled.camOff />
+    <End isToggled.end />
+    <ScreenShare isToggled.screenShare />
+    <Whiteboard isToggled.whiteboard />
   </BarBase>
 </template>
 
@@ -18,5 +18,8 @@ import Whiteboard from "@/components/conference/bars/bottom/buttons/Whiteboard.v
 
 export default {
   components: { BarBase, MicOff, CamOff, End, ScreenShare, Whiteboard },
+  props: {
+    isToggled: Object,
+  },
 };
 </script>
