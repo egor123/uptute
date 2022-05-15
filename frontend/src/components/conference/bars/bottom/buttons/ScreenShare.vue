@@ -1,5 +1,5 @@
 <template>
-  <BtnBase :icons="icons" :isToggled="isToggled" />
+  <BtnBase @click="$emit('click')" :icons="icons" :isToggled="isToggled" />
 </template>
 
 <script>
@@ -9,13 +9,16 @@ export default {
   data() {
     return {
       icons: {
-        on: "monitor-share",
-        off: "window-close",
+        on: "window-close",
+        off: "monitor-share",
       },
     };
   },
   components: {
     BtnBase,
+  },
+  props: {
+    isToggled: Boolean,
   },
 };
 </script>

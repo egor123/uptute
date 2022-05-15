@@ -14,8 +14,8 @@ export default {
   data() {
     return {
       icons: {
-        on: "message",
-        off: "window-close",
+        on: "window-close",
+        off: "message",
       },
     };
   },

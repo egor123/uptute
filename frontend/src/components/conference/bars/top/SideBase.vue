@@ -14,16 +14,18 @@ export default {
     };
   },
   props: {
-    isOpen: Boolean,
+    isToggled: Boolean,
     isLeft: Boolean,
   },
   mounted() {
     this.$refs.panel.addEventListener("transitionstart", this.startResizing);
     this.$refs.panel.addEventListener("transitionend", this.endResizing);
+    this.$refs.panel.addEventListener("transitioncancel", this.endResizing);
   },
   beforeDestroy() {
     this.$refs.panel.removeEventListener("transitionstart", this.startResizing);
     this.$refs.panel.removeEventListener("transitionend", this.endResizing);
+    this.$refs.panel.removeEventListener("transitioncancel", this.endResizing);
   },
   methods: {
     startResizing() {
@@ -38,11 +40,11 @@ export default {
     },
   },
   watch: {
-    isOpen(isOpen) {
+    isToggled(isToggled) {
       const style = this.$refs.panel.style;
       const w = this.$refs.panel.offsetWidth;
       const side = this.isLeft ? "Left" : "Right";
-      const m = isOpen ? `0px` : `-${w}px`;
+      const m = isToggled ? `0px` : `-${w}px`;
 
       style[`margin${side}`] = m;
     },

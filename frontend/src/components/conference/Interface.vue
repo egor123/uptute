@@ -12,7 +12,18 @@
         :isToggled="isToggled.top"
       />
       <Videos :streams="streams" />
-      <BottomBar :isToggled="isToggled.bottom" />
+      <BottomBar
+        :isToggled="isToggled.bottom"
+        @toggleMicOff="isToggled.bottom.micOff = !isToggled.bottom.micOff"
+        @toggleCamOff="isToggled.bottom.camOff = !isToggled.bottom.camOff"
+        @toggleEnd="isToggled.bottom.end = !isToggled.bottom.end"
+        @toggleScreenShare="
+          isToggled.bottom.screenShare = !isToggled.bottom.screenShare
+        "
+        @toggleWhiteboard="
+          isToggled.bottom.whiteboard = !isToggled.bottom.whiteboard
+        "
+      />
     </div>
     <Chat :isToggled="isToggled.top.chat" />
   </div>

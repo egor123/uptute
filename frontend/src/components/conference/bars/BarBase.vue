@@ -25,6 +25,7 @@ export default {
     addEventListener("mousemove", this.onMouseMove);
     this.$refs.buttons.addEventListener("transitionstart", this.startResizing);
     this.$refs.buttons.addEventListener("transitionend", this.endResizing);
+    this.$refs.buttons.addEventListener("transitioncancel", this.endResizing);
   },
   beforeDestroy() {
     removeEventListener("mousemove", this.onMouseMove);
@@ -33,6 +34,10 @@ export default {
       this.startResizing
     );
     this.$refs.buttons.removeEventListener("transitionend", this.endResizing);
+    this.$refs.buttons.removeEventListener(
+      "transitioncancel",
+      this.endResizing
+    );
   },
   methods: {
     onMouseMove() {

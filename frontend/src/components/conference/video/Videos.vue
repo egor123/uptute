@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     async onResize() {
-      console.log("resize");
       const self = this;
 
       await this.sleep();

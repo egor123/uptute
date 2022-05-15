@@ -1,5 +1,5 @@
 <template>
-  <SidepanelBase :isOpen="isOpen" :isLeft="true">
+  <SidepanelBase :isToggled="isToggled" :isLeft="true">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
     tempor incididunt ut labore et dolore magna aliqua. Ornare arcu odio ut sem
     nulla pharetra. Enim eu turpis egestas pretium aenean pharetra. Et leo duis
@@ -32,7 +32,7 @@ export default {
     SidepanelBase,
   },
   props: {
-    isOpen: Boolean,
+    isToggled: Boolean,
   },
 };
 </script>

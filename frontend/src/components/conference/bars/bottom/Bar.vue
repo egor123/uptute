@@ -1,10 +1,16 @@
 <template>
   <BarBase :isTopBar="false">
-    <MicOff isToggled.micOff />
-    <CamOff isToggled.camOff />
-    <End isToggled.end />
-    <ScreenShare isToggled.screenShare />
-    <Whiteboard isToggled.whiteboard />
+    <MicOff :isToggled="isToggled.micOff" @click="$emit('toggleMicOff')" />
+    <CamOff :isToggled="isToggled.camOff" @click="$emit('toggleCamOff')" />
+    <End :isToggled="isToggled.end" @click="$emit('toggleEnd')" />
+    <ScreenShare
+      :isToggled="isToggled.screenShare"
+      @click="$emit('toggleScreenShare')"
+    />
+    <Whiteboard
+      :isToggled="isToggled.whiteboard"
+      @click="$emit('toggleWhiteboard')"
+    />
   </BarBase>
 </template>
 

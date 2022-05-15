@@ -1,5 +1,6 @@
 <template>
   <BtnBase
+    @click="$emit('click')"
     :icons="icons"
     :isToggled="isToggled"
     bgColor="var(--v-error-darken1)"
@@ -20,6 +21,9 @@ export default {
   },
   components: {
     BtnBase,
+  },
+  props: {
+    isToggled: Boolean,
   },
 };
 </script>

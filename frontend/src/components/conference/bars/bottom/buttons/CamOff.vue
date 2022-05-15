@@ -1,5 +1,5 @@
 <template>
-  <BtnBase :icons="icons" :isToggled="isToggled" />
+  <BtnBase @click="$emit('click')" :icons="icons" :isToggled="isToggled" />
 </template>
 
 <script>
@@ -9,8 +9,8 @@ export default {
   data() {
     return {
       icons: {
-        on: "video",
-        off: "video-off",
+        on: "video-off",
+        off: "video",
       },
     };
   },
