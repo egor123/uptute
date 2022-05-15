@@ -1,5 +1,5 @@
 <template>
-  <div id="videosWrapper">
+  <div id="videosWrapper" ref="videosWrapper">
     <div id="videos" :style="`--flexDir: ${flexDir}; `">
       <Video ref="local" :stream="streams.local" :axis="axis" muted />
       <Video ref="remote" :stream="streams.remote" :axis="axis" muted />
@@ -39,6 +39,7 @@ export default {
   },
   methods: {
     async onResize() {
+      console.log("resize");
       const self = this;
 
       await this.sleep();
@@ -118,7 +119,6 @@ export default {
     @include box-size(100%);
     $flex-direction: var(--flexDir);
     @include flexbox($flex-direction);
-    // transition: all 1000ms;
   }
 }
 </style>

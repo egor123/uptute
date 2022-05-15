@@ -1,5 +1,9 @@
 <template>
-  <button :style="`--background: ${bgColor};`" :color="bgColor">
+  <button
+    @click="$emit('click')"
+    :style="`--background: ${bgColor};`"
+    :color="bgColor"
+  >
     <v-icon color="light">mdi-{{ mdiIcon }}</v-icon>
   </button>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <SidepanelBase>
+  <SidepanelBase :isOpen="isOpen" :isLeft="true">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
     tempor incididunt ut labore et dolore magna aliqua. Ornare arcu odio ut sem
     nulla pharetra. Enim eu turpis egestas pretium aenean pharetra. Et leo duis
@@ -30,6 +30,9 @@ import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 export default {
   components: {
     SidepanelBase,
+  },
+  props: {
+    isOpen: Boolean,
   },
 };
 </script>

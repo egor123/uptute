@@ -1,7 +1,5 @@
 <template>
-  <div ref="panel" id="container" class="isLeft">
-    <!-- :class="{ isOpened: isOpened }" -->
-
+  <div ref="panel" id="container" :class="{ isLeft: isLeft }">
     <div id="card">
       <slot />
     </div>
@@ -10,33 +8,45 @@
 
 <script>
 export default {
-  // data() {
-  //   return {
-  //     isOpened: true,
-  //   };
-  // },
-  // computed: {
-  //   panel() {
-  //     return this.$refs.panel;
-  //   },
-  // },
-  // mounted() {
-  //   this.panel.addEventListener("transitionend", this.onTransitionEnd);
-  //   setTimeout(() => {
-  //     this.isOpened = false;
-  //     setTimeout(() => {
-  //       this.isOpened = true;
-  //     }, 3000);
-  //   }, 3000);
-  // },
-  // beforeDestroy() {
-  //   this.panel.removeEventListener("transitionend", this.onTransitionEnd);
-  // },
-  // methods: {
-  //   onTransitionEnd() {
-  //     dispatchEvent(new Event("resize"));
-  //   },
-  // },
+  data() {
+    return {
+      transitionIds: [],
+    };
+  },
+  props: {
+    isOpen: Boolean,
+    isLeft: Boolean,
+  },
+  mounted() {
+    this.$refs.panel.addEventListener("transitionstart", this.startResizing);
+    this.$refs.panel.addEventListener("transitionend", this.endResizing);
+  },
+  beforeDestroy() {
+    this.$refs.panel.removeEventListener("transitionstart", this.startResizing);
+    this.$refs.panel.removeEventListener("transitionend", this.endResizing);
+  },
+  methods: {
+    startResizing() {
+      const id = setInterval(() => {
+        dispatchEvent(new Event("resize"));
+      }, 0);
+      this.transitionIds.push(id);
+    },
+    endResizing() {
+      clearInterval(this.transitionIds[0]);
+      this.transitionIds.shift();
+    },
+  },
+  watch: {
+    isOpen(isOpen) {
+      const style = this.$refs.panel.style;
+      const w = this.$refs.panel.offsetWidth;
+      const side = this.isLeft ? "Left" : "Right";
+      const m = isOpen ? `0px` : `-${w}px`;
+
+      style[`margin${side}`] = m;
+    },
+  },
 };
 </script>
 
@@ -44,9 +54,9 @@ export default {
 @import "@/scss/styles.scss";
 
 #container {
+  transition: margin 1s;
   height: 100vh;
-  min-width: 400px;
-  max-width: 400px;
+  width: 400px;
   color: var(--v-light-base);
   &.isLeft {
     padding: 12px 6px 12px 12px;
@@ -61,13 +71,5 @@ export default {
     padding: 6px;
     overflow: scroll;
   }
-
-  // transition: min-width 1s 1s, max-width 1s 1s, transform 1s;
-  // &:not(.isOpened) {
-  //   min-width: 0px;
-  //   max-width: 0px;
-  //   // padding: 0px;
-  //   transform: translate(-100%);
-  // }
 }
 </style>

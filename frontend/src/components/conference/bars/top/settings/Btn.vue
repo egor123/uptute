@@ -1,5 +1,5 @@
 <template>
-  <BtnBase id="settings" mdiIcon="cog" />
+  <BtnBase @click="$emit('click')" id="settings" mdiIcon="cog" />
 </template>
 
 <script>

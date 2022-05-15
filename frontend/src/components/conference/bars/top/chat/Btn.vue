@@ -1,5 +1,5 @@
 <template>
-  <BtnBase id="chat" mdiIcon="message" />
+  <BtnBase @click="$emit('click')" id="chat" mdiIcon="message" />
 </template>
 
 <script>

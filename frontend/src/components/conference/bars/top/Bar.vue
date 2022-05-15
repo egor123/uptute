@@ -1,8 +1,8 @@
 <template>
   <BarBase :isTopBar="true">
-    <SettingsBtn />
+    <SettingsBtn @click="$emit('toggleSettings')" />
     <v-spacer />
-    <ChatBtn />
+    <ChatBtn @click="$emit('toggleChat')" />
   </BarBase>
 </template>
 
