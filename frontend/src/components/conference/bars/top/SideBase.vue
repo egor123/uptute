@@ -58,7 +58,8 @@ export default {
 #container {
   transition: margin 1s;
   height: 100vh;
-  width: 400px;
+  // width: 400px;
+  width: fit-content;
   color: var(--v-light-base);
   &.isLeft {
     padding: 12px 6px 12px 12px;

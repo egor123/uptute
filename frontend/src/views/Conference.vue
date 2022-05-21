@@ -1,8 +1,8 @@
 <template>
   <div id="main">
-    <PreConference v-if="isLive" />
+    <PreConference v-if="!isLive" />
     <Interface
-      v-if="!isLive"
+      v-if="isLive"
       :streams="streams"
       :room="room"
       :peerConnection="peerConnection"
@@ -41,25 +41,45 @@ export default {
     Interface,
   },
   async mounted() {
-    const self = this;
     this.$vuetify.theme.dark = true;
-    createStreams();
-    setLocalTracks();
-
-    function createStreams() {
-      self.streams.remote = new MediaStream();
-      self.streams.local = new MediaStream();
-    }
-    async function setLocalTracks() {
-      const media = await navigator.mediaDevices.getUserMedia(constraints);
-      media.getTracks().forEach((track) => self.streams.local.addTrack(track));
-      self.streams.local.onaddtrack();
-
-      media.getTracks().forEach((track) => self.streams.remote.addTrack(track)); // FOR TESTING ONLY !!! TODO: DELETE
-      self.streams.remote.onaddtrack(); // FOR TESTING ONLY !!! TODO: DELETE
-    }
   },
   methods: {
+    async init(params) {
+      const self = this;
+
+      await mount();
+
+      createStreams();
+      await setLocalTracks();
+
+      toRoom(params);
+
+      async function mount() {
+        self.isLive = true; // TODO: TEMPORARY - DELETE
+        return await new Promise((r) => setTimeout(r, 0));
+      }
+      function createStreams() {
+        self.streams.remote = new MediaStream();
+        self.streams.local = new MediaStream();
+      }
+      async function setLocalTracks() {
+        const media = await navigator.mediaDevices.getUserMedia(constraints);
+
+        media
+          .getTracks()
+          .forEach((track) => self.streams.local.addTrack(track));
+
+        // media
+        //   .getTracks()
+        //   .forEach((track) => self.streams.remote.addTrack(track)); // FOR TESTING ONLY !!! TODO: DELETE
+
+        return;
+      }
+      function toRoom(params) {
+        const funcName = params.type;
+        self[funcName](params.payload);
+      }
+    },
     async createRoom() {
       const self = this;
 
@@ -74,8 +94,6 @@ export default {
       listenForRemoteDescription();
 
       this.listenForRemoteICECandidates({ isCaller: true });
-
-      this.isLive = true; // TODO: TEMPORARY - DELETE
 
       async function sendOffer() {
         const offer = await createSDPOffer();
@@ -138,8 +156,6 @@ export default {
       await createSDPAnswer();
 
       this.listenForRemoteICECandidates({ isCaller: false });
-
-      this.isLive = true; // TODO: TEMPORARY - DELETE
 
       async function getRoomRef() {
         self.room.ref = await firestore.doc(db, "rooms", roomId);
@@ -270,7 +286,6 @@ export default {
           function pullTrack(track) {
             console.log("Add a track to the remoteStream:", track);
             self.streams.remote.addTrack(track);
-            self.streams.remote.onaddtrack();
           }
         }
       }

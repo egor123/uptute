@@ -1,5 +1,6 @@
 <template>
   <video
+    ref="video"
     :srcObject.prop="stream"
     :muted="muted"
     playsinline
@@ -33,17 +34,17 @@ export default {
     },
   },
   mounted() {
-    const self = this;
-    if (ifTracks()) this.getRatio();
-
-    function ifTracks() {
-      return self.stream?.getVideoTracks()?.length > 0;
-    }
+    const video = this.$refs.video;
+    video.addEventListener("loadedmetadata", this.getRatio);
+  },
+  beforeDestroy() {
+    const video = this.$refs.video;
+    video.removeEventListener("loadedmetadata", this.getRatio);
   },
   methods: {
-    getRatio() {
-      const settings = this.stream.getVideoTracks()[0].getSettings();
-      this.ratio = settings.width / settings.height;
+    getRatio(e) {
+      const el = e.srcElement;
+      this.ratio = el.videoWidth / el.videoHeight;
       this.$parent.onResize();
     },
     recalcRect() {
@@ -76,8 +77,9 @@ export default {
         const m = 2 * self.margin;
         var w = rect.w;
         var h = rect.h;
-        const maxW = self.$parent.$el.offsetWidth;
-        const maxH = self.$parent.$el.offsetHeight;
+        const parent = self.$parent.$el;
+        const maxW = parent.offsetWidth;
+        const maxH = parent.offsetHeight;
 
         if (w > maxW) {
           w = maxW - m;
@@ -93,9 +95,6 @@ export default {
     },
   },
   watch: {
-    stream(stream) {
-      stream.onaddtrack = this.getRatio;
-    },
     axis() {
       this.recalcRect();
     },

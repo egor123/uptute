@@ -1,9 +1,6 @@
 <template>
   <div id="interface">
-    <!-- <div id="conferenceId">
-      Conference ID: {{ room.ref ? room.ref.id : "" }}
-    </div> -->
-    <Settings :isToggled="isToggled.top.settings" />
+    <Settings :isToggled="isToggled.top.settings" :room="room" />
     <div id="centerCol">
       <TopBar
         :room="room"
@@ -88,12 +85,6 @@ export default {
 #interface {
   @include flexbox(row);
   background: var(--v-background-base);
-  // #conferenceId {
-  //   position: fixed;
-  //   bottom: 16px;
-  //   left: 50%;
-  //   transform: translate(-50%);
-  // }
   #centerCol {
     @include flexbox(column);
     height: 100vh;

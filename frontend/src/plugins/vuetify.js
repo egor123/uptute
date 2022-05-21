@@ -31,6 +31,7 @@ export default new Vuetify({
         btnOff: "131313",
         light: "bbb",
         card: "333",
+        accent: "#FFA500",
       },
     },
   },

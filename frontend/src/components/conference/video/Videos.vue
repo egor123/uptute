@@ -45,8 +45,6 @@ export default {
 
       const ratios = getVideoRatios();
 
-      if (!ifAllExist(ratios)) return;
-
       const sumRatios = getSumRatios(ratios);
       const ifRow = getIfRow(sumRatios);
 
@@ -56,12 +54,9 @@ export default {
 
       function getVideoRatios() {
         return {
-          local: self.$refs.local.ratio,
-          remote: self.$refs.remote.ratio,
+          local: self.$refs.local.ratio || 0,
+          remote: self.$refs.remote.ratio || 0,
         };
-      }
-      function ifAllExist(ratios) {
-        return !!ratios.local && !!ratios.remote;
       }
       function getSumRatios(ratios) {
         return {

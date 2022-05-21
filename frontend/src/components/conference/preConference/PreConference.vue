@@ -1,7 +1,9 @@
 <template>
   <div id="buttons">
-    <CreateButton @create="$parent.createRoom" />
-    <JoinButton @join="$parent.joinRoom" />
+    <CreateButton @create="$parent.init({ type: 'createRoom' })" />
+    <JoinButton
+      @join="(id) => $parent.init({ type: 'joinRoom', payload: id })"
+    />
   </div>
 </template>
 
