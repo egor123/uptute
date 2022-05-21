@@ -20,21 +20,29 @@ import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 export default {
   data() {
     return {
-      info: [
-        {
+      info: {
+        id: {
           key: "Conference ID",
-          val: this.room.ref?.id,
+          val: "",
         },
-      ],
+      },
     };
   },
+  computed: {},
   components: {
     SidepanelBase,
   },
   props: {
     isToggled: Boolean,
-    room: Object,
+    roomId: String,
   },
+  watch: {
+    roomId(v) {
+      this.info.id.val = v;
+    },
+  },
+  // mounted() {
+  // },
 };
 </script>
 
@@ -43,8 +51,9 @@ export default {
 
 #info {
   td {
-    min-width: 200px;
-    max-width: 200px;
+    // min-width: 0px;
+    width: fit-content;
+    // max-width: 400px;
     text-align: left;
 
     &.key {
@@ -59,7 +68,6 @@ export default {
   }
 
   & > * {
-    // white-space: nowrap;
     word-wrap: break-word;
   }
 }

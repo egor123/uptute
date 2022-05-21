@@ -1,5 +1,10 @@
 <template>
-  <div ref="panel" id="container" :class="{ isLeft: isLeft }">
+  <div
+    ref="panel"
+    id="container"
+    :class="{ isLeft: isLeft, isToggled: isToggled }"
+    :style="{ '--m': '-' + w + 'px' }"
+  >
     <div id="card">
       <slot />
     </div>
@@ -10,6 +15,7 @@
 export default {
   data() {
     return {
+      w: null,
       transitionIds: [],
     };
   },
@@ -28,6 +34,10 @@ export default {
     this.$refs.panel.removeEventListener("transitioncancel", this.endResizing);
   },
   methods: {
+    setWidth() {
+      this.w = this.$refs.panel.offsetWidth;
+      console.log(this.w);
+    },
     startResizing() {
       const id = setInterval(() => {
         dispatchEvent(new Event("resize"));
@@ -40,13 +50,8 @@ export default {
     },
   },
   watch: {
-    isToggled(isToggled) {
-      const style = this.$refs.panel.style;
-      const w = this.$refs.panel.offsetWidth;
-      const side = this.isLeft ? "Left" : "Right";
-      const m = isToggled ? `0px` : `-${w}px`;
-
-      style[`margin${side}`] = m;
+    isToggled() {
+      this.setWidth();
     },
   },
 };
@@ -58,20 +63,26 @@ export default {
 #container {
   transition: margin 1s;
   height: 100vh;
-  // width: 400px;
   width: fit-content;
   color: var(--v-light-base);
   &.isLeft {
     padding: 12px 6px 12px 12px;
+    &:not(.isToggled) {
+      margin-left: var(--m);
+    }
   }
   &:not(.isLeft) {
     padding: 12px 12px 12px 6px;
+    &:not(.isToggled) {
+      margin-right: var(--m);
+    }
   }
+
   #card {
     @include box-size(100%);
     background: var(--v-card-base);
     border-radius: 15px;
-    padding: 6px;
+    padding: 12px;
     overflow: scroll;
   }
 }

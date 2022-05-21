@@ -4,7 +4,7 @@
     <Interface
       v-if="isLive"
       :streams="streams"
-      :room="room"
+      :roomId="room.ref.id"
       :peerConnection="peerConnection"
       @endRoom="endRoom()"
     />
@@ -32,8 +32,8 @@ export default {
         remote: null,
       },
       room: {
-        ref: null,
-        data: null,
+        ref: {},
+        data: {},
       },
     };
   },
@@ -266,7 +266,7 @@ export default {
         }
       }
       function onClose() {
-        self.peerConnection.oniceconnectionstatechange = (e) => {
+        self.peerConnection.oniceconnectionstatechange = () => {
           if (self.peerConnection.iceConnectionState == "disconnected")
             self.closeRoom();
         };

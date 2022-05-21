@@ -1,9 +1,8 @@
 <template>
   <div id="interface">
-    <Settings :isToggled="isToggled.top.settings" :room="room" />
+    <Settings :isToggled="isToggled.top.settings" :roomId="roomId" />
     <div id="centerCol">
       <TopBar
-        :room="room"
         @toggleSettings="isToggled.top.settings = !isToggled.top.settings"
         @toggleChat="isToggled.top.chat = !isToggled.top.chat"
         :isToggled="isToggled.top"
@@ -55,7 +54,7 @@ export default {
   },
   props: {
     streams: Object,
-    room: Object,
+    roomId: String,
   },
   components: {
     Settings,
