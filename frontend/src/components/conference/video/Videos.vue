@@ -43,6 +43,8 @@ export default {
 
       await this.sleep();
 
+      if (!refsExist()) return;
+
       const ratios = getVideoRatios();
 
       const sumRatios = getSumRatios(ratios);
@@ -52,6 +54,10 @@ export default {
       this.flexDir = ifRow ? "row" : "column";
       this.axis = getAxis();
 
+      function refsExist() {
+        const refValArr = Object.values(self.$refs);
+        return refValArr.every((ref) => ref != undefined);
+      }
       function getVideoRatios() {
         return {
           local: self.$refs.local.ratio || 0,

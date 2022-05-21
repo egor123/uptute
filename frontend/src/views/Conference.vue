@@ -6,6 +6,7 @@
       :streams="streams"
       :room="room"
       :peerConnection="peerConnection"
+      @endRoom="endRoom()"
     />
   </div>
 </template>
@@ -207,6 +208,15 @@ export default {
         }
       }
     },
+    endRoom() {
+      this.peerConnection.close();
+      this.closeRoom();
+    },
+    async closeRoom() {
+      this.peerConnection = undefined;
+      this.$vuetify.theme.dark = false;
+      this.$router.push({ path: "/" });
+    },
 
     setUpPeerConnection() {
       const self = this;
@@ -214,31 +224,52 @@ export default {
 
       this.peerConnection = new RTCPeerConnection(config);
       registerPeerConnectionListeners();
+      onClose();
       connectLocalTracks();
 
       function registerPeerConnectionListeners() {
-        const pc = self.peerConnection;
-
         addListener({
           name: "icegatheringstatechange",
-          log: `ICE gathering state changed: ${pc.iceGatheringState}`,
+          log: {
+            pre: "ICE gathering state changed",
+            name: "iceGatheringState",
+          },
         });
         addListener({
           name: "connectionstatechange",
-          log: `Connection state change: ${pc.connectionState}`,
+          log: {
+            pre: "Connection state change",
+            name: "connectionState",
+          },
         });
         addListener({
           name: "signalingstatechange",
-          log: `Signaling state change: ${pc.signalingState}`,
+          log: {
+            pre: "Signaling state change",
+            name: "signalingState",
+          },
         });
         addListener({
           name: "iceconnectionstatechange",
-          log: `ICE connection state change: ${pc.iceConnectionState}`,
+          log: {
+            pre: "ICE connection state change",
+            name: "iceConnectionState",
+          },
         });
 
         function addListener({ name, log }) {
-          pc.addEventListener(name, () => console.log(log));
+          const pc = self.peerConnection;
+          pc.addEventListener(name, () => {
+            const text = `${log.pre}: ${pc[log.name]}`;
+            console.log(text);
+          });
         }
+      }
+      function onClose() {
+        self.peerConnection.oniceconnectionstatechange = (e) => {
+          if (self.peerConnection.iceConnectionState == "disconnected")
+            self.closeRoom();
+        };
       }
       function connectLocalTracks() {
         const stream = self.streams.local;

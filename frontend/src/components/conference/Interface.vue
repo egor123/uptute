@@ -77,6 +77,11 @@ export default {
       keys.forEach((key) => (self.isToggled.top[key] = false));
     }
   },
+  watch: {
+    "isToggled.bottom.end"(v) {
+      if (v) this.$emit("endRoom");
+    },
+  },
 };
 </script>
 

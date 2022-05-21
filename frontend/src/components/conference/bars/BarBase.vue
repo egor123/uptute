@@ -22,22 +22,18 @@ export default {
     },
   },
   mounted() {
+    const btns = this.$refs.buttons;
     addEventListener("mousemove", this.onMouseMove);
-    this.$refs.buttons.addEventListener("transitionstart", this.startResizing);
-    this.$refs.buttons.addEventListener("transitionend", this.endResizing);
-    this.$refs.buttons.addEventListener("transitioncancel", this.endResizing);
+    btns.addEventListener("transitionstart", this.startResizing);
+    btns.addEventListener("transitionend", this.endResizing);
+    btns.addEventListener("transitioncancel", this.endResizing);
   },
-  beforeDestroy() {
+  beforeUnmount() {
+    const btns = this.$refs.buttons;
     removeEventListener("mousemove", this.onMouseMove);
-    this.$refs.buttons.removeEventListener(
-      "transitionstart",
-      this.startResizing
-    );
-    this.$refs.buttons.removeEventListener("transitionend", this.endResizing);
-    this.$refs.buttons.removeEventListener(
-      "transitioncancel",
-      this.endResizing
-    );
+    btns.removeEventListener("transitionstart", this.startResizing);
+    btns.removeEventListener("transitionend", this.endResizing);
+    btns.removeEventListener("transitioncancel", this.endResizing);
   },
   methods: {
     onMouseMove() {

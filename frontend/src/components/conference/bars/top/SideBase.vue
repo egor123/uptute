@@ -22,7 +22,7 @@ export default {
     this.$refs.panel.addEventListener("transitionend", this.endResizing);
     this.$refs.panel.addEventListener("transitioncancel", this.endResizing);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.$refs.panel.removeEventListener("transitionstart", this.startResizing);
     this.$refs.panel.removeEventListener("transitionend", this.endResizing);
     this.$refs.panel.removeEventListener("transitioncancel", this.endResizing);
