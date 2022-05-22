@@ -3,22 +3,18 @@
     <Settings :isToggled="isToggled.top.settings" :roomId="roomId" />
     <div id="centerCol">
       <TopBar
-        @toggleSettings="isToggled.top.settings = !isToggled.top.settings"
-        @toggleChat="isToggled.top.chat = !isToggled.top.chat"
+        @toggleSettings="toggle('top', 'settings')"
+        @toggleChat="toggle('top', 'chat')"
         :isToggled="isToggled.top"
       />
       <Videos :streams="streams" :isToggled="isToggled.bottom" />
       <BottomBar
         :isToggled="isToggled.bottom"
-        @toggleMicOff="isToggled.bottom.micOff = !isToggled.bottom.micOff"
-        @toggleCamOff="isToggled.bottom.camOff = !isToggled.bottom.camOff"
-        @toggleEnd="isToggled.bottom.end = !isToggled.bottom.end"
-        @toggleScreenShare="
-          isToggled.bottom.screenShare = !isToggled.bottom.screenShare
-        "
-        @toggleWhiteboard="
-          isToggled.bottom.whiteboard = !isToggled.bottom.whiteboard
-        "
+        @toggleMicOff="toggle('bottom', 'micOff')"
+        @toggleCamOff="toggle('bottom', 'camOff')"
+        @toggleEnd="toggle('bottom', 'end')"
+        @toggleScreenShare="toggleScreenShare()"
+        @toggleWhiteboard="toggle('bottom', 'whiteboard')"
       />
     </div>
     <Chat :isToggled="isToggled.top.chat" />
@@ -79,6 +75,26 @@ export default {
   watch: {
     "isToggled.bottom.end"(v) {
       if (v) this.$emit("endRoom");
+    },
+  },
+  methods: {
+    toggle(side, name) {
+      this.isToggled[side][name] = !this.isToggled[side][name];
+    },
+    toggleScreenShare() {
+      this.toggle("bottom", "screenShare");
+      setTimeout(() => {
+        const isToggled = this.isToggled.bottom.screenShare;
+        if (isToggled) this.$emit("shareScreen");
+        else {
+          const track = this.streams.local.getVideoTracks()[0];
+          track.stop();
+          track.onended();
+        }
+      }, 0);
+    },
+    stopedSharing() {
+      this.isToggled.bottom.screenShare = false;
     },
   },
 };

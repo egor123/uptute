@@ -6,6 +6,7 @@ export const config = {
   ],
   iceCandidatePoolSize: 10,
 };
+
 export const constraints = {
   video: true,
   audio: true,

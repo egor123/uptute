@@ -2,11 +2,13 @@
   <div id="main">
     <PreConference v-if="!isLive" />
     <Interface
+      ref="interface"
       v-if="isLive"
       :streams="streams"
       :roomId="room.ref.id"
       :peerConnection="peerConnection"
       @endRoom="endRoom()"
+      @shareScreen="shareScreen()"
     />
   </div>
 </template>
@@ -64,22 +66,16 @@ export default {
         self.streams.local = new MediaStream();
       }
       async function setLocalTracks() {
-        const media = await navigator.mediaDevices.getUserMedia(constraints);
         const side = "local";
+        const source = await navigator.mediaDevices.getUserMedia(constraints);
 
-        addTracks({ media, type: "video", side });
-        addTracks({ media, type: "audio", side });
+        await self.addUserTrack({ source, type: "video", side });
+        await self.addUserTrack({ source, type: "audio", side });
 
         // addTracks({ media, type: "video", side: "remote" }); // FOR TESTING ONLY !!! TODO: DELETE
         // addTracks({ media, type: "audio", side: "remote" }); // FOR TESTING ONLY !!! TODO: DELETE
 
         return;
-
-        function addTracks({ media, type, side }) {
-          const tracks =
-            type == "video" ? media.getVideoTracks() : media.getAudioTracks();
-          tracks.forEach((track) => self.streams[side].addTrack(track));
-        }
       }
       function toRoom(params) {
         const funcName = params.type;
@@ -213,6 +209,27 @@ export default {
         }
       }
     },
+
+    async shareScreen() {
+      const screenVideoTrack = await getScreenVideoTrack();
+      screenVideoTrack.onended = this.stopScreenSharing;
+      this.replaceTrack({ type: "video", newTrack: screenVideoTrack });
+
+      async function getScreenVideoTrack() {
+        const displayStream = await navigator.mediaDevices
+          .getDisplayMedia()
+          .catch((err) => console.error("Error: " + err));
+
+        return displayStream.getVideoTracks()[0];
+      }
+    },
+    async stopScreenSharing() {
+      const media = await navigator.mediaDevices.getUserMedia(constraints);
+      const newTrack = media.getVideoTracks()[0];
+      this.replaceTrack({ type: "video", newTrack });
+      this.$refs.interface.stopedSharing();
+      console.log("Stoped sharing the screen");
+    },
     endRoom() {
       this.peerConnection.close();
       this.closeRoom();
@@ -223,6 +240,44 @@ export default {
       this.$router.push({ path: "/" });
     },
 
+    async addUserTrack({ source, type, side }) {
+      const track =
+        type == "video"
+          ? source.getVideoTracks()[0]
+          : source.getAudioTracks()[0];
+      console.log(`Got a ${side} track:`, track);
+      this.streams[side].addTrack(track);
+    },
+    removeUserTrack({ type, side }) {
+      const stream = this.streams[side];
+      const curTrack =
+        type == "video"
+          ? stream.getVideoTracks()[0]
+          : stream.getAudioTracks()[0];
+      console.log(`Removed a ${side} track:`, curTrack);
+      stream.removeTrack(curTrack);
+    },
+    replaceTrack({ type, newTrack }) {
+      const self = this;
+      updatePeerConnection(newTrack);
+      updateLocalStream(newTrack);
+
+      async function updatePeerConnection(newTrack) {
+        const videoSender = getVideoSender();
+        await videoSender.replaceTrack(newTrack);
+        console.log(`Replaced a peer connection track:`, newTrack);
+
+        function getVideoSender() {
+          const senders = self.peerConnection.getSenders();
+          return senders.find((sender) => sender.track.kind == type);
+        }
+      }
+      function updateLocalStream(newTrack) {
+        const local = self.streams.local;
+        self.removeUserTrack({ type, side: "local" });
+        local.addTrack(newTrack);
+      }
+    },
     setUpPeerConnection() {
       const self = this;
       console.log("Create PeerConnection with configuration: ", config);
@@ -310,20 +365,13 @@ export default {
     },
     listenForNewTracks() {
       const self = this;
-      this.peerConnection.addEventListener("track", pullFromStreams);
+      this.peerConnection.addEventListener("track", pullTracks);
 
-      function pullFromStreams(event) {
-        console.log("Got remote track:", event.streams);
-        event.streams.forEach(pullTracks);
-
-        function pullTracks(stream) {
-          stream.getTracks().forEach(pullTrack);
-
-          function pullTrack(track) {
-            console.log("Add a track to the remoteStream:", track);
-            self.streams.remote.addTrack(track);
-          }
-        }
+      function pullTracks(e) {
+        const source = e.streams[0];
+        const side = "remote";
+        self.addUserTrack({ source, type: "video", side });
+        self.addUserTrack({ source, type: "audio", side });
       }
     },
     listenForRemoteICECandidates({ isCaller }) {
