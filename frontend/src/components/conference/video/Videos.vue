@@ -1,7 +1,13 @@
 <template>
   <div id="videosWrapper" ref="videosWrapper">
     <div id="videos" :style="`--flexDir: ${flexDir}; `">
-      <Video ref="local" :stream="streams.local" :axis="axis" muted />
+      <Video
+        ref="local"
+        :stream="streams.local"
+        :axis="axis"
+        muted
+        :isToggled="isToggled"
+      />
       <Video ref="remote" :stream="streams.remote" :axis="axis" muted />
     </div>
   </div>
@@ -27,6 +33,7 @@ export default {
   },
   props: {
     streams: Object,
+    isToggled: Object,
   },
   components: {
     Video,

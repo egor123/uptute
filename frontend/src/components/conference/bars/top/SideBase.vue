@@ -36,7 +36,6 @@ export default {
   methods: {
     setWidth() {
       this.w = this.$refs.panel.offsetWidth;
-      console.log(this.w);
     },
     startResizing() {
       const id = setInterval(() => {

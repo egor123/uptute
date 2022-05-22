@@ -65,16 +65,21 @@ export default {
       }
       async function setLocalTracks() {
         const media = await navigator.mediaDevices.getUserMedia(constraints);
+        const side = "local";
 
-        media
-          .getTracks()
-          .forEach((track) => self.streams.local.addTrack(track));
+        addTracks({ media, type: "video", side });
+        addTracks({ media, type: "audio", side });
 
-        // media
-        //   .getTracks()
-        //   .forEach((track) => self.streams.remote.addTrack(track)); // FOR TESTING ONLY !!! TODO: DELETE
+        // addTracks({ media, type: "video", side: "remote" }); // FOR TESTING ONLY !!! TODO: DELETE
+        // addTracks({ media, type: "audio", side: "remote" }); // FOR TESTING ONLY !!! TODO: DELETE
 
         return;
+
+        function addTracks({ media, type, side }) {
+          const tracks =
+            type == "video" ? media.getVideoTracks() : media.getAudioTracks();
+          tracks.forEach((track) => self.streams[side].addTrack(track));
+        }
       }
       function toRoom(params) {
         const funcName = params.type;

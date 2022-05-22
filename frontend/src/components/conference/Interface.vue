@@ -7,7 +7,7 @@
         @toggleChat="isToggled.top.chat = !isToggled.top.chat"
         :isToggled="isToggled.top"
       />
-      <Videos :streams="streams" />
+      <Videos :streams="streams" :isToggled="isToggled.bottom" />
       <BottomBar
         :isToggled="isToggled.bottom"
         @toggleMicOff="isToggled.bottom.micOff = !isToggled.bottom.micOff"

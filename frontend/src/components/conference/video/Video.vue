@@ -32,6 +32,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    isToggled: Object,
   },
   mounted() {
     const video = this.$refs.video;
@@ -97,6 +98,12 @@ export default {
   watch: {
     axis() {
       this.recalcRect();
+    },
+    "isToggled.camOff"(v) {
+      this.stream.getVideoTracks()[0].enabled = !v;
+    },
+    "isToggled.micOff"(v) {
+      this.stream.getAudioTracks()[0].enabled = !v;
     },
   },
 };
