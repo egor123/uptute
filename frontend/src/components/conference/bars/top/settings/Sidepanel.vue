@@ -1,49 +1,51 @@
 <template>
   <SidepanelBase :isToggled="isToggled" :isLeft="true">
-    <!-- <div id="info" ref="info" v-for="param in info" :key="param.id">
-      <div class="key">{{ param.key }}</div>
-      <v-spacer class="spacer" />
-      <div class="val">{{ param.val }}</div>
-    </div> -->
     <table id="info" ref="info">
-      <tr v-for="param in info" :key="param.id">
-        <td class="key">{{ param.key }}</td>
+      <tr v-for="(param, id) in info" :key="id">
+        <td class="key">{{ param.name }}</td>
         <td class="val">{{ param.val }}</td>
       </tr>
     </table>
   </SidepanelBase>
 </template>
 
-<script>
+<script lang="ts">
 import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 
-export default {
-  data() {
-    return {
-      info: {
-        id: {
-          key: "Conference ID",
-          val: "",
-        },
-      },
-    };
-  },
-  computed: {},
-  components: {
-    SidepanelBase,
-  },
-  props: {
-    isToggled: Boolean,
-    roomId: String,
-  },
-  watch: {
-    roomId(v) {
-      this.info.id.val = v;
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+
+interface Info {
+  [index: string]: {
+    name: string;
+    val: string;
+  };
+}
+
+@Component({
+  components: { SidepanelBase },
+})
+export default class SettingsPanel extends Vue {
+  info: Info = {
+    id: {
+      name: "Conference ID",
+      val: "",
     },
-  },
-  // mounted() {
-  // },
-};
+  };
+
+  @Prop(Boolean) isToggled!: boolean;
+  @Prop(String) roomId!: string;
+
+  mounted(): void {
+    this.setRomId();
+  }
+
+  setRomId(): void {
+    this.info.id.val = this.roomId;
+  }
+
+  @Watch("roomId")
+  onRoomIdChange = () => this.setRomId();
+}
 </script>
 
 <style lang="scss" scoped>
@@ -51,9 +53,7 @@ export default {
 
 #info {
   td {
-    // min-width: 0px;
     width: fit-content;
-    // max-width: 400px;
     text-align: left;
 
     &.key {

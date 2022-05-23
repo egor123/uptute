@@ -11,13 +11,19 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 
+interface Icons {
+  [index: string]: string;
+  on: string;
+  off: string;
+}
+
 @Component
 export default class BtnBase extends Vue {
   curIcon: string = "";
 
-  @Prop(Object) readonly icons!: object;
+  @Prop(Object) readonly icons!: Icons;
   @Prop({ type: String, default: "var(--v-btnOn-base)" })
-  readonly bgColor: string;
+  readonly bgColor!: string;
   @Prop(Boolean) readonly isToggled!: boolean;
 
   mounted(): void {

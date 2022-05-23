@@ -21,7 +21,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Settings from "@/components/conference/bars/top/settings/Sidepanel.vue";
 
 import TopBar from "@/components/conference/bars/top/Bar.vue";
@@ -30,28 +30,19 @@ import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
 
 import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 
-export default {
-  data() {
-    return {
-      isToggled: {
-        top: {
-          settings: true,
-          chat: true,
-        },
-        bottom: {
-          micOff: false,
-          camOff: false,
-          end: false,
-          screenShare: false,
-          whiteboard: false,
-        },
-      },
-    };
-  },
-  props: {
-    streams: Object,
-    roomId: String,
-  },
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+
+interface IsToggled {
+  [index: string]: {
+    [index: string]: boolean;
+  };
+}
+interface Streams {
+  local: MediaStream;
+  remote: MediaStream;
+}
+
+@Component({
   components: {
     Settings,
 
@@ -61,42 +52,58 @@ export default {
 
     Chat,
   },
-  mounted() {
+})
+export default class Interface extends Vue {
+  isToggled: IsToggled = {
+    top: {
+      settings: true,
+      chat: true,
+    },
+    bottom: {
+      micOff: false,
+      camOff: false,
+      end: false,
+      screenShare: false,
+      whiteboard: false,
+    },
+  };
+
+  @Prop(Object) streams!: Streams;
+  @Prop(String) roomId!: string;
+
+  mounted(): void {
     const self = this;
-    setTimeout(() => {
-      closePanels();
-    }, 1000);
+    this.$nextTick(() => closePanels());
 
-    function closePanels() {
-      const keys = Object.keys(self.isToggled.top);
-      keys.forEach((key) => (self.isToggled.top[key] = false));
+    function closePanels(): void {
+      const keys: string[] = Object.keys(self.isToggled.top);
+      keys.forEach((key: string) => (self.isToggled.top[key] = false));
     }
-  },
-  watch: {
-    "isToggled.bottom.end"(v) {
-      if (v) this.$emit("endRoom");
-    },
-  },
-  methods: {
-    toggle(side, name) {
-      this.isToggled[side][name] = !this.isToggled[side][name];
-    },
-    toggleScreenShare() {
-      const isToggled = this.isToggled.bottom.screenShare;
-      console.log(isToggled);
+  }
 
-      if (!isToggled) this.$emit("shareScreen");
-      else {
-        const track = this.streams.local.getVideoTracks()[0];
-        track.stop();
-        track.onended();
-      }
-    },
-    setShareVal(val) {
-      this.isToggled.bottom.screenShare = val;
-    },
-  },
-};
+  toggle(side: string, name: string): void {
+    this.isToggled[side][name] = !this.isToggled[side][name];
+  }
+  toggleScreenShare(): void {
+    const isToggled: boolean = this.isToggled.bottom.screenShare;
+
+    if (!isToggled) this.$emit("shareScreen");
+    else {
+      const track: MediaStreamTrack = this.streams.local.getVideoTracks()[0];
+      if (track.onended == null) return;
+      track.stop();
+      track.onended(new Event("ended"));
+    }
+  }
+  setShareVal(val: boolean) {
+    this.isToggled.bottom.screenShare = val;
+  }
+
+  @Watch("isToggled.bottom.end")
+  onEndToggle(isToggled: boolean) {
+    if (isToggled) this.$emit("endRoom");
+  }
+}
 </script>
 
 <style lang="scss" scoped>

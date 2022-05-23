@@ -3,7 +3,7 @@
     <PreConference v-if="!isLive" />
     <Interface
       ref="interface"
-      v-if="isLive"
+      v-if="isLive && room.ref.id != null"
       :streams="streams"
       :roomId="room.ref.id"
       :peerConnection="peerConnection"
