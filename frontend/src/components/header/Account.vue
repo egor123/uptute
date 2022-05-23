@@ -7,9 +7,7 @@
     :padding="padding"
   >
     <template v-slot:title>
-      <v-icon v-if="ifWithIcon" class="icon">
-        mdi-account-plus-outline
-      </v-icon>
+      <v-icon v-if="ifWithIcon" class="icon"> mdi-account-plus-outline </v-icon>
       <span v-if="ifWithText">{{ $l("auth.header.account") }}</span>
     </template>
     <template v-slot:content>
@@ -56,7 +54,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .icon.v-icon {
   color: var(--v-accent-base);
   font-size: 20px;

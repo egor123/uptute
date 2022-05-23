@@ -1,28 +1,19 @@
 <template>
   <SidepanelBase :isToggled="isToggled" :isLeft="false">
-    <div id="chat">
-      <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ornare arcu odio ut
-      sem nulla pharetra. Enim eu turpis egestas pretium aenean pharetra. Et leo
-      duis ut diam quam nulla. Magna fermentum iaculis eu non diam phasellus
-      vestibulum lorem sed. Tristique nulla aliquet enim tortor at auctor urna
-      nunc id. Metus dictum at tempor commodo. Placerat in egestas erat
-      imperdiet. Quam nulla porttitor massa id neque aliquam vestibulum morbi
-      blandit. Sed felis eget velit aliquet sagittis id. Dignissim cras
-      tincidunt lobortis feugiat vivamus at augue. Tortor aliquam nulla facilisi
-      cras fermentum odio eu feugiat. Sit amet consectetur adipiscing elit
-      pellentesque habitant. Morbi blandit cursus risus at ultrices. Amet
-      consectetur adipiscing elit ut aliquam purus sit amet luctus. Sit amet
-      facilisis magna etiam tempor orci eu. Scelerisque mauris pellentesque
-      pulvinar pellentesque habitant morbi tristique. Euismod lacinia at quis
-      risus sed vulputate odio ut enim. Orci porta non pulvinar neque. Dictumst
-      vestibulum rhoncus est pellentesque elit ullamcorper. Lorem sed risus
-      ultricies tristique nulla aliquet. In aliquam sem fringilla ut morbi
-      tincidunt. Aliquam sem fringilla ut morbi tincidunt augue interdum velit
-      euismod. Arcu bibendum at varius vel pharetra vel turpis nunc eget. Diam
-      vulputate ut pharetra sit amet aliquam id. Lectus vestibulum mattis
-      ullamcorper velit sed ullamcorper morbi tincidunt. Non tellus orci ac
-      auctor. -->
+    <div id="chat" ref="chat">
+      <div id="messages"></div>
+      <div id="bar">
+        <textarea
+          id="inputLine"
+          type="text"
+          ref="textarea"
+          rows="1"
+          v-model="input"
+        />
+        <button @click="sendMessage(input)" id="send">
+          <v-icon class="icon"> mdi-send </v-icon>
+        </button>
+      </div>
     </div>
   </SidepanelBase>
 </template>
@@ -31,17 +22,75 @@
 import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 
 export default {
+  data() {
+    return {
+      input: "",
+      maxInputHeightPercent: 10,
+    };
+  },
   components: {
     SidepanelBase,
   },
   props: {
     isToggled: Boolean,
   },
+  methods: {
+    sendMessage(input) {
+      this.$store.dispatch("conferenceChat/sendMessage", { msg: input });
+      this.input = "";
+    },
+  },
+  watch: {
+    input() {
+      const chatHeight = this.$refs.chat.offsetHeight;
+      const maxHeight = (chatHeight * this.maxInputHeightPercent) / 100;
+
+      const inputEl = this.$refs.textarea;
+      inputEl.style.height = "auto";
+      const scrollH = inputEl.scrollHeight;
+
+      this.$nextTick(() => {
+        if (scrollH < maxHeight) inputEl.style.height = scrollH + "px";
+        else inputEl.style.height = maxHeight + "px";
+      });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/styles.scss";
+
 #chat {
   width: 400px;
+  @include flexbox(column);
+  height: 100%;
+  #messages {
+    background: green;
+    flex: 1;
+    width: 100%;
+  }
+  #bar {
+    @include flexbox(row);
+    height: fit-content;
+    width: 100%;
+    max-height: 80%;
+    margin-top: 12px;
+
+    #inputLine {
+      resize: none;
+      flex: 1;
+      border-radius: 15px;
+      padding: 6px 12px;
+      outline: 1px var(--v-card-darken1) solid;
+    }
+    #send {
+      @include box-size(36px);
+      margin-left: 12px;
+      .icon {
+        color: var(--v-accent-base);
+      }
+    }
+  }
 }
 </style>

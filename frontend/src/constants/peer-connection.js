@@ -11,3 +11,7 @@ export const constraints = {
   video: true,
   audio: true,
 };
+
+export const dataChannelOptions = {
+  ordered: true,
+};

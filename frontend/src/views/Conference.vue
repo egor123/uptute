@@ -86,6 +86,7 @@ export default {
       const self = this;
 
       this.setUpPeerConnection();
+      createDataChannel();
 
       await sendOffer();
 
@@ -97,6 +98,11 @@ export default {
 
       this.listenForRemoteICECandidates({ isCaller: true });
 
+      function createDataChannel() {
+        self.$store.dispatch("conferenceChat/createDataChannel", {
+          peerConnection: self.peerConnection,
+        });
+      }
       async function sendOffer() {
         const offer = await createSDPOffer();
         await setLocalDescription(offer);
@@ -148,6 +154,7 @@ export default {
       if (!this.room.data) return;
 
       this.setUpPeerConnection();
+      onDataChannel();
 
       this.collectICECandidates({ isCaller: false });
 
@@ -176,6 +183,15 @@ export default {
           .getDoc(self.room.ref)
           .then((doc) => doc.data());
         return;
+      }
+      function onDataChannel() {
+        self.peerConnection.ondatachannel = pullDataChannel;
+
+        function pullDataChannel(e) {
+          self.$store.dispatch("conferenceChat/pullDataChannel", {
+            dc: e.channel,
+          });
+        }
       }
       async function setRemoteDescription() {
         const offer = getOffer();
@@ -212,13 +228,20 @@ export default {
 
     async shareScreen() {
       const screenVideoTrack = await getScreenVideoTrack();
+      if (screenVideoTrack == null) return;
       screenVideoTrack.onended = this.stopScreenSharing;
       this.replaceTrack({ type: "video", newTrack: screenVideoTrack });
+      this.$refs.interface.setShareVal(true);
 
       async function getScreenVideoTrack() {
         const displayStream = await navigator.mediaDevices
           .getDisplayMedia()
-          .catch((err) => console.error("Error: " + err));
+          .catch((err) => {
+            console.log(err);
+            return err.name;
+          });
+
+        if (displayStream == "NotAllowedError") return null;
 
         return displayStream.getVideoTracks()[0];
       }
@@ -227,7 +250,7 @@ export default {
       const media = await navigator.mediaDevices.getUserMedia(constraints);
       const newTrack = media.getVideoTracks()[0];
       this.replaceTrack({ type: "video", newTrack });
-      this.$refs.interface.stopedSharing();
+      this.$refs.interface.setShareVal(false);
       console.log("Stoped sharing the screen");
     },
     endRoom() {
@@ -337,6 +360,7 @@ export default {
         tracks.forEach((track) => self.peerConnection.addTrack(track, stream));
       }
     },
+
     collectICECandidates({ isCaller }) {
       const self = this;
       const path = isCaller ? "caller" : "callee";

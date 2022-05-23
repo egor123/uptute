@@ -82,19 +82,18 @@ export default {
       this.isToggled[side][name] = !this.isToggled[side][name];
     },
     toggleScreenShare() {
-      this.toggle("bottom", "screenShare");
-      setTimeout(() => {
-        const isToggled = this.isToggled.bottom.screenShare;
-        if (isToggled) this.$emit("shareScreen");
-        else {
-          const track = this.streams.local.getVideoTracks()[0];
-          track.stop();
-          track.onended();
-        }
-      }, 0);
+      const isToggled = this.isToggled.bottom.screenShare;
+      console.log(isToggled);
+
+      if (!isToggled) this.$emit("shareScreen");
+      else {
+        const track = this.streams.local.getVideoTracks()[0];
+        track.stop();
+        track.onended();
+      }
     },
-    stopedSharing() {
-      this.isToggled.bottom.screenShare = false;
+    setShareVal(val) {
+      this.isToggled.bottom.screenShare = val;
     },
   },
 };
@@ -102,6 +101,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/styles.scss";
+
 #interface {
   @include flexbox(row);
   background: var(--v-background-base);
