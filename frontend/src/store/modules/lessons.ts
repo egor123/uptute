@@ -14,8 +14,8 @@ export default {
             router.replace({ query: data }).catch(() => { });
             router.put;
 
-            var response = await backend.fetch({ path: "lessons", data: data }); // [{ name: "page", val: _page }, { name: "size", val: _size }, { name: "subject", val: _subject }]
-            var page = await response.json();
+            const response = await backend.fetch({ path: "lessons", data: data }); // [{ name: "page", val: _page }, { name: "size", val: _size }, { name: "subject", val: _subject }]
+            const page = await response.json();
 
             commit('updateLessons', page.lessons);
             commit('updateLessonsCount', page.lessonsCount);
@@ -25,8 +25,8 @@ export default {
             commit('updateSubject', _subject);
         },
         async fetchLesson(ctx, { id }) {
-            var response = await backend.fetch({ path: ("lessons/" + id), method: "GET" });
-            var lesson = await response.json();
+            const response = await backend.fetch({ path: ("lessons/" + id), method: "GET" });
+            const lesson = await response.json();
             ctx.commit('updateLesson', lesson);
         }
     },

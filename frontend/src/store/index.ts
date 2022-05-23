@@ -9,8 +9,8 @@ Vue.use(Vuex);
 function init() {
   const components = require.context("./modules", false, /.js$/);
 
-  let arrOfModules = components.keys().map((key) => {
-    let moduleName = key.substring(2, key.length - 3),
+  const arrOfModules = components.keys().map((key) => {
+    const moduleName = key.substring(2, key.length - 3),
       obj = components(key).default;
     return [moduleName, obj];
   });

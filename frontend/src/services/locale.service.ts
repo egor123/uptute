@@ -1,10 +1,10 @@
-var localeJSON;
+let localeJSON;
 const missingValue = "";
 export const defaultLocale = navigator.language.split("-")[0];
 
 export default function(path, params = {}) {
   if (this.$route?.name == undefined) return;
-  var text = path
+  let text = path
     .split(".")
     .reduce(getValueByElement, getJSON(this.$route, this.$router))
     .toString();

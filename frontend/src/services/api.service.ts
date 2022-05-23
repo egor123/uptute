@@ -44,7 +44,7 @@ export function isJwtExpired(jwt) {
 }
 
 function getHeaders(jwt, withJwt) {
-  let headers = {
+  const headers = {
     "Content-Type": "application/json",
   };
   if (withJwt) headers.Authorization = `Bearer ${jwt}`;

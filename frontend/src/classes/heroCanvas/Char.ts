@@ -16,7 +16,7 @@ export default class Char {
   }
 
   draw() {
-    var hexAlpha = Math.round(this.opacity10).toString(16);
+    let hexAlpha = Math.round(this.opacity10).toString(16);
     if (hexAlpha.length == 1) hexAlpha = 0 + hexAlpha;
     this.ctx.fillStyle = this.color + hexAlpha;
 
@@ -27,8 +27,8 @@ export default class Char {
   update() {
     this.draw();
 
-    var endTime = new Date().getTime();
-    var timeSpan = (endTime - this.startTime) / 1000;
+    const endTime = new Date().getTime();
+    const timeSpan = (endTime - this.startTime) / 1000;
     this.startTime = endTime;
 
     this.changeOpacity(timeSpan);

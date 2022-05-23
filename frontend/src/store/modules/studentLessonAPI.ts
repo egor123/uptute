@@ -70,7 +70,7 @@ async function loop(context) {
 }
 
 async function initialize(context) {
-  let data = await postData(context);
+  const data = await postData(context);
   if (!exitIfUndefined(context, { data, alertName: "init" })) return false;
 
   context.commit("mutate", { name: "lessonId", val: data.lessonId });
@@ -80,7 +80,7 @@ async function initialize(context) {
   return true;
 
   async function postData({ state }) {
-    let data = state.info;
+    const data = state.info;
     return await apiRequest({
       method: "post",
       urlEnd: "/lessons/create",

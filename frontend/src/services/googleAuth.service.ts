@@ -1,11 +1,11 @@
 import { GOOGLE_OAUTH_CLIENT_ID } from "@/constants/index"
 //import axios from 'axios';
-var auth2;
+let auth2;
 
 function getAuth() {
     return new Promise(resolve => {
         if (auth2 == undefined) {
-            let script = document.createElement('script');
+            const script = document.createElement('script');
             script.setAttribute('src', 'https://apis.google.com/js/platform.js?onload=onLoad');
             script.setAttribute("async", true);
             script.setAttribute("defer", "defer");

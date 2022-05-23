@@ -58,7 +58,7 @@ async function mounted() {
       return true; // TODO !!
     }
     function renderLayer({ layer, path, parent, arr }) {
-      var table = null;
+      let table = null;
       if (Object.values(layer).some((el) => typeof el == "string"))
         table = createTag({ parent, name: "table" });
       for (const key in layer) {
@@ -75,7 +75,7 @@ async function mounted() {
         }
       }
       function createInputRow({ path, parent, arr }) {
-        var tr = createTag({ parent, name: "tr" });
+        const tr = createTag({ parent, name: "tr" });
         createTds({ path, parent: tr, arr });
 
         function createTds({ path, parent, arr }) {
@@ -86,7 +86,7 @@ async function mounted() {
           });
 
           function createCell({ value = null, innerHTML = null, tag }) {
-            var td = createTag({ parent, name: "td" });
+            const td = createTag({ parent, name: "td" });
             createTag({
               parent: td,
               name: tag,
@@ -198,7 +198,7 @@ async function mounted() {
 
               function readTd(td) {
                 const cell = td.childNodes[0];
-                var map = new Map();
+                const map = new Map();
                 if (cell.tagName == "INPUT") {
                   map.set("val", cell.value);
                   map.set("isKey", false);
@@ -229,8 +229,8 @@ async function mounted() {
           }
           function readDropdown(child) {
             const arr = getBaseArr();
-            var keyName = null;
-            var childArr = [];
+            let keyName = null;
+            let childArr = [];
             child.childNodes.forEach((child) => {
               if (child.tagName == "BUTTON") keyName = child.textContent;
               else childArr = readLayer({ parent: child });
@@ -270,7 +270,7 @@ async function mounted() {
         function JSONformat(arr) {
           arr = arr.map((word) => word.replaceAll('"', '\\"'));
           arr = arr.map((word) => `\"${word}\"`);
-          var str = arr.join(":");
+          let str = arr.join(":");
           str = `${str},`;
           return str;
         }
@@ -278,7 +278,7 @@ async function mounted() {
     }
   }
   function getBaseArr() {
-    var arr = new Array(localeIdArr.length);
+    const arr = new Array(localeIdArr.length);
     for (let i = 0; i < arr.length; i++) arr[i] = new Map();
     return arr;
   }

@@ -39,7 +39,7 @@ export default {
 
 function tryUpdateUser(r) {
   if (r.statusText == "OK") {
-    let user = JSON.parse(sessionStorage.getItem("user"));
+    const user = JSON.parse(sessionStorage.getItem("user"));
     user.jwt = r.data.jwt;
     user.roles = r.data.roles;
     store.dispatch("auth/updateUser", user);

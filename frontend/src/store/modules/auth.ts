@@ -17,7 +17,7 @@ export default {
   },
   actions: {
     async signup(ctx, form) {
-      var response = await auth.signup(form);
+      const response = await auth.signup(form);
       if (response.statusText == "OK") {
         const r = await ctx.dispatch("signin", {
           form,
@@ -55,7 +55,7 @@ export default {
       router.push({ name: "LogIn" });
     },
     async tryAddRole(ctx, { role }) {
-      let user = JSON.parse(sessionStorage.getItem("user"));
+      const user = JSON.parse(sessionStorage.getItem("user"));
       if (!user.roles.includes(role)) {
         user.roles.push(role);
         ctx.dispatch("updateUser", user);

@@ -2,14 +2,14 @@ import { url } from "../constants";
 
 export default {
   async fetch({ path, params, method = "POST", data }) {
-    var _url = url + path;
+    let _url = url + path;
 
     if (params != undefined)
-      for (var i = 0; i < params.length; i++)
+      for (let i = 0; i < params.length; i++)
         _url += (i == 0 ? "?" : "&") + params[i].name + "=" + params[i].val;
 
-    var requestOptions = { method: method };
-    let user = JSON.parse(localStorage.getItem("user"));
+    const requestOptions = { method: method };
+    const user = JSON.parse(localStorage.getItem("user"));
     if (user && user.accessToken) {
       if (data == undefined) {
         requestOptions.headers = {
@@ -31,7 +31,7 @@ export default {
 
     _url;
     requestOptions;
-    var res = null;
+    const res = null;
     // const res = await fetch(_url, requestOptions);
     return res;
   },
