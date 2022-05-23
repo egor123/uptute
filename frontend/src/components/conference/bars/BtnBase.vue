@@ -15,11 +15,12 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 export default class BtnBase extends Vue {
   curIcon: string = "";
 
-  @Prop() readonly icons!: object;
-  @Prop({ default: "var(--v-btnOn-base)" }) readonly bgColor!: string;
-  @Prop() readonly isToggled!: boolean;
+  @Prop(Object) readonly icons!: object;
+  @Prop({ type: String, default: "var(--v-btnOn-base)" })
+  readonly bgColor: string;
+  @Prop(Boolean) readonly isToggled!: boolean;
 
-  mounted() {
+  mounted(): void {
     this.setCurIcon();
   }
 
@@ -29,7 +30,7 @@ export default class BtnBase extends Vue {
   }
 
   @Watch("isToggled")
-  onPropertyChanged = () => this.setCurIcon();
+  onIsToggledChange = (): void => this.setCurIcon();
 }
 </script>
 

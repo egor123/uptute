@@ -1,67 +1,63 @@
 <template>
-  <div ref="buttons" id="buttons" :class="{ isTopBar: isTopBar }">
+  <div ref="bar" id="buttons" :class="{ isTopBar: isTopBar }">
     <slot />
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      visibilityCounter: 0,
-      hideTime: 2000, // ms
-      transitionIds: [],
-    };
-  },
-  props: {
-    isTopBar: Boolean,
-  },
-  computed: {
-    isVisible() {
-      return this.visibilityCounter > 0;
-    },
-  },
-  mounted() {
-    const btns = this.$refs.buttons;
-    addEventListener("mousemove", this.onMouseMove);
-    btns.addEventListener("transitionstart", this.startResizing);
-    btns.addEventListener("transitionend", this.endResizing);
-    btns.addEventListener("transitioncancel", this.endResizing);
-  },
-  beforeUnmount() {
-    const btns = this.$refs.buttons;
-    removeEventListener("mousemove", this.onMouseMove);
-    btns.removeEventListener("transitionstart", this.startResizing);
-    btns.removeEventListener("transitionend", this.endResizing);
-    btns.removeEventListener("transitioncancel", this.endResizing);
-  },
-  methods: {
-    onMouseMove() {
-      this.visibilityCounter++;
-      setTimeout(() => this.visibilityCounter--, this.hideTime);
-    },
-    startResizing() {
-      const id = setInterval(() => {
-        dispatchEvent(new Event("resize"));
-      }, 0);
-      this.transitionIds.push(id);
-    },
-    endResizing() {
-      clearInterval(this.transitionIds[0]);
-      this.transitionIds.shift();
-    },
-  },
-  watch: {
-    isVisible(isVisible) {
-      const style = this.$refs.buttons.style;
-      const h = this.$refs.buttons.offsetHeight;
-      const side = this.isTopBar ? "Top" : "Bottom";
-      const m = isVisible ? `0px` : `-${h}px`;
+<script lang="ts">
+import { Vue, Component, Ref, Prop, Watch } from "vue-property-decorator";
 
-      style[`margin${side}`] = m;
-    },
-  },
-};
+@Component
+export default class BarBase extends Vue {
+  @Ref() readonly bar!: HTMLDivElement;
+
+  visibilityCounter: number = 0;
+  hideTime: number = 2000; // ms
+  transitionIds: number[] = [];
+
+  @Prop(Boolean) readonly isTopBar!: boolean;
+
+  get isVisible(): boolean {
+    return this.visibilityCounter > 0;
+  }
+
+  mounted(): void {
+    addEventListener("mousemove", this.onMouseMove);
+    this.bar.addEventListener("transitionstart", this.startResizing);
+    this.bar.addEventListener("transitionend", this.endResizing);
+    this.bar.addEventListener("transitioncancel", this.endResizing);
+  }
+  beforeUnmount(): void {
+    removeEventListener("mousemove", this.onMouseMove);
+    this.bar.removeEventListener("transitionstart", this.startResizing);
+    this.bar.removeEventListener("transitionend", this.endResizing);
+    this.bar.removeEventListener("transitioncancel", this.endResizing);
+  }
+
+  onMouseMove(): void {
+    this.visibilityCounter++;
+    setTimeout(() => this.visibilityCounter--, this.hideTime);
+  }
+  startResizing(): void {
+    const id: number = setInterval(() => dispatchEvent(new Event("resize")), 0);
+    this.transitionIds.push(id);
+  }
+  endResizing(): void {
+    clearInterval(this.transitionIds[0]);
+    this.transitionIds.shift();
+  }
+  setStyle(): void {
+    const style: CSSStyleDeclaration = this.bar.style;
+    const h: number = this.bar.offsetHeight;
+    const side: string = this.isTopBar ? "Top" : "Bottom";
+    const m: string = this.isVisible ? `0px` : `-${h}px`;
+
+    style[`margin${side}`] = m;
+  }
+
+  @Watch("isVisible")
+  onIsVisibleChange = (): void => this.setStyle();
+}
 </script>
 
 <style lang="scss" scoped>
