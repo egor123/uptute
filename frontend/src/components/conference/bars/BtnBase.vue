@@ -8,36 +8,29 @@
   </button>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      curIcon: "",
-    };
-  },
-  props: {
-    icons: Object,
-    bgColor: {
-      type: String,
-      default: "var(--v-btnOn-base)",
-    },
-    isToggled: Boolean,
-  },
+<script lang="ts">
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+
+@Component
+export default class BtnBase extends Vue {
+  curIcon: string = "";
+
+  @Prop() readonly icons!: object;
+  @Prop({ default: "var(--v-btnOn-base)" }) readonly bgColor!: string;
+  @Prop() readonly isToggled!: boolean;
+
   mounted() {
     this.setCurIcon();
-  },
-  methods: {
-    setCurIcon() {
-      const type = this.isToggled ? "on" : "off";
-      this.curIcon = this.icons[type];
-    },
-  },
-  watch: {
-    isToggled() {
-      this.setCurIcon();
-    },
-  },
-};
+  }
+
+  setCurIcon(): void {
+    const type: string = this.isToggled ? "on" : "off";
+    this.curIcon = this.icons[type];
+  }
+
+  @Watch("isToggled")
+  onPropertyChanged = () => this.setCurIcon();
+}
 </script>
 
 <style lang="scss" scoped>
