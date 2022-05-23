@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "@/store/index.js";
-import { vm } from "@/main.js";
+import { vm } from "@/main.ts";
 
 export async function apiRequest({
   method,
