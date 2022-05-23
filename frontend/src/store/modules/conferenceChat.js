@@ -1,4 +1,4 @@
-import { dataChannelOptions as options } from "@/constants/peer-connection.js";
+import { dataChannelOptions as options } from "@/constants/peer-connection";
 
 export default {
   namespaced: true,
@@ -35,27 +35,11 @@ export default {
       ctx.state.dc.send(text);
 
       ctx.dispatch("saveMessage", { text, isSelf: true });
-
-      // const msg = {
-      //   text,
-      //   time: new Date().valueOf(),
-      //   isSelf: false,
-      // };
-
-      // commit("addMessage", { msg });
     },
     onMessage(ctx, { e }) {
       console.log("Got Data Channel Message:", e.data);
 
       ctx.dispatch("saveMessage", { text: e.data, isSelf: false });
-
-      // const msg = {
-      //   text: e.data,
-      //   time: new Date().valueOf(),
-      //   isSelf: false,
-      // };
-
-      // commit("addMessage", { msg });
     },
     saveMessage({ commit }, { text, isSelf }) {
       const msg = {
