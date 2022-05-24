@@ -15,6 +15,8 @@
 </template>
 
 <script lang="ts">
+import Videos from "@/components/conference/video/Videos.vue";
+
 import { Axis, Rect, Streams, GotRatioEvent } from "@/interfaces/Conference";
 import {
   Vue,
@@ -22,6 +24,7 @@ import {
   Prop,
   Watch,
   Ref,
+  Inject,
   InjectReactive,
 } from "vue-property-decorator";
 
@@ -35,6 +38,7 @@ export default class VideoBase extends Vue {
   @Prop({ type: Boolean, default: false }) readonly muted!: boolean;
   @Prop(Boolean) readonly isLocal!: boolean;
 
+  @Inject() readonly videosInstance!: Videos;
   @InjectReactive() readonly videosRect!: DOMRect;
   @InjectReactive() readonly axis!: Axis;
   @InjectReactive() readonly margin!: number;
@@ -58,7 +62,7 @@ export default class VideoBase extends Vue {
 
     function dispatchToVideos(ratio: number) {
       const gotRatioEvent: GotRatioEvent = { isLocal: self.isLocal, ratio };
-      self.$root.$emit("gotRatio", gotRatioEvent);
+      self.videosInstance.$emit("gotRatio", gotRatioEvent);
     }
   }
   calcRect(): void {

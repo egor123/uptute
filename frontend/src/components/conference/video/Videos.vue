@@ -15,6 +15,7 @@ import { Rect, Axis, GotRatioEvent } from "@/interfaces/Conference";
 import {
   Vue,
   Component,
+  Provide,
   ProvideReactive,
   Ref,
   InjectReactive,
@@ -44,15 +45,17 @@ export default class Videos extends Vue {
   sumRatio: number = 0;
   @ProvideReactive() axis: Axis = { x: 0, y: 0 };
   @ProvideReactive() videosRect: DOMRect = new DOMRect();
+  @Provide() videosInstance: Videos = this;
 
-  @InjectReactive() margin!: number;
+  @InjectReactive()
+  margin!: number;
 
   mounted(): void {
-    this.$root.$on("gotRatio", this.onGotRatio);
+    this.$on("gotRatio", this.onGotRatio);
     addEventListener("resize", this.onResize);
   }
   beforeDestroy(): void {
-    this.$root.$off("gotRatio", this.onGotRatio);
+    this.$off("gotRatio", this.onGotRatio);
     removeEventListener("resize", this.onResize);
   }
 
