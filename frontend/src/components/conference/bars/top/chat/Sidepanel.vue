@@ -1,5 +1,5 @@
 <template>
-  <SidepanelBase :isToggled="isToggled" :isLeft="false">
+  <SidepanelBase :isToggled="isToggled.top.chat" :isLeft="false">
     <div id="chat" ref="chat">
       <div ref="messages" id="messages">
         <div
@@ -28,92 +28,98 @@
   </SidepanelBase>
 </template>
 
-<script>
+<script lang="ts">
 import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 
-export default {
-  data() {
-    return {
-      input: "",
-      maxInputHeightPercent: 10,
-      maxHeightForAutoscroll: 300,
-    };
-  },
-  components: {
-    SidepanelBase,
-  },
-  computed: {
-    messages() {
-      return this.$store.state.conferenceChat.messages;
-    },
-  },
-  props: {
-    isToggled: Boolean,
-  },
-  methods: {
-    sendMessage() {
-      this.$store.dispatch("conferenceChat/sendMessage", { text: this.input });
-      this.input = "";
-      this.$nextTick(() => this.resizeTextArea());
-    },
-    onTextareaKey(e) {
-      if (e.keyCode == 13) {
-        if (e.shiftKey) return;
-        e.preventDefault();
-        this.sendMessage();
-      }
-    },
-    resizeTextArea() {
-      const chatHeight = this.$refs.chat.offsetHeight;
-      const maxHeight = (chatHeight * this.maxInputHeightPercent) / 100;
+import { Message, IsToggled } from "@/interfaces/Conference";
+import {
+  Vue,
+  Component,
+  Ref,
+  InjectReactive,
+  Watch,
+} from "vue-property-decorator";
 
-      const inputEl = this.$refs.textarea;
-      inputEl.style.height = "auto";
-      const scrollH = inputEl.scrollHeight;
+@Component({
+  components: { SidepanelBase },
+})
+export default class ChatPanel extends Vue {
+  @Ref("chat") chatRef!: HTMLDivElement;
+  @Ref("textarea") textareaRef!: HTMLTextAreaElement;
+  @Ref("messages") messagesRef!: HTMLDivElement;
+  @Ref("message") messageRefs!: HTMLDivElement[];
 
-      this.$nextTick(() => {
-        if (scrollH < maxHeight) inputEl.style.height = scrollH + "px";
-        else inputEl.style.height = maxHeight + "px";
-      });
-    },
-    ifSpaceBefore(id) {
-      const prevId = id == 0 ? id : id - 1;
-      const ifPersonChanged =
-        this.messages[id].isSelf != this.messages[prevId].isSelf;
-      return ifPersonChanged;
-    },
-    scrollToLastMessage() {
-      console.log("Scroll to last message");
-      const messageRefs = this.$refs.message;
-      const lasetMessageRef = messageRefs[messageRefs.length - 1];
+  input: string = "";
+  maxInputHeightPercent: number = 10;
+  maxHeightForAutoscroll: number = 300;
 
-      lasetMessageRef.scrollIntoView({ behavior: "smooth" });
-    },
-  },
-  watch: {
-    input() {
-      this.resizeTextArea();
-    },
-    messages(messages) {
-      const self = this;
+  get messages(): Message[] {
+    return this.$store.state.conferenceChat.messages;
+  }
 
-      if (isSelf() || isCloseToBottom())
-        this.$nextTick(() => this.scrollToLastMessage());
+  @InjectReactive() readonly isToggled!: IsToggled;
 
-      function isSelf() {
-        return messages[messages.length - 1].isSelf == true;
-      }
-      function isCloseToBottom() {
-        const el = self.$refs.messages;
-        const isClose =
-          el.scrollHeight - el.offsetHeight - el.scrollTop <
-          self.maxHeightForAutoscroll;
+  sendMessage(): void {
+    this.$store.dispatch("conferenceChat/sendMessage", { text: this.input });
+    this.input = "";
+    this.$nextTick(() => this.resizeTextArea());
+  }
+  onTextareaKey(e: KeyboardEvent): void {
+    if (e.key == "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      this.sendMessage();
+    }
+  }
+  resizeTextArea(): void {
+    const chatHeight: number = this.chatRef.offsetHeight;
+    const maxHeight: number = (chatHeight * this.maxInputHeightPercent) / 100;
 
-        return isClose;
-      }
-    },
-  },
-};
+    this.textareaRef.style.height = "auto";
+    const scrollH: number = this.textareaRef.scrollHeight;
+
+    this.$nextTick(() => {
+      const h: number = scrollH < maxHeight ? scrollH : maxHeight;
+      this.textareaRef.style.height = h + "px";
+    });
+  }
+  ifSpaceBefore(id: number): boolean {
+    const prevId: number = id == 0 ? id : id - 1;
+    const ifPersonChanged: boolean =
+      this.messages[id].isSelf != this.messages[prevId].isSelf;
+    return ifPersonChanged;
+  }
+  scrollToLastMessage(): void {
+    console.log("Scroll to last message");
+
+    const lastMessageId: number = this.messageRefs.length - 1;
+    const lasetMessageRef: HTMLDivElement = this.messageRefs[lastMessageId];
+
+    lasetMessageRef.scrollIntoView({ behavior: "smooth" });
+  }
+  tryScrollToLastMessage(): void {
+    const self = this;
+
+    if (isSelf() || isCloseToBottom())
+      this.$nextTick(() => this.scrollToLastMessage());
+
+    function isSelf(): boolean {
+      const lastMessageId: number = self.messages.length - 1;
+      return self.messages[lastMessageId].isSelf == true;
+    }
+    function isCloseToBottom(): boolean {
+      const el: HTMLDivElement = self.messagesRef;
+      const isClose: boolean =
+        el.scrollHeight - el.offsetHeight - el.scrollTop <
+        self.maxHeightForAutoscroll;
+      return isClose;
+    }
+  }
+
+  @Watch("input")
+  onInputChange = (): void => this.resizeTextArea();
+  @Watch("messages")
+  onMessagesChange = () => this.tryScrollToLastMessage();
+}
 </script>
 
 <style lang="scss" scoped>

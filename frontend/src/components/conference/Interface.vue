@@ -1,11 +1,10 @@
 <template>
   <div id="interface">
-    <Settings :isToggled="isToggled.top.settings" :roomId="roomId" />
+    <Settings :roomId="roomId" />
     <div id="centerCol">
       <TopBar
         @toggleSettings="toggle('top', 'settings')"
         @toggleChat="toggle('top', 'chat')"
-        :isToggled="isToggled.top"
       />
       <Videos :streams="streams" :isToggled="isToggled.bottom" />
       <BottomBar
@@ -17,7 +16,7 @@
         @toggleWhiteboard="toggle('bottom', 'whiteboard')"
       />
     </div>
-    <Chat :isToggled="isToggled.top.chat" />
+    <Chat />
   </div>
 </template>
 
@@ -30,13 +29,15 @@ import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
 
 import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import { IsToggled } from "@/interfaces/Conference";
+import {
+  Vue,
+  Component,
+  Prop,
+  ProvideReactive,
+  Watch,
+} from "vue-property-decorator";
 
-interface IsToggled {
-  [index: string]: {
-    [index: string]: boolean;
-  };
-}
 interface Streams {
   local: MediaStream;
   remote: MediaStream;
@@ -54,7 +55,10 @@ interface Streams {
   },
 })
 export default class Interface extends Vue {
-  isToggled: IsToggled = {
+  @Prop(Object) streams!: Streams;
+  @Prop(String) roomId!: string;
+
+  @ProvideReactive() isToggled: IsToggled = {
     top: {
       settings: true,
       chat: true,
@@ -67,9 +71,6 @@ export default class Interface extends Vue {
       whiteboard: false,
     },
   };
-
-  @Prop(Object) streams!: Streams;
-  @Prop(String) roomId!: string;
 
   mounted(): void {
     const self = this;

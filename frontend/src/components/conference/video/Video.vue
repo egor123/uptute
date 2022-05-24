@@ -13,100 +13,111 @@
   ></video>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      ratio: 0,
-      rect: {
-        w: 0,
-        h: 0,
-      },
-      margin: 6,
-    };
-  },
-  props: {
-    stream: MediaStream,
-    axis: Object,
-    muted: {
-      type: Boolean,
-      default: false,
-    },
-    isToggled: Object,
-  },
+<script lang="ts">
+import { IsToggled, Axis } from "@/interfaces/Conference";
+import {
+  Vue,
+  Component,
+  Prop,
+  Watch,
+  Ref,
+  InjectReactive,
+  Emit,
+} from "vue-property-decorator";
+
+interface Rect {
+  w: number;
+  h: number;
+}
+
+@Component
+export default class ConfrenceVideo extends Vue {
+  @Ref("video") readonly videoRef!: HTMLVideoElement;
+
+  public ratio: number = 0;
+  rect: Rect = {
+    w: 0,
+    h: 0,
+  };
+  margin: number = 6;
+
+  @Prop(MediaStream) stream!: MediaStream;
+  @Prop(Object) axis!: Axis;
+  @Prop({ type: Boolean, default: false }) muted!: boolean;
+  @Prop(Object) parentRect!: Rect;
+
+  @InjectReactive() isToggled!: IsToggled;
+
   mounted() {
-    const video = this.$refs.video;
-    video.addEventListener("loadedmetadata", this.getRatio);
-  },
-  beforeDestroy() {
-    const video = this.$refs.video;
-    video.removeEventListener("loadedmetadata", this.getRatio);
-  },
-  methods: {
-    getRatio(e) {
-      const el = e.srcElement;
-      this.ratio = el.videoWidth / el.videoHeight;
-      this.$parent.onResize();
-    },
-    recalcRect() {
-      const self = this;
-      var rect = { w: null, h: null };
+    this.videoRef.addEventListener("loadedmetadata", this.getRatio);
+  }
+  beforeDestroy(): void {
+    this.videoRef.removeEventListener("loadedmetadata", this.getRatio);
+  }
 
-      rect = getFromAxis(rect);
-      rect = checkOutOfBounds(rect);
+  @Emit("gotRatio")
+  getRatio(): void {
+    const el: HTMLVideoElement = this.videoRef;
+    this.ratio = el.videoWidth / el.videoHeight;
+  }
+  recalcRect(): void {
+    const self = this;
+    var rect: Rect = { w: 0, h: 0 };
 
-      this.rect = rect;
+    rect = getFromAxis(rect);
+    rect = checkOutOfBounds(rect);
 
-      function getFromAxis(rect) {
-        const ratio = self.ratio;
-        const a = self.axis;
-        var w = rect.w;
-        var h = rect.h;
+    this.rect = rect;
 
-        if (a.x) {
-          w = a.x;
-          h = w / ratio;
-        } else if (a.y) {
-          h = a.y;
-          w = ratio * h;
-        }
+    function getFromAxis(rect: Rect): Rect {
+      const ratio: number = self.ratio;
+      const a: Axis = self.axis;
+      var w: number = rect.w;
+      var h: number = rect.h;
 
-        return { w, h };
+      if (a.x) {
+        w = a.x;
+        h = w / ratio;
+      } else if (a.y) {
+        h = a.y;
+        w = ratio * h;
       }
-      function checkOutOfBounds(rect) {
-        const ratio = self.ratio;
-        const m = 2 * self.margin;
-        var w = rect.w;
-        var h = rect.h;
-        const parent = self.$parent.$el;
-        const maxW = parent.offsetWidth;
-        const maxH = parent.offsetHeight;
 
-        if (w > maxW) {
-          w = maxW - m;
-          h = w / ratio;
-        }
-        if (h > maxH) {
-          h = maxH - m;
-          w = h * ratio;
-        }
+      return { w, h };
+    }
+    function checkOutOfBounds(rect: Rect): Rect {
+      const ratio: number = self.ratio;
+      const m: number = 2 * self.margin;
+      var w: number = rect.w;
+      var h: number = rect.h;
+      const parent: Element = self.$parent.$el;
+      const maxW: number = parent.clientWidth;
+      const maxH: number = parent.clientHeight;
 
-        return { w, h };
+      if (w > maxW) {
+        w = maxW - m;
+        h = w / ratio;
       }
-    },
-  },
-  watch: {
-    axis() {
-      this.recalcRect();
-    },
-    "isToggled.camOff"(v) {
-      this.stream.getVideoTracks()[0].enabled = !v;
-    },
-    "isToggled.micOff"(v) {
-      this.stream.getAudioTracks()[0].enabled = !v;
-    },
-  },
-};
+      if (h > maxH) {
+        h = maxH - m;
+        w = h * ratio;
+      }
+
+      return { w, h };
+    }
+  }
+
+  @Watch("axis")
+  onAxisChange = (): void => this.recalcRect();
+  @Watch("isToggled.bottom.camOff")
+  onCamOffToggle(isToggled: boolean) {
+    this.stream.getVideoTracks()[0].enabled = !isToggled;
+  }
+  @Watch("isToggled.bottom.micOff")
+  onMicOffToggle(isToggled: boolean) {
+    this.stream.getAudioTracks()[0].enabled = !isToggled;
+  }
+}
 </script>
 
 <style lang="scss" scoped>

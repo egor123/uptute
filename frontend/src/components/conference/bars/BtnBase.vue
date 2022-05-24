@@ -9,13 +9,8 @@
 </template>
 
 <script lang="ts">
+import { Icons } from "@/interfaces/Conference";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-
-interface Icons {
-  [index: string]: string;
-  on: string;
-  off: string;
-}
 
 @Component
 export default class BtnBase extends Vue {

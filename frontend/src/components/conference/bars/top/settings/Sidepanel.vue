@@ -1,5 +1,5 @@
 <template>
-  <SidepanelBase :isToggled="isToggled" :isLeft="true">
+  <SidepanelBase :isToggled="isToggled.top.settings" :isLeft="true">
     <table id="info" ref="info">
       <tr v-for="(param, id) in info" :key="id">
         <td class="key">{{ param.name }}</td>
@@ -12,8 +12,15 @@
 <script lang="ts">
 import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import {
+  Vue,
+  Component,
+  Prop,
+  Watch,
+  InjectReactive,
+} from "vue-property-decorator";
 
+import { IsToggled } from "@/interfaces/Conference";
 interface Info {
   [index: string]: {
     name: string;
@@ -32,8 +39,9 @@ export default class SettingsPanel extends Vue {
     },
   };
 
-  @Prop(Boolean) isToggled!: boolean;
   @Prop(String) roomId!: string;
+
+  @InjectReactive() readonly isToggled!: IsToggled;
 
   mounted(): void {
     this.setRomId();

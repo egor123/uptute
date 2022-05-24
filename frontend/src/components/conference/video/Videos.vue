@@ -5,10 +5,17 @@
         ref="local"
         :stream="streams.local"
         :axis="axis"
-        muted
-        :isToggled="isToggled"
+        @gotRatio="onResize()"
+        :muted="true"
       />
-      <Video ref="remote" :stream="streams.remote" :axis="axis" muted />
+
+      <Video
+        ref="remote"
+        :stream="streams.remote"
+        :axis="axis"
+        @gotRatio="onResize()"
+        :muted="true"
+      />
     </div>
   </div>
 </template>
@@ -33,7 +40,6 @@ export default {
   },
   props: {
     streams: Object,
-    isToggled: Object,
   },
   components: {
     Video,
