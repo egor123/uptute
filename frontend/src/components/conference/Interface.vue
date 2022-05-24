@@ -6,9 +6,8 @@
         @toggleSettings="toggle('top', 'settings')"
         @toggleChat="toggle('top', 'chat')"
       />
-      <Videos :streams="streams" :isToggled="isToggled.bottom" />
+      <Videos />
       <BottomBar
-        :isToggled="isToggled.bottom"
         @toggleMicOff="toggle('bottom', 'micOff')"
         @toggleCamOff="toggle('bottom', 'camOff')"
         @toggleEnd="toggle('bottom', 'end')"
@@ -29,7 +28,7 @@ import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
 
 import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 
-import { IsToggled } from "@/interfaces/Conference";
+import { IsToggled, Streams } from "@/interfaces/Conference";
 import {
   Vue,
   Component,
@@ -37,11 +36,6 @@ import {
   ProvideReactive,
   Watch,
 } from "vue-property-decorator";
-
-interface Streams {
-  local: MediaStream;
-  remote: MediaStream;
-}
 
 @Component({
   components: {
@@ -55,7 +49,7 @@ interface Streams {
   },
 })
 export default class Interface extends Vue {
-  @Prop(Object) streams!: Streams;
+  @ProvideReactive() @Prop(Object) streams!: Streams; // Provide from COnference TODO
   @Prop(String) roomId!: string;
 
   @ProvideReactive() isToggled: IsToggled = {
@@ -71,6 +65,7 @@ export default class Interface extends Vue {
       whiteboard: false,
     },
   };
+  @ProvideReactive() margin: number = 6;
 
   mounted(): void {
     const self = this;

@@ -1,26 +1,26 @@
 <template>
-  <BtnBase @click="$emit('click')" :icons="icons" :isToggled="isToggled" />
+  <BtnBase
+    @click="$emit('click')"
+    :icons="icons"
+    :isToggled="isToggled.bottom.camOff"
+  />
 </template>
 
-<script>
+<script lang="ts">
 import BtnBase from "@/components/conference/bars/BtnBase.vue";
 
-export default {
-  data() {
-    return {
-      icons: {
-        on: "video-off",
-        off: "video",
-      },
-    };
-  },
-  components: {
-    BtnBase,
-  },
-  props: {
-    isToggled: Boolean,
-  },
-};
-</script>
+import { Icons, IsToggled } from "@/interfaces/Conference";
+import { Vue, Component, InjectReactive } from "vue-property-decorator";
 
-<style lang="scss" scoped></style>
+@Component({
+  components: { BtnBase },
+})
+export default class CamOffBtn extends Vue {
+  icons: Icons = {
+    on: "video-off",
+    off: "video",
+  };
+
+  @InjectReactive() isToggled!: IsToggled;
+}
+</script>

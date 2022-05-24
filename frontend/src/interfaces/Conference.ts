@@ -31,3 +31,18 @@ export interface Message {
   time: number;
   isSelf: boolean;
 }
+
+export interface Rect {
+  w: number;
+  h: number;
+}
+
+export interface Streams {
+  local: MediaStream;
+  remote: MediaStream;
+}
+
+export interface GotRatioEvent {
+  isLocal: boolean;
+  ratio: number;
+}

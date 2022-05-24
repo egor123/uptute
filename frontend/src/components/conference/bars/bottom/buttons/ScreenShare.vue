@@ -1,24 +1,26 @@
 <template>
-  <BtnBase @click="$emit('click')" :icons="icons" :isToggled="isToggled" />
+  <BtnBase
+    @click="$emit('click')"
+    :icons="icons"
+    :isToggled="isToggled.bottom.screenShare"
+  />
 </template>
 
-<script>
+<script lang="ts">
 import BtnBase from "@/components/conference/bars/BtnBase.vue";
 
-export default {
-  data() {
-    return {
-      icons: {
-        on: "window-close",
-        off: "monitor-share",
-      },
-    };
-  },
-  components: {
-    BtnBase,
-  },
-  props: {
-    isToggled: Boolean,
-  },
-};
+import { Icons, IsToggled } from "@/interfaces/Conference";
+import { Vue, Component, InjectReactive } from "vue-property-decorator";
+
+@Component({
+  components: { BtnBase },
+})
+export default class screenShareBtn extends Vue {
+  icons: Icons = {
+    on: "window-close",
+    off: "monitor-share",
+  };
+
+  @InjectReactive() isToggled!: IsToggled;
+}
 </script>

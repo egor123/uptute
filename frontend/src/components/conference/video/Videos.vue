@@ -1,124 +1,120 @@
 <template>
-  <div id="videosWrapper" ref="videosWrapper">
-    <div id="videos" :style="`--flexDir: ${flexDir}; `">
-      <Video
-        ref="local"
-        :stream="streams.local"
-        :axis="axis"
-        @gotRatio="onResize()"
-        :muted="true"
-      />
-
-      <Video
-        ref="remote"
-        :stream="streams.remote"
-        :axis="axis"
-        @gotRatio="onResize()"
-        :muted="true"
-      />
+  <div id="videosWrapper">
+    <div id="videos" :class="{ flexRow: isFlexRow }">
+      <LocalVideo ref="local" />
+      <RemoteVideo ref="remote" />
     </div>
   </div>
 </template>
 
-<script>
-import Video from "@/components/conference/video/Video.vue";
+<script lang="ts">
+import LocalVideo from "@/components/conference/video/LocalVideo.vue";
+import RemoteVideo from "@/components/conference/video/RemoteVideo.vue";
 
-export default {
-  data() {
-    return {
-      rect: {
-        h: null,
-        w: null,
-      },
-      flexDir: null,
-      sumRatio: null,
-      axis: {
-        x: null,
-        y: null,
-      },
-    };
-  },
-  props: {
-    streams: Object,
-  },
-  components: {
-    Video,
-  },
-  mounted() {
+import { Rect, Axis, GotRatioEvent } from "@/interfaces/Conference";
+import {
+  Vue,
+  Component,
+  ProvideReactive,
+  Ref,
+  InjectReactive,
+} from "vue-property-decorator";
+
+interface Ratios {
+  [index: string]: number;
+  local: number;
+  remote: number;
+}
+interface SumRatios {
+  [index: string]: number;
+  row: number;
+  col: number;
+}
+
+@Component({
+  components: { LocalVideo, RemoteVideo },
+})
+export default class Videos extends Vue {
+  @Ref("local") localRef!: LocalVideo;
+  @Ref("remote") remoteRef!: RemoteVideo;
+
+  rect: Rect = { w: 0, h: 0 };
+  ratios: Ratios = { local: 0, remote: 0 };
+  isFlexRow: boolean = true;
+  sumRatio: number = 0;
+  @ProvideReactive() axis: Axis = { x: 0, y: 0 };
+  @ProvideReactive() videosRect: DOMRect = new DOMRect();
+
+  @InjectReactive() margin!: number;
+
+  mounted(): void {
+    this.$root.$on("gotRatio", this.onGotRatio);
     addEventListener("resize", this.onResize);
-  },
-  beforeDestroy() {
+  }
+  beforeDestroy(): void {
+    this.$root.$off("gotRatio", this.onGotRatio);
     removeEventListener("resize", this.onResize);
-  },
-  methods: {
-    async onResize() {
-      const self = this;
+  }
 
-      await this.sleep();
+  onGotRatio({ isLocal, ratio }: GotRatioEvent): void {
+    const type: string = isLocal ? "local" : "remote";
+    this.ratios[type] = ratio;
+    this.onResize();
+  }
+  async onResize(): Promise<void> {
+    const self = this;
 
-      if (!refsExist()) return;
+    const sumRatios: SumRatios = getSumRatios(this.ratios);
+    this.isFlexRow = getIfRow(sumRatios);
 
-      const ratios = getVideoRatios();
+    this.sumRatio = this.isFlexRow ? sumRatios.row : sumRatios.col;
+    this.videosRect = this.$el.getBoundingClientRect();
+    this.axis = getAxis();
 
-      const sumRatios = getSumRatios(ratios);
-      const ifRow = getIfRow(sumRatios);
+    function getSumRatios(ratios: Ratios): SumRatios {
+      const l = ratios.local;
+      const r = ratios.remote;
+      const row: number = l + r;
+      const col: number = r == 0 ? l : (l * r) / (l + r);
+      return { row, col };
+    }
+    function getIfRow(sumRatios: SumRatios): boolean {
+      return getFraction(sumRatios.row) > getFraction(sumRatios.col);
 
-      this.sumRatio = ifRow ? sumRatios.row : sumRatios.col;
-      this.flexDir = ifRow ? "row" : "column";
-      this.axis = getAxis();
-
-      function refsExist() {
-        const refValArr = Object.values(self.$refs);
-        return refValArr.every((ref) => ref != undefined);
+      function getFraction(sumRatio: number): number {
+        const rect: DOMRect = self.$el.getBoundingClientRect();
+        const containerRatio: number = rect.width / rect.height;
+        return sumRatio < containerRatio
+          ? sumRatio / containerRatio
+          : containerRatio / sumRatio;
       }
-      function getVideoRatios() {
-        return {
-          local: self.$refs.local.ratio || 0,
-          remote: self.$refs.remote.ratio || 0,
-        };
-      }
-      function getSumRatios(ratios) {
-        return {
-          row: ratios.local + ratios.remote,
-          col: (ratios.local * ratios.remote) / (ratios.local + ratios.remote),
-        };
-      }
-      function getIfRow(sumRatios) {
-        return getFraction(sumRatios.row) > getFraction(sumRatios.col);
+    }
+    function getAxis(): Axis {
+      const rect: DOMRect = self.$el.getBoundingClientRect();
+      const containerW: number = rect.width;
+      const containerH: number = rect.height;
 
-        function getFraction(sumRatio) {
-          const containerRatio = self.$el.offsetWidth / self.$el.offsetHeight;
-          if (sumRatio < containerRatio) return sumRatio / containerRatio;
-          else return containerRatio / sumRatio;
-        }
-      }
-      function getAxis() {
-        const containerW = self.$el.offsetWidth;
-        const containerH = self.$el.offsetHeight;
+      const ifXFilled: boolean = getIfXFilled();
+      const m: number = self.margin;
+      return { x: getX(), y: getY() };
 
-        const ifXFilled = getIfXFilled();
-        const m = self.$refs.local.margin;
-        return { x: getX(), y: getY() };
-
-        function getIfXFilled() {
-          const containerRatio = containerW / containerH;
-          return self.sumRatio > containerRatio ? true : false;
-        }
-        function getX() {
-          const my = self.flexDir == "column" ? 4 * m : 2 * m;
-          return ifXFilled ? null : self.sumRatio * (containerH - my);
-        }
-        function getY() {
-          const mx = self.flexDir == "row" ? 4 * m : 2 * m;
-          return ifXFilled ? (containerW - mx) / self.sumRatio : null;
-        }
+      function getIfXFilled(): boolean {
+        const containerRatio: number = containerW / containerH;
+        return self.sumRatio > containerRatio;
       }
-    },
-    sleep(ms = 0) {
-      return new Promise((r) => setTimeout(r, ms));
-    },
-  },
-};
+      function getX(): number {
+        const isOneInCol: boolean = self.ratios.remote == 0 || self.isFlexRow;
+        const my: number = isOneInCol ? 2 * m : 4 * m;
+        return ifXFilled ? 0 : self.sumRatio * (containerH - my);
+      }
+      function getY(): number {
+        const isOneInRow: boolean = self.ratios.remote == 0 || !self.isFlexRow;
+        const mx: number = isOneInRow ? 2 * m : 4 * m;
+        return ifXFilled ? (containerW - mx) / self.sumRatio : 0;
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -130,8 +126,12 @@ export default {
   #videos {
     position: absolute;
     @include box-size(100%);
-    $flex-direction: var(--flexDir);
-    @include flexbox($flex-direction);
+    &.flexRow {
+      @include flexbox(row);
+    }
+    &:not(.flexRow) {
+      @include flexbox(column);
+    }
   }
 }
 </style>
