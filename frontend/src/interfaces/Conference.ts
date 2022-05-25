@@ -55,5 +55,5 @@ export interface ButtonToggleEventPayload {
 export interface Message {
   text: string;
   time: number;
-  usSelf: boolean;
+  isSelf: boolean;
 }
