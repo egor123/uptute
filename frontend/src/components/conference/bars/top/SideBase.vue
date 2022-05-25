@@ -11,49 +11,48 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      w: null,
-      transitionIds: [],
-    };
-  },
-  props: {
-    isToggled: Boolean,
-    isLeft: Boolean,
-  },
-  mounted() {
-    this.$refs.panel.addEventListener("transitionstart", this.startResizing);
-    this.$refs.panel.addEventListener("transitionend", this.endResizing);
-    this.$refs.panel.addEventListener("transitioncancel", this.endResizing);
-  },
-  beforeUnmount() {
-    this.$refs.panel.removeEventListener("transitionstart", this.startResizing);
-    this.$refs.panel.removeEventListener("transitionend", this.endResizing);
-    this.$refs.panel.removeEventListener("transitioncancel", this.endResizing);
-  },
-  methods: {
-    setWidth() {
-      this.w = this.$refs.panel.offsetWidth;
-    },
-    startResizing() {
-      const id = setInterval(() => {
-        dispatchEvent(new Event("resize"));
-      }, 0);
-      this.transitionIds.push(id);
-    },
-    endResizing() {
-      clearInterval(this.transitionIds[0]);
-      this.transitionIds.shift();
-    },
-  },
-  watch: {
-    isToggled() {
-      this.setWidth();
-    },
-  },
-};
+<script lang="ts">
+import { Vue, Component, Prop, Ref } from "vue-property-decorator";
+
+@Component
+export default class SideBase extends Vue {
+  @Ref("panel") panelRef!: HTMLDivElement;
+
+  w: number = 0;
+  transitionIds: number[] = [];
+
+  @Prop(Boolean) isToggled!: boolean;
+  @Prop(Boolean) isLeft!: boolean;
+
+  mounted(): void {
+    const self = this;
+
+    this.panelRef.addEventListener("transitionstart", this.startResizing);
+    this.panelRef.addEventListener("transitionend", this.endResizing);
+    this.panelRef.addEventListener("transitioncancel", this.endResizing);
+    setWidth();
+
+    function setWidth(): void {
+      self.$nextTick(() => (self.w = self.panelRef.offsetWidth));
+    }
+  }
+  beforeUnmount(): void {
+    this.panelRef.removeEventListener("transitionstart", this.startResizing);
+    this.panelRef.removeEventListener("transitionend", this.endResizing);
+    this.panelRef.removeEventListener("transitioncancel", this.endResizing);
+  }
+
+  startResizing(): void {
+    const id = setInterval(() => {
+      dispatchEvent(new Event("resize"));
+    }, 0);
+    this.transitionIds.push(id);
+  }
+  endResizing(): void {
+    clearInterval(this.transitionIds[0]);
+    this.transitionIds.shift();
+  }
+}
 </script>
 
 <style lang="scss" scoped>
