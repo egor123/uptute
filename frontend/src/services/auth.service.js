@@ -1,5 +1,5 @@
 import { apiRequest } from "@/services/api.service.js";
-import store from "@/store/index.js";
+import store from "@/store/index";
 
 export default {
   async signup(form) {

@@ -20,6 +20,8 @@ import { config, constraints } from "@/constants/peer-connection.js";
 import PreConference from "@/components/conference/preConference/PreConference.vue";
 import Interface from "@/components/conference/Interface.vue";
 
+import ConferenceChatModule from "@/store/modules/conference/chat";
+
 export default {
   data() {
     return {
@@ -72,9 +74,6 @@ export default {
         await self.addUserTrack({ source, type: "video", side });
         await self.addUserTrack({ source, type: "audio", side });
 
-        // addTracks({ media, type: "video", side: "remote" }); // FOR TESTING ONLY !!! TODO: DELETE
-        // addTracks({ media, type: "audio", side: "remote" }); // FOR TESTING ONLY !!! TODO: DELETE
-
         return;
       }
       function toRoom(params) {
@@ -99,9 +98,7 @@ export default {
       this.listenForRemoteICECandidates({ isCaller: true });
 
       function createDataChannel() {
-        self.$store.dispatch("conferenceChat/createDataChannel", {
-          peerConnection: self.peerConnection,
-        });
+        ConferenceChatModule.createDataChannel(self.peerConnection);
       }
       async function sendOffer() {
         const offer = await createSDPOffer();
@@ -188,9 +185,8 @@ export default {
         self.peerConnection.ondatachannel = pullDataChannel;
 
         function pullDataChannel(e) {
-          self.$store.dispatch("conferenceChat/pullDataChannel", {
-            dc: e.channel,
-          });
+          // self.$store.dispatch("conferenceChat/pullDataChannel", e.channel);
+          ConferenceChatModule.pullDataChannel(e.channel);
         }
       }
       async function setRemoteDescription() {

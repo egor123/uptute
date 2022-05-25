@@ -31,6 +31,8 @@
 <script lang="ts">
 import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 
+import ConferenceChatModule from "@/store/modules/conference/chat";
+
 import { Message, IsToggled } from "@/interfaces/Conference";
 import {
   Vue,
@@ -54,13 +56,13 @@ export default class ChatPanel extends Vue {
   maxHeightForAutoscroll: number = 300;
 
   get messages(): Message[] {
-    return this.$store.state.conferenceChat.messages;
+    return ConferenceChatModule.messages;
   }
 
   @InjectReactive() readonly isToggled!: IsToggled;
 
   sendMessage(): void {
-    this.$store.dispatch("conferenceChat/sendMessage", { text: this.input });
+    ConferenceChatModule.sendMessage(this.input);
     this.input = "";
     this.$nextTick(() => this.resizeTextArea());
   }
@@ -97,13 +99,15 @@ export default class ChatPanel extends Vue {
     lasetMessageRef.scrollIntoView({ behavior: "smooth" });
   }
   tryScrollToLastMessage(): void {
+    if (this.messages.length == 0) return;
+
     const self = this;
 
     if (isSelf() || isCloseToBottom())
       this.$nextTick(() => this.scrollToLastMessage());
 
     function isSelf(): boolean {
-      const lastMessageId: number = self.messages.length - 1;
+      let lastMessageId: number = self.messages.length - 1;
       return self.messages[lastMessageId].isSelf == true;
     }
     function isCloseToBottom(): boolean {

@@ -1,6 +1,6 @@
 import router from "@/router";
 import auth from "../../services/auth.service";
-import store from "@/store/index.js";
+import store from "@/store/index";
 // import l from "@/services/locale.service.js";
 import { vm } from "@/main";
 
