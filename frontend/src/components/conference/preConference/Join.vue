@@ -47,13 +47,4 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/styles.scss";
-
-// .v-dialog {
-//   button {
-//     @include box-shadow;
-//     padding: 8px 16px;
-//     margin: 8px;
-//     border-radius: 15px;
-//   }
-// }
 </style>

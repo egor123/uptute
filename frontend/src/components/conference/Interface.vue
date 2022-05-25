@@ -44,7 +44,7 @@ import {
   },
 })
 export default class Interface extends Vue {
-  @ProvideReactive() @Prop(Object) streams!: Streams; // Provide from COnference TODO
+  @ProvideReactive() @Prop(Object) streams!: Streams; // Provide from Conference TODO
   @Prop(String) roomId!: string;
 
   @ProvideReactive() interfaceInstance: Interface = this;
@@ -64,9 +64,9 @@ export default class Interface extends Vue {
   @ProvideReactive() margin: number = 6;
 
   mounted(): void {
-    this.$on("buttonToggle", this.onButtonToggle);
-
     const self = this;
+
+    this.$on("buttonToggle", this.onButtonToggle);
     this.$nextTick(() => closePanels());
 
     function closePanels(): void {
