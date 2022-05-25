@@ -1,6 +1,6 @@
 <template>
   <BtnBase
-    @click="$emit('click')"
+    @click="emit()"
     :icons="icons"
     :isToggled="isToggled.bottom.screenShare"
   />
@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import BtnBase from "@/components/conference/bars/BtnBase.vue";
+import Interface from "@/components/conference/Interface.vue";
 
 import { Icons, IsToggled } from "@/interfaces/Conference";
 import { Vue, Component, InjectReactive } from "vue-property-decorator";
@@ -22,5 +23,12 @@ export default class screenShareBtn extends Vue {
   };
 
   @InjectReactive() isToggled!: IsToggled;
+  @InjectReactive() readonly interfaceInstance!: Interface;
+
+  emit() {
+    const side: string = "bottom";
+    const name: string = "screenShare";
+    this.interfaceInstance.$emit("buttonToggle", { side, name });
+  }
 }
 </script>

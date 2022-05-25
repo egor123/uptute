@@ -1,10 +1,10 @@
 <template>
   <BarBase :isTopBar="false">
-    <MicOff @click="$emit('toggleMicOff')" />
-    <CamOff @click="$emit('toggleCamOff')" />
-    <End @click="$emit('toggleEnd')" />
-    <ScreenShare @click="$emit('toggleScreenShare')" />
-    <Whiteboard @click="$emit('toggleWhiteboard')" />
+    <MicOff />
+    <CamOff />
+    <End />
+    <ScreenShare />
+    <Whiteboard />
   </BarBase>
 </template>
 

@@ -11,11 +11,7 @@
 import BtnBase from "@/components/conference/bars/BtnBase.vue";
 import Interface from "@/components/conference/Interface.vue";
 
-import {
-  IsToggled,
-  Icons,
-  ButtonToggleEventPayload,
-} from "@/interfaces/Conference";
+import { IsToggled, Icons } from "@/interfaces/Conference";
 import { Vue, Component, InjectReactive } from "vue-property-decorator";
 
 @Component({
@@ -30,10 +26,9 @@ export default class ChatBtn extends Vue {
   @InjectReactive() readonly interfaceInstance!: Interface;
 
   emit() {
-    const payload: ButtonToggleEventPayload = { side: "top", name: "chat" };
-    this.interfaceInstance.$emit("buttonToggle", payload);
+    const side: string = "top";
+    const name: string = "chat";
+    this.interfaceInstance.$emit("buttonToggle", { side, name });
   }
 }
 </script>
-
-<style lang="scss" scoped></style>

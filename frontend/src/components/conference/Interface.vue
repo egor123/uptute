@@ -4,13 +4,7 @@
     <div id="centerCol">
       <TopBar />
       <Videos />
-      <BottomBar
-        @toggleMicOff="toggle('bottom', 'micOff')"
-        @toggleCamOff="toggle('bottom', 'camOff')"
-        @toggleEnd="toggle('bottom', 'end')"
-        @toggleScreenShare="toggleScreenShare()"
-        @toggleWhiteboard="toggle('bottom', 'whiteboard')"
-      />
+      <BottomBar />
     </div>
     <Chat />
   </div>
@@ -85,20 +79,30 @@ export default class Interface extends Vue {
   }
 
   onButtonToggle({ side, name }: ButtonToggleEventPayload): void {
-    this.isToggled[side][name] = !this.isToggled[side][name];
-  }
-  toggle(side: string, name: string): void {
-    this.isToggled[side][name] = !this.isToggled[side][name];
-  }
-  toggleScreenShare(): void {
-    const isToggled: boolean = this.isToggled.bottom.screenShare;
+    const self = this;
 
-    if (!isToggled) this.$emit("shareScreen");
-    else {
-      const track: MediaStreamTrack = this.streams.local.getVideoTracks()[0];
-      if (track.onended == null) return;
-      track.stop();
-      track.onended(new Event("ended"));
+    switch (name) {
+      case "screenShare":
+        toggleScreenShare();
+        break;
+      default:
+        toggle({ side, name });
+        break;
+    }
+
+    function toggleScreenShare(): void {
+      const isToggled: boolean = self.isToggled.bottom.screenShare;
+
+      if (!isToggled) self.$emit("shareScreen");
+      else {
+        const track: MediaStreamTrack = self.streams.local.getVideoTracks()[0];
+        if (track.onended == null) return;
+        track.stop();
+        track.onended(new Event("ended"));
+      }
+    }
+    function toggle({ side, name }: ButtonToggleEventPayload): void {
+      self.isToggled[side][name] = !self.isToggled[side][name];
     }
   }
   setShareVal(val: boolean) {
