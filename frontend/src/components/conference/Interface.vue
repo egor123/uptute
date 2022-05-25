@@ -2,10 +2,7 @@
   <div id="interface">
     <Settings :roomId="roomId" />
     <div id="centerCol">
-      <TopBar
-        @toggleSettings="toggle('top', 'settings')"
-        @toggleChat="toggle('top', 'chat')"
-      />
+      <TopBar />
       <Videos />
       <BottomBar
         @toggleMicOff="toggle('bottom', 'micOff')"
@@ -28,7 +25,11 @@ import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
 
 import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 
-import { IsToggled, Streams } from "@/interfaces/Conference";
+import {
+  ButtonToggleEventPayload,
+  IsToggled,
+  Streams,
+} from "@/interfaces/Conference";
 import {
   Vue,
   Component,
@@ -52,6 +53,7 @@ export default class Interface extends Vue {
   @ProvideReactive() @Prop(Object) streams!: Streams; // Provide from COnference TODO
   @Prop(String) roomId!: string;
 
+  @ProvideReactive() interfaceInstance: Interface = this;
   @ProvideReactive() isToggled: IsToggled = {
     top: {
       settings: true,
@@ -68,6 +70,8 @@ export default class Interface extends Vue {
   @ProvideReactive() margin: number = 6;
 
   mounted(): void {
+    this.$on("buttonToggle", this.onButtonToggle);
+
     const self = this;
     this.$nextTick(() => closePanels());
 
@@ -76,7 +80,13 @@ export default class Interface extends Vue {
       keys.forEach((key: string) => (self.isToggled.top[key] = false));
     }
   }
+  beforeDestroy(): void {
+    this.$off("buttonToggle", this.onButtonToggle);
+  }
 
+  onButtonToggle({ side, name }: ButtonToggleEventPayload): void {
+    this.isToggled[side][name] = !this.isToggled[side][name];
+  }
   toggle(side: string, name: string): void {
     this.isToggled[side][name] = !this.isToggled[side][name];
   }

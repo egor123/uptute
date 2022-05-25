@@ -17,14 +17,18 @@
 <script lang="ts">
 import Videos from "@/components/conference/video/Videos.vue";
 
-import { Axis, Rect, Streams, GotRatioEvent } from "@/interfaces/Conference";
+import {
+  Axis,
+  Rect,
+  Streams,
+  RatioEventPayload,
+} from "@/interfaces/Conference";
 import {
   Vue,
   Component,
   Prop,
   Watch,
   Ref,
-  Inject,
   InjectReactive,
 } from "vue-property-decorator";
 
@@ -38,7 +42,7 @@ export default class VideoBase extends Vue {
   @Prop({ type: Boolean, default: false }) readonly muted!: boolean;
   @Prop(Boolean) readonly isLocal!: boolean;
 
-  @Inject() readonly videosInstance!: Videos;
+  @InjectReactive() readonly videosInstance!: Videos;
   @InjectReactive() readonly videosRect!: DOMRect;
   @InjectReactive() readonly axis!: Axis;
   @InjectReactive() readonly margin!: number;
@@ -61,8 +65,9 @@ export default class VideoBase extends Vue {
     dispatchToVideos(this.ratio);
 
     function dispatchToVideos(ratio: number) {
-      const gotRatioEvent: GotRatioEvent = { isLocal: self.isLocal, ratio };
-      self.videosInstance.$emit("gotRatio", gotRatioEvent);
+      const isLocal: boolean = self.isLocal;
+      const ratioEventPayload: RatioEventPayload = { isLocal, ratio };
+      self.videosInstance.$emit("gotRatio", ratioEventPayload);
     }
   }
   calcRect(): void {

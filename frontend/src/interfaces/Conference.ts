@@ -42,7 +42,12 @@ export interface Streams {
   remote: MediaStream;
 }
 
-export interface GotRatioEvent {
+export interface RatioEventPayload {
   isLocal: boolean;
   ratio: number;
+}
+
+export interface ButtonToggleEventPayload {
+  side: string;
+  name: string;
 }

@@ -1,6 +1,6 @@
 <template>
   <BtnBase
-    @click="$emit('click')"
+    @click="emit()"
     id="settings"
     :icons="icons"
     :isToggled="isToggled.top.settings"
@@ -9,8 +9,13 @@
 
 <script lang="ts">
 import BtnBase from "@/components/conference/bars/BtnBase.vue";
+import Interface from "@/components/conference/Interface.vue";
 
-import { IsToggled, Icons } from "@/interfaces/Conference";
+import {
+  IsToggled,
+  Icons,
+  ButtonToggleEventPayload,
+} from "@/interfaces/Conference";
 import { Vue, Component, InjectReactive } from "vue-property-decorator";
 
 @Component({
@@ -23,6 +28,12 @@ export default class SettingsBtn extends Vue {
   };
 
   @InjectReactive() readonly isToggled!: IsToggled;
+  @InjectReactive() readonly interfaceInstance!: Interface;
+
+  emit() {
+    const payload: ButtonToggleEventPayload = { side: "top", name: "settings" };
+    this.interfaceInstance.$emit("buttonToggle", payload);
+  }
 }
 </script>
 

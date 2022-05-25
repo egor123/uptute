@@ -11,11 +11,10 @@
 import LocalVideo from "@/components/conference/video/LocalVideo.vue";
 import RemoteVideo from "@/components/conference/video/RemoteVideo.vue";
 
-import { Rect, Axis, GotRatioEvent } from "@/interfaces/Conference";
+import { Rect, Axis, RatioEventPayload } from "@/interfaces/Conference";
 import {
   Vue,
   Component,
-  Provide,
   ProvideReactive,
   Ref,
   InjectReactive,
@@ -45,7 +44,7 @@ export default class Videos extends Vue {
   sumRatio: number = 0;
   @ProvideReactive() axis: Axis = { x: 0, y: 0 };
   @ProvideReactive() videosRect: DOMRect = new DOMRect();
-  @Provide() videosInstance: Videos = this;
+  @ProvideReactive() videosInstance: Videos = this;
 
   @InjectReactive()
   margin!: number;
@@ -59,7 +58,7 @@ export default class Videos extends Vue {
     removeEventListener("resize", this.onResize);
   }
 
-  onGotRatio({ isLocal, ratio }: GotRatioEvent): void {
+  onGotRatio({ isLocal, ratio }: RatioEventPayload): void {
     const type: string = isLocal ? "local" : "remote";
     this.ratios[type] = ratio;
     this.onResize();
