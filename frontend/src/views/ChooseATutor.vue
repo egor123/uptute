@@ -20,17 +20,15 @@
           ]"
           :label="$l('find.filters.filters.h')"
           :flat="false"
-          :text="
-            `${$l('find.filters.filters.' + filter.name)} ${
-              filter.dir === 'up' ? '↑' : '↓'
-            }`
-          "
+          :text="`${$l('find.filters.filters.' + filter.name)} ${
+            filter.dir === 'up' ? '↑' : '↓'
+          }`"
           :convertor="(item) => $l('find.filters.filters.' + item.name)"
           borderRadius="15px"
         />
       </FilterPanel>
       <Panels id="panels" :tutors="getTutors()" />
-      <!-- :lesson="$store.state.studentLessonAPI.info" -->
+      <!-- :lesson="$store.state['lesson/student'].info" -->
     </div>
     <v-snackbar max-width="800" color="error" timeout="-1" v-model="showAlert">
       {{ $l("choose_a.tutor.ended") }}
@@ -117,13 +115,13 @@ export default {
       }
     },
     getTutors() {
-      return this.$store.state.studentLessonAPI.tutors;
+      return this.$store.state["lesson/student"].tutors;
     },
   },
   async beforeRouteLeave(to, from, next) {
     const jwt = JSON.parse(sessionStorage.getItem("user")).jwt;
     if (
-      this.$store.state.studentLessonAPI.state === "idle" ||
+      this.$store.state["lesson/student"].state === "idle" ||
       isJwtExpired(jwt)
     )
       next();
@@ -131,7 +129,7 @@ export default {
     this.untilClick().then(async (val) => {
       this.showAlert = false;
       if (val === "close") {
-        await this.$store.dispatch("studentLessonAPI/deleteLesson");
+        await this.$store.dispatch("lesson/student/deleteLesson");
         next();
       }
     });

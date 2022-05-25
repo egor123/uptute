@@ -16,9 +16,7 @@
       <td>
         <v-tooltip content-class="tooltip" right>
           <template v-slot:activator="{ on, attrs }">
-            <div id="priceQuestionMark" v-bind="attrs" v-on="on">
-              ?
-            </div>
+            <div id="priceQuestionMark" v-bind="attrs" v-on="on">?</div>
           </template>
           <span>{{ $l("booking.tooltip") }} </span>
         </v-tooltip>
@@ -38,8 +36,8 @@ export default {
     tutor: Object,
   },
   computed: {
-    lesson: function() {
-      return this.$store.state.studentLessonAPI.info;
+    lesson: function () {
+      return this.$store.state["lesson/student"].info;
     },
   },
   created() {

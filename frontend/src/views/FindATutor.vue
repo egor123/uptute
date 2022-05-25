@@ -79,11 +79,9 @@
         <ExpandableSlider
           v-model="info.price"
           :label="$l('find.filters.price.h')"
-          :text="
-            `${info.price[0]} - ${info.price[1]} UC/${$l(
-              'find.filters.price.p'
-            )}`
-          "
+          :text="`${info.price[0]} - ${info.price[1]} UC/${$l(
+            'find.filters.price.p'
+          )}`"
           :min="0"
           :max="150"
           :rules="(item) => item.length > 0"
@@ -195,7 +193,7 @@ export default {
       this.$refs.panel2[action]();
     },
     async sendLessonRequest() {
-      const bool = await this.$store.dispatch("studentLessonAPI/request", {
+      const bool = await this.$store.dispatch("lesson/student/request", {
         info: this.info,
         vm: this.getThis(),
       });

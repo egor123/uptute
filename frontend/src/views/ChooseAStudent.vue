@@ -13,11 +13,9 @@
         :filters="filters"
         :label="$l('find.filters.filters.h')"
         :flat="false"
-        :text="
-          `${$l('find.filters.filters.' + filter.name)} ${
-            filter.dir === 'up' ? '↑' : '↓'
-          }`
-        "
+        :text="`${$l('find.filters.filters.' + filter.name)} ${
+          filter.dir === 'up' ? '↑' : '↓'
+        }`"
         :convertor="(item) => $l('find.filters.filters.' + item.name)"
       />
       <StudentPanels id="panels" :students="getStudentsArr()" />
@@ -101,7 +99,7 @@ export default {
     //   };
     // },
     getStudentsArr() {
-      const stateObj = this.$store.state.tutorLessonAPI;
+      const stateObj = this.$store.state["lesson/tutor"];
       console.log(stateObj);
       if (stateObj.offeredLessons.length > 0) return stateObj.offeredLessons;
       return stateObj.lessons;
@@ -109,7 +107,7 @@ export default {
   },
   beforeMount() {
     // this.settingDate();
-    this.$store.dispatch("tutorLessonAPI/getLessons", { vm: this });
+    this.$store.dispatch("lesson/tutor/getLessons", { vm: this });
   },
   mounted() {
     // for (var i = 0; i < 5; i++) {
@@ -117,7 +115,7 @@ export default {
     // }
   },
   beforeRouteLeave(to, from, next) {
-    this.$store.commit("tutorLessonAPI/mutate", { name: "state", val: "idle" });
+    this.$store.commit("lesson/tutor/mutate", { name: "state", val: "idle" });
     next();
   },
 };

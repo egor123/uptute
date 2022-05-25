@@ -64,8 +64,8 @@ export default {
     };
   },
   computed: {
-    isOffered: function() {
-      return this.$store.state.tutorLessonAPI.offeredLessons.length > 0;
+    isOffered: function () {
+      return this.$store.state["lesson/tutor"].offeredLessons.length > 0;
     },
   },
   props: ["student"],
@@ -80,12 +80,12 @@ export default {
         logId: this.student.logId,
       };
 
-      this.$store.dispatch("tutorLessonAPI/sendOffer", {
+      this.$store.dispatch("lesson/tutor/sendOffer", {
         lesson: lessonIdAndLogId,
       });
     },
     cancelOffer() {
-      this.$store.dispatch("tutorLessonAPI/cancelOffer", {
+      this.$store.dispatch("lesson/tutor/cancelOffer", {
         offerLogId: this.student.offerLogId,
       });
     },

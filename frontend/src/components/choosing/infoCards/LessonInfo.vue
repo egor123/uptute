@@ -32,8 +32,8 @@ export default {
     radius: String,
   },
   computed: {
-    lesson: function() {
-      return this.$store.state.studentLessonAPI.info;
+    lesson: function () {
+      return this.$store.state["lesson/student"].info;
     },
   },
   methods: {
