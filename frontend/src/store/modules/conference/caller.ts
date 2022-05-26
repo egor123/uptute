@@ -12,8 +12,6 @@ class ConferenceCaller extends VuexModule {
   async createRoom(): Promise<void> {
     new Promise((r) => setTimeout(r, 0));
 
-    console.log("IN", Main.peerConnection.getConfiguration());
-
     Main.setUpPeerConnection();
     Chat.createDataChannel();
 

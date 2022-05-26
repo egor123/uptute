@@ -53,7 +53,7 @@ export default class BarBase extends Vue {
     const m: string = this.isVisible ? `0px` : `-${h}px`;
 
     // @ts-ignore
-    style`margin${side}` = m;
+    style[`margin${side}`] = m;
   }
 
   @Watch("isVisible")

@@ -128,6 +128,7 @@ class ConferenceMain extends VuexModule {
 
       function addListener({ name, log }: PeerConnectionEventPayload) {
         pc.addEventListener(name, () =>
+          //@ts-ignore
           console.log(`${log.pre}: ${pc[log.name]}`)
         );
       }
