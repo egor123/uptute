@@ -15,3 +15,9 @@ export default {
   },
 };
 </script>
+
+<style>
+#conferenceWrapper {
+  overflow: hidden;
+}
+</style>
