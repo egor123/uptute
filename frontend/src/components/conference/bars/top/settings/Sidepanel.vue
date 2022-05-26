@@ -14,7 +14,7 @@ import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 
 import ToggleStore from "@/store/modules/conference/toggleStore";
 import Main from "@/store/modules/conference/main";
-import { Vue, Component, Watch } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 
 interface Info {
   [index: string]: {
@@ -27,26 +27,7 @@ interface Info {
 export default class SettingsPanel extends Vue {
   toggleStore = ToggleStore;
 
-  info: Info = {
-    id: {
-      name: "Conference ID",
-      val: "",
-    },
-  };
-
-  mounted(): void {
-    this.setRomId();
-  }
-
-  setRomId(): void {
-    this.info.id.val = this.roomId;
-  }
-
-  get roomId() {
-    return Main.room.ref ? Main.room.ref.id : undefined;
-  }
-  @Watch("roomId")
-  onRoomIdChange = () => this.setRomId();
+  info: Info = { id: { name: "Conference ID", val: Main.room.ref?.id } };
 }
 </script>
 

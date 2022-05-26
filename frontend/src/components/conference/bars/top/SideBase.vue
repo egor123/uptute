@@ -43,9 +43,7 @@ export default class SideBase extends Vue {
   }
 
   startResizing(): void {
-    const id = setInterval(() => {
-      dispatchEvent(new Event("resize"));
-    }, 0);
+    const id = setInterval(() => dispatchEvent(new Event("resize")), 0);
     this.transitionIds.push(id);
   }
   endResizing(): void {

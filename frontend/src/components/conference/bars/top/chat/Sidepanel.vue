@@ -11,6 +11,7 @@
           <div ref="message" class="msg">{{ msg.text }}</div>
         </div>
       </div>
+
       <div id="bar">
         <textarea
           @keypress="onTextareaKey"

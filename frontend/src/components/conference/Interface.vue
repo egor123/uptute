@@ -20,30 +20,21 @@ import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
 import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 
 import ToggleStore from "@/store/modules/conference/toggleStore";
-import { ButtonToggleEventPayload } from "@/interfaces/Conference";
 import { Vue, Component, ProvideReactive } from "vue-property-decorator";
 
-@Component({
-  components: { Settings, TopBar, Videos, BottomBar, Chat },
-})
+@Component({ components: { Settings, TopBar, Videos, BottomBar, Chat } })
 export default class Interface extends Vue {
   @ProvideReactive() margin: number = 6;
 
   mounted(): void {
-    this.$on("buttonToggle", this.onButtonToggle);
-    this.$nextTick(() => closePanels());
+    this.$nextTick(() => closeSidePanels());
 
-    function closePanels(): void {
+    function closeSidePanels(): void {
       const keys: string[] = Object.keys(ToggleStore.isToggled.top);
-      keys.forEach((key: string) => (ToggleStore.isToggled.top[key] = false));
+      keys.forEach((key: string) =>
+        ToggleStore.toggle({ side: "top", name: key })
+      );
     }
-  }
-  beforeDestroy(): void {
-    this.$off("buttonToggle", this.onButtonToggle);
-  }
-
-  onButtonToggle({ side, name }: ButtonToggleEventPayload): void {
-    ToggleStore.toggle({ side, name });
   }
 }
 </script>
