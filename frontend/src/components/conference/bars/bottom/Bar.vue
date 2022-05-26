@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import BarBase from "@/components/conference/bars/BarBase.vue";
+
 import MicOff from "@/components/conference/bars/bottom/buttons/MicOff.vue";
 import CamOff from "@/components/conference/bars/bottom/buttons/CamOff.vue";
 import End from "@/components/conference/bars/bottom/buttons/End.vue";

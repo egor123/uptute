@@ -20,7 +20,6 @@ import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
 
 import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 
-// import Main from "@/store/modules/conference/main";
 import ToggleStore from "@/store/modules/conference/toggleStore";
 import { ButtonToggleEventPayload, IsToggled } from "@/interfaces/Conference";
 import { Vue, Component, ProvideReactive } from "vue-property-decorator";
@@ -59,7 +58,7 @@ export default class Interface extends Vue {
   }
 
   onButtonToggle({ side, name }: ButtonToggleEventPayload): void {
-    ToggleStore.onButtonToggle({ side, name });
+    ToggleStore.toggle({ side, name });
   }
 }
 </script>

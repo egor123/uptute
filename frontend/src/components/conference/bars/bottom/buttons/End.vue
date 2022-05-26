@@ -1,35 +1,22 @@
 <template>
   <BtnBase
-    @click="emit()"
+    @click="toggleStore.toggle({ side: 'bottom', name: 'end' })"
+    :isToggled="toggleStore.isToggled.bottom.end"
     :icons="icons"
-    :isToggled="isToggled.bottom.end"
     bgColor="var(--v-error-darken1)"
   />
 </template>
 
 <script lang="ts">
 import BtnBase from "@/components/conference/bars/BtnBase.vue";
-import Interface from "@/components/conference/Interface.vue";
 
-import { Icons, IsToggled } from "@/interfaces/Conference";
-import { Vue, Component, InjectReactive } from "vue-property-decorator";
+import ToggleStore from "@/store/modules/conference/toggleStore";
+import { Icons } from "@/interfaces/Conference";
+import { Vue, Component } from "vue-property-decorator";
 
-@Component({
-  components: { BtnBase },
-})
+@Component({ components: { BtnBase } })
 export default class EndBtn extends Vue {
-  icons: Icons = {
-    on: "phone-hangup",
-    off: "phone-hangup",
-  };
-
-  @InjectReactive() isToggled!: IsToggled;
-  @InjectReactive() readonly interfaceInstance!: Interface;
-
-  emit() {
-    const side: string = "bottom";
-    const name: string = "end";
-    this.interfaceInstance.$emit("buttonToggle", { side, name });
-  }
+  toggleStore = ToggleStore;
+  icons: Icons = { on: "phone-hangup", off: "phone-hangup" };
 }
 </script>

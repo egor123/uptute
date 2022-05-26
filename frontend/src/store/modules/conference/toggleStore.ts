@@ -28,7 +28,7 @@ class ToggleStore extends VuexModule {
   };
 
   @Mutation
-  onButtonToggle({ side, name }: ButtonToggleEventPayload): void {
+  toggle({ side, name }: ButtonToggleEventPayload): void {
     const self = this;
     const cur: boolean = this.isToggled[side][name];
 
