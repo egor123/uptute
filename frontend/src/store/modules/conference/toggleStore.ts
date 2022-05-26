@@ -9,7 +9,10 @@ import {
 
 import Main from "@/store/modules/conference/main";
 import ScreenShare from "@/store/modules/conference/screenShare";
-import { ButtonToggleEventPayload, IsToggled } from "@/interfaces/Conference";
+import {
+  ButtonToggleEventPayload,
+  IsToggled,
+} from "@/components/conference/types";
 @Module({ name: "isToggled", namespaced: true, dynamic: true, store })
 class ToggleStore extends VuexModule {
   isToggled: IsToggled = {

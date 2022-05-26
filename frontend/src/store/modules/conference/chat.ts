@@ -2,7 +2,7 @@ import store from "@/store";
 import { dataChannelOptions as options } from "@/constants/peer-connection";
 
 import Main from "@/store/modules/conference/main";
-import { Message } from "@/interfaces/Conference";
+import { Message } from "@/components/conference/types";
 import {
   Module,
   VuexModule,

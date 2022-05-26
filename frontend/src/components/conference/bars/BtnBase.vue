@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { Icons } from "@/interfaces/Conference";
+import { Icons } from "@/components/conference/types";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 
 @Component

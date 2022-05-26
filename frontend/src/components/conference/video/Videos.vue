@@ -11,7 +11,7 @@
 import LocalVideo from "@/components/conference/video/LocalVideo.vue";
 import RemoteVideo from "@/components/conference/video/RemoteVideo.vue";
 
-import { Rect, Axis, RatioEventPayload } from "@/interfaces/Conference";
+import { Rect, Axis, RatioEventPayload } from "@/components/conference/types";
 import {
   Vue,
   Component,

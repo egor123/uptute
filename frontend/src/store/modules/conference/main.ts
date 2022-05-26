@@ -13,7 +13,7 @@ import {
   QuerySnapshot,
   DocChange,
   Room,
-} from "@/interfaces/Conference";
+} from "@/components/conference/types";
 import {
   Module,
   VuexModule,

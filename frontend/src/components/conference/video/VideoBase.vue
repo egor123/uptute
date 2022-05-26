@@ -18,7 +18,7 @@
 import Videos from "@/components/conference/video/Videos.vue";
 
 import Main from "@/store/modules/conference/main";
-import { Axis, Rect, RatioEventPayload } from "@/interfaces/Conference";
+import { Axis, Rect, RatioEventPayload } from "@/components/conference/types";
 import {
   Vue,
   Component,

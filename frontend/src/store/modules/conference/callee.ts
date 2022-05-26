@@ -3,7 +3,12 @@ import { db, firestore } from "@/firebase.js";
 
 import Main from "@/store/modules/conference/main";
 import Chat from "@/store/modules/conference/chat";
-import { DocData, DocRef, DocSnapshot, Room } from "@/interfaces/Conference";
+import {
+  DocData,
+  DocRef,
+  DocSnapshot,
+  Room,
+} from "@/components/conference/types";
 import { Module, VuexModule, Action, getModule } from "vuex-module-decorators";
 
 @Module({ name: "conferenceCallee", namespaced: true, dynamic: true, store })

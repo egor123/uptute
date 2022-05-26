@@ -11,7 +11,7 @@
 import BtnBase from "@/components/conference/bars/BtnBase.vue";
 
 import ToggleStore from "@/store/modules/conference/toggleStore";
-import { Icons } from "@/interfaces/Conference";
+import { Icons } from "@/components/conference/types";
 import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { BtnBase } })

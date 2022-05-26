@@ -4,7 +4,7 @@ import { db, firestore } from "@/firebase.js";
 import Main from "@/store/modules/conference/main";
 import Chat from "@/store/modules/conference/chat";
 import { Module, VuexModule, Action, getModule } from "vuex-module-decorators";
-import { DocSnapshot } from "@/interfaces/Conference";
+import { DocSnapshot } from "@/components/conference/types";
 
 @Module({ name: "conferenceCaller", namespaced: true, dynamic: true, store })
 class ConferenceCaller extends VuexModule {
