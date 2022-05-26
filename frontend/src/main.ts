@@ -1,8 +1,11 @@
 import Vue from "vue";
 import App from "./App.vue";
+
+import { Route } from "vue-router/types/router";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+
 import VueAnalytics from "vue-analytics";
 import VueAnimate from "vue-animate-scroll";
 import { BackendService, AuthService, LocaleService } from "./services";
@@ -21,7 +24,7 @@ Vue.use(VueAnalytics, {
   router,
 
   autoTracking: {
-    pageviewTemplate(route) {
+    pageviewTemplate(route: Route) {
       return route.name;
     },
   },

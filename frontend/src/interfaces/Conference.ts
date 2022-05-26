@@ -1,3 +1,5 @@
+import { firestore } from "@/firebase.js";
+
 export interface IsToggled {
   [index: string]: { [index: string]: boolean };
   top: {
@@ -38,6 +40,7 @@ export interface Rect {
 }
 
 export interface Streams {
+  [index: string]: MediaStream;
   local: MediaStream;
   remote: MediaStream;
 }
@@ -57,3 +60,25 @@ export interface Message {
   time: number;
   isSelf: boolean;
 }
+
+export interface Room {
+  ref: DocRef | undefined;
+  data: DocData | undefined;
+}
+
+export interface CollectionRef
+  extends firestore.CollectionReference<firestore.DocumentData> {}
+
+export interface DocRef
+  extends firestore.DocumentReference<firestore.DocumentData> {}
+
+export interface DocSnapshot
+  extends firestore.DocumentSnapshot<firestore.DocumentData> {}
+
+export interface QuerySnapshot
+  extends firestore.QuerySnapshot<firestore.DocumentData> {}
+
+export interface DocChange
+  extends firestore.DocumentChange<firestore.DocumentData> {}
+
+export interface DocData extends firestore.DocumentData {}

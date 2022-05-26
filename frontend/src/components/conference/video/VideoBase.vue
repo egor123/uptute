@@ -17,12 +17,8 @@
 <script lang="ts">
 import Videos from "@/components/conference/video/Videos.vue";
 
-import {
-  Axis,
-  Rect,
-  Streams,
-  RatioEventPayload,
-} from "@/interfaces/Conference";
+import Main from "@/store/modules/conference/main";
+import { Axis, Rect, RatioEventPayload } from "@/interfaces/Conference";
 import {
   Vue,
   Component,
@@ -46,10 +42,9 @@ export default class VideoBase extends Vue {
   @InjectReactive() readonly videosRect!: DOMRect;
   @InjectReactive() readonly axis!: Axis;
   @InjectReactive() readonly margin!: number;
-  @InjectReactive() readonly streams!: Streams;
 
-  get stream() {
-    return this.isLocal ? this.streams.local : this.streams.remote;
+  get stream(): MediaStream {
+    return this.isLocal ? Main.streams.local : Main.streams.remote;
   }
 
   mounted(): void {

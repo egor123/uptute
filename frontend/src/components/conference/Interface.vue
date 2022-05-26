@@ -1,6 +1,7 @@
 <template>
   <div id="interface">
-    <Settings :roomId="roomId" />
+    <!-- :roomId="roomId" -->
+    <Settings />
     <div id="centerCol">
       <TopBar />
       <Videos />
@@ -19,19 +20,10 @@ import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
 
 import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 
-import {
-  ButtonToggleEventPayload,
-  IsToggled,
-  Streams,
-} from "@/interfaces/Conference";
-import {
-  Vue,
-  Component,
-  Prop,
-  ProvideReactive,
-  Watch,
-} from "vue-property-decorator";
-
+// import Main from "@/store/modules/conference/main";
+import ToggleStore from "@/store/modules/conference/toggleStore";
+import { ButtonToggleEventPayload, IsToggled } from "@/interfaces/Conference";
+import { Vue, Component, ProvideReactive } from "vue-property-decorator";
 @Component({
   components: {
     Settings,
@@ -44,23 +36,11 @@ import {
   },
 })
 export default class Interface extends Vue {
-  @ProvideReactive() @Prop(Object) streams!: Streams; // Provide from Conference TODO
-  @Prop(String) roomId!: string;
-
   @ProvideReactive() interfaceInstance: Interface = this;
-  @ProvideReactive() isToggled: IsToggled = {
-    top: {
-      settings: true,
-      chat: true,
-    },
-    bottom: {
-      micOff: false,
-      camOff: false,
-      end: false,
-      screenShare: false,
-      whiteboard: false,
-    },
-  };
+  @ProvideReactive() get isToggled(): IsToggled {
+    return ToggleStore.isToggled;
+  }
+
   @ProvideReactive() margin: number = 6;
 
   mounted(): void {
@@ -79,39 +59,7 @@ export default class Interface extends Vue {
   }
 
   onButtonToggle({ side, name }: ButtonToggleEventPayload): void {
-    const self = this;
-
-    switch (name) {
-      case "screenShare":
-        toggleScreenShare();
-        break;
-      default:
-        toggle({ side, name });
-        break;
-    }
-
-    function toggleScreenShare(): void {
-      const isToggled: boolean = self.isToggled.bottom.screenShare;
-
-      if (!isToggled) self.$emit("shareScreen");
-      else {
-        const track: MediaStreamTrack = self.streams.local.getVideoTracks()[0];
-        if (track.onended == null) return;
-        track.stop();
-        track.onended(new Event("ended"));
-      }
-    }
-    function toggle({ side, name }: ButtonToggleEventPayload): void {
-      self.isToggled[side][name] = !self.isToggled[side][name];
-    }
-  }
-  setShareVal(val: boolean) {
-    this.isToggled.bottom.screenShare = val;
-  }
-
-  @Watch("isToggled.bottom.end")
-  onEndToggle(isToggled: boolean) {
-    if (isToggled) this.$emit("endRoom");
+    ToggleStore.onButtonToggle({ side, name });
   }
 }
 </script>

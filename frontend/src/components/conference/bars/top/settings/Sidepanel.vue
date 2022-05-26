@@ -12,10 +12,11 @@
 <script lang="ts">
 import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 
+import Main from "@/store/modules/conference/main";
 import {
   Vue,
   Component,
-  Prop,
+  // Prop,
   Watch,
   InjectReactive,
 } from "vue-property-decorator";
@@ -24,7 +25,7 @@ import { IsToggled } from "@/interfaces/Conference";
 interface Info {
   [index: string]: {
     name: string;
-    val: string;
+    val: string | undefined;
   };
 }
 
@@ -39,7 +40,7 @@ export default class SettingsPanel extends Vue {
     },
   };
 
-  @Prop(String) roomId!: string;
+  // @Prop(String) roomId!: string;
 
   @InjectReactive() readonly isToggled!: IsToggled;
 
@@ -51,6 +52,9 @@ export default class SettingsPanel extends Vue {
     this.info.id.val = this.roomId;
   }
 
+  get roomId() {
+    return Main.room.ref ? Main.room.ref.id : undefined;
+  }
   @Watch("roomId")
   onRoomIdChange = () => this.setRomId();
 }

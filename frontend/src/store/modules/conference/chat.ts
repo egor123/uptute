@@ -1,6 +1,7 @@
 import store from "@/store";
 import { dataChannelOptions as options } from "@/constants/peer-connection";
 
+import Main from "@/store/modules/conference/main";
 import { Message } from "@/interfaces/Conference";
 import {
   Module,
@@ -14,11 +15,6 @@ interface SaveMessageActionPayload {
   text: string;
   isSelf: boolean;
 }
-interface MutateMutationPayload {
-  [index: string]: any;
-  name: string;
-  val: any;
-}
 
 @Module({ name: "conferenceChat", namespaced: true, dynamic: true, store })
 class ConferenceChat extends VuexModule {
@@ -28,9 +24,9 @@ class ConferenceChat extends VuexModule {
   messages: Message[] = [];
 
   @Action
-  createDataChannel(peerConnection: RTCPeerConnection) {
+  createDataChannel(): void {
     const params: [string, typeof options] = ["chat", options];
-    const dc: RTCDataChannel = peerConnection.createDataChannel(...params);
+    const dc: RTCDataChannel = Main.peerConnection.createDataChannel(...params);
 
     this.mutate({ name: "dc", val: dc });
     this.setListeners();
@@ -72,7 +68,7 @@ class ConferenceChat extends VuexModule {
   }
 
   @Mutation
-  mutate({ name, val }: MutateMutationPayload) {
+  mutate({ name, val }: { name: string; val: any }) {
     this[name] = val;
   }
   @Mutation

@@ -31,7 +31,7 @@
 <script lang="ts">
 import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 
-import ConferenceChatModule from "@/store/modules/conference/chat";
+import Chat from "@/store/modules/conference/chat";
 
 import { Message, IsToggled } from "@/interfaces/Conference";
 import {
@@ -56,13 +56,13 @@ export default class ChatPanel extends Vue {
   maxHeightForAutoscroll: number = 300;
 
   get messages(): Message[] {
-    return ConferenceChatModule.messages;
+    return Chat.messages;
   }
 
   @InjectReactive() readonly isToggled!: IsToggled;
 
   sendMessage(): void {
-    ConferenceChatModule.sendMessage(this.input);
+    Chat.sendMessage(this.input);
     this.input = "";
     this.$nextTick(() => this.resizeTextArea());
   }
