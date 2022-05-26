@@ -21,8 +21,6 @@ import {
   Mutation,
   getModule,
 } from "vuex-module-decorators";
-import { mdiConsoleNetworkOutline } from "@mdi/js";
-import Vuetify from "vuetify/lib";
 
 interface InitParams {
   isCaller: boolean;

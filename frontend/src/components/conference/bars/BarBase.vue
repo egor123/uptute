@@ -52,7 +52,8 @@ export default class BarBase extends Vue {
     const side: string = this.isTopBar ? "Top" : "Bottom";
     const m: string = this.isVisible ? `0px` : `-${h}px`;
 
-    style[`margin${side}`] = m;
+    // @ts-ignore
+    style`margin${side}` = m;
   }
 
   @Watch("isVisible")
