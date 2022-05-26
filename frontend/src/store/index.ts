@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Vuex, { Module, Store } from "vuex";
+import Vuex, { Store } from "vuex";
 
 Vue.use(Vuex);
 
@@ -10,13 +10,12 @@ interface Modules {
   [index: string]: any;
 }
 
-const modules: Modules = (): Modules => {
+function getModules(): Modules {
   const folder: __WebpackModuleApi.RequireContext = getFolder();
   return Object.fromEntries(getModulesArr());
 
   function getFolder(): __WebpackModuleApi.RequireContext {
-    const params: [string, boolean, RegExp] = ["./modules", true, /.js$/];
-    return require.context(...params);
+    return require.context("./modules", true, /.js$/);
   }
   function getModulesArr(): [string, any][] {
     return folder.keys().map((key) => getKeyValPairArr(key));
@@ -27,7 +26,9 @@ const modules: Modules = (): Modules => {
       return [moduleName, module];
     }
   }
-};
+}
+
+const modules: Modules = getModules();
 
 for (const key in modules) {
   store.registerModule(key, modules[key]);
