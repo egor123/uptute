@@ -1,6 +1,5 @@
 <template>
   <div id="interface">
-    <!-- :roomId="roomId" -->
     <Settings />
     <div id="centerCol">
       <TopBar />
@@ -23,16 +22,9 @@ import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 import ToggleStore from "@/store/modules/conference/toggleStore";
 import { ButtonToggleEventPayload } from "@/interfaces/Conference";
 import { Vue, Component, ProvideReactive } from "vue-property-decorator";
+
 @Component({
-  components: {
-    Settings,
-
-    TopBar,
-    Videos,
-    BottomBar,
-
-    Chat,
-  },
+  components: { Settings, TopBar, Videos, BottomBar, Chat },
 })
 export default class Interface extends Vue {
   @ProvideReactive() margin: number = 6;
@@ -60,6 +52,8 @@ export default class Interface extends Vue {
 @import "@/scss/styles.scss";
 
 #interface {
+  height: 100vh;
+  width: 100vw;
   @include flexbox(row);
   background: var(--v-background-base);
   #centerCol {

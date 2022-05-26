@@ -1,6 +1,6 @@
 <template>
   <BtnBase
-    @click="toggleStore.toggle({ side: 'bottom', name: 'camOff' })"
+    @click="toggleStore.toggle({ side: 'top', name: 'settings' })"
     :isToggled="toggleStore.isToggled.top.settings"
     :icons="icons"
   />
