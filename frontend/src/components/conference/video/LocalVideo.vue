@@ -11,13 +11,13 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 
 @Component({ components: { VideoBase } })
 export default class LocalVideo extends Vue {
-  toggleStore = ToggleStore;
+  ToggleStore = ToggleStore;
 
-  @Watch("toggleStore.isToggled.bottom.camOff")
+  @Watch("ToggleStore.isToggled.bottom.camOff")
   onCamOffToggle(isCamOff: boolean) {
     Main.toggleCam(!isCamOff);
   }
-  @Watch("toggleStore.isToggled.bottom.micOff")
+  @Watch("ToggleStore.isToggled.bottom.micOff")
   onMicOffToggle(isMicOff: boolean) {
     Main.toggleMic(!isMicOff);
   }

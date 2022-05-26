@@ -31,9 +31,7 @@ interface SumRatios {
   col: number;
 }
 
-@Component({
-  components: { LocalVideo, RemoteVideo },
-})
+@Component({ components: { LocalVideo, RemoteVideo } })
 export default class Videos extends Vue {
   @Ref("local") localRef!: LocalVideo;
   @Ref("remote") remoteRef!: RemoteVideo;

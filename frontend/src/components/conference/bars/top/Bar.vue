@@ -13,8 +13,6 @@ import ChatBtn from "@/components/conference/bars/top/chat/Btn.vue";
 
 import { Vue, Component } from "vue-property-decorator";
 
-@Component({
-  components: { BarBase, SettingsBtn, ChatBtn },
-})
+@Component({ components: { BarBase, SettingsBtn, ChatBtn } })
 export default class TopBar extends Vue {}
 </script>

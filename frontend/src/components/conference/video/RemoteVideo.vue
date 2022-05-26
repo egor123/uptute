@@ -7,8 +7,6 @@ import VideoBase from "@/components/conference/video/VideoBase.vue";
 
 import { Vue, Component } from "vue-property-decorator";
 
-@Component({
-  components: { VideoBase },
-})
+@Component({ components: { VideoBase } })
 export default class LocalVideo extends Vue {}
 </script>
