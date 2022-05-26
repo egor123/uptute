@@ -21,7 +21,7 @@ import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
 import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 
 import ToggleStore from "@/store/modules/conference/toggleStore";
-import { ButtonToggleEventPayload, IsToggled } from "@/interfaces/Conference";
+import { ButtonToggleEventPayload } from "@/interfaces/Conference";
 import { Vue, Component, ProvideReactive } from "vue-property-decorator";
 @Component({
   components: {
@@ -35,22 +35,15 @@ import { Vue, Component, ProvideReactive } from "vue-property-decorator";
   },
 })
 export default class Interface extends Vue {
-  @ProvideReactive() interfaceInstance: Interface = this;
-  @ProvideReactive() get isToggled(): IsToggled {
-    return ToggleStore.isToggled;
-  }
-
   @ProvideReactive() margin: number = 6;
 
   mounted(): void {
-    const self = this;
-
     this.$on("buttonToggle", this.onButtonToggle);
     this.$nextTick(() => closePanels());
 
     function closePanels(): void {
-      const keys: string[] = Object.keys(self.isToggled.top);
-      keys.forEach((key: string) => (self.isToggled.top[key] = false));
+      const keys: string[] = Object.keys(ToggleStore.isToggled.top);
+      keys.forEach((key: string) => (ToggleStore.isToggled.top[key] = false));
     }
   }
   beforeDestroy(): void {
