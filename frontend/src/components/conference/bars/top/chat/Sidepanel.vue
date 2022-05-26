@@ -1,5 +1,5 @@
 <template>
-  <SidepanelBase :isToggled="isToggled.top.chat" :isLeft="false">
+  <SidepanelBase :isToggled="toggleStore.isToggled.top.chat" :isLeft="false">
     <div id="chat" ref="chat">
       <div ref="messages" id="messages">
         <div
@@ -33,19 +33,14 @@ import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
 
 import Chat from "@/store/modules/conference/chat";
 
-import { Message, IsToggled } from "@/interfaces/Conference";
-import {
-  Vue,
-  Component,
-  Ref,
-  InjectReactive,
-  Watch,
-} from "vue-property-decorator";
+import ToggleStore from "@/store/modules/conference/toggleStore";
+import { Message } from "@/interfaces/Conference";
+import { Vue, Component, Ref, Watch } from "vue-property-decorator";
 
-@Component({
-  components: { SidepanelBase },
-})
+@Component({ components: { SidepanelBase } })
 export default class ChatPanel extends Vue {
+  toggleStore = ToggleStore;
+
   @Ref("chat") chatRef!: HTMLDivElement;
   @Ref("textarea") textareaRef!: HTMLTextAreaElement;
   @Ref("messages") messagesRef!: HTMLDivElement;
@@ -58,8 +53,6 @@ export default class ChatPanel extends Vue {
   get messages(): Message[] {
     return Chat.messages;
   }
-
-  @InjectReactive() readonly isToggled!: IsToggled;
 
   sendMessage(): void {
     Chat.sendMessage(this.input);
