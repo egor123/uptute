@@ -13,7 +13,7 @@ import {
 @Module({ name: "conferenceCaller", namespaced: true, dynamic: true, store })
 class ConferenceCaller extends VuexModule {
   @Action
-  async createRoom(): Promise<void> {
+  async createRoom(): Promise<boolean> {
     Chat.createDataChannel();
 
     const description = await Main.peerConnection.createOffer();
@@ -21,17 +21,11 @@ class ConferenceCaller extends VuexModule {
     Main.setLocalDescriptionToPC(description);
 
     const isOfferSent = await sendOffer(description);
-    if (!isOfferSent) return;
+    if (!isOfferSent) return false;
 
     listenForRemoteDescription();
 
-    // Main.listenForNewLocalIceCandidates({ isCaller: true });
-
-    // Main.listenForNewRemoteTracks();
-
-    // Main.listenForNewRemoteIceCandidates({ isCaller: true });
-
-    return;
+    return true;
 
     async function sendOffer(offer: RTCSessionDescriptionInit) {
       const rooms: CollectionRef = firestore.collection(db, "rooms");

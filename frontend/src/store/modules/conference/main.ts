@@ -47,7 +47,10 @@ class ConferenceMain extends VuexModule {
     if (!isCaller && !id) return this.failedToJoin({ err: "Room id is null" });
 
     await this.addLocalTracks();
-    isCaller ? await Caller.createRoom() : await Callee.joinRoom(id!);
+    const isSuccess = isCaller
+      ? await Caller.createRoom()
+      : await Callee.joinRoom(id!);
+    if (!isSuccess) return;
 
     // this.listenForPeerConnectionChanges(); // * For debugging
     this.listenForNewLocalIceCandidates({ isCaller });

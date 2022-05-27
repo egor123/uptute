@@ -9,20 +9,14 @@ import { Module, VuexModule, Action, getModule } from "vuex-module-decorators";
 @Module({ name: "conferenceCallee", namespaced: true, dynamic: true, store })
 class ConferenceCallee extends VuexModule {
   @Action
-  async joinRoom(roomId: string) {
+  async joinRoom(roomId: string): Promise<boolean> {
     Main.setRoomRef(firestore.doc(db, "rooms", roomId));
 
     listenForRemoteDescription(this.sendSdpAnswer);
 
     Main.peerConnection!.ondatachannel = Chat.pullDataChannel;
 
-    // Main.listenForNewLocalIceCandidates({ isCaller: false });
-
-    // Main.listenForNewRemoteTracks();
-
-    // Main.listenForNewRemoteIceCandidates({ isCaller: false });
-
-    return;
+    return true;
 
     function listenForRemoteDescription(sendSdpAnswer: Function): void {
       firestore.onSnapshot(Main.roomRef!, (doc: DocSnapshot) => {
