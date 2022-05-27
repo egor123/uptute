@@ -20,41 +20,42 @@ class ConferenceCaller extends VuexModule {
 
     Main.setLocalDescriptionToPC(description);
 
-    const isOfferSent = await sendOffer(description);
+    const isOfferSent = await this.sendOffer(description);
     if (!isOfferSent) return false;
 
-    listenForRemoteDescription();
+    this.listenForRemoteDescription();
 
     return true;
+  }
+  @Action
+  async sendOffer(offer: RTCSessionDescriptionInit) {
+    const rooms: CollectionRef = firestore.collection(db, "rooms");
+    const roomRef: DocRef = await firestore.addDoc(rooms, { offer });
 
-    async function sendOffer(offer: RTCSessionDescriptionInit) {
-      const rooms: CollectionRef = firestore.collection(db, "rooms");
-      const roomRef: DocRef = await firestore.addDoc(rooms, { offer });
+    if (!roomRef) return Main.failedToJoin({ err: "Room ref undefined" });
+    Main.setRoomRef(roomRef);
 
-      if (!roomRef) return Main.failedToJoin({ err: "Room ref undefined" });
-      Main.setRoomRef(roomRef);
+    console.log("New room created with SDP offer.");
+    console.log(`Room ID: ${roomRef.id}`);
 
-      console.log("New room created with SDP offer.");
-      console.log(`Room ID: ${roomRef.id}`);
+    return true;
+  }
+  @Action
+  listenForRemoteDescription(): void {
+    firestore.onSnapshot(Main.roomRef!, setRemoteDescription);
 
-      return true;
-    }
-    function listenForRemoteDescription(): void {
-      firestore.onSnapshot(Main.roomRef!, setRemoteDescription);
+    async function setRemoteDescription(snapshot: DocSnapshot) {
+      const pc: RTCPeerConnection = Main.peerConnection;
 
-      async function setRemoteDescription(snapshot: DocSnapshot) {
-        const pc: RTCPeerConnection = Main.peerConnection;
+      const answer = snapshot.data()?.answer;
+      if (!answer) return;
 
-        const answer = snapshot.data()?.answer;
-        if (!answer) return;
+      const ifExists: boolean = !!pc.currentRemoteDescription;
+      if (ifExists) return console.error("Remote description already exists");
 
-        const ifExists: boolean = !!pc.currentRemoteDescription;
-        if (ifExists) return console.log("Remote description already exists");
-
-        console.log("Got remote description: ", answer);
-        const description = new RTCSessionDescription(answer);
-        Main.setRemoteDescriptionToPC(description);
-      }
+      console.log("Got remote description: ", answer);
+      const description = new RTCSessionDescription(answer);
+      Main.setRemoteDescriptionToPC(description);
     }
   }
 }

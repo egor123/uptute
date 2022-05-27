@@ -12,19 +12,19 @@ class ConferenceCallee extends VuexModule {
   async joinRoom(roomId: string): Promise<boolean> {
     Main.setRoomRef(firestore.doc(db, "rooms", roomId));
 
-    listenForRemoteDescription(this.sendSdpAnswer);
+    this.listenForRemoteDescription(this.sendSdpAnswer);
 
     Main.peerConnection!.ondatachannel = Chat.pullDataChannel;
 
     return true;
-
-    function listenForRemoteDescription(sendSdpAnswer: Function): void {
-      firestore.onSnapshot(Main.roomRef!, (doc: DocSnapshot) => {
-        const description: DocData = doc.data()!;
-        Main.setRemoteDescriptionToPC(description.offer);
-        if (!description.answer) sendSdpAnswer();
-      });
-    }
+  }
+  @Action
+  listenForRemoteDescription(sendSdpAnswer: Function): void {
+    firestore.onSnapshot(Main.roomRef!, (doc: DocSnapshot) => {
+      const description: DocData = doc.data()!;
+      Main.setRemoteDescriptionToPC(description.offer);
+      if (!description.answer) sendSdpAnswer();
+    });
   }
   @Action
   async sendSdpAnswer(): Promise<void> {

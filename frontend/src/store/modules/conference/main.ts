@@ -47,7 +47,7 @@ class ConferenceMain extends VuexModule {
     if (!isCaller && !id) return this.failedToJoin({ err: "Room id is null" });
 
     await this.addLocalTracks();
-    const isSuccess = isCaller
+    const isSuccess: boolean = isCaller
       ? await Caller.createRoom()
       : await Callee.joinRoom(id!);
     if (!isSuccess) return;
