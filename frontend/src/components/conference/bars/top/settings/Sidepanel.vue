@@ -27,7 +27,7 @@ interface Info {
 export default class SettingsPanel extends Vue {
   toggleStore = ToggleStore;
 
-  info: Info = { id: { name: "Conference ID", val: Main.room.ref?.id } };
+  info: Info = { id: { name: "Conference ID", val: Main.roomRef?.id } };
 }
 </script>
 

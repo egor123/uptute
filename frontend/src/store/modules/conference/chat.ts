@@ -2,7 +2,11 @@ import store from "@/store";
 import { dataChannelOptions as options } from "@/constants/peer-connection";
 
 import Main from "@/store/modules/conference/main";
-import { Message } from "@/components/conference/types";
+import {
+  Message,
+  SaveMessage,
+  SetDataChannelListeners,
+} from "@/components/conference/types";
 import {
   Module,
   VuexModule,
@@ -11,15 +15,8 @@ import {
   getModule,
 } from "vuex-module-decorators";
 
-interface SaveMessageActionPayload {
-  text: string;
-  isSelf: boolean;
-}
-
 @Module({ name: "conferenceChat", namespaced: true, dynamic: true, store })
 class ConferenceChat extends VuexModule {
-  [index: string]: any;
-
   dc: RTCDataChannel = new RTCPeerConnection().createDataChannel("");
   messages: Message[] = [];
 
@@ -28,25 +25,32 @@ class ConferenceChat extends VuexModule {
     const params: [string, typeof options] = ["chat", options];
     const dc: RTCDataChannel = Main.peerConnection.createDataChannel(...params);
 
-    this.mutate({ name: "dc", val: dc });
-    this.setListeners();
+    this.setDataChannel(dc);
+    this.setListeners({ onMessage: this.onMessage });
 
     console.log("Created a data channel:", dc);
   }
   @Action
-  pullDataChannel(dc: RTCDataChannel) {
-    this.mutate({ name: "dc", val: dc });
-    this.setListeners();
+  pullDataChannel(e: RTCDataChannelEvent): void {
+    const dc = e.channel;
+    this.setDataChannel(dc);
+    this.setListeners({ onMessage: this.onMessage });
 
     console.log("Pulled a data channel:", dc);
   }
+
+  // ! -----------------------------------------------------------------------------------
+
+  // ! --- utility Actions ---------------------------------------------------------------
+
+  // ! -----------------------------------------------------------------------------------
+
   @Action
-  setListeners() {
-    const dc = this.dc;
-    dc.onmessage = (e: MessageEvent) => this.onMessage(e);
-    dc.onerror = (er: Event) => console.error("Data Channel Error:", er);
-    dc.onopen = (e: Event) => console.log("Data channel opened", e);
-    dc.onclose = () => console.log("The Data Channel is Closed");
+  sendMessage(text: string) {
+    this.sendToDataChannel(text);
+    this.saveMessage({ text, isSelf: true });
+
+    console.log("Sent a Message: ", text);
   }
   @Action
   onMessage(e: MessageEvent) {
@@ -54,26 +58,33 @@ class ConferenceChat extends VuexModule {
 
     console.log("Got Data Channel Message: ", e.data);
   }
-  @Action
-  sendMessage(text: string) {
-    this.dc.send(text);
-    this.saveMessage({ text, isSelf: true });
 
-    console.log("Sent a Message: ", text);
+  // ! -----------------------------------------------------------------------------------
+
+  // ! --- Mutations ---------------------------------------------------------------------
+
+  // ! -----------------------------------------------------------------------------------
+
+  @Mutation
+  setDataChannel(dc: RTCDataChannel) {
+    this.dc = dc;
   }
-  @Action
-  saveMessage({ text, isSelf }: SaveMessageActionPayload) {
+  @Mutation
+  setListeners(payload: SetDataChannelListeners) {
+    const dc = this.dc;
+    dc.onmessage = (e: MessageEvent) => payload.onMessage(e);
+    dc.onerror = (err: Event) => console.error("Data Channel Error:", err);
+    dc.onopen = (e: Event) => console.log("Data channel opened", e);
+    dc.onclose = () => console.log("The Data Channel is Closed");
+  }
+  @Mutation
+  saveMessage({ text, isSelf }: SaveMessage) {
     const time: number = new Date().valueOf();
-    this.addMessage({ text, time, isSelf });
-  }
-
-  @Mutation
-  mutate({ name, val }: { name: string; val: any }) {
-    this[name] = val;
+    this.messages.push({ text, time, isSelf });
   }
   @Mutation
-  addMessage(msg: Message) {
-    this.messages.push(msg);
+  sendToDataChannel(text: string) {
+    this.dc.send(text);
   }
 }
 

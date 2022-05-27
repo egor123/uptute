@@ -18,7 +18,7 @@
 import Videos from "@/components/conference/video/Videos.vue";
 
 import Main from "@/store/modules/conference/main";
-import { Axis, Rect, RatioEventPayload } from "@/components/conference/types";
+import { Axis, Rect, RatioEvent } from "@/components/conference/types";
 import {
   Vue,
   Component,
@@ -61,8 +61,8 @@ export default class VideoBase extends Vue {
 
     function dispatchToVideos(ratio: number) {
       const isLocal: boolean = self.isLocal;
-      const ratioEventPayload: RatioEventPayload = { isLocal, ratio };
-      self.videosInstance.$emit("gotRatio", ratioEventPayload);
+      const ratioEvent: RatioEvent = { isLocal, ratio };
+      self.videosInstance.$emit("gotRatio", ratioEvent);
     }
   }
   calcRect(): void {

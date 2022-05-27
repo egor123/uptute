@@ -1,18 +1,23 @@
 import store from "@/store";
-import { config, constraints } from "@/constants/peer-connection.js";
 import { vm } from "@/main";
 import router from "@/router";
 import { firestore } from "@/firebase.js";
+import { config, constraints } from "@/constants/peer-connection.js";
 
 import Caller from "@/store/modules/conference/caller";
 import Callee from "@/store/modules/conference/callee";
 import {
+  InitParams,
+  MediaTrackToStream,
   Streams,
   DocRef,
   CollectionRef,
   QuerySnapshot,
   DocChange,
-  Room,
+  TrackToPC,
+  FailedToJoin,
+  ReplaceTrack,
+  RemoveTrackFromStream,
 } from "@/components/conference/types";
 import {
   Module,
@@ -22,183 +27,126 @@ import {
   getModule,
 } from "vuex-module-decorators";
 
-interface InitParams {
-  isCaller: boolean;
-  id?: string;
-}
-interface AddUserTrackMutation {
-  source: MediaStream;
-  isVideo: boolean;
-  isLocal: boolean;
-}
-interface PeerConnectionEventPayload {
-  // TODO temporary => delete
-  name: string;
-  log: {
-    pre: string;
-    name: string;
-  };
-}
-
 @Module({ name: "conferenceMain", namespaced: true, dynamic: true, store })
 class ConferenceMain extends VuexModule {
-  [index: string]: any;
-
   streams: Streams = {
     local: new MediaStream(),
     remote: new MediaStream(),
   };
   peerConnection: RTCPeerConnection = new RTCPeerConnection(config);
-  candidateCollections: { caller?: CollectionRef; callee?: CollectionRef } = {
-    caller: undefined,
-    callee: undefined,
-  };
-  room: Room = {
-    ref: undefined,
-    data: undefined,
-  };
+  roomRef: DocRef | null = null;
+
+  // ! -----------------------------------------------------------------------------------
+
+  // ! --- Init Room ---------------------------------------------------------------------
+
+  // ! -----------------------------------------------------------------------------------
 
   @Action
-  async init(initParams: InitParams) {
-    await new Promise((r) => setTimeout(r, 0)); // TODO delete ! ! !
+  async init({ isCaller, id }: InitParams): Promise<void> {
+    if (!isCaller && !id) return this.failedToJoin({ err: "Room id is null" });
 
-    await setLocalTracks(this);
+    await this.addLocalTracks();
+    isCaller ? await Caller.createRoom() : await Callee.joinRoom(id!);
 
-    enterRoom(initParams);
-
-    async function setLocalTracks(instance: ConferenceMain) {
-      const source = await navigator.mediaDevices.getUserMedia(constraints);
-
-      instance.addUserTrack({ source, isVideo: true, isLocal: true });
-      instance.addUserTrack({ source, isVideo: false, isLocal: true });
-
-      return;
-    }
-    function enterRoom({ isCaller, id }: InitParams) {
-      isCaller ? Caller.createRoom() : Callee.joinRoom(id!);
-    }
+    // this.listenForPeerConnectionChanges(); // * For debugging
+    this.listenForNewLocalIceCandidates({ isCaller });
+    this.listenForNewRemoteIceCandidates({ isCaller });
+    this.listenForNewRemoteTracks();
+    this.listenForPeerConnectionClose(this.closeRoom);
   }
-  @Mutation
-  addUserTrack({ source, isVideo, isLocal }: AddUserTrackMutation) {
-    console.log({ source, isVideo, isLocal });
-    const side: string = isLocal ? "local" : "remote";
-    const track: MediaStreamTrack = isVideo
-      ? source.getVideoTracks()[0]
-      : source.getAudioTracks()[0];
-    this.streams[side].addTrack(track);
+  // @Action
+  // listenForPeerConnectionChanges(): void {
+  //   addListener({
+  //     name: "icegatheringstatechange",
+  //     log: {
+  //       pre: "ICE gathering state changed",
+  //       name: "iceGatheringState",
+  //     },
+  //   });
+  //   addListener({
+  //     name: "connectionstatechange",
+  //     log: {
+  //       pre: "Connection state change",
+  //       name: "connectionState",
+  //     },
+  //   });
+  //   addListener({
+  //     name: "signalingstatechange",
+  //     log: {
+  //       pre: "Signaling state change",
+  //       name: "signalingState",
+  //     },
+  //   });
+  //   addListener({
+  //     name: "iceconnectionstatechange",
+  //     log: {
+  //       pre: "ICE connection state change",
+  //       name: "iceConnectionState",
+  //     },
+  //   });
 
-    console.log(`Got a ${side} track:`, track);
+  //   function addListener({ name, log }: PeerConnectionEvent) {
+  //     const pc = self.peerConnection;
+  //     pc.addEventListener(name, () =>
+  //       //@ts-ignore
+  //       console.log(`${log.pre}: ${pc[log.name]}`)
+  //     );
+  //   }
+  // }
+  @Action
+  async addLocalTracks() {
+    const source = await navigator.mediaDevices.getUserMedia(constraints);
+    this.addMediaTrackToStream({ source, isVideo: true, isLocal: true });
+    this.addMediaTrackToStream({ source, isVideo: false, isLocal: true });
+
+    const local: MediaStream = this.streams.local;
+    this.addTrackToPeerConnection({ source: local, isVideo: true });
+    this.addTrackToPeerConnection({ source: local, isVideo: false });
   }
   @Action
-  setUpPeerConnection() {
-    registerPeerConnectionListeners(this.peerConnection!); // TODO temporary => delete
-    onClose(this.peerConnection!, this.closeRoom);
-    connectLocalTracks(this.streams, this.peerConnection!);
+  listenForNewLocalIceCandidates({ isCaller }: { isCaller: boolean }): void {
+    const self = this;
 
-    function registerPeerConnectionListeners(pc: RTCPeerConnection) {
-      // TODO temporary => delete
-      addListener({
-        name: "icegatheringstatechange",
-        log: {
-          pre: "ICE gathering state changed",
-          name: "iceGatheringState",
-        },
-      });
-      addListener({
-        name: "connectionstatechange",
-        log: {
-          pre: "Connection state change",
-          name: "connectionState",
-        },
-      });
-      addListener({
-        name: "signalingstatechange",
-        log: {
-          pre: "Signaling state change",
-          name: "signalingState",
-        },
-      });
-      addListener({
-        name: "iceconnectionstatechange",
-        log: {
-          pre: "ICE connection state change",
-          name: "iceConnectionState",
-        },
-      });
+    const ref: CollectionRef | undefined = getCollectionRef();
+    if (!ref) return;
+    this.peerConnection.addEventListener("icecandidate", pushToStore);
 
-      function addListener({ name, log }: PeerConnectionEventPayload) {
-        pc.addEventListener(name, () =>
-          //@ts-ignore
-          console.log(`${log.pre}: ${pc[log.name]}`)
-        );
-      }
-    }
-    function onClose(pc: RTCPeerConnection, closeRoom: Function) {
-      pc.oniceconnectionstatechange = () =>
-        pc.iceConnectionState == "disconnected" ? closeRoom() : null;
-    }
-    function connectLocalTracks(streams: Streams, pc: RTCPeerConnection) {
-      const stream: MediaStream = streams.local;
-      const videoTrack = stream.getVideoTracks()[0];
-      const audioTrack = stream.getAudioTracks()[0];
-      pc.addTrack(videoTrack, stream);
-      pc.addTrack(audioTrack, stream);
-    }
-  }
-  @Mutation
-  closeRoom() {
-    this.peerConnection = new RTCPeerConnection();
-    console.log("IN CLOSE ROOM");
-    vm.$vuetify.theme.dark = false;
-    router.push({ path: "/" });
-  }
-  @Mutation
-  collectICECandidates({ isCaller }: { isCaller: boolean }) {
-    const path = isCaller ? "caller" : "callee";
-
-    const collectionRef: CollectionRef = getCollectionRef(this.room.ref!);
-    this.candidateCollections[path] = collectionRef;
-    this.peerConnection!.addEventListener("icecandidate", pushToStore);
-
-    function getCollectionRef(roomRef: DocRef): CollectionRef {
+    function getCollectionRef(): CollectionRef | undefined {
       const name: string = isCaller ? "callerCandidates" : "calleeCandidates";
-      return firestore.collection(roomRef, name);
+      return firestore.collection(self.roomRef!, name);
     }
     function pushToStore(e: RTCPeerConnectionIceEvent) {
       if (!e.candidate) return console.log("Got final candidate!");
 
       console.log("Got candidate: ", e.candidate);
       const candidateJSON: RTCIceCandidateInit = e.candidate.toJSON();
-      firestore.addDoc(collectionRef, candidateJSON);
+      firestore.addDoc(ref!, candidateJSON);
     }
   }
   @Action
-  listenForNewTracks() {
-    const instance = this;
-    this.peerConnection!.addEventListener("track", pullTracks);
+  listenForNewRemoteTracks() {
+    const self = this;
+    this.peerConnection.addEventListener("track", pullTracks);
 
     function pullTracks(e: RTCTrackEvent): void {
       const source = e.streams[0];
-      instance.addUserTrack({ source, isVideo: true, isLocal: false });
-      instance.addUserTrack({ source, isVideo: false, isLocal: false });
+      self.addMediaTrackToStream({ source, isVideo: true, isLocal: false });
+      self.addMediaTrackToStream({ source, isVideo: false, isLocal: false });
     }
   }
-  @Mutation
-  listenForRemoteICECandidates({ isCaller }: { isCaller: boolean }) {
-    const path = isCaller ? "callee" : "caller";
+  @Action
+  listenForNewRemoteIceCandidates({ isCaller }: { isCaller: boolean }) {
+    const self = this;
 
-    this.candidateCollections[path] = getCollectionRef(this.room.ref!);
-    addListener(this.candidateCollections[path]!, this.peerConnection!);
+    addListener(getCollectionRef());
 
-    function getCollectionRef(roomRef: DocRef): CollectionRef {
+    function getCollectionRef(): CollectionRef {
       const name: string = isCaller ? "calleeCandidates" : "callerCandidates";
-      return firestore.collection(roomRef, name);
+      return firestore.collection(self.roomRef!, name);
     }
-    function addListener(
-      collection: CollectionRef,
-      pc: RTCPeerConnection
-    ): void {
-      firestore.onSnapshot(collection, pullCandidates);
+    function addListener(ref: CollectionRef): void {
+      firestore.onSnapshot(ref, pullCandidates);
 
       function pullCandidates(snapshot: QuerySnapshot): void {
         snapshot.docChanges().forEach(tryPullCandidate);
@@ -208,11 +156,95 @@ class ConferenceMain extends VuexModule {
           const data = change.doc.data();
           console.log("Got new remote ICE candidate: ", data);
           const candidate = new RTCIceCandidate(data);
-          await pc.addIceCandidate(candidate);
+          self.pullIceCandidateToPC(candidate);
         }
       }
     }
   }
+
+  // ! -----------------------------------------------------------------------------------
+
+  // ! --- utility Actions ---------------------------------------------------------------
+
+  // ! -----------------------------------------------------------------------------------
+
+  @Action
+  failedToJoin({ path, err }: FailedToJoin) {
+    console.error(err);
+    alert("Failed to join the meeting.");
+    this.closeRoom(path);
+  }
+  @Action
+  closeRoom(path?: string) {
+    this.closePeerConnection();
+    vm.$vuetify.theme.dark = false;
+    router.push({ path: path || "/" });
+  }
+  @Action
+  replaceLocalTrack({ isVideo, newTrack }: ReplaceTrack): void {
+    this.replaceTrackInPC({ isVideo, newTrack });
+
+    this.removeTrackFromStream({ isVideo: isVideo, isLocal: true });
+    this.addDisplayTrackToStream(newTrack);
+  }
+
+  // ! -----------------------------------------------------------------------------------
+
+  // ! --- setup Mutations -----------------------------------------------
+
+  // ! -----------------------------------------------------------------------------------
+
+  @Mutation
+  addMediaTrackToStream({ source, isVideo, isLocal }: MediaTrackToStream) {
+    const side: string = isLocal ? "local" : "remote";
+    const track: MediaStreamTrack = isVideo
+      ? source.getVideoTracks()[0]
+      : source.getAudioTracks()[0];
+    this.streams[side].addTrack(track);
+
+    console.log(`Got a ${side} track:`, track);
+  }
+  @Mutation
+  closePeerConnection() {
+    this.peerConnection.close();
+    this.peerConnection = new RTCPeerConnection(config);
+  }
+  @Mutation
+  listenForPeerConnectionClose(closeRoom: Function) {
+    const pc = this.peerConnection;
+    pc.oniceconnectionstatechange = () =>
+      pc.iceConnectionState == "disconnected" ? closeRoom() : null;
+  }
+  @Mutation
+  addTrackToPeerConnection({ source, isVideo }: TrackToPC) {
+    const track = isVideo
+      ? source.getVideoTracks()[0]
+      : source.getAudioTracks()[0];
+    this.peerConnection.addTrack(track, source);
+  }
+  @Mutation
+  setLocalDescriptionToPC(description: RTCSessionDescriptionInit) {
+    this.peerConnection.setLocalDescription(description);
+  }
+  @Mutation
+  setRoomRef(roomRef: DocRef) {
+    this.roomRef = roomRef;
+  }
+
+  @Mutation
+  setRemoteDescriptionToPC(description: RTCSessionDescription) {
+    this.peerConnection.setRemoteDescription(description);
+  }
+  @Mutation
+  pullIceCandidateToPC(candidate: RTCIceCandidate) {
+    this.peerConnection.addIceCandidate(candidate);
+  }
+
+  // ! -----------------------------------------------------------------------------------
+
+  // ! --- utility Mutations -------------------------------------------------------------
+
+  // ! -----------------------------------------------------------------------------------
 
   @Mutation
   toggleCam(isOn: boolean) {
@@ -222,42 +254,33 @@ class ConferenceMain extends VuexModule {
   toggleMic(isOn: boolean) {
     this.streams.local.getAudioTracks()[0].enabled = isOn;
   }
-  @Action
-  replaceTrack(data: { isVideo: boolean; newTrack: MediaStreamTrack }): void {
+  @Mutation
+  replaceTrackInPC({ isVideo, newTrack }: ReplaceTrack) {
     const self = this;
-    const type = data.isVideo ? "video" : "audio";
-    updatePeerConnection(this.peerConnection);
-    updateLocalStream(this.streams.local);
+    const videoSender: RTCRtpSender = getSender();
+    videoSender.replaceTrack(newTrack);
+    console.log(`Replaced a peer connection track:`, newTrack);
 
-    async function updatePeerConnection(peerConnection: RTCPeerConnection) {
-      const videoSender: RTCRtpSender = getVideoSender();
-      await videoSender.replaceTrack(data.newTrack);
-      console.log(`Replaced a peer connection track:`, data.newTrack);
-
-      function getVideoSender(): RTCRtpSender {
-        const senders: RTCRtpSender[] = peerConnection.getSenders();
-        return senders.find((sender) => sender.track!.kind == type)!;
-      }
-    }
-    function updateLocalStream(stream: MediaStream) {
-      self.removeUserTrack({ isVideo: data.isVideo, isLocal: true });
-      stream.addTrack(data.newTrack);
+    function getSender(): RTCRtpSender {
+      const senders: RTCRtpSender[] = self.peerConnection.getSenders();
+      const type = isVideo ? "video" : "audio";
+      return senders.find((sender) => sender.track!.kind == type)!;
     }
   }
   @Mutation
-  removeUserTrack(data: { isVideo: boolean; isLocal: boolean }) {
-    const side: string = data.isLocal ? "local" : "remote";
+  removeTrackFromStream({ isLocal, isVideo }: RemoveTrackFromStream) {
+    const side: string = isLocal ? "local" : "remote";
     const stream: MediaStream = this.streams[side];
-    const curTrack = data.isVideo
+    const curTrack = isVideo
       ? stream.getVideoTracks()[0]
       : stream.getAudioTracks()[0];
-    console.log(`Removed a ${side} track:`, curTrack);
     stream.removeTrack(curTrack);
+
+    console.log(`Removed a ${side} track:`, curTrack);
   }
-  @Action
-  endRoom() {
-    this.peerConnection.close();
-    this.closeRoom();
+  @Mutation
+  addDisplayTrackToStream(track: MediaStreamTrack) {
+    this.streams.local.addTrack(track);
   }
 }
 

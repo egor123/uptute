@@ -11,7 +11,7 @@
 import LocalVideo from "@/components/conference/video/LocalVideo.vue";
 import RemoteVideo from "@/components/conference/video/RemoteVideo.vue";
 
-import { Rect, Axis, RatioEventPayload } from "@/components/conference/types";
+import { Rect, Axis, RatioEvent } from "@/components/conference/types";
 import {
   Vue,
   Component,
@@ -56,7 +56,7 @@ export default class Videos extends Vue {
     removeEventListener("resize", this.onResize);
   }
 
-  onGotRatio({ isLocal, ratio }: RatioEventPayload): void {
+  onGotRatio({ isLocal, ratio }: RatioEvent): void {
     const type: string = isLocal ? "local" : "remote";
     this.ratios[type] = ratio;
     this.onResize();

@@ -1,7 +1,7 @@
 <template>
   <div id="conferenceWrapper">
-    <PreConference v-if="$store.state.conferenceMain.room.ref == undefined" />
-    <Interface v-if="$store.state.conferenceMain.room.ref != undefined" />
+    <PreConference v-if="$store.state.conferenceMain.roomRef == undefined" />
+    <Interface v-if="$store.state.conferenceMain.roomRef != undefined" />
   </div>
 </template>
 

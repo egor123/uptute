@@ -1,11 +1,9 @@
 import store from "@/store";
-// import Main from "@/store/modules/conference/main";
-
-import { Module, VuexModule, Action, getModule } from "vuex-module-decorators";
 import { constraints } from "@/constants/peer-connection.js";
 
-import ToggleStore from "@/store/modules/conference/toggleStore";
 import Main from "@/store/modules/conference/main";
+import ToggleStore from "@/store/modules/conference/toggleStore";
+import { Module, VuexModule, Action, getModule } from "vuex-module-decorators";
 
 @Module({ name: "screenShare", namespaced: true, dynamic: true, store })
 class ScreenShare extends VuexModule {
@@ -25,7 +23,7 @@ class ScreenShare extends VuexModule {
         await getScreenVideoTrack();
       if (screenVideoTrack == undefined) return;
       screenVideoTrack.onended = self.stopScreenSharing;
-      Main.replaceTrack({ isVideo: true, newTrack: screenVideoTrack });
+      Main.replaceLocalTrack({ isVideo: true, newTrack: screenVideoTrack });
       ToggleStore.setToggle({ side: "bottom", name: "screenShare", val: true });
 
       async function getScreenVideoTrack(): Promise<
@@ -47,7 +45,7 @@ class ScreenShare extends VuexModule {
   async stopScreenSharing(): Promise<void> {
     const media = await navigator.mediaDevices.getUserMedia(constraints);
     const newTrack: MediaStreamTrack = media.getVideoTracks()[0];
-    Main.replaceTrack({ isVideo: true, newTrack });
+    Main.replaceLocalTrack({ isVideo: true, newTrack });
     ToggleStore.setToggle({ side: "bottom", name: "screenShare", val: false });
     console.log("Stoped sharing the screen");
   }

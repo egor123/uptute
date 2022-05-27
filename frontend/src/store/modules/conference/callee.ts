@@ -3,82 +3,40 @@ import { db, firestore } from "@/firebase.js";
 
 import Main from "@/store/modules/conference/main";
 import Chat from "@/store/modules/conference/chat";
-import {
-  DocData,
-  DocRef,
-  DocSnapshot,
-  Room,
-} from "@/components/conference/types";
+import { DocData, DocSnapshot } from "@/components/conference/types";
 import { Module, VuexModule, Action, getModule } from "vuex-module-decorators";
 
 @Module({ name: "conferenceCallee", namespaced: true, dynamic: true, store })
 class ConferenceCallee extends VuexModule {
   @Action
   async joinRoom(roomId: string) {
-    Main.room.ref = await getRoomRef(roomId);
-    Main.room.data = await listenForRoomData(Main.room.ref);
+    Main.setRoomRef(firestore.doc(db, "rooms", roomId));
 
-    if (!Main.room.data) return;
+    listenForRemoteDescription(this.sendSdpAnswer);
 
-    Main.setUpPeerConnection();
-    onChatDataChannel();
+    Main.peerConnection!.ondatachannel = Chat.pullDataChannel;
 
-    Main.collectICECandidates({ isCaller: false });
+    // Main.listenForNewLocalIceCandidates({ isCaller: false });
 
-    Main.listenForNewTracks();
+    // Main.listenForNewRemoteTracks();
 
-    await setRemoteDescription();
+    // Main.listenForNewRemoteIceCandidates({ isCaller: false });
 
-    await createSDPAnswer();
+    return;
 
-    Main.listenForRemoteICECandidates({ isCaller: false });
-
-    async function getRoomRef(roomId: string): Promise<DocRef> {
-      return await firestore.doc(db, "rooms", roomId);
+    function listenForRemoteDescription(sendSdpAnswer: Function): void {
+      firestore.onSnapshot(Main.roomRef!, (doc: DocSnapshot) => {
+        const description: DocData = doc.data()!;
+        Main.setRemoteDescriptionToPC(description.offer);
+        if (!description.answer) sendSdpAnswer();
+      });
     }
-    async function listenForRoomData(roomRef: DocRef): Promise<DocData> {
-      firestore.onSnapshot(roomRef, pullData);
-      return await getRoomData();
-
-      function pullData(doc: DocSnapshot) {
-        Main.room.data = doc.data();
-        console.log("Current room info: ", Main.room.data);
-      }
-      async function getRoomData(): Promise<DocData> {
-        return await firestore.getDoc(roomRef).then((doc) => doc.data()!);
-      }
-    }
-    function onChatDataChannel(): void {
-      Main.peerConnection!.ondatachannel = (e) =>
-        Chat.pullDataChannel(e.channel);
-    }
-    async function setRemoteDescription(): Promise<void> {
-      const offer = Main.room.data!.offer;
-      console.log("Got offer:", offer);
-      const description = new RTCSessionDescription(offer);
-      return await Main.peerConnection!.setRemoteDescription(description);
-    }
-    async function createSDPAnswer(): Promise<void> {
-      const answer = await createAnswer();
-      await setLocalDescription(answer);
-      await updateStore(answer);
-      return;
-
-      async function createAnswer(): Promise<RTCSessionDescriptionInit> {
-        const answer: RTCSessionDescriptionInit =
-          await Main.peerConnection!.createAnswer().then((answer) =>
-            JSON.parse(JSON.stringify(answer))
-          );
-        console.log("Created answer:", answer);
-        return answer;
-      }
-      async function setLocalDescription(answer: RTCSessionDescriptionInit) {
-        return await Main.peerConnection!.setLocalDescription(answer);
-      }
-      async function updateStore(answer: RTCSessionDescriptionInit) {
-        return await firestore.updateDoc(Main.room.ref!, { answer });
-      }
-    }
+  }
+  @Action
+  async sendSdpAnswer(): Promise<void> {
+    const answer = await Main.peerConnection.createAnswer();
+    Main.peerConnection!.setLocalDescription(answer);
+    firestore.updateDoc(Main.roomRef!, { answer });
   }
 }
 

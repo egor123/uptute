@@ -4,62 +4,62 @@ import { db, firestore } from "@/firebase.js";
 import Main from "@/store/modules/conference/main";
 import Chat from "@/store/modules/conference/chat";
 import { Module, VuexModule, Action, getModule } from "vuex-module-decorators";
-import { DocSnapshot } from "@/components/conference/types";
+import {
+  CollectionRef,
+  DocRef,
+  DocSnapshot,
+} from "@/components/conference/types";
 
 @Module({ name: "conferenceCaller", namespaced: true, dynamic: true, store })
 class ConferenceCaller extends VuexModule {
   @Action
   async createRoom(): Promise<void> {
-    new Promise((r) => setTimeout(r, 0));
-
-    Main.setUpPeerConnection();
     Chat.createDataChannel();
 
-    await sendOffer();
+    const description = await Main.peerConnection.createOffer();
 
-    Main.collectICECandidates({ isCaller: true });
+    Main.setLocalDescriptionToPC(description);
 
-    Main.listenForNewTracks();
+    const isOfferSent = await sendOffer(description);
+    if (!isOfferSent) return;
 
     listenForRemoteDescription();
 
-    Main.listenForRemoteICECandidates({ isCaller: true });
+    // Main.listenForNewLocalIceCandidates({ isCaller: true });
 
-    async function sendOffer(): Promise<void> {
-      const offer: RTCSessionDescription = await createSDPOffer();
-      await Main.peerConnection!.setLocalDescription(offer);
-      await createRoom(offer);
-      return;
+    // Main.listenForNewRemoteTracks();
 
-      async function createSDPOffer(): Promise<RTCSessionDescription> {
-        return await Main.peerConnection!.createOffer().then((offer) =>
-          JSON.parse(JSON.stringify(offer))
-        );
-      }
-      async function createRoom(offer: RTCSessionDescription): Promise<void> {
-        const rooms = firestore.collection(db, "rooms");
-        Main.room.ref = await firestore.addDoc(rooms, { offer });
+    // Main.listenForNewRemoteIceCandidates({ isCaller: true });
 
-        console.log("New room created with SDP offer.");
-        console.log(`Room ID: ${Main.room.ref.id}`);
+    return;
 
-        return;
-      }
+    async function sendOffer(offer: RTCSessionDescriptionInit) {
+      const rooms: CollectionRef = firestore.collection(db, "rooms");
+      const roomRef: DocRef = await firestore.addDoc(rooms, { offer });
+
+      if (!roomRef) return Main.failedToJoin({ err: "Room ref undefined" });
+      Main.setRoomRef(roomRef);
+
+      console.log("New room created with SDP offer.");
+      console.log(`Room ID: ${roomRef.id}`);
+
+      return true;
     }
-    function listenForRemoteDescription() {
-      firestore.onSnapshot(Main.room.ref!, setRemoteDescription);
+    function listenForRemoteDescription(): void {
+      firestore.onSnapshot(Main.roomRef!, setRemoteDescription);
 
-      async function setRemoteDescription(
-        snapshot: DocSnapshot
-      ): Promise<void> {
-        const pc: RTCPeerConnection = Main.peerConnection!;
+      async function setRemoteDescription(snapshot: DocSnapshot) {
+        const pc: RTCPeerConnection = Main.peerConnection;
+
         const answer = snapshot.data()?.answer;
-        const ifExists: boolean = !!pc.currentRemoteDescription;
+        if (!answer) return;
 
-        if (ifExists || !answer) return;
+        const ifExists: boolean = !!pc.currentRemoteDescription;
+        if (ifExists) return console.log("Remote description already exists");
+
         console.log("Got remote description: ", answer);
         const description = new RTCSessionDescription(answer);
-        await pc.setRemoteDescription(description);
+        Main.setRemoteDescriptionToPC(description);
       }
     }
   }

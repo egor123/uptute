@@ -45,25 +45,14 @@ export interface Streams {
   remote: MediaStream;
 }
 
-export interface RatioEventPayload {
+export interface RatioEvent {
   isLocal: boolean;
   ratio: number;
 }
 
-export interface ButtonToggleEventPayload {
+export interface ButtonToggleEvent {
   side: string;
   name: string;
-}
-
-export interface Message {
-  text: string;
-  time: number;
-  isSelf: boolean;
-}
-
-export interface Room {
-  ref: DocRef | undefined;
-  data: DocData | undefined;
 }
 
 export interface CollectionRef
@@ -82,3 +71,50 @@ export interface DocChange
   extends firestore.DocumentChange<firestore.DocumentData> {}
 
 export interface DocData extends firestore.DocumentData {}
+
+export interface InitParams {
+  isCaller: boolean;
+  id?: string;
+}
+export interface MediaTrackToStream {
+  source: MediaStream;
+  isVideo: boolean;
+  isLocal: boolean;
+}
+export interface PeerConnectionEvent {
+  // TODO temporary => delete
+  name: string;
+  log: {
+    pre: string;
+    name: string;
+  };
+}
+
+export interface TrackToPC {
+  source: MediaStream;
+  isVideo: boolean;
+}
+
+export interface SaveMessage {
+  text: string;
+  isSelf: boolean;
+}
+
+export interface SetDataChannelListeners {
+  onMessage: Function;
+}
+
+export interface FailedToJoin {
+  path?: string;
+  err: string;
+}
+
+export interface ReplaceTrack {
+  isVideo: boolean;
+  newTrack: MediaStreamTrack;
+}
+
+export interface RemoveTrackFromStream {
+  isVideo: boolean;
+  isLocal: boolean;
+}
