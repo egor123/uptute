@@ -28,7 +28,6 @@ export default class Interface extends Vue {
 
   mounted(): void {
     this.$nextTick(() => closeSidePanels());
-    setInterval(() => ToggleStore.toggle({ side: "top", name: "chat" }), 3000);
 
     function closeSidePanels(): void {
       const keys: string[] = Object.keys(ToggleStore.isToggled.top);
