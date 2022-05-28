@@ -21,16 +21,19 @@ class ConferenceCallee extends VuexModule {
   @Action
   listenForRemoteDescription(sendSdpAnswer: Function): void {
     firestore.onSnapshot(Main.roomRef!, (doc: DocSnapshot) => {
-      const description: DocData = doc.data()!;
-      Main.setRemoteDescriptionToPC(description.offer);
-      if (!description.answer) sendSdpAnswer();
+      const data: DocData = doc.data()!;
+      const offer: RTCSessionDescriptionInit = JSON.parse(data.offer);
+      Main.setDescriptionToPC({ description: offer, isLocal: false });
+
+      if (!data.answer) sendSdpAnswer();
     });
   }
   @Action
   async sendSdpAnswer(): Promise<void> {
     const answer = await Main.peerConnection.createAnswer();
-    Main.peerConnection!.setLocalDescription(answer);
-    firestore.updateDoc(Main.roomRef!, { answer });
+    Main.setDescriptionToPC({ description: answer, isLocal: true });
+    const answerJSON: string = JSON.stringify(answer);
+    firestore.updateDoc(Main.roomRef!, { answer: answerJSON });
   }
 }
 

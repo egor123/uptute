@@ -1,12 +1,14 @@
 <template>
-  <div ref="messages" id="messages">
-    <div
-      v-for="(msg, id) in Chat.messages"
-      :key="id"
-      class="msgLine"
-      :class="{ isSelf: msg.isSelf, hasSpaceBefore: ifSpaceBefore(id) }"
-    >
-      <div ref="message" class="msg">{{ msg.text }}</div>
+  <div ref="messagesView" id="messages">
+    <div ref="wrapper">
+      <div
+        v-for="(msg, id) in Chat.messages"
+        :key="id"
+        class="msgLine"
+        :class="{ isSelf: msg.isSelf, hasSpaceBefore: ifSpaceBefore(id) }"
+      >
+        <div ref="message" class="msg">{{ msg.text }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -21,7 +23,8 @@ import { Vue, Component, Ref, Watch } from "vue-property-decorator";
 export default class ConferenceChatMessages extends Vue {
   Chat = Chat;
 
-  @Ref("messages") messagesRef!: HTMLDivElement;
+  @Ref("messagesView") messagesViewRef!: HTMLDivElement;
+  @Ref("wrapper") wrapperRef!: HTMLDivElement;
   @Ref("message") messageRefs!: HTMLDivElement[];
 
   maxHeightForAutoscroll: number = 300;
@@ -45,27 +48,24 @@ export default class ConferenceChatMessages extends Vue {
     const messagesExist: boolean = messages.length > 0;
     const isOpen = this.isToggled;
     const isSelf: boolean = messages[messages.length - 1]?.isSelf == true;
+    const isCloseToBottom =
+      self.wrapperRef.getBoundingClientRect().bottom -
+        self.messagesViewRef.getBoundingClientRect().bottom <
+      self.maxHeightForAutoscroll;
 
-    if (messagesExist && isOpen && (isSelf || isCloseToBottom() || isOnOpen))
+    if (messagesExist && isOpen && (isSelf || isCloseToBottom || isOnOpen))
       this.$nextTick(() => scrollToLastMessage());
 
-    function isCloseToBottom(): boolean {
-      const el: HTMLDivElement = self.messagesRef;
-      const isClose: boolean =
-        el.scrollHeight - el.offsetHeight - el.scrollTop <
-        self.maxHeightForAutoscroll;
-      return isClose;
-    }
     function scrollToLastMessage(): void {
       const lastMessageId: number = self.messageRefs.length - 1;
       const lastMessageEl: HTMLDivElement = self.messageRefs[lastMessageId];
 
-      const lastMessageY: number = lastMessageEl.getBoundingClientRect().y;
-      const messagesY: number = self.messagesRef.getBoundingClientRect().y;
+      const lastMessageY: number = lastMessageEl.offsetTop;
+      const wrapperRefY: number = self.wrapperRef.offsetTop;
 
-      const top: number = lastMessageY - messagesY;
+      const top: number = lastMessageY - wrapperRefY;
 
-      self.messagesRef.scrollTo({ top, behavior: "smooth" });
+      self.messagesViewRef.scrollTo({ top, behavior: "smooth" });
     }
   }
   @Watch("Chat.messages")
@@ -81,7 +81,8 @@ export default class ConferenceChatMessages extends Vue {
   width: 100%;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-y: auto;
+
   .msgLine {
     margin: 2px 0;
     display: flex;

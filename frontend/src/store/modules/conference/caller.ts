@@ -16,11 +16,11 @@ class ConferenceCaller extends VuexModule {
   async createRoom(): Promise<boolean> {
     Chat.createDataChannel();
 
-    const description = await Main.peerConnection.createOffer();
+    const offer = await Main.peerConnection.createOffer();
 
-    Main.setLocalDescriptionToPC(description);
+    Main.setDescriptionToPC({ description: offer, isLocal: true });
 
-    const isOfferSent = await this.sendOffer(description);
+    const isOfferSent = await this.sendOffer(offer);
     if (!isOfferSent) return false;
 
     this.listenForRemoteDescription();
@@ -30,7 +30,8 @@ class ConferenceCaller extends VuexModule {
   @Action
   async sendOffer(offer: RTCSessionDescriptionInit) {
     const rooms: CollectionRef = firestore.collection(db, "rooms");
-    const roomRef: DocRef = await firestore.addDoc(rooms, { offer });
+    const offerJSON: string = JSON.stringify(offer);
+    const roomRef: DocRef = await firestore.addDoc(rooms, { offer: offerJSON });
 
     if (!roomRef) return Main.failedToJoin({ err: "Room ref undefined" });
     Main.setRoomRef(roomRef);
@@ -47,15 +48,15 @@ class ConferenceCaller extends VuexModule {
     async function setRemoteDescription(snapshot: DocSnapshot) {
       const pc: RTCPeerConnection = Main.peerConnection;
 
-      const answer = snapshot.data()?.answer;
-      if (!answer) return;
+      const answerJSON = snapshot.data()?.answer;
+      if (!answerJSON) return;
 
       const ifExists: boolean = !!pc.currentRemoteDescription;
       if (ifExists) return console.error("Remote description already exists");
 
+      const answer = JSON.parse(answerJSON);
       console.log("Got remote description: ", answer);
-      const description = new RTCSessionDescription(answer);
-      Main.setRemoteDescriptionToPC(description);
+      Main.setDescriptionToPC({ description: answer, isLocal: false });
     }
   }
 }

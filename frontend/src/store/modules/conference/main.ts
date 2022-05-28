@@ -18,6 +18,7 @@ import {
   FailedToJoin,
   ReplaceTrack,
   GetTrack,
+  DescriptionToPC,
 } from "@/components/conference/types";
 import {
   Module,
@@ -226,17 +227,14 @@ class ConferenceMain extends VuexModule {
     this.peerConnection.addTrack(track, source);
   }
   @Mutation
-  setLocalDescriptionToPC(description: RTCSessionDescriptionInit) {
-    this.peerConnection.setLocalDescription(description);
+  setDescriptionToPC({ description, isLocal }: DescriptionToPC) {
+    isLocal
+      ? this.peerConnection.setLocalDescription(description)
+      : this.peerConnection.setRemoteDescription(description);
   }
   @Mutation
   setRoomRef(roomRef: DocRef) {
     this.roomRef = roomRef;
-  }
-
-  @Mutation
-  setRemoteDescriptionToPC(description: RTCSessionDescription) {
-    this.peerConnection.setRemoteDescription(description);
   }
   @Mutation
   pullIceCandidateToPC(candidate: RTCIceCandidate) {

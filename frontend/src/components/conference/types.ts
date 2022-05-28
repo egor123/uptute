@@ -124,3 +124,8 @@ export interface SetToggle {
   name: string;
   val: boolean;
 }
+
+export interface DescriptionToPC {
+  description: RTCSessionDescriptionInit;
+  isLocal: boolean;
+}
