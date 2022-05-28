@@ -14,7 +14,7 @@
 import Settings from "@/components/conference/bars/top/settings/Sidepanel.vue";
 
 import TopBar from "@/components/conference/bars/top/Bar.vue";
-import Videos from "@/components/conference/video/Videos.vue";
+import Videos from "@/components/conference/centerColumn/video/Videos.vue";
 import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
 
 import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";

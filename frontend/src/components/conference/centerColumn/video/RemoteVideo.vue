@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import VideoBase from "@/components/conference/video/VideoBase.vue";
+import VideoBase from "@/components/conference/centerColumn/video/VideoBase.vue";
 
 import { Vue, Component } from "vue-property-decorator";
 

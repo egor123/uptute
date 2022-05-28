@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts">
-import LocalVideo from "@/components/conference/video/LocalVideo.vue";
-import RemoteVideo from "@/components/conference/video/RemoteVideo.vue";
+import LocalVideo from "@/components/conference/centerColumn/video/LocalVideo.vue";
+import RemoteVideo from "@/components/conference/centerColumn/video/RemoteVideo.vue";
 
 import { Rect, Axis, RatioEvent } from "@/components/conference/types";
 import {

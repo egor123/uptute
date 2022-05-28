@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import Videos from "@/components/conference/video/Videos.vue";
+import Videos from "@/components/conference/centerColumn/video/Videos.vue";
 
 import Main from "@/store/modules/conference/main";
 import { Axis, Rect, RatioEvent } from "@/components/conference/types";
