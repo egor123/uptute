@@ -9,7 +9,11 @@ import {
 
 import Main from "@/store/modules/conference/main";
 import ScreenShare from "@/store/modules/conference/screenShare";
-import { ButtonToggleEvent, IsToggled } from "@/components/conference/types";
+import {
+  ButtonToggleEvent,
+  IsToggled,
+  SetToggle,
+} from "@/components/conference/types";
 @Module({ name: "isToggled", namespaced: true, dynamic: true, store })
 class ToggleStore extends VuexModule {
   isToggled: IsToggled = {
@@ -47,8 +51,8 @@ class ToggleStore extends VuexModule {
     }
   }
   @Mutation
-  setToggle(data: { side: string; name: string; val: boolean }) {
-    this.isToggled[data.side][data.name] = data.val;
+  setToggle({ side, name, val }: SetToggle) {
+    this.isToggled[side][name] = val;
   }
 }
 

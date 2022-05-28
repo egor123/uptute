@@ -118,3 +118,9 @@ export interface GetTrack {
   isVideo: boolean;
   isLocal: boolean;
 }
+
+export interface SetToggle {
+  side: string;
+  name: string;
+  val: boolean;
+}
