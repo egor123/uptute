@@ -17,7 +17,7 @@ import {
   TrackToPC,
   FailedToJoin,
   ReplaceTrack,
-  RemoveTrackFromStream,
+  GetTrack,
 } from "@/components/conference/types";
 import {
   Module,
@@ -187,7 +187,7 @@ class ConferenceMain extends VuexModule {
   replaceLocalTrack({ isVideo, newTrack }: ReplaceTrack): void {
     this.replaceTrackInPC({ isVideo, newTrack });
 
-    this.removeTrackFromStream({ isVideo: isVideo, isLocal: true });
+    this.removeTrackFromStream({ isVideo, isLocal: true });
     this.addDisplayTrackToStream(newTrack);
   }
 
@@ -271,20 +271,34 @@ class ConferenceMain extends VuexModule {
     }
   }
   @Mutation
-  removeTrackFromStream({ isLocal, isVideo }: RemoveTrackFromStream) {
+  removeTrackFromStream({ isLocal, isVideo }: GetTrack) {
     const side: string = isLocal ? "local" : "remote";
     const stream: MediaStream = this.streams[side];
-    const curTrack = isVideo
+    const track = isVideo
       ? stream.getVideoTracks()[0]
       : stream.getAudioTracks()[0];
-    stream.removeTrack(curTrack);
 
-    console.log(`Removed a ${side} track:`, curTrack);
+    stream.removeTrack(track);
+
+    console.log(`Removed a ${side} track:`, track);
   }
   @Mutation
   addDisplayTrackToStream(track: MediaStreamTrack) {
     this.streams.local.addTrack(track);
   }
+  @Mutation
+  stopTrack({ isLocal, isVideo }: GetTrack) {
+    const side: string = isLocal ? "local" : "remote";
+    const stream: MediaStream = this.streams[side];
+    const track: MediaStreamTrack = isVideo
+      ? stream.getVideoTracks()[0]
+      : stream.getAudioTracks()[0];
+    if (track.onended == null) return console.error("onended is null");
+    track.stop();
+    track.onended(new Event("ended"));
+  }
+  @Mutation
+  setTrackOnEnded(f: Function) {}
 }
 
 export default getModule(ConferenceMain);

@@ -114,7 +114,7 @@ export interface ReplaceTrack {
   newTrack: MediaStreamTrack;
 }
 
-export interface RemoveTrackFromStream {
+export interface GetTrack {
   isVideo: boolean;
   isLocal: boolean;
 }
