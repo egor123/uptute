@@ -1,7 +1,7 @@
 <template>
   <div id="interface">
     <Settings />
-    <div id="centerCol">
+    <div id="centerCol" ref="centerCol">
       <TopBar />
       <Videos />
       <BottomBar />
@@ -19,23 +19,13 @@ import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
 
 import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
 
-import ToggleStore from "@/store/modules/conference/toggleStore";
-import { Vue, Component, ProvideReactive } from "vue-property-decorator";
+import { Vue, Component, ProvideReactive, Ref } from "vue-property-decorator";
 
 @Component({ components: { Settings, TopBar, Videos, BottomBar, Chat } })
 export default class Interface extends Vue {
+  @Ref("centerCol") centerColRef!: HTMLDivElement;
+
   @ProvideReactive() margin: number = 6;
-
-  mounted(): void {
-    this.$nextTick(() => closeSidePanels());
-
-    function closeSidePanels(): void {
-      const keys: string[] = Object.keys(ToggleStore.isToggled.top);
-      keys.forEach((key: string) =>
-        ToggleStore.toggle({ side: "top", name: key })
-      );
-    }
-  }
 }
 </script>
 

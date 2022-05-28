@@ -1,8 +1,12 @@
 <template>
   <div
     ref="panel"
-    id="container"
-    :class="{ isLeft: isLeft, isToggled: isToggled }"
+    id="panel"
+    :class="{
+      isLeft: isLeft,
+      isToggled: isToggled,
+      isAfterMounted: isAfterMounted,
+    }"
     :style="{ '--m': '-' + w + 'px' }"
   >
     <div id="card">
@@ -20,21 +24,18 @@ export default class SideBase extends Vue {
 
   w: number = 0;
   transitionIds: number[] = [];
+  isAfterMounted: boolean = false;
 
   @Prop(Boolean) isToggled!: boolean;
   @Prop(Boolean) isLeft!: boolean;
 
   mounted(): void {
-    const self = this;
-
     this.panelRef.addEventListener("transitionstart", this.startResizing);
     this.panelRef.addEventListener("transitionend", this.endResizing);
     this.panelRef.addEventListener("transitioncancel", this.endResizing);
-    setWidth();
 
-    function setWidth(): void {
-      self.$nextTick(() => (self.w = self.panelRef.offsetWidth));
-    }
+    this.w = this.panelRef.offsetWidth;
+    setTimeout(() => (this.isAfterMounted = true), 0);
   }
   beforeUnmount(): void {
     this.panelRef.removeEventListener("transitionstart", this.startResizing);
@@ -43,6 +44,7 @@ export default class SideBase extends Vue {
   }
 
   startResizing(): void {
+    this.w = this.panelRef.offsetWidth;
     const id = setInterval(() => dispatchEvent(new Event("resize")), 0);
     this.transitionIds.push(id);
   }
@@ -56,8 +58,10 @@ export default class SideBase extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/styles.scss";
 
-#container {
-  transition: margin 1s;
+#panel {
+  &.isAfterMounted {
+    transition: margin 1s;
+  }
   height: 100vh;
   width: fit-content;
   color: var(--v-light-base);

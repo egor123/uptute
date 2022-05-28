@@ -18,8 +18,8 @@ import {
 class ToggleStore extends VuexModule {
   isToggled: IsToggled = {
     top: {
-      settings: true,
-      chat: true,
+      settings: false,
+      chat: false,
     },
     bottom: {
       micOff: false,
