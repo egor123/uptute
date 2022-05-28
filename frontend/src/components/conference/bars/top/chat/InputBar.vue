@@ -29,7 +29,11 @@ export default class ConferenceChatInputBar extends Vue {
   onTextareaKey(e: KeyboardEvent): void {
     if (e.key == "Enter" && !e.shiftKey) {
       e.preventDefault();
-      this.sendMessage();
+      if (!isEmpty(this.input)) this.sendMessage();
+    }
+
+    function isEmpty(input: string) {
+      return !/\S/.test(input);
     }
   }
   sendMessage(): void {

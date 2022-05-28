@@ -14,6 +14,7 @@
 <script lang="ts">
 import Chat from "@/store/modules/conference/chat";
 
+import ToggleStore from "@/store/modules/conference/toggleStore";
 import { Vue, Component, Ref, Watch } from "vue-property-decorator";
 
 @Component
@@ -25,6 +26,10 @@ export default class ConferenceChatMessages extends Vue {
 
   maxHeightForAutoscroll: number = 300;
 
+  get isToggled() {
+    return ToggleStore.isToggled.top.chat;
+  }
+
   ifSpaceBefore(id: number): boolean {
     if (id <= 0) return false;
     const isLastSelf: boolean = Chat.messages[id].isSelf;
@@ -33,19 +38,17 @@ export default class ConferenceChatMessages extends Vue {
     return ifPersonChanged;
   }
 
-  tryScrollToLastMessage(): void {
+  async tryScrollToLastMessage(isOnOpen?: boolean): Promise<void> {
     const self = this;
 
-    if (messagesExit() && (isSelf() || isCloseToBottom()))
+    const messages = Chat.messages;
+    const messagesExist: boolean = messages.length > 0;
+    const isOpen = this.isToggled;
+    const isSelf: boolean = messages[messages.length - 1]?.isSelf == true;
+
+    if (messagesExist && isOpen && (isSelf || isCloseToBottom() || isOnOpen))
       this.$nextTick(() => scrollToLastMessage());
 
-    function messagesExit(): boolean {
-      return Chat.messages.length > 0;
-    }
-    function isSelf(): boolean {
-      let lastMessageId: number = Chat.messages.length - 1;
-      return Chat.messages[lastMessageId].isSelf == true;
-    }
     function isCloseToBottom(): boolean {
       const el: HTMLDivElement = self.messagesRef;
       const isClose: boolean =
@@ -55,13 +58,20 @@ export default class ConferenceChatMessages extends Vue {
     }
     function scrollToLastMessage(): void {
       const lastMessageId: number = self.messageRefs.length - 1;
-      const lasetMessageRef: HTMLDivElement = self.messageRefs[lastMessageId];
+      const lastMessageEl: HTMLDivElement = self.messageRefs[lastMessageId];
 
-      lasetMessageRef.scrollIntoView({ behavior: "smooth" });
+      const lastMessageY: number = lastMessageEl.getBoundingClientRect().y;
+      const messagesY: number = self.messagesRef.getBoundingClientRect().y;
+
+      const top: number = lastMessageY - messagesY;
+
+      self.messagesRef.scrollTo({ top, behavior: "smooth" });
     }
   }
   @Watch("Chat.messages")
   onMessagesChange = () => this.tryScrollToLastMessage();
+  @Watch("isToggled")
+  onToggleChange = () => this.tryScrollToLastMessage(true);
 }
 </script>
 

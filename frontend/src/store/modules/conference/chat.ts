@@ -19,6 +19,8 @@ import {
 class ConferenceChat extends VuexModule {
   dc: RTCDataChannel = new RTCPeerConnection().createDataChannel("");
   messages: Message[] = [];
+  isOpen: boolean = false;
+  messagesOnChannelOpen: Array<string> = [];
 
   @Action
   createDataChannel(): void {
@@ -26,7 +28,7 @@ class ConferenceChat extends VuexModule {
     const dc: RTCDataChannel = Main.peerConnection.createDataChannel(...params);
 
     this.setDataChannel(dc);
-    this.setListeners({ onMessage: this.onMessage });
+    this.setListeners();
 
     console.log("Created a data channel:", dc);
   }
@@ -34,7 +36,7 @@ class ConferenceChat extends VuexModule {
   pullDataChannel(e: RTCDataChannelEvent): void {
     const dc = e.channel;
     this.setDataChannel(dc);
-    this.setListeners({ onMessage: this.onMessage });
+    this.setListeners();
 
     console.log("Pulled a data channel:", dc);
   }
@@ -47,16 +49,22 @@ class ConferenceChat extends VuexModule {
 
   @Action
   sendMessage(text: string) {
-    this.sendToDataChannel(text);
+    if (this.isOpen) this.sendToDataChannel(text);
+    else this.addToOnChannelOpen(text);
     this.saveMessage({ text, isSelf: true });
 
     console.log("Sent a Message: ", text);
   }
   @Action
-  onMessage(e: MessageEvent) {
-    this.saveMessage({ text: e.data, isSelf: false });
-
-    console.log("Got Data Channel Message: ", e.data);
+  setListeners() {
+    this.listenForMessage(this.saveMessage);
+    this.listenForError();
+    this.listenForOpen(this.sendMessagesOnChannelOpen);
+    this.listenForClose();
+  }
+  @Action
+  sendMessagesOnChannelOpen() {
+    this.messagesOnChannelOpen.forEach((msg) => this.sendMessage(msg));
   }
 
   // ! -----------------------------------------------------------------------------------
@@ -70,12 +78,24 @@ class ConferenceChat extends VuexModule {
     this.dc = dc;
   }
   @Mutation
-  setListeners(payload: SetDataChannelListeners) {
-    const dc = this.dc;
-    dc.onmessage = (e: MessageEvent) => payload.onMessage(e);
-    dc.onerror = (err: Event) => console.error("Data Channel Error:", err);
-    dc.onopen = (e: Event) => console.log("Data channel opened", e);
-    dc.onclose = () => console.log("The Data Channel is Closed");
+  listenForMessage(saveMessage: Function) {
+    this.dc.onmessage = (e: MessageEvent) =>
+      saveMessage({ text: e.data, isSelf: false });
+  }
+  @Mutation
+  listenForError() {
+    this.dc.onerror = (err: Event) => console.error("Data Channel Error:", err);
+  }
+  @Mutation
+  listenForOpen(sendMessagesOnChannelOpen: Function) {
+    this.dc.onopen = () => {
+      this.isOpen = true;
+      sendMessagesOnChannelOpen();
+    };
+  }
+  @Mutation
+  listenForClose() {
+    this.dc.onclose = () => (this.isOpen = false);
   }
   @Mutation
   saveMessage({ text, isSelf }: SaveMessage) {
@@ -85,6 +105,10 @@ class ConferenceChat extends VuexModule {
   @Mutation
   sendToDataChannel(text: string) {
     this.dc.send(text);
+  }
+  @Mutation
+  addToOnChannelOpen(text: string) {
+    this.messagesOnChannelOpen.push(text);
   }
 }
 
