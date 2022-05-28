@@ -8,9 +8,9 @@
 </template>
 
 <script lang="ts">
-import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
-import InputBar from "@/components/conference/bars/top/chat/InputBar.vue";
-import Messages from "@/components/conference/bars/top/chat/Messages.vue";
+import SidepanelBase from "@/components/conference/centerColumn/bars/top/SideBase.vue";
+import InputBar from "@/components/conference/centerColumn/bars/top/chat/InputBar.vue";
+import Messages from "@/components/conference/centerColumn/bars/top/chat/Messages.vue";
 
 import ToggleStore from "@/store/modules/conference/toggleStore";
 import { Vue, Component } from "vue-property-decorator";

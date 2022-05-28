@@ -11,13 +11,13 @@
 </template>
 
 <script lang="ts">
-import Settings from "@/components/conference/bars/top/settings/Sidepanel.vue";
+import Settings from "@/components/conference/centerColumn/bars/top/settings/Sidepanel.vue";
 
-import TopBar from "@/components/conference/bars/top/Bar.vue";
+import TopBar from "@/components/conference/centerColumn/bars/top/Bar.vue";
 import Videos from "@/components/conference/centerColumn/video/Videos.vue";
-import BottomBar from "@/components/conference/bars/bottom/Bar.vue";
+import BottomBar from "@/components/conference/centerColumn/bars/bottom/Bar.vue";
 
-import Chat from "@/components/conference/bars/top/chat/Sidepanel.vue";
+import Chat from "@/components/conference/centerColumn/bars/top/chat/Sidepanel.vue";
 
 import { Vue, Component, ProvideReactive, Ref } from "vue-property-decorator";
 

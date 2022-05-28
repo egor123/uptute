@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import SidepanelBase from "@/components/conference/bars/top/SideBase.vue";
+import SidepanelBase from "@/components/conference/centerColumn/bars/top/SideBase.vue";
 
 import ToggleStore from "@/store/modules/conference/toggleStore";
 import Main from "@/store/modules/conference/main";
