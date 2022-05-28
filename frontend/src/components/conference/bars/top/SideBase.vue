@@ -61,6 +61,7 @@ export default class SideBase extends Vue {
   height: 100vh;
   width: fit-content;
   color: var(--v-light-base);
+
   &.isLeft {
     padding: 12px 6px 12px 12px;
     &:not(.isToggled) {
@@ -79,7 +80,7 @@ export default class SideBase extends Vue {
     background: var(--v-card-base);
     border-radius: 15px;
     padding: 12px;
-    overflow: scroll;
+    overflow: hidden;
   }
 }
 </style>

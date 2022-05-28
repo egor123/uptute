@@ -1,7 +1,7 @@
 <template>
   <BtnBase
-    @click="toggleStore.toggle({ side: 'bottom', name: 'end' })"
-    :isToggled="toggleStore.isToggled.bottom.end"
+    @click="ToggleStore.toggle({ side: 'bottom', name: 'end' })"
+    :isToggled="ToggleStore.isToggled.bottom.end"
     :icons="icons"
     bgColor="var(--v-error-darken1)"
   />
@@ -16,7 +16,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { BtnBase } })
 export default class EndBtn extends Vue {
-  toggleStore = ToggleStore;
+  ToggleStore = ToggleStore;
   icons: Icons = { on: "phone-hangup", off: "phone-hangup" };
 }
 </script>

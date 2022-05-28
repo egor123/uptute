@@ -44,12 +44,10 @@ export default class ConferenceChatInputBar extends Vue {
   resizeTextArea(): void {
     const docHeight: number = document.body.clientHeight;
     const maxHeight: number = (docHeight * this.maxInputHeightPercent) / 100;
-
     this.textareaRef.style.height = "auto";
     const scrollH: number = this.textareaRef.scrollHeight;
-
     this.$nextTick(() => {
-      const h: number = scrollH < maxHeight ? scrollH : maxHeight;
+      const h: number = scrollH < maxHeight ? scrollH + 2.5 : maxHeight + 2.5;
       this.textareaRef.style.height = h + "px";
     });
   }
@@ -77,6 +75,7 @@ export default class ConferenceChatInputBar extends Vue {
     color: var(--v-light-base);
     border: 1px var(--v-light-darken4) solid;
     outline: none;
+    overflow: auto;
 
     transition: border 300ms;
     &:hover,

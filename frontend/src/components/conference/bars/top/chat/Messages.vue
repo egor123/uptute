@@ -77,11 +77,13 @@ export default class ConferenceChatMessages extends Vue {
 
 <style lang="scss" scoped>
 #messages {
+  $scrollbarMargin: 16px;
+
   flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: scroll;
 
   .msgLine {
     margin: 2px 0;
