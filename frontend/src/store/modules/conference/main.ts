@@ -19,6 +19,7 @@ import {
   ReplaceTrack,
   GetTrack,
   DescriptionToPC,
+  SetOnEnded,
 } from "@/components/conference/types";
 import {
   Module,
@@ -295,8 +296,6 @@ class ConferenceMain extends VuexModule {
     track.stop();
     track.onended(new Event("ended"));
   }
-  @Mutation
-  setTrackOnEnded(f: Function) {}
 }
 
 export default getModule(ConferenceMain);

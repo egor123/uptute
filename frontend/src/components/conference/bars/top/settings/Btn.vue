@@ -1,7 +1,7 @@
 <template>
   <BtnBase
-    @click="toggleStore.toggle({ side: 'top', name: 'settings' })"
-    :isToggled="toggleStore.isToggled.top.settings"
+    @click="ToggleStore.toggle({ side: 'top', name: 'settings' })"
+    :isToggled="ToggleStore.isToggled.top.settings"
     :icons="icons"
   />
 </template>
@@ -15,7 +15,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { BtnBase } })
 export default class SettingsBtn extends Vue {
-  toggleStore = ToggleStore;
+  ToggleStore = ToggleStore;
   icons: Icons = { on: "window-close", off: "cog" };
 }
 </script>

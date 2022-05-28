@@ -1,8 +1,8 @@
 <template>
   <BtnBase
-    @click="toggleStore.toggle({ side: 'bottom', name: 'screenShare' })"
+    @click="ToggleStore.toggle({ side: 'bottom', name: 'screenShare' })"
     :icons="icons"
-    :isToggled="toggleStore.isToggled.bottom.screenShare"
+    :isToggled="ToggleStore.isToggled.bottom.screenShare"
   />
 </template>
 
@@ -15,7 +15,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { BtnBase } })
 export default class screenShareBtn extends Vue {
-  toggleStore = ToggleStore;
+  ToggleStore = ToggleStore;
   icons: Icons = { on: "window-close", off: "monitor-share" };
 }
 </script>

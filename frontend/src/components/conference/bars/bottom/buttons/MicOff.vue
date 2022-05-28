@@ -1,8 +1,8 @@
 <template>
   <BtnBase
-    @click="toggleStore.toggle({ side: 'bottom', name: 'micOff' })"
+    @click="ToggleStore.toggle({ side: 'bottom', name: 'micOff' })"
     :icons="icons"
-    :isToggled="toggleStore.isToggled.bottom.micOff"
+    :isToggled="ToggleStore.isToggled.bottom.micOff"
   />
 </template>
 
@@ -15,7 +15,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { BtnBase } })
 export default class MicOffBtn extends Vue {
-  toggleStore = ToggleStore;
+  ToggleStore = ToggleStore;
   icons: Icons = { on: "microphone-off", off: "microphone" };
 }
 </script>

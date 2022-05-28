@@ -1,8 +1,8 @@
 <template>
   <BtnBase
-    @click="toggleStore.toggle({ side: 'bottom', name: 'whiteBoard' })"
+    @click="ToggleStore.toggle({ side: 'bottom', name: 'whiteBoard' })"
     :icons="icons"
-    :isToggled="toggleStore.isToggled.bottom.whiteboard"
+    :isToggled="ToggleStore.isToggled.bottom.whiteboard"
   />
 </template>
 
@@ -15,7 +15,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { BtnBase } })
 export default class WhiteboardBtn extends Vue {
-  toggleStore = ToggleStore;
+  ToggleStore = ToggleStore;
   icons: Icons = { on: "window-close", off: "draw" };
 }
 </script>

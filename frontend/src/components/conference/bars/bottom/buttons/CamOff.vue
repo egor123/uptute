@@ -1,7 +1,7 @@
 <template>
   <BtnBase
-    @click="toggleStore.toggle({ side: 'bottom', name: 'camOff' })"
-    :isToggled="toggleStore.isToggled.bottom.camOff"
+    @click="ToggleStore.toggle({ side: 'bottom', name: 'camOff' })"
+    :isToggled="ToggleStore.isToggled.bottom.camOff"
     :icons="icons"
   />
 </template>
@@ -15,7 +15,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { BtnBase } })
 export default class CamOffBtn extends Vue {
-  toggleStore = ToggleStore;
+  ToggleStore = ToggleStore;
   icons: Icons = { on: "video-off", off: "video" };
 }
 </script>

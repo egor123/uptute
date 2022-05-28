@@ -1,5 +1,5 @@
 <template>
-  <SidepanelBase :isToggled="toggleStore.isToggled.top.settings" :isLeft="true">
+  <SidepanelBase :isToggled="ToggleStore.isToggled.top.settings" :isLeft="true">
     <table id="info" ref="info">
       <tr v-for="(param, id) in info" :key="id">
         <td class="key">{{ param.name }}</td>
@@ -25,7 +25,7 @@ interface Info {
 
 @Component({ components: { SidepanelBase } })
 export default class SettingsPanel extends Vue {
-  toggleStore = ToggleStore;
+  ToggleStore = ToggleStore;
 
   info: Info = { id: { name: "Conference ID", val: Main.roomRef?.id } };
 }

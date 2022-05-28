@@ -1,7 +1,7 @@
 <template>
   <BtnBase
-    @click="toggleStore.toggle({ side: 'top', name: 'chat' })"
-    :isToggled="toggleStore.isToggled.top.chat"
+    @click="ToggleStore.toggle({ side: 'top', name: 'chat' })"
+    :isToggled="ToggleStore.isToggled.top.chat"
     :icons="icons"
   />
 </template>
@@ -15,7 +15,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { BtnBase } })
 export default class ChatBtn extends Vue {
-  toggleStore = ToggleStore;
+  ToggleStore = ToggleStore;
   icons: Icons = { on: "window-close", off: "message" };
 }
 </script>

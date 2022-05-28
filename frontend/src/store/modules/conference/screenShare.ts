@@ -6,7 +6,7 @@ import ToggleStore from "@/store/modules/conference/toggleStore";
 import { Module, VuexModule, Action, getModule } from "vuex-module-decorators";
 
 @Module({ name: "screenShare", namespaced: true, dynamic: true, store })
-class ScreenShare extends VuexModule {
+class ConferenceScreenShare extends VuexModule {
   @Action
   toggle(isToggled: boolean): void {
     const self = this;
@@ -21,7 +21,7 @@ class ScreenShare extends VuexModule {
 
       if (track instanceof Error) return console.error(track.message);
 
-      Main.setTrackOnEnded(self.stopScreenSharing);
+      track.onended = self.stopScreenSharing;
       Main.replaceLocalTrack({ isVideo: true, newTrack: track });
       ToggleStore.setToggle({ side: "bottom", name: "screenShare", val: true });
     }
@@ -36,4 +36,4 @@ class ScreenShare extends VuexModule {
   }
 }
 
-export default getModule(ScreenShare);
+export default getModule(ConferenceScreenShare);

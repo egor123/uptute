@@ -129,3 +129,7 @@ export interface DescriptionToPC {
   description: RTCSessionDescriptionInit;
   isLocal: boolean;
 }
+
+export interface SetOnEnded extends GetTrack {
+  f: Function;
+}

@@ -14,7 +14,7 @@ import {
   IsToggled,
   SetToggle,
 } from "@/components/conference/types";
-@Module({ name: "isToggled", namespaced: true, dynamic: true, store })
+@Module({ name: "toggleStore", namespaced: true, dynamic: true, store })
 class ToggleStore extends VuexModule {
   isToggled: IsToggled = {
     top: {

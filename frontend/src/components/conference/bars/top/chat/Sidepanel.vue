@@ -1,5 +1,5 @@
 <template>
-  <SidepanelBase :isToggled="toggleStore.isToggled.top.chat" :isLeft="false">
+  <SidepanelBase :isToggled="ToggleStore.isToggled.top.chat" :isLeft="false">
     <div id="chat" ref="chat">
       <Messages />
       <InputBar />
@@ -17,7 +17,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { SidepanelBase, InputBar, Messages } })
 export default class ChatPanel extends Vue {
-  toggleStore = ToggleStore;
+  ToggleStore = ToggleStore;
 }
 </script>
 
