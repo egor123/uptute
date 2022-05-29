@@ -1,10 +1,12 @@
 <template>
   <BarBase :isTopBar="false">
-    <MicOff />
-    <CamOff />
-    <End />
-    <ScreenShare />
-    <Whiteboard />
+    <div ref="wrapper">
+      <MicOff />
+      <CamOff />
+      <End />
+      <ScreenShare />
+      <Whiteboard />
+    </div>
   </BarBase>
 </template>
 
@@ -17,10 +19,17 @@ import End from "@/components/conference/centerColumn/bars/bottom/buttons/End.vu
 import ScreenShare from "@/components/conference/centerColumn/bars/bottom/buttons/ScreenShare.vue";
 import Whiteboard from "@/components/conference/centerColumn/bars/bottom/buttons/Whiteboard.vue";
 
-import { Vue, Component } from "vue-property-decorator";
+import LayoutHandler from "@/store/modules/conference/layoutHandler";
+import { Vue, Component, Ref } from "vue-property-decorator";
 
 @Component({
   components: { BarBase, MicOff, CamOff, End, ScreenShare, Whiteboard },
 })
-export default class BottomBar extends Vue {}
+export default class BottomBar extends Vue {
+  @Ref("wrapper") wrapperEl!: Element;
+
+  mounted() {
+    LayoutHandler.setCenterBarEl(this.wrapperEl);
+  }
+}
 </script>

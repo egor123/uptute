@@ -19,7 +19,6 @@ import {
   ReplaceTrack,
   GetTrack,
   DescriptionToPC,
-  SetOnEnded,
 } from "@/components/conference/types";
 import {
   Module,
@@ -49,16 +48,11 @@ class ConferenceMain extends VuexModule {
     if (!isCaller && !id) return this.failedToJoin({ err: "Room id is null" });
 
     await this.addLocalTracks();
+
     const isSuccess: boolean = isCaller
       ? await Caller.createRoom()
       : await Callee.joinRoom(id!);
     if (!isSuccess) return;
-
-    // this.listenForPeerConnectionChanges(); // * For debugging
-    this.listenForNewLocalIceCandidates({ isCaller });
-    this.listenForNewRemoteIceCandidates({ isCaller });
-    this.listenForNewRemoteTracks();
-    this.listenForPeerConnectionClose(this.closeRoom);
   }
   // @Action
   // listenForPeerConnectionChanges(): void {
@@ -110,6 +104,14 @@ class ConferenceMain extends VuexModule {
     this.addTrackToPeerConnection({ source: local, isVideo: false });
   }
   @Action
+  setListeners({ isCaller }: { isCaller: boolean }) {
+    // this.listenForPeerConnectionChanges(); // * For debugging
+    this.listenForNewLocalIceCandidates({ isCaller });
+    this.listenForNewRemoteIceCandidates({ isCaller });
+    this.listenForNewRemoteTracks();
+    this.listenForPeerConnectionClose(this.closeRoom);
+  }
+  @Action
   listenForNewLocalIceCandidates({ isCaller }: { isCaller: boolean }): void {
     const self = this;
 
@@ -122,6 +124,7 @@ class ConferenceMain extends VuexModule {
       return firestore.collection(self.roomRef!, name);
     }
     function pushToStore(e: RTCPeerConnectionIceEvent) {
+      console.log("Got candi", e);
       if (!e.candidate) return console.log("Got final candidate!");
 
       console.log("Got candidate: ", e.candidate);

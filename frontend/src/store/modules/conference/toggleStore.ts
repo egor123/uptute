@@ -8,6 +8,7 @@ import {
 } from "vuex-module-decorators";
 
 import Main from "@/store/modules/conference/main";
+import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import ScreenShare from "@/store/modules/conference/screenShare";
 import {
   ButtonToggleEvent,
@@ -41,6 +42,14 @@ class ToggleStore extends VuexModule {
         break;
       case "end":
         Main.closeRoom();
+        break;
+      case "settings":
+        toggle({ side, name });
+        LayoutHandler.toggle({ isLeft: true });
+        break;
+      case "chat":
+        toggle({ side, name });
+        LayoutHandler.toggle({ isLeft: false });
         break;
       default:
         toggle({ side, name });

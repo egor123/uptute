@@ -18,12 +18,13 @@ class ConferenceCaller extends VuexModule {
 
     const offer = await Main.peerConnection.createOffer();
 
-    Main.setDescriptionToPC({ description: offer, isLocal: true });
-
     const isOfferSent = await this.sendOffer(offer);
     if (!isOfferSent) return false;
 
+    Main.setListeners({ isCaller: true });
     this.listenForRemoteDescription();
+
+    Main.setDescriptionToPC({ description: offer, isLocal: true }); // !
 
     return true;
   }

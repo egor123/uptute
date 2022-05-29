@@ -6,6 +6,7 @@
       isLeft: isLeft,
       isToggled: isToggled,
       isAfterMounted: isAfterMounted,
+      isFullScreen: isFullScreen,
     }"
     :style="`--m: ${-1 * w}px;`"
   >
@@ -22,6 +23,7 @@
 import Header from "@/components/conference/centerColumn/bars/top/HeaderBar.vue";
 import { ButtonToggleEvent } from "@/components/conference/types";
 
+import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import ToggleStore from "@/store/modules/conference/toggleStore";
 import { Vue, Component, Ref, Inject } from "vue-property-decorator";
 
@@ -39,6 +41,10 @@ export default class SideBase extends Vue {
   @Inject() readonly path!: ButtonToggleEvent;
   get isToggled(): boolean {
     return ToggleStore.isToggled[this.path.side][this.path.name];
+  }
+
+  get isFullScreen() {
+    return LayoutHandler.centerColumnPos == (this.isLeft ? 1 : -1);
   }
 
   mounted(): void {
@@ -76,18 +82,21 @@ export default class SideBase extends Vue {
     transition: margin 1s;
   }
   height: 100vh;
-  width: fit-content;
-  // width: 100vw;
+  // width: fit-content;
   color: var(--v-light-base);
+  padding: 12px;
 
+  // transition: width 300ms;
+  &.isFullScreen {
+    // width: 100vw;
+    // margin-left: auto;
+  }
   &.isLeft {
-    padding: 12px 0px 12px 12px;
     &:not(.isToggled) {
       margin-left: var(--m);
     }
   }
   &:not(.isLeft) {
-    padding: 12px 12px 12px 0px;
     &:not(.isToggled) {
       margin-right: var(--m);
     }
@@ -98,6 +107,7 @@ export default class SideBase extends Vue {
     background: var(--v-card-base);
     border-radius: 15px;
     position: relative;
+
     #content {
       @include box-size(100%);
       padding: 12px;
