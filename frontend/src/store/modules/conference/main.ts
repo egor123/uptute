@@ -161,9 +161,8 @@ class ConferenceMain extends VuexModule {
 
         async function tryPullCandidate(change: DocChange): Promise<void> {
           if (change.type != "added") return;
-          const data = change.doc.data();
-          console.log("Got new remote ICE candidate: ", data);
-          const candidate = new RTCIceCandidate(data);
+          const candidate = change.doc.data();
+          console.log("Got new remote ICE candidate: ", candidate);
           self.pullIceCandidateToPC(candidate);
         }
       }
@@ -241,7 +240,7 @@ class ConferenceMain extends VuexModule {
     this.roomRef = roomRef;
   }
   @Mutation
-  pullIceCandidateToPC(candidate: RTCIceCandidate) {
+  pullIceCandidateToPC(candidate: RTCIceCandidateInit) {
     this.peerConnection.addIceCandidate(candidate);
   }
 
