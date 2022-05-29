@@ -1,5 +1,5 @@
 <template>
-  <SidepanelBase :isToggled="ToggleStore.isToggled.top.settings" :isLeft="true">
+  <SidepanelBase>
     <table id="info" ref="info">
       <tr v-for="(param, id) in info" :key="id">
         <td class="key">{{ param.name }}</td>
@@ -12,9 +12,9 @@
 <script lang="ts">
 import SidepanelBase from "@/components/conference/centerColumn/bars/top/SideBase.vue";
 
-import ToggleStore from "@/store/modules/conference/toggleStore";
 import Main from "@/store/modules/conference/main";
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Provide } from "vue-property-decorator";
+import { ButtonToggleEvent } from "@/components/conference/types";
 
 interface Info {
   [index: string]: {
@@ -25,9 +25,10 @@ interface Info {
 
 @Component({ components: { SidepanelBase } })
 export default class SettingsPanel extends Vue {
-  ToggleStore = ToggleStore;
-
   info: Info = { id: { name: "Conference ID", val: Main.roomRef?.id } };
+
+  @Provide() path: ButtonToggleEvent = { side: "top", name: "settings" };
+  @Provide() isLeft: boolean = true;
 }
 </script>
 

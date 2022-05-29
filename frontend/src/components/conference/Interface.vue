@@ -1,31 +1,21 @@
 <template>
   <div id="interface">
     <Settings />
-    <div id="centerCol" ref="centerCol">
-      <TopBar />
-      <Videos />
-      <BottomBar />
-    </div>
+    <CentralColumn />
     <Chat />
   </div>
 </template>
 
 <script lang="ts">
 import Settings from "@/components/conference/centerColumn/bars/top/settings/Sidepanel.vue";
-
-import TopBar from "@/components/conference/centerColumn/bars/top/Bar.vue";
-import Videos from "@/components/conference/centerColumn/video/Videos.vue";
-import BottomBar from "@/components/conference/centerColumn/bars/bottom/Bar.vue";
-
+import CentralColumn from "@/components/conference/centerColumn/CenterColumn.vue";
 import Chat from "@/components/conference/centerColumn/bars/top/chat/Sidepanel.vue";
 
-import { Vue, Component, ProvideReactive, Ref } from "vue-property-decorator";
+import { Vue, Component, ProvideReactive } from "vue-property-decorator";
 
-@Component({ components: { Settings, TopBar, Videos, BottomBar, Chat } })
+@Component({ components: { Settings, CentralColumn, Chat } })
 export default class Interface extends Vue {
-  @Ref("centerCol") centerColRef!: HTMLDivElement;
-
-  @ProvideReactive() margin: number = 6;
+  @ProvideReactive() readonly margin: number = 12;
 }
 </script>
 
@@ -38,11 +28,6 @@ export default class Interface extends Vue {
   @include flexbox(row);
   background: var(--v-background-base);
   overflow: hidden;
-  #centerCol {
-    @include flexbox(column);
-    height: 100vh;
-    flex: 1;
-  }
 
   ::-webkit-scrollbar {
     width: 4px;

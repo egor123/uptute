@@ -1,25 +1,26 @@
 <template>
-  <button
-    @click="$emit('click')"
-    :style="`--background: ${bgColor};`"
-    :color="bgColor"
-  >
+  <button @click="$emit('click')" :style="`--background: ${bgColor};`">
     <v-icon color="light"> mdi-{{ curIcon }} </v-icon>
   </button>
 </template>
 
 <script lang="ts">
 import { Icons } from "@/components/conference/types";
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import {
+  Vue,
+  Component,
+  Watch,
+  Inject,
+  InjectReactive,
+} from "vue-property-decorator";
 
 @Component
 export default class BtnBase extends Vue {
   curIcon: string = "";
 
-  @Prop(Object) readonly icons!: Icons;
-  @Prop({ type: String, default: "var(--v-btnOn-base)" })
-  readonly bgColor!: string;
-  @Prop(Boolean) readonly isToggled!: boolean;
+  @Inject({ default: "var(--v-btnOn-base)" }) readonly bgColor!: string;
+  @Inject() readonly icons!: Icons;
+  @InjectReactive() readonly isToggled!: boolean;
 
   mounted(): void {
     this.setCurIcon();
@@ -42,12 +43,20 @@ button {
   @include box-size(fit-content);
   padding: 12px !important;
   border-radius: 50%;
-  background: var(--background);
+  background-color: var(--background);
   margin: 6px;
+  outline: 2px solid #ffffff00;
 
-  transition: transform 300ms;
+  transition: all 300ms;
+
   &:hover {
-    transform: scale(0.9);
+    border-radius: 15px;
+    .v-icon {
+      color: var(--v-accent-base) !important;
+    }
+  }
+  .v-icon {
+    color: var(--v-light-base) !important;
   }
 }
 </style>

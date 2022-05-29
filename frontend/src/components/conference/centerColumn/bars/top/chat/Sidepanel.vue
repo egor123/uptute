@@ -1,5 +1,5 @@
 <template>
-  <SidepanelBase :isToggled="ToggleStore.isToggled.top.chat" :isLeft="false">
+  <SidepanelBase>
     <div id="chat" ref="chat">
       <Messages />
       <InputBar />
@@ -12,12 +12,13 @@ import SidepanelBase from "@/components/conference/centerColumn/bars/top/SideBas
 import InputBar from "@/components/conference/centerColumn/bars/top/chat/InputBar.vue";
 import Messages from "@/components/conference/centerColumn/bars/top/chat/Messages.vue";
 
-import ToggleStore from "@/store/modules/conference/toggleStore";
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Provide } from "vue-property-decorator";
+import { ButtonToggleEvent } from "@/components/conference/types";
 
 @Component({ components: { SidepanelBase, InputBar, Messages } })
 export default class ChatPanel extends Vue {
-  ToggleStore = ToggleStore;
+  @Provide() path: ButtonToggleEvent = { side: "top", name: "chat" };
+  @Provide() isLeft: boolean = false;
 }
 </script>
 

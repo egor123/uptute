@@ -1,21 +1,26 @@
 <template>
-  <BtnBase
-    @click="ToggleStore.toggle({ side: 'top', name: 'settings' })"
-    :isToggled="ToggleStore.isToggled.top.settings"
-    :icons="icons"
-  />
+  <TopBtnBase @click="ToggleStore.toggle({ side: 'top', name: 'settings' })" />
 </template>
 
 <script lang="ts">
-import BtnBase from "@/components/conference/centerColumn/bars/BtnBase.vue";
+import TopBtnBase from "@/components/conference/centerColumn/bars/top/TopBtnBase.vue";
 
 import ToggleStore from "@/store/modules/conference/toggleStore";
 import { Icons } from "@/components/conference/types";
-import { Vue, Component } from "vue-property-decorator";
+import {
+  Vue,
+  Component,
+  ProvideReactive,
+  Provide,
+} from "vue-property-decorator";
 
-@Component({ components: { BtnBase } })
+@Component({ components: { TopBtnBase } })
 export default class SettingsBtn extends Vue {
   ToggleStore = ToggleStore;
-  icons: Icons = { on: "window-close", off: "cog" };
+
+  @ProvideReactive() get isToggled() {
+    return ToggleStore.isToggled.top.settings;
+  }
+  @Provide() icons: Icons = { on: "window-close", off: "cog" };
 }
 </script>
