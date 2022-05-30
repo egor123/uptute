@@ -12,6 +12,7 @@ import LocalVideo from "@/components/conference/centerColumn/video/LocalVideo.vu
 import RemoteVideo from "@/components/conference/centerColumn/video/RemoteVideo.vue";
 
 import { Rect, Axis, RatioEvent } from "@/components/conference/types";
+import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import {
   Vue,
   Component,
@@ -62,6 +63,8 @@ export default class Videos extends Vue {
     this.onResize();
   }
   async onResize(): Promise<void> {
+    if (LayoutHandler.centerColumnPos != 0) return;
+
     const self = this;
 
     const sumRatios: SumRatios = getSumRatios(this.ratios);

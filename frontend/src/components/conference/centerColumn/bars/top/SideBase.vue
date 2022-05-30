@@ -99,6 +99,8 @@ export default class SideBase extends Vue {
           self.panelRef.style.width =
             curW + (isExpand ? +delta : -delta) + "px";
         else clearInterval(id);
+
+        dispatchEvent(new Event("resize"));
       }, 0);
     }
   }

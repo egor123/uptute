@@ -24,6 +24,8 @@ class ConferenceLayoutHandler extends VuexModule {
 
   @Action
   async toggle({ isLeft }: { isLeft: boolean }) {
+    this.closeOppositePanel({ isLeft });
+
     await new Promise((r) => setTimeout(() => r(""), 0));
 
     const sum: number | void = await this.getSumWidth();
@@ -34,6 +36,12 @@ class ConferenceLayoutHandler extends VuexModule {
       if (isLeft) this.setCenterColumnPos(1);
       else this.setCenterColumnPos(-1);
     } else this.setCenterColumnPos(0);
+  }
+  @Action
+  closeOppositePanel({ isLeft }: { isLeft: boolean }) {
+    isLeft
+      ? ToggleStore.setToggle({ side: "top", name: "chat", val: false })
+      : ToggleStore.setToggle({ side: "top", name: "settings", val: false });
   }
   @Action
   async getSumWidth(): Promise<number | void> {

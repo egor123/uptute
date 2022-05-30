@@ -36,7 +36,7 @@ export default class SettingsPanel extends Vue {
 @import "@/scss/styles.scss";
 
 #info {
-  max-width: 100%;
+  width: 100%;
   td {
     width: fit-content;
     text-align: left;
@@ -46,6 +46,7 @@ export default class SettingsPanel extends Vue {
     }
     &.val {
       padding-left: 12px;
+      text-align: right;
     }
   }
   tr {

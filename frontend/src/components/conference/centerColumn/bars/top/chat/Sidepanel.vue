@@ -26,7 +26,6 @@ export default class ChatPanel extends Vue {
 @import "@/scss/styles.scss";
 
 #chat {
-  width: 400px;
   max-width: 100%;
   @include flexbox(column);
   height: 100%;

@@ -24,7 +24,7 @@ export default class ConferenceChatInputBar extends Vue {
   @Ref("textarea") textareaRef!: HTMLTextAreaElement;
 
   input: string = "";
-  maxInputHeightPercent: number = 10;
+  maxInputHeightPercent: number = 40;
 
   onTextareaKey(e: KeyboardEvent): void {
     if (e.key == "Enter" && !e.shiftKey) {
