@@ -12,7 +12,6 @@ import SidepanelBase from "@/components/conference/centerColumn/bars/top/SideBas
 import InputBar from "@/components/conference/centerColumn/bars/top/chat/InputBar.vue";
 import Messages from "@/components/conference/centerColumn/bars/top/chat/Messages.vue";
 
-import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import { Vue, Component, Provide } from "vue-property-decorator";
 import { ButtonToggleEvent } from "@/components/conference/types";
 
@@ -20,10 +19,6 @@ import { ButtonToggleEvent } from "@/components/conference/types";
 export default class ChatPanel extends Vue {
   @Provide() path: ButtonToggleEvent = { side: "top", name: "chat" };
   @Provide() isLeft: boolean = false;
-
-  mounted() {
-    LayoutHandler.setRightPanelEl(this.$el);
-  }
 }
 </script>
 
@@ -32,6 +27,7 @@ export default class ChatPanel extends Vue {
 
 #chat {
   width: 400px;
+  max-width: 100%;
   @include flexbox(column);
   height: 100%;
 }

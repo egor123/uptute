@@ -12,7 +12,6 @@
 <script lang="ts">
 import SidepanelBase from "@/components/conference/centerColumn/bars/top/SideBase.vue";
 
-import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import Main from "@/store/modules/conference/main";
 import { Vue, Component, Provide } from "vue-property-decorator";
 import { ButtonToggleEvent } from "@/components/conference/types";
@@ -30,10 +29,6 @@ export default class SettingsPanel extends Vue {
 
   @Provide() path: ButtonToggleEvent = { side: "top", name: "settings" };
   @Provide() isLeft: boolean = true;
-
-  mounted() {
-    LayoutHandler.setLeftPanelEl(this.$el);
-  }
 }
 </script>
 
@@ -41,6 +36,7 @@ export default class SettingsPanel extends Vue {
 @import "@/scss/styles.scss";
 
 #info {
+  max-width: 100%;
   td {
     width: fit-content;
     text-align: left;

@@ -30,8 +30,9 @@ export default class ConferenceCenterColumn extends Vue {
 #centerColumn {
   @include flexbox(column);
   height: 100vh;
-  flex: 1;
   transition: margin 1.5s;
+  flex: 1;
+
   &.hideToLeft {
     margin-left: -200%;
   }

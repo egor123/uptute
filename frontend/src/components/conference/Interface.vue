@@ -25,6 +25,7 @@ export default class Interface extends Vue {
 #interface {
   height: 100vh;
   width: 100vw;
+  max-width: 100vw;
   @include flexbox(row);
   background: var(--v-background-base);
   overflow: hidden;

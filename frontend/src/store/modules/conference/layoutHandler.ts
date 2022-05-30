@@ -26,7 +26,19 @@ class ConferenceLayoutHandler extends VuexModule {
   async toggle({ isLeft }: { isLeft: boolean }) {
     await new Promise((r) => setTimeout(() => r(""), 0));
 
-    if (!this.LeftPanelEl || !this.CenterBarEl || !this.RightPanelEl) return;
+    const sum: number | void = await this.getSumWidth();
+
+    if (!sum) return;
+
+    if (sum > window.innerWidth) {
+      if (isLeft) this.setCenterColumnPos(1);
+      else this.setCenterColumnPos(-1);
+    } else this.setCenterColumnPos(0);
+  }
+  @Action
+  async getSumWidth(): Promise<number | void> {
+    if (!this.LeftPanelEl || !this.CenterBarEl || !this.RightPanelEl)
+      return console.error("One of three elements is not defined");
 
     let sum: number = this.CenterBarEl.getBoundingClientRect().width;
     if (ToggleStore.isToggled.top.settings)
@@ -34,10 +46,7 @@ class ConferenceLayoutHandler extends VuexModule {
     if (ToggleStore.isToggled.top.chat)
       sum += this.RightPanelEl.getBoundingClientRect().width;
 
-    if (sum > window.innerWidth) {
-      if (isLeft) this.setCenterColumnPos(1);
-      else this.setCenterColumnPos(-1);
-    } else this.setCenterColumnPos(0);
+    return sum;
   }
 
   @Mutation

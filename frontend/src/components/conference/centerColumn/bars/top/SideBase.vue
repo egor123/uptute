@@ -8,7 +8,7 @@
       isAfterMounted: isAfterMounted,
       isFullScreen: isFullScreen,
     }"
-    :style="`--m: ${-1 * w}px;`"
+    :style="`--w: ${w}px;`"
   >
     <div id="card">
       <Header ref="headerBar" />
@@ -25,7 +25,7 @@ import { ButtonToggleEvent } from "@/components/conference/types";
 
 import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import ToggleStore from "@/store/modules/conference/toggleStore";
-import { Vue, Component, Ref, Inject } from "vue-property-decorator";
+import { Vue, Component, Ref, Inject, Watch } from "vue-property-decorator";
 
 @Component({ components: { Header } })
 export default class SideBase extends Vue {
@@ -33,6 +33,7 @@ export default class SideBase extends Vue {
   @Ref("headerBar") headerBarRef!: Header;
 
   w: number = 0;
+  initialW: number = 0;
   topPadding: number = 0;
   transitionIds: number[] = [];
   isAfterMounted: boolean = false;
@@ -54,7 +55,12 @@ export default class SideBase extends Vue {
 
     this.topPadding = this.headerBarRef.$el.getBoundingClientRect().height;
     this.w = this.panelRef.offsetWidth;
-    setTimeout(() => (this.isAfterMounted = true), 0);
+    setTimeout(() => {
+      this.isAfterMounted = true;
+      this.isLeft
+        ? LayoutHandler.setLeftPanelEl(this.$el)
+        : LayoutHandler.setRightPanelEl(this.$el);
+    }, 0);
   }
   beforeUnmount(): void {
     this.panelRef.removeEventListener("transitionstart", this.startResizing);
@@ -71,6 +77,31 @@ export default class SideBase extends Vue {
     clearInterval(this.transitionIds[0]);
     this.transitionIds.shift();
   }
+
+  @Watch("isFullScreen")
+  onFullScreenChange(isFullScreen: boolean) {
+    const self = this;
+
+    if (isFullScreen)
+      this.initialW = this.panelRef.getBoundingClientRect().width;
+    smoothWidthChange(5);
+
+    function smoothWidthChange(delta: number) {
+      const id: number = setInterval(() => {
+        const curW: number = self.panelRef.getBoundingClientRect().width;
+        const isExpand: boolean = self.isFullScreen;
+
+        const ifIteerate: boolean = isExpand
+          ? curW < window.innerWidth
+          : curW > self.initialW;
+
+        if (ifIteerate)
+          self.panelRef.style.width =
+            curW + (isExpand ? +delta : -delta) + "px";
+        else clearInterval(id);
+      }, 0);
+    }
+  }
 }
 </script>
 
@@ -82,28 +113,26 @@ export default class SideBase extends Vue {
     transition: margin 1s;
   }
   height: 100vh;
-  // width: fit-content;
   color: var(--v-light-base);
   padding: 12px;
+  max-width: 100vw;
 
-  // transition: width 300ms;
   &.isFullScreen {
     // width: 100vw;
-    // margin-left: auto;
   }
   &.isLeft {
     &:not(.isToggled) {
-      margin-left: var(--m);
+      margin-left: calc(-1 * var(--w));
     }
   }
   &:not(.isLeft) {
     &:not(.isToggled) {
-      margin-right: var(--m);
+      margin-right: calc(-1 * var(--w));
     }
   }
 
   #card {
-    @include box-size(100%);
+    height: 100%;
     background: var(--v-card-base);
     border-radius: 15px;
     position: relative;
