@@ -39,6 +39,7 @@ export default class ConferenceChatInputBar extends Vue {
   sendMessage(): void {
     Chat.sendMessage(this.input);
     this.input = "";
+    this.textareaRef.focus();
     this.$nextTick(() => this.resizeTextArea());
   }
   resizeTextArea(): void {

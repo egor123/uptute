@@ -1,3 +1,8 @@
+import {
+  IsBarOpen,
+  SetBarEl,
+  SetBarState,
+} from "@/components/conference/types";
 import store from "@/store";
 
 import ToggleStore from "@/store/modules/conference/toggleStore";
@@ -20,7 +25,11 @@ class ConferenceLayoutHandler extends VuexModule {
   CenterBarEl: Element | null = null;
   RightPanelEl: Element | null = null;
 
+  topBarEl: Element | null = null;
+  bottomBarEl: Element | null = null;
+
   centerColumnPos: -1 | 0 | 1 = 0;
+  isBarOpen: IsBarOpen = { top: false, bottom: false };
 
   @Action
   async toggle({ isLeft }: { isLeft: boolean }) {
@@ -36,6 +45,10 @@ class ConferenceLayoutHandler extends VuexModule {
       if (isLeft) this.setCenterColumnPos(1);
       else this.setCenterColumnPos(-1);
     } else this.setCenterColumnPos(0);
+
+    // await new Promise((r) => setTimeout(() => r(""), 0));
+
+    // dispatchEvent(new Event("resize"));
   }
   @Action
   closeOppositePanel({ isLeft }: { isLeft: boolean }) {
@@ -72,6 +85,16 @@ class ConferenceLayoutHandler extends VuexModule {
   @Mutation
   setCenterColumnPos(val: -1 | 0 | 1) {
     this.centerColumnPos = val;
+  }
+
+  @Mutation
+  setBarState({ isTop, val }: SetBarState) {
+    const name: string = isTop ? "top" : "bottom";
+    this.isBarOpen[name] = val;
+  }
+  @Mutation
+  setbarEl({ isTop, el }: SetBarEl) {
+    isTop ? (this.topBarEl = el) : (this.bottomBarEl = el);
   }
 }
 

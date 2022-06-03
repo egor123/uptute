@@ -133,3 +133,19 @@ export interface DescriptionToPC {
 export interface SetOnEnded extends GetTrack {
   f: Function;
 }
+
+export interface SetBarState {
+  isTop: boolean;
+  val: boolean;
+}
+
+export interface IsBarOpen {
+  [index: string]: boolean;
+  top: boolean;
+  bottom: boolean;
+}
+
+export interface SetBarEl {
+  isTop: boolean;
+  el: Element;
+}

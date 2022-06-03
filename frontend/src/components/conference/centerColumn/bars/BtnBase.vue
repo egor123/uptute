@@ -49,7 +49,7 @@ button {
 
   transition: all 300ms;
 
-  &:hover {
+  &:hover:not(:focus) {
     border-radius: 15px;
     .v-icon {
       color: var(--v-accent-base) !important;

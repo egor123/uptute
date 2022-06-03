@@ -1,20 +1,34 @@
 <template>
-  <div ref="bar" id="buttons" :class="{ isTopBar: isTopBar }">
+  <div
+    ref="bar"
+    id="buttons"
+    :class="{ isTopBar: isTopBar, isVisible: isVisible }"
+    :style="`--transitionTime: ${transitionTime}ms;`"
+  >
     <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Ref, Prop, Watch } from "vue-property-decorator";
+import LayoutHandler from "@/store/modules/conference/layoutHandler";
+import {
+  Vue,
+  Component,
+  Ref,
+  Prop,
+  Watch,
+  InjectReactive,
+} from "vue-property-decorator";
 
 @Component
 export default class BarBase extends Vue {
   @Ref() readonly bar!: HTMLDivElement;
 
   visibilityCounter: number = 0;
-  hideTime: number = 2000; // ms
+  hideTime: number = 1250;
   transitionIds: number[] = [];
 
+  @InjectReactive() readonly transitionTime!: number;
   @Prop(Boolean) readonly isTopBar!: boolean;
 
   get isVisible(): boolean {
@@ -22,42 +36,29 @@ export default class BarBase extends Vue {
   }
 
   mounted(): void {
+    this.setBarEl();
+    this.setBarState();
+
     addEventListener("mousemove", this.onMouseMove);
-    this.bar.addEventListener("transitionstart", this.startResizing);
-    this.bar.addEventListener("transitionend", this.endResizing);
-    this.bar.addEventListener("transitioncancel", this.endResizing);
   }
   beforeUnmount(): void {
     removeEventListener("mousemove", this.onMouseMove);
-    this.bar.removeEventListener("transitionstart", this.startResizing);
-    this.bar.removeEventListener("transitionend", this.endResizing);
-    this.bar.removeEventListener("transitioncancel", this.endResizing);
   }
 
   onMouseMove(): void {
     this.visibilityCounter++;
     setTimeout(() => this.visibilityCounter--, this.hideTime);
   }
-  startResizing(): void {
-    const id: number = setInterval(() => dispatchEvent(new Event("resize")), 0);
-    this.transitionIds.push(id);
-  }
-  endResizing(): void {
-    clearInterval(this.transitionIds[0]);
-    this.transitionIds.shift();
-  }
-  setStyle(): void {
-    const style: CSSStyleDeclaration = this.bar.style;
-    const h: number = this.bar.offsetHeight;
-    const side: string = this.isTopBar ? "Top" : "Bottom";
-    const m: string = this.isVisible ? `0px` : `-${h}px`;
 
-    // @ts-ignore
-    style[`margin${side}`] = m;
+  setBarEl() {
+    LayoutHandler.setbarEl({ isTop: this.isTopBar, el: this.$el });
+  }
+  setBarState(): void {
+    LayoutHandler.setBarState({ isTop: this.isTopBar, val: this.isVisible });
   }
 
   @Watch("isVisible")
-  onIsVisibleChange = (): void => this.setStyle();
+  onIsVisibleChange = (): void => this.setBarState();
 }
 </script>
 
@@ -65,19 +66,32 @@ export default class BarBase extends Vue {
 @import "@/scss/styles.scss";
 
 #buttons {
-  transition: margin 1s;
+  transition: transform var(--transitionTime);
   flex: 0;
   $padding: 6px;
   @include flexbox(row);
   width: 100%;
   padding-right: $padding;
   padding-left: $padding;
+  position: absolute;
+
+  &.isVisible {
+    transition: transform var(--transitionTime) calc(var(--transitionTime) / 2);
+  }
 
   &.isTopBar {
     padding-top: $padding;
+    top: 0px;
+    &:not(.isVisible) {
+      transform: translateY(-100%);
+    }
   }
   &:not(.isTopBar) {
     padding-bottom: $padding;
+    bottom: 0px;
+    &:not(.isVisible) {
+      transform: translateY(100%);
+    }
   }
 }
 </style>

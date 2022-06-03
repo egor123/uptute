@@ -8,7 +8,7 @@
       isAfterMounted: isAfterMounted,
       isFullScreen: isFullScreen,
     }"
-    :style="`--w: ${w}px;`"
+    :style="`--w: ${w}px; --transitionTime: ${transitionTime}ms`"
   >
     <div id="card">
       <Header ref="headerBar" />
@@ -25,7 +25,14 @@ import { ButtonToggleEvent } from "@/components/conference/types";
 
 import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import ToggleStore from "@/store/modules/conference/toggleStore";
-import { Vue, Component, Ref, Inject, Watch } from "vue-property-decorator";
+import {
+  Vue,
+  Component,
+  Ref,
+  Inject,
+  Watch,
+  InjectReactive,
+} from "vue-property-decorator";
 
 @Component({ components: { Header } })
 export default class SideBase extends Vue {
@@ -38,6 +45,7 @@ export default class SideBase extends Vue {
   transitionIds: number[] = [];
   isAfterMounted: boolean = false;
 
+  @InjectReactive() readonly transitionTime!: number;
   @Inject() readonly isLeft!: boolean;
   @Inject() readonly path!: ButtonToggleEvent;
   get isToggled(): boolean {
@@ -49,10 +57,6 @@ export default class SideBase extends Vue {
   }
 
   mounted(): void {
-    this.panelRef.addEventListener("transitionstart", this.startResizing);
-    this.panelRef.addEventListener("transitionend", this.endResizing);
-    this.panelRef.addEventListener("transitioncancel", this.endResizing);
-
     this.topPadding = this.headerBarRef.$el.getBoundingClientRect().height;
     this.w = this.panelRef.offsetWidth;
     setTimeout(() => {
@@ -62,29 +66,17 @@ export default class SideBase extends Vue {
         : LayoutHandler.setRightPanelEl(this.$el);
     }, 0);
   }
-  beforeUnmount(): void {
-    this.panelRef.removeEventListener("transitionstart", this.startResizing);
-    this.panelRef.removeEventListener("transitionend", this.endResizing);
-    this.panelRef.removeEventListener("transitioncancel", this.endResizing);
-  }
-
-  startResizing(): void {
-    this.w = this.panelRef.offsetWidth;
-    const id = setInterval(() => dispatchEvent(new Event("resize")), 0);
-    this.transitionIds.push(id);
-  }
-  endResizing(): void {
-    clearInterval(this.transitionIds[0]);
-    this.transitionIds.shift();
-  }
-
   @Watch("isFullScreen")
-  onFullScreenChange(isFullScreen: boolean) {
+  async onFullScreenChange(isFullScreen: boolean): Promise<void> {
     const self = this;
 
     if (isFullScreen)
       this.initialW = this.panelRef.getBoundingClientRect().width;
-    smoothWidthChange(5);
+
+    if (LayoutHandler.centerColumnPos == 0)
+      await new Promise((r) => setTimeout(() => r(""), this.transitionTime));
+
+    smoothWidthChange(10);
 
     function smoothWidthChange(delta: number) {
       const id: number = setInterval(() => {
@@ -100,7 +92,7 @@ export default class SideBase extends Vue {
             curW + (isExpand ? +delta : -delta) + "px";
         else clearInterval(id);
 
-        dispatchEvent(new Event("resize"));
+        self.w = self.panelRef.offsetWidth;
       }, 0);
     }
   }
@@ -111,25 +103,28 @@ export default class SideBase extends Vue {
 @import "@/scss/styles.scss";
 
 #panel {
-  &.isAfterMounted {
-    transition: margin 1s;
-  }
   height: 100vh;
   color: var(--v-light-base);
   padding: 12px;
   max-width: 100vw;
-
-  &.isFullScreen {
-    // width: 100vw;
+  position: absolute;
+  z-index: 10;
+  &.isAfterMounted {
+    transition: transform var(--transitionTime);
+  }
+  &.isToggled {
+    transition: transform var(--transitionTime) calc(var(--transitionTime) / 2);
   }
   &.isLeft {
-    &:not(.isToggled) {
-      margin-left: calc(-1 * var(--w));
+    right: 100vw;
+    &.isToggled {
+      transform: translate(var(--w));
     }
   }
   &:not(.isLeft) {
-    &:not(.isToggled) {
-      margin-right: calc(-1 * var(--w));
+    left: 100vw;
+    &.isToggled {
+      transform: translate(calc(-1 * var(--w)));
     }
   }
 

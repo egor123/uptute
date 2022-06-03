@@ -16,6 +16,7 @@ import { Vue, Component, ProvideReactive } from "vue-property-decorator";
 @Component({ components: { Settings, CentralColumn, Chat } })
 export default class Interface extends Vue {
   @ProvideReactive() readonly margin: number = 12;
+  @ProvideReactive() readonly transitionTime: number = 700;
 }
 </script>
 
@@ -23,9 +24,9 @@ export default class Interface extends Vue {
 @import "@/scss/styles.scss";
 
 #interface {
+  position: relative;
   height: 100vh;
   width: 100vw;
-  max-width: 100vw;
   @include flexbox(row);
   background: var(--v-background-base);
   overflow: hidden;
