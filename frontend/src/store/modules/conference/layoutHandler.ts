@@ -1,4 +1,6 @@
 import {
+  BarElements,
+  ColumnElemnts,
   IsBarOpen,
   SetBarEl,
   SetBarState,
@@ -21,15 +23,11 @@ import {
   store,
 })
 class ConferenceLayoutHandler extends VuexModule {
-  LeftPanelEl: Element | null = null;
-  CenterBarEl: Element | null = null;
-  RightPanelEl: Element | null = null;
-
-  topBarEl: Element | null = null;
-  bottomBarEl: Element | null = null;
+  columns: ColumnElemnts = { left: null, center: null, right: null };
+  bars: BarElements = { top: null, bottom: null };
+  isBarOpen: IsBarOpen = { top: false, bottom: false };
 
   centerColumnPos: -1 | 0 | 1 = 0;
-  isBarOpen: IsBarOpen = { top: false, bottom: false };
 
   @Action
   async toggle({ isLeft }: { isLeft: boolean }) {
@@ -45,10 +43,6 @@ class ConferenceLayoutHandler extends VuexModule {
       if (isLeft) this.setCenterColumnPos(1);
       else this.setCenterColumnPos(-1);
     } else this.setCenterColumnPos(0);
-
-    // await new Promise((r) => setTimeout(() => r(""), 0));
-
-    // dispatchEvent(new Event("resize"));
   }
   @Action
   closeOppositePanel({ isLeft }: { isLeft: boolean }) {
@@ -58,29 +52,29 @@ class ConferenceLayoutHandler extends VuexModule {
   }
   @Action
   async getSumWidth(): Promise<number | void> {
-    if (!this.LeftPanelEl || !this.CenterBarEl || !this.RightPanelEl)
-      return console.error("One of three elements is not defined");
+    if (!this.columns.left || !this.columns.center || !this.columns.right)
+      throw new Error("One of three elements is not defined");
 
-    let sum: number = this.CenterBarEl.getBoundingClientRect().width;
+    let sum: number = this.columns.center.getBoundingClientRect().width;
     if (ToggleStore.isToggled.top.settings)
-      sum += this.LeftPanelEl.getBoundingClientRect().width;
+      sum += this.columns.left.getBoundingClientRect().width;
     if (ToggleStore.isToggled.top.chat)
-      sum += this.RightPanelEl.getBoundingClientRect().width;
+      sum += this.columns.right.getBoundingClientRect().width;
 
     return sum;
   }
 
   @Mutation
   setLeftPanelEl(el: Element) {
-    this.LeftPanelEl = el;
+    this.columns.left = el;
   }
   @Mutation
   setCenterBarEl(el: Element) {
-    this.CenterBarEl = el;
+    this.columns.center = el;
   }
   @Mutation
   setRightPanelEl(el: Element) {
-    this.RightPanelEl = el;
+    this.columns.right = el;
   }
   @Mutation
   setCenterColumnPos(val: -1 | 0 | 1) {
@@ -94,7 +88,8 @@ class ConferenceLayoutHandler extends VuexModule {
   }
   @Mutation
   setbarEl({ isTop, el }: SetBarEl) {
-    isTop ? (this.topBarEl = el) : (this.bottomBarEl = el);
+    const name = isTop ? "top" : "bottom";
+    this.bars[name] = el;
   }
 }
 

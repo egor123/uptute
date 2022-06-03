@@ -35,6 +35,7 @@ export interface Message {
 }
 
 export interface Rect {
+  [index: string]: number;
   w: number;
   h: number;
 }
@@ -148,4 +149,38 @@ export interface IsBarOpen {
 export interface SetBarEl {
   isTop: boolean;
   el: Element;
+}
+
+export interface RectTransitionIds {
+  [index: string]: number;
+  w: number;
+  h: number;
+}
+
+export interface Ratios {
+  [index: string]: number;
+  local: number;
+  remote: number;
+}
+export interface SumRatios {
+  [index: string]: number;
+  row: number;
+  col: number;
+}
+
+export interface BarElements {
+  [index: string]: Element | null;
+  top: Element | null;
+  bottom: Element | null;
+}
+
+export interface BarHeights {
+  top: number;
+  bottom: number;
+}
+
+export interface ColumnElemnts {
+  left: Element | null;
+  center: Element | null;
+  right: Element | null;
 }
