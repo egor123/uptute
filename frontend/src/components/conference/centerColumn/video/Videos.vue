@@ -28,26 +28,23 @@ import {
   Vue,
   Component,
   ProvideReactive,
-  Ref,
   InjectReactive,
   Watch,
 } from "vue-property-decorator";
 
 @Component({ components: { LocalVideo, RemoteVideo } })
 export default class Videos extends Vue {
-  @Ref("local") localRef!: LocalVideo;
-  @Ref("remote") remoteRef!: RemoteVideo;
+  @InjectReactive() private readonly margin!: number;
+  @InjectReactive() private readonly transitionTime!: number;
 
-  transitionIds: RectTransitionIds = { w: -1, h: -1 };
-  rect: Rect = { w: window.innerWidth, h: window.innerHeight };
-  isFlexRow: boolean = true;
-  ratios: Ratios = { local: 0, remote: 0 };
+  private transitionIds: RectTransitionIds = { w: -1, h: -1 };
+  private ratios: Ratios = { local: 0, remote: 0 };
+
+  public isFlexRow: boolean = true; // public for HTML
+  public rect: Rect = { w: window.innerWidth, h: window.innerHeight };
 
   @ProvideReactive() axis: Axis = { x: 0, y: 0 };
-  @ProvideReactive() videosInstance: Videos = this;
-
-  @InjectReactive() margin!: number;
-  @InjectReactive() transitionTime!: number;
+  @ProvideReactive() readonly videosInstance: Videos = this;
 
   mounted(): void {
     this.$on("gotRatio", this.onGotRatio);
