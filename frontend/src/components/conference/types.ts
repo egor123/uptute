@@ -175,8 +175,8 @@ export interface BarElements {
 }
 
 export interface BarHeights {
-  top: number;
-  bottom: number;
+  t: number;
+  b: number;
 }
 
 export interface ColumnElemnts {

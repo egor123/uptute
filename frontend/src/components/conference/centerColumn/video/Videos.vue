@@ -39,14 +39,11 @@ export default class Videos extends Vue {
   @Ref("remote") remoteRef!: RemoteVideo;
 
   transitionIds: RectTransitionIds = { w: -1, h: -1 };
-
-  ratios: Ratios = { local: 0, remote: 0 };
-  isFlexRow: boolean = true;
-  sumRatio: number = 0;
-  @ProvideReactive() axis: Axis = { x: 0, y: 0 };
-  @ProvideReactive("videosRect")
   rect: Rect = { w: window.innerWidth, h: window.innerHeight };
+  isFlexRow: boolean = true;
+  ratios: Ratios = { local: 0, remote: 0 };
 
+  @ProvideReactive() axis: Axis = { x: 0, y: 0 };
   @ProvideReactive() videosInstance: Videos = this;
 
   @InjectReactive() margin!: number;
@@ -76,8 +73,7 @@ export default class Videos extends Vue {
     const sumRatios: SumRatios = getSumRatios(this.ratios);
     this.isFlexRow = getIfRow(sumRatios);
 
-    this.sumRatio = this.isFlexRow ? sumRatios.row : sumRatios.col;
-
+    const sumRatio = this.isFlexRow ? sumRatios.row : sumRatios.col;
     this.axis = getAxis();
 
     function getSumRatios(ratios: Ratios): SumRatios {
@@ -90,36 +86,31 @@ export default class Videos extends Vue {
     function getIfRow(sumRatios: SumRatios): boolean {
       return getFraction(sumRatios.row) > getFraction(sumRatios.col);
 
-      function getFraction(sumRatio: number): number {
-        const rect: DOMRect = self.$el.getBoundingClientRect();
-        const containerRatio: number = rect.width / rect.height;
-        return sumRatio < containerRatio
-          ? sumRatio / containerRatio
-          : containerRatio / sumRatio;
+      function getFraction(sumRatioVar: number): number {
+        const containerRatio: number = self.rect.w / self.rect.h;
+        return sumRatioVar < containerRatio
+          ? sumRatioVar / containerRatio
+          : containerRatio / sumRatioVar;
       }
     }
     function getAxis(): Axis {
-      const rect: DOMRect = self.$el.getBoundingClientRect();
-      const containerW: number = rect.width;
-      const containerH: number = rect.height;
-
       const ifXFilled: boolean = getIfXFilled();
       const m: number = self.margin;
       return { x: getX(), y: getY() };
 
       function getIfXFilled(): boolean {
-        const containerRatio: number = containerW / containerH;
-        return self.sumRatio > containerRatio;
+        const containerRatio: number = self.rect.w / self.rect.h;
+        return sumRatio > containerRatio;
       }
       function getX(): number {
         const isOneInCol: boolean = self.ratios.remote == 0 || self.isFlexRow;
         const my: number = isOneInCol ? 2 * m : 4 * m;
-        return ifXFilled ? 0 : self.sumRatio * (containerH - my);
+        return ifXFilled ? 0 : sumRatio * (self.rect.h - my);
       }
       function getY(): number {
         const isOneInRow: boolean = self.ratios.remote == 0 || !self.isFlexRow;
         const mx: number = isOneInRow ? 2 * m : 4 * m;
-        return ifXFilled ? (containerW - mx) / self.sumRatio : 0;
+        return ifXFilled ? (self.rect.w - mx) / sumRatio : 0;
       }
     }
   }
@@ -136,7 +127,7 @@ export default class Videos extends Vue {
 
     let curTime = Date.now();
 
-    const id = setInterval(() => smoothAxisChange(), 0);
+    const id = setInterval(() => smoothAxisChange());
 
     reassignTransitionId(id);
 
@@ -151,15 +142,15 @@ export default class Videos extends Vue {
         throw new Error("Panel element is null");
 
       const w: { l: number; r: number } = {
-        l: columns.left.getBoundingClientRect().width,
-        r: columns.right.getBoundingClientRect().width,
+        l: columns.left.clientWidth,
+        r: columns.right.clientWidth,
       };
-      const isToggled: { left: boolean; right: boolean } = {
-        left: ToggleStore.isToggled.top.settings,
-        right: ToggleStore.isToggled.top.chat,
+      const isOpen: { l: boolean; r: boolean } = {
+        l: ToggleStore.isToggled.top.settings,
+        r: ToggleStore.isToggled.top.chat,
       };
 
-      const sidepanelWidth = isToggled.left ? w.l : isToggled.right ? w.r : 0;
+      const sidepanelWidth = isOpen.l ? w.l : isOpen.r ? w.r : 0;
 
       return window.innerWidth - sidepanelWidth;
     }
@@ -169,60 +160,59 @@ export default class Videos extends Vue {
       if (!bars.top || !bars.bottom) throw new Error("Bar is null");
 
       const heights: BarHeights = {
-        top: bars.top.clientHeight,
-        bottom: bars.bottom.clientHeight,
+        t: bars.top.clientHeight,
+        b: bars.bottom.clientHeight,
+      };
+      const isOpen: { t: boolean; b: boolean } = {
+        t: LayoutHandler.isBarOpen.top,
+        b: LayoutHandler.isBarOpen.bottom,
       };
 
-      let barsHeightSum: number = 0;
-      if (LayoutHandler.isBarOpen.top) barsHeightSum += heights.top;
-      if (LayoutHandler.isBarOpen.bottom) barsHeightSum += heights.bottom;
+      let h = window.innerHeight;
+      if (isOpen.t) h -= heights.t;
+      if (isOpen.b) h -= heights.b;
 
-      return window.innerHeight - barsHeightSum;
+      return h;
     }
     function smoothAxisChange(): void {
-      const cur: number = self.rect[alias];
-      const dT: number = Date.now() - curTime;
-      const d: number = (totalChange * dT) / self.transitionTime;
+      const newVal: number = getNewVal();
 
-      const isOverflow = totalChange < 0 ? cur + d < target : cur + d > target;
+      const isOverflow = totalChange < 0 ? newVal < target : newVal > target;
 
       if (isOverflow) {
         self.rect[alias] = target;
         reassignTransitionId(-1);
       } else {
-        self.rect[alias] = cur + d;
-
+        self.rect[alias] = newVal;
         curTime = Date.now();
       }
 
       self.recalc();
+
+      function getNewVal() {
+        const dT: number = Date.now() - curTime;
+        const d: number = (totalChange * dT) / self.transitionTime;
+        return self.rect[alias] + d;
+      }
     }
-    function reassignTransitionId(id: number) {
-      const curId = isX ? self.transitionIds.w : self.transitionIds.h;
+    function reassignTransitionId(newId: number) {
+      const curId = self.transitionIds[alias];
       if (curId > 0) clearInterval(curId);
 
-      self.transitionIds[alias] = id;
+      self.transitionIds[alias] = newId;
     }
   }
 
-  get isChatToggled() {
-    return ToggleStore.isToggled.top.chat;
+  get isPanelToggled() {
+    return ToggleStore.isToggled.top;
   }
-  get isSettingsToggled() {
-    return ToggleStore.isToggled.top.settings;
-  }
-  @Watch("isChatToggled")
-  @Watch("isSettingsToggled")
+  @Watch("isPanelToggled", { deep: true })
   onPanelStateChange = () => this.resizeAxis({ isX: true });
 
-  get isTopOpen() {
-    return LayoutHandler.isBarOpen.top;
+  get isBarOpen() {
+    return LayoutHandler.isBarOpen;
   }
-  get isBottomOpen() {
-    return LayoutHandler.isBarOpen.bottom;
-  }
-  @Watch("isTopOpen")
-  @Watch("isBottomOpen")
+  @Watch("isBarOpen", { deep: true })
   onBarStateChange = () => this.resizeAxis({ isX: false });
 }
 </script>
@@ -231,8 +221,6 @@ export default class Videos extends Vue {
 @import "@/scss/styles.scss";
 
 #videosWrapper {
-  transition: transform 1s;
-  transform: scaleX(var(--xPercent));
   width: var(--w);
   height: var(--h);
   position: relative;

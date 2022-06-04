@@ -39,7 +39,6 @@ export default class VideoBase extends Vue {
   @Prop(Boolean) readonly isLocal!: boolean;
 
   @InjectReactive() readonly videosInstance!: Videos;
-  @InjectReactive() readonly videosRect!: Rect;
   @InjectReactive() readonly axis!: Axis;
   @InjectReactive() readonly margin!: number;
 
@@ -93,8 +92,8 @@ export default class VideoBase extends Vue {
     function checkOutOfBounds(rect: Rect): Rect {
       const r: number = self.ratio;
       const m: number = 2 * self.margin;
-      const maxW: number = self.videosRect.w;
-      const maxH: number = self.videosRect.h;
+      const maxW: number = self.videosInstance.rect.w;
+      const maxH: number = self.videosInstance.rect.h;
 
       let w: number = rect.w;
       let h: number = rect.h;
