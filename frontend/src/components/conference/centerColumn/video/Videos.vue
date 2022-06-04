@@ -1,9 +1,5 @@
 <template>
-  <div
-    ref="wrapper"
-    id="videosWrapper"
-    :style="`--w: ${rect.w}px; --h: ${rect.h}px;`"
-  >
+  <div id="videosWrapper" :style="`--w: ${rect.w}px; --h: ${rect.h}px;`">
     <div id="videos" :class="{ flexRow: isFlexRow }">
       <LocalVideo ref="local" />
       <RemoteVideo ref="remote" />
@@ -39,18 +35,18 @@ import {
 
 @Component({ components: { LocalVideo, RemoteVideo } })
 export default class Videos extends Vue {
-  @Ref("wrapper") wrapperRef!: HTMLDivElement;
   @Ref("local") localRef!: LocalVideo;
   @Ref("remote") remoteRef!: RemoteVideo;
 
   transitionIds: RectTransitionIds = { w: -1, h: -1 };
 
-  rect: Rect = { w: window.innerWidth, h: window.innerHeight };
   ratios: Ratios = { local: 0, remote: 0 };
   isFlexRow: boolean = true;
   sumRatio: number = 0;
   @ProvideReactive() axis: Axis = { x: 0, y: 0 };
-  @ProvideReactive() videosRect: DOMRect = new DOMRect();
+  @ProvideReactive("videosRect")
+  rect: Rect = { w: window.innerWidth, h: window.innerHeight };
+
   @ProvideReactive() videosInstance: Videos = this;
 
   @InjectReactive() margin!: number;
@@ -81,7 +77,7 @@ export default class Videos extends Vue {
     this.isFlexRow = getIfRow(sumRatios);
 
     this.sumRatio = this.isFlexRow ? sumRatios.row : sumRatios.col;
-    this.videosRect = this.wrapperRef.getBoundingClientRect();
+
     this.axis = getAxis();
 
     function getSumRatios(ratios: Ratios): SumRatios {
@@ -131,12 +127,10 @@ export default class Videos extends Vue {
     await new Promise((r) => setTimeout(() => r("")));
     const self = this;
 
-    const name = isX ? "width" : "height";
     const alias: string = isX ? "w" : "h";
 
     const target = isX ? getTargetW() : getTargetH();
-    const cur = self.wrapperRef.getBoundingClientRect()[name];
-    const totalChange = target - cur;
+    const totalChange = target - self.rect[alias];
 
     if (totalChange == 0) return;
 
@@ -149,7 +143,7 @@ export default class Videos extends Vue {
     function getTargetW(): number {
       const pos: number = LayoutHandler.centerColumnPos;
 
-      if (pos != 0) return self.wrapperRef.clientWidth;
+      if (pos != 0) return self.rect.w;
 
       const columns: ColumnElemnts = LayoutHandler.columns;
 
@@ -186,7 +180,7 @@ export default class Videos extends Vue {
       return window.innerHeight - barsHeightSum;
     }
     function smoothAxisChange(): void {
-      const cur: number = self.wrapperRef.getBoundingClientRect()[name];
+      const cur: number = self.rect[alias];
       const dT: number = Date.now() - curTime;
       const d: number = (totalChange * dT) / self.transitionTime;
 
@@ -197,6 +191,7 @@ export default class Videos extends Vue {
         reassignTransitionId(-1);
       } else {
         self.rect[alias] = cur + d;
+
         curTime = Date.now();
       }
 
