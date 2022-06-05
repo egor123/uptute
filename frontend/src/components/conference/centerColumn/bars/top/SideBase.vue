@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="panel"
+    ref="panelRef"
     id="panel"
     :class="{
       isLeft: isLeft,
@@ -29,64 +29,68 @@ import { Vue, Component, Ref, Inject, Watch } from "vue-property-decorator";
 
 @Component({ components: { Header } })
 export default class SideBase extends Vue {
-  @Ref("panel") panelRef!: HTMLDivElement;
-  @Ref("headerBar") headerBarRef!: Header;
-
-  w: number = 0;
-  initialW: number = 0;
-  topPadding: number = 0;
-  transitionIds: number[] = [];
-  isAfterMounted: boolean = false;
-
   @Inject() readonly transitionTime!: number;
   @Inject() readonly isLeft!: boolean;
   @Inject() readonly path!: ButtonToggleEvent;
+
   get isToggled(): boolean {
     return ToggleStore.isToggled[this.path.side][this.path.name];
   }
-
-  get isFullScreen() {
+  get isFullScreen(): boolean {
     return LayoutHandler.centerColumnPos == (this.isLeft ? 1 : -1);
   }
 
-  mounted(): void {
-    this.topPadding = this.headerBarRef.$el.clientHeight;
-    this.w = this.panelRef.offsetWidth;
-    setTimeout(() => {
-      this.isAfterMounted = true;
+  @Ref() readonly panelRef!: HTMLDivElement;
+  @Ref("headerBar") readonly headerBarRef!: Header;
 
-      const name: ColumnName = this.isLeft ? "left" : "right";
-      LayoutHandler.setColumnEl({ name, el: this.$el });
-    }, 0);
-  }
-  @Watch("isFullScreen")
-  async onFullScreenChange(isFullScreen: boolean): Promise<void> {
+  private initialW: number = 0;
+
+  public isAfterMounted: boolean = false; // for HTML
+  public w: number = 0; // for HTML
+  public topPadding: number = 0; // for HTML
+
+  mounted(): void {
     const self = this;
 
-    if (isFullScreen)
-      this.initialW = this.panelRef.getBoundingClientRect().width;
+    this.topPadding = this.headerBarRef.$el.clientHeight;
+    this.w = this.$el.clientWidth;
+    instanceElToLayoutHandler();
+
+    setTimeout(() => (this.isAfterMounted = true));
+
+    function instanceElToLayoutHandler() {
+      const name: ColumnName = self.isLeft ? "left" : "right";
+      LayoutHandler.setColumnEl({ name, el: self.$el });
+    }
+  }
+
+  @Watch("isFullScreen")
+  async smoothResize(isFullScreen: boolean): Promise<void> {
+    const self = this;
+
+    if (isFullScreen) this.initialW = this.$el.clientWidth;
 
     if (LayoutHandler.centerColumnPos == 0)
       await new Promise((r) => setTimeout(() => r(""), this.transitionTime));
 
-    smoothWidthChange(10);
+    smoothWidthChange(1000); // 1000 => instant change
 
     function smoothWidthChange(delta: number) {
-      const id: number = setInterval(() => {
-        const curW: number = self.panelRef.getBoundingClientRect().width;
+      const id: number = setInterval(() => frameWidthChange(id));
+
+      function frameWidthChange(id: number): void {
+        const curW: number = self.$el.clientWidth;
         const isExpand: boolean = self.isFullScreen;
 
-        const ifIteerate: boolean = isExpand
-          ? curW < window.innerWidth
-          : curW > self.initialW;
+        const targetW: number = isExpand ? window.innerWidth : self.initialW;
+        const ifIteerate: boolean = isExpand ? curW < targetW : curW > targetW;
 
-        if (ifIteerate)
-          self.panelRef.style.width =
-            curW + (isExpand ? +delta : -delta) + "px";
-        else clearInterval(id);
-
-        self.w = self.panelRef.offsetWidth;
-      }, 0);
+        if (ifIteerate) self.w = curW + (isExpand ? +delta : -delta);
+        else {
+          self.w = targetW;
+          clearInterval(id);
+        }
+      }
     }
   }
 }
@@ -104,6 +108,7 @@ export default class SideBase extends Vue {
   z-index: 10;
   &.isAfterMounted {
     transition: transform var(--transitionTime);
+    width: var(--w);
   }
   &.isToggled {
     transition: transform var(--transitionTime) calc(var(--transitionTime) / 2);
