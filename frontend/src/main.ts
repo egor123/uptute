@@ -11,7 +11,7 @@ import VueAnimate from "vue-animate-scroll";
 import { BackendService, AuthService, LocaleService } from "./services";
 import mdiVue from "mdi-vue/v2";
 import * as mdijs from "@mdi/js";
-import mobileInput from "./plugins/mobileInput.js";
+import mobileInput from "./plugins/mobileInput";
 
 Vue.prototype.$backend = BackendService;
 Vue.prototype.$auth = AuthService;
