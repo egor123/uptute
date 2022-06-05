@@ -124,7 +124,6 @@ class ConferenceMain extends VuexModule {
       return firestore.collection(self.roomRef!, name);
     }
     function pushToStore(e: RTCPeerConnectionIceEvent) {
-      console.log("Got candi", e);
       if (!e.candidate) return console.log("Got final candidate!");
 
       console.log("Got candidate: ", e.candidate);

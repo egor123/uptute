@@ -17,7 +17,7 @@ import {
   Ref,
   Prop,
   Watch,
-  InjectReactive,
+  Inject,
 } from "vue-property-decorator";
 
 @Component
@@ -28,7 +28,7 @@ export default class BarBase extends Vue {
   hideTime: number = 1250;
   transitionIds: number[] = [];
 
-  @InjectReactive() readonly transitionTime!: number;
+  @Inject() readonly transitionTime!: number;
   @Prop(Boolean) readonly isTopBar!: boolean;
 
   get isVisible(): boolean {

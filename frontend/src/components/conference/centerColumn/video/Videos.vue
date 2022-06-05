@@ -1,5 +1,5 @@
 <template>
-  <div id="videosWrapper" :style="`--w: ${rect.w}px; --h: ${rect.h}px;`">
+  <div id="wrapper" :style="`--w: ${rect.w}px; --h: ${rect.h}px;`">
     <div id="videos" :class="{ flexRow: isFlexRow }">
       <LocalVideo ref="local" />
       <RemoteVideo ref="remote" />
@@ -21,6 +21,8 @@ import {
   BarElements,
   BarHeights,
   ColumnElemnts,
+  IsTogledTop,
+  IsBarOpen,
 } from "@/components/conference/types";
 import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import ToggleStore from "@/store/modules/conference/toggleStore";
@@ -28,23 +30,33 @@ import {
   Vue,
   Component,
   ProvideReactive,
-  InjectReactive,
   Watch,
+  Inject,
 } from "vue-property-decorator";
 
 @Component({ components: { LocalVideo, RemoteVideo } })
-export default class Videos extends Vue {
-  @InjectReactive() private readonly margin!: number;
-  @InjectReactive() private readonly transitionTime!: number;
+export default class ConferenceVideos extends Vue {
+  @Inject() readonly margin!: number;
+  @Inject() readonly transitionTime!: number;
+
+  private get isPanelToggled(): IsTogledTop {
+    return ToggleStore.isToggled.top;
+  }
+  private get isBarOpen(): IsBarOpen {
+    return LayoutHandler.isBarOpen;
+  }
 
   private transitionIds: RectTransitionIds = { w: -1, h: -1 };
   private ratios: Ratios = { local: 0, remote: 0 };
 
-  public isFlexRow: boolean = true; // public for HTML
+  public isFlexRow: boolean = true; // for HTML
   public rect: Rect = { w: window.innerWidth, h: window.innerHeight };
+  public axis: Axis = { x: 0, y: 0 };
 
-  @ProvideReactive() axis: Axis = { x: 0, y: 0 };
-  @ProvideReactive() readonly videosInstance: Videos = this;
+  @ProvideReactive()
+  get videosInstance(): ConferenceVideos {
+    return this;
+  }
 
   mounted(): void {
     this.$on("gotRatio", this.onGotRatio);
@@ -143,8 +155,8 @@ export default class Videos extends Vue {
         r: columns.right.clientWidth,
       };
       const isOpen: { l: boolean; r: boolean } = {
-        l: ToggleStore.isToggled.top.settings,
-        r: ToggleStore.isToggled.top.chat,
+        l: self.isPanelToggled.settings,
+        r: self.isPanelToggled.chat,
       };
 
       const sidepanelWidth = isOpen.l ? w.l : isOpen.r ? w.r : 0;
@@ -161,8 +173,8 @@ export default class Videos extends Vue {
         b: bars.bottom.clientHeight,
       };
       const isOpen: { t: boolean; b: boolean } = {
-        t: LayoutHandler.isBarOpen.top,
-        b: LayoutHandler.isBarOpen.bottom,
+        t: self.isBarOpen.top,
+        b: self.isBarOpen.bottom,
       };
 
       let h = window.innerHeight;
@@ -200,15 +212,9 @@ export default class Videos extends Vue {
     }
   }
 
-  get isPanelToggled() {
-    return ToggleStore.isToggled.top;
-  }
   @Watch("isPanelToggled", { deep: true })
   onPanelStateChange = () => this.resizeAxis({ isX: true });
 
-  get isBarOpen() {
-    return LayoutHandler.isBarOpen;
-  }
   @Watch("isBarOpen", { deep: true })
   onBarStateChange = () => this.resizeAxis({ isX: false });
 }
@@ -217,7 +223,7 @@ export default class Videos extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/styles.scss";
 
-#videosWrapper {
+#wrapper {
   width: var(--w);
   height: var(--h);
   position: relative;

@@ -1,24 +1,24 @@
 <template>
   <video
-    ref="video"
+    ref="videoRef"
     :srcObject.prop="stream"
     :muted="muted"
-    playsinline
-    autoplay
+    :class="{ exists: ratio != 0 }"
     :style="`
     --w: ${rect.w}px; 
     --h: ${rect.h}px;
     --margin: ${margin}px;
     `"
-    :class="{ exists: ratio != 0 }"
+    playsinline
+    autoplay
   />
 </template>
 
 <script lang="ts">
-import Videos from "@/components/conference/centerColumn/video/Videos.vue";
+import ConferenceVideos from "@/components/conference/centerColumn/video/Videos.vue";
 
 import Main from "@/store/modules/conference/main";
-import { Axis, Rect, RatioEvent } from "@/components/conference/types";
+import { Axis, Rect } from "@/components/conference/types";
 import {
   Vue,
   Component,
@@ -26,46 +26,51 @@ import {
   Watch,
   Ref,
   InjectReactive,
+  Inject,
 } from "vue-property-decorator";
 
 @Component
 export default class VideoBase extends Vue {
-  @Ref("video") readonly videoRef!: HTMLVideoElement;
-
-  ratio: number = 0;
-  rect: Rect = { w: 0, h: 0 };
+  @InjectReactive() readonly videosInstance!: ConferenceVideos;
+  @Inject() readonly margin!: number;
 
   @Prop({ type: Boolean, default: false }) readonly muted!: boolean;
   @Prop(Boolean) readonly isLocal!: boolean;
-
-  @InjectReactive() readonly videosInstance!: Videos;
-  @InjectReactive() readonly axis!: Axis;
-  @InjectReactive() readonly margin!: number;
 
   get stream(): MediaStream {
     return this.isLocal ? Main.streams.local : Main.streams.remote;
   }
 
+  @Ref() readonly videoRef!: HTMLVideoElement;
+
+  public ratio: number = 0; // for HTML
+  public rect: Rect = { w: 0, h: 0 }; // for HTML
+
   mounted(): void {
-    this.videoRef.addEventListener("loadedmetadata", this.getRatio);
+    this.videoRef.addEventListener("loadedmetadata", this.onMetadata);
   }
   beforeDestroy(): void {
-    this.videoRef.removeEventListener("loadedmetadata", this.getRatio);
+    this.videoRef.removeEventListener("loadedmetadata", this.onMetadata);
   }
 
-  getRatio(): void {
+  private onMetadata(): void {
     const self = this;
-    this.ratio = this.videoRef.videoWidth / this.videoRef.videoHeight;
-    dispatchToVideos(this.ratio);
 
-    function dispatchToVideos(ratio: number) {
-      const isLocal: boolean = self.isLocal;
-      const ratioEvent: RatioEvent = { isLocal, ratio };
-      self.videosInstance.$emit("gotRatio", ratioEvent);
+    this.ratio = getRatio();
+    emitRatio(this.ratio);
+
+    function getRatio() {
+      return self.videoRef.videoWidth / self.videoRef.videoHeight;
+    }
+    function emitRatio(ratio: number) {
+      const isLocal = self.isLocal;
+      self.videosInstance.$emit("gotRatio", { isLocal, ratio });
     }
   }
+
   calcRect(): void {
     const self = this;
+
     let rect: Rect = { w: 0, h: 0 };
 
     rect = getFromAxis(rect);
@@ -75,7 +80,7 @@ export default class VideoBase extends Vue {
 
     function getFromAxis(rect: Rect): Rect {
       const r: number = self.ratio;
-      const a: Axis = self.axis;
+      const a: Axis = self.videosInstance.axis;
       let w: number = rect.w;
       let h: number = rect.h;
 
@@ -110,7 +115,10 @@ export default class VideoBase extends Vue {
     }
   }
 
-  @Watch("axis")
+  private get axis() {
+    return this.videosInstance.axis;
+  }
+  @Watch("axis", { deep: true })
   onAxisChange = (): void => this.calcRect();
 }
 </script>

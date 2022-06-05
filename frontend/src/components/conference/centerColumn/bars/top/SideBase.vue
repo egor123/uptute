@@ -25,14 +25,7 @@ import { ButtonToggleEvent } from "@/components/conference/types";
 
 import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import ToggleStore from "@/store/modules/conference/toggleStore";
-import {
-  Vue,
-  Component,
-  Ref,
-  Inject,
-  Watch,
-  InjectReactive,
-} from "vue-property-decorator";
+import { Vue, Component, Ref, Inject, Watch } from "vue-property-decorator";
 
 @Component({ components: { Header } })
 export default class SideBase extends Vue {
@@ -45,7 +38,7 @@ export default class SideBase extends Vue {
   transitionIds: number[] = [];
   isAfterMounted: boolean = false;
 
-  @InjectReactive() readonly transitionTime!: number;
+  @Inject() readonly transitionTime!: number;
   @Inject() readonly isLeft!: boolean;
   @Inject() readonly path!: ButtonToggleEvent;
   get isToggled(): boolean {

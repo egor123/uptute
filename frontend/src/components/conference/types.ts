@@ -2,19 +2,23 @@ import { firestore } from "@/firebase.js";
 
 export interface IsToggled {
   [index: string]: { [index: string]: boolean };
-  top: {
-    [index: string]: boolean;
-    settings: boolean;
-    chat: boolean;
-  };
-  bottom: {
-    [index: string]: boolean;
-    micOff: boolean;
-    camOff: boolean;
-    end: boolean;
-    screenShare: boolean;
-    whiteboard: boolean;
-  };
+  top: IsTogledTop;
+  bottom: IsTogledBottom;
+}
+
+export interface IsTogledTop {
+  [index: string]: boolean;
+  settings: boolean;
+  chat: boolean;
+}
+
+export interface IsTogledBottom {
+  [index: string]: boolean;
+  micOff: boolean;
+  camOff: boolean;
+  end: boolean;
+  screenShare: boolean;
+  whiteboard: boolean;
 }
 
 export interface Icons {

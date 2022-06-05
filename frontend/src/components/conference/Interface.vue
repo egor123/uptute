@@ -11,12 +11,12 @@ import Settings from "@/components/conference/centerColumn/bars/top/settings/Sid
 import CentralColumn from "@/components/conference/centerColumn/CenterColumn.vue";
 import Chat from "@/components/conference/centerColumn/bars/top/chat/Sidepanel.vue";
 
-import { Vue, Component, ProvideReactive } from "vue-property-decorator";
+import { Vue, Component, Provide } from "vue-property-decorator";
 
 @Component({ components: { Settings, CentralColumn, Chat } })
 export default class Interface extends Vue {
-  @ProvideReactive() readonly margin: number = 12;
-  @ProvideReactive() readonly transitionTime: number = 700;
+  @Provide() readonly margin: number = 12;
+  @Provide() readonly transitionTime: number = 700;
 }
 </script>
 
