@@ -1,6 +1,7 @@
-const mobileInput = {
+export default {
   install(Vue) {
     Vue.prototype.$mb = new Vue();
+
     Vue.prototype.$mb.addSwipeListener = (callback, el = document) => {
       const pos = { x: null, y: null };
       const move = { x: 0, y: 0 };
@@ -33,6 +34,7 @@ const mobileInput = {
         { once: true }
       );
     };
+
     Vue.prototype.$mb.addSwipedListener = (callback, el = document) => {
       const delay = 200;
       const minMagnitude = 100;
@@ -66,19 +68,22 @@ const mobileInput = {
         { once: true }
       );
     };
+
     Vue.prototype.$mb.removeSwipeListener = (callback, el = document) => {
       el.dispatchEvent(
         new CustomEvent("removeSwipeListener", { detail: callback })
       );
     };
+
     Vue.prototype.$mb.removeSwipedListener = (callback, el = document) => {
       el.dispatchEvent(
         new CustomEvent("removeSwipedListener", { detail: callback })
       );
     };
+
     Vue.prototype.$mb.isMobileInput = () => {
       return window.matchMedia("(pointer: coarse)").matches;
     };
   },
 };
-export default mobileInput;
+
