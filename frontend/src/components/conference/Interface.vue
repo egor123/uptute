@@ -15,8 +15,8 @@ import { Vue, Component, Provide } from "vue-property-decorator";
 
 @Component({ components: { Settings, CentralColumn, Chat } })
 export default class Interface extends Vue {
-  @Provide() readonly margin: number = 12;
-  @Provide() readonly transitionTime: number = 700;
+  @Provide() readonly margin: number = 12; //px
+  @Provide() readonly transitionTime: number = 700; //ms
 }
 </script>
 

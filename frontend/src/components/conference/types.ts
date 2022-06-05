@@ -188,3 +188,10 @@ export interface ColumnElemnts {
   center: Element | null;
   right: Element | null;
 }
+
+export type ColumnName = "left" | "center" | "right";
+
+export interface SetColumnEl {
+  name: "left" | "center" | "right";
+  el: Element;
+}

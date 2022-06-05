@@ -2,8 +2,10 @@ import {
   BarElements,
   ColumnElemnts,
   IsBarOpen,
+  IsTogledTop,
   SetBarEl,
   SetBarState,
+  SetColumnEl,
 } from "@/components/conference/types";
 import store from "@/store";
 
@@ -23,11 +25,11 @@ import {
   store,
 })
 class ConferenceLayoutHandler extends VuexModule {
-  columns: ColumnElemnts = { left: null, center: null, right: null };
-  bars: BarElements = { top: null, bottom: null };
-  isBarOpen: IsBarOpen = { top: false, bottom: false };
+  public columns: ColumnElemnts = { left: null, center: null, right: null };
+  public centerColumnPos: -1 | 0 | 1 = 0;
 
-  centerColumnPos: -1 | 0 | 1 = 0;
+  public bars: BarElements = { top: null, bottom: null };
+  public isBarOpen: IsBarOpen = { top: false, bottom: false };
 
   @Action
   async toggle({ isLeft }: { isLeft: boolean }) {
@@ -46,35 +48,26 @@ class ConferenceLayoutHandler extends VuexModule {
   }
   @Action
   closeOppositePanel({ isLeft }: { isLeft: boolean }) {
-    isLeft
-      ? ToggleStore.setToggle({ side: "top", name: "chat", val: false })
-      : ToggleStore.setToggle({ side: "top", name: "settings", val: false });
+    const name: string = isLeft ? "chat" : "settings";
+    ToggleStore.setToggle({ side: "top", name, val: false });
   }
   @Action
   async getSumWidth(): Promise<number | void> {
     if (!this.columns.left || !this.columns.center || !this.columns.right)
       throw new Error("One of three elements is not defined");
 
-    let sum: number = this.columns.center.getBoundingClientRect().width;
-    if (ToggleStore.isToggled.top.settings)
-      sum += this.columns.left.getBoundingClientRect().width;
-    if (ToggleStore.isToggled.top.chat)
-      sum += this.columns.right.getBoundingClientRect().width;
+    const isToggledTop: IsTogledTop = ToggleStore.isToggled.top;
+
+    let sum: number = this.columns.center.clientWidth;
+    if (isToggledTop.settings) sum += this.columns.left.clientWidth;
+    if (isToggledTop.chat) sum += this.columns.right.clientWidth;
 
     return sum;
   }
 
   @Mutation
-  setLeftPanelEl(el: Element) {
-    this.columns.left = el;
-  }
-  @Mutation
-  setCenterBarEl(el: Element) {
-    this.columns.center = el;
-  }
-  @Mutation
-  setRightPanelEl(el: Element) {
-    this.columns.right = el;
+  setColumnEl({ name, el }: SetColumnEl) {
+    this.columns[name] = el;
   }
   @Mutation
   setCenterColumnPos(val: -1 | 0 | 1) {

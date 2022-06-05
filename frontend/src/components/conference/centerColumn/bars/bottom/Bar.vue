@@ -29,7 +29,7 @@ export default class BottomBar extends Vue {
   @Ref("wrapper") wrapperEl!: Element;
 
   mounted() {
-    LayoutHandler.setCenterBarEl(this.wrapperEl);
+    LayoutHandler.setColumnEl({ name: "center", el: this.wrapperEl });
   }
 }
 </script>

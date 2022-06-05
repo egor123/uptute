@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import Header from "@/components/conference/centerColumn/bars/top/HeaderBar.vue";
-import { ButtonToggleEvent } from "@/components/conference/types";
+import { ButtonToggleEvent, ColumnName } from "@/components/conference/types";
 
 import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import ToggleStore from "@/store/modules/conference/toggleStore";
@@ -50,13 +50,13 @@ export default class SideBase extends Vue {
   }
 
   mounted(): void {
-    this.topPadding = this.headerBarRef.$el.getBoundingClientRect().height;
+    this.topPadding = this.headerBarRef.$el.clientHeight;
     this.w = this.panelRef.offsetWidth;
     setTimeout(() => {
       this.isAfterMounted = true;
-      this.isLeft
-        ? LayoutHandler.setLeftPanelEl(this.$el)
-        : LayoutHandler.setRightPanelEl(this.$el);
+
+      const name: ColumnName = this.isLeft ? "left" : "right";
+      LayoutHandler.setColumnEl({ name, el: this.$el });
     }, 0);
   }
   @Watch("isFullScreen")
