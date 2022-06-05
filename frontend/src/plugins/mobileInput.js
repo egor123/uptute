@@ -2,88 +2,114 @@ export default {
   install(Vue) {
     Vue.prototype.$mb = new Vue();
 
-    Vue.prototype.$mb.addSwipeListener = (callback, el = document) => {
-      const pos = { x: null, y: null };
-      const move = { x: 0, y: 0 };
-      const touchstart = (e) => {
-        pos.x = e.touches[0].clientX;
-        pos.y = e.touches[0].clientY;
-        move.x = 0;
-        move.y = 0;
-        callback(move, "start");
-      };
-      const touchmove = (e) => {
-        move.x = pos.x - e.touches[0].clientX;
-        move.y = pos.y - e.touches[0].clientY;
-        callback(move, "move");
-      };
-      const touchend = () => {
-        callback(move, "end");
-      };
-      el.addEventListener("touchstart", touchstart);
-      el.addEventListener("touchmove", touchmove);
-      el.addEventListener("touchend", touchend);
-      el.addEventListener(
-        "removeSwipeListener",
-        (e) => {
-          if (callback != e.detail) return;
-          el.removeEventListener("touchstart", touchstart);
-          el.removeEventListener("touchmove", touchmove);
-          el.removeEventListener("touchend", touchend);
-        },
-        { once: true }
-      );
-    };
+    const listeners = [
+      addSwipeListener,
+      removeSwipeListener,
 
-    Vue.prototype.$mb.addSwipedListener = (callback, el = document) => {
-      const delay = 200;
-      const minMagnitude = 100;
-      const swipe = (e) => {
-        const pos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        const move = { x: 0, y: 0 };
-        const touchmove = (e) => {
-          move.x = pos.x - e.touches[0].clientX;
-          move.y = pos.y - e.touches[0].clientY;
-        };
-        new Promise((res) => {
-          el.addEventListener("touchmove", touchmove);
-          el.addEventListener("touchend", () => res(move), { once: true });
-          setTimeout(() => res({ x: 0, y: 0 }), delay);
-        }).then((data) => {
-          el.removeEventListener("touchmove", touchmove);
-          if (Math.sqrt(data.x * data.x + data.y * data.y) < minMagnitude)
-            return callback(null);
-          if (Math.abs(data.x) > Math.abs(data.y))
-            callback(data.x > 0 ? "right" : "left");
-          else callback(data.y > 0 ? "up" : "down");
-        });
-      };
-      el.addEventListener("touchstart", swipe);
-      el.addEventListener(
-        "removeSwipedListener",
-        (e) => {
-          if (callback === e.detail)
-            el.removeEventListener("touchstart", swipe);
-        },
-        { once: true }
-      );
-    };
+      addSwipedListener,
+      removeSwipedListener,
 
-    Vue.prototype.$mb.removeSwipeListener = (callback, el = document) => {
-      el.dispatchEvent(
-        new CustomEvent("removeSwipeListener", { detail: callback })
-      );
-    };
+      isMobileInput,
+    ];
 
-    Vue.prototype.$mb.removeSwipedListener = (callback, el = document) => {
-      el.dispatchEvent(
-        new CustomEvent("removeSwipedListener", { detail: callback })
-      );
-    };
-
-    Vue.prototype.$mb.isMobileInput = () => {
-      return window.matchMedia("(pointer: coarse)").matches;
-    };
+    for (const listener of listeners)
+      Vue.prototype.$mb[listener.name] = listener;
   },
 };
+
+function addSwipeListener(callback, el = document) {
+  const pos = { x: null, y: null };
+  const move = { x: 0, y: 0 };
+
+  const touchstart = (e) => {
+    pos.x = e.touches[0].clientX;
+    pos.y = e.touches[0].clientY;
+    move.x = 0;
+    move.y = 0;
+    callback(move, "start");
+  };
+
+  const touchmove = (e) => {
+    move.x = pos.x - e.touches[0].clientX;
+    move.y = pos.y - e.touches[0].clientY;
+    callback(move, "move");
+  };
+
+  const touchend = () => {
+    callback(move, "end");
+  };
+
+  const removeListeners = (e) => {
+    if (callback != e.detail) return removeError();
+    el.removeEventListener("touchstart", touchstart);
+    el.removeEventListener("touchmove", touchmove);
+    el.removeEventListener("touchend", touchend);
+  };
+
+  el.addEventListener("touchstart", touchstart);
+  el.addEventListener("touchmove", touchmove);
+  el.addEventListener("touchend", touchend);
+  el.addEventListener("removeSwipeListener", removeListeners, { once: true });
+}
+function removeSwipeListener(callback, el = document) {
+  const e = { detail: callback };
+  el.dispatchEvent(new CustomEvent("removeSwipeListener", e));
+}
+
+function addSwipedListener(callback, el = document) {
+  const delay = 200; // ms
+  const minMagnitude = 100; // px
+
+  const swipe = (e) => {
+    const touchmove = (e) => {
+      move.x = pos.x - e.touches[0].clientX;
+      move.y = pos.y - e.touches[0].clientY;
+    };
+
+    const getMove = (res) => {
+      el.addEventListener("touchmove", touchmove, { passive: true });
+      el.addEventListener("touchend", () => res(move), { once: true });
+      setTimeout(() => res({ x: 0, y: 0 }), delay);
+    };
+
+    const getDirection = (move) => {
+      const magnitude = Math.sqrt(move.x * move.x + move.y * move.y);
+      const isHorisontal = Math.abs(move.x) > Math.abs(move.y);
+
+      if (magnitude < minMagnitude) return null;
+      if (isHorisontal) return move.x > 0 ? "right" : "left";
+      else return move.y > 0 ? "up" : "down";
+    };
+
+    const pos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    const move = { x: 0, y: 0 };
+
+    new Promise(getMove).then((move) => {
+      el.removeEventListener("touchmove", touchmove);
+      callback(getDirection(move));
+    });
+  };
+
+  const removeListener = (e) => {
+    if (callback !== e.detail) return removeError();
+    el.removeEventListener("touchstart", swipe);
+  };
+
+  el.addEventListener("touchstart", swipe, { passive: true });
+  el.addEventListener("removeSwipedListener", removeListener);
+}
+function removeSwipedListener(callback, el = document) {
+  const e = { detail: callback };
+  el.dispatchEvent(new CustomEvent("removeSwipedListener", e));
+}
+
+function isMobileInput() {
+  return window.matchMedia("(pointer: coarse)").matches;
+}
+
+// ! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function removeError() {
+  throw new Error("Failed to remove a listener. No listener has this callback");
+}
 
