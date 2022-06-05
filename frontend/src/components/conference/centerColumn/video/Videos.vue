@@ -72,78 +72,60 @@ export default class ConferenceVideos extends Vue {
     this.ratios[type] = ratio;
     this.recalc();
   }
-  onResize() {
+  onResize(): void {
     this.resizeAxis({ isX: true });
     this.resizeAxis({ isX: false });
   }
   recalc(): void {
-    const self = this;
+    const getIfRow = (sumRatios: SumRatios): boolean => {
+      const getFraction = (sumRatioVar: number): number => {
+        const containerRatio: number = this.rect.w / this.rect.h;
+        return sumRatioVar < containerRatio
+          ? sumRatioVar / containerRatio
+          : containerRatio / sumRatioVar;
+      };
+      return getFraction(sumRatios.row) > getFraction(sumRatios.col);
+    };
+    function getSumRatios(ratios: Ratios): SumRatios {
+      const l = ratios.local;
+      const r = ratios.remote;
+      const row: number = l + r;
+      const col: number = r == 0 ? l : (l * r) / (l + r);
+
+      return { row, col };
+    }
+    const getAxis = (): Axis => {
+      const getIfXFilled = (): boolean => {
+        const containerRatio: number = this.rect.w / this.rect.h;
+        return sumRatio > containerRatio;
+      };
+      const getX = (): number => {
+        const isOneInCol: boolean = this.ratios.remote == 0 || this.isFlexRow;
+        const my: number = isOneInCol ? 2 * m : 4 * m;
+        return ifXFilled ? 0 : sumRatio * (this.rect.h - my);
+      };
+      const getY = (): number => {
+        const isOneInRow: boolean = this.ratios.remote == 0 || !this.isFlexRow;
+        const mx: number = isOneInRow ? 2 * m : 4 * m;
+        return ifXFilled ? (this.rect.w - mx) / sumRatio : 0;
+      };
+
+      const ifXFilled: boolean = getIfXFilled();
+      const m: number = this.margin;
+      return { x: getX(), y: getY() };
+    };
 
     const sumRatios: SumRatios = getSumRatios(this.ratios);
     this.isFlexRow = getIfRow(sumRatios);
 
     const sumRatio = this.isFlexRow ? sumRatios.row : sumRatios.col;
     this.axis = getAxis();
-
-    function getSumRatios(ratios: Ratios): SumRatios {
-      const l = ratios.local;
-      const r = ratios.remote;
-      const row: number = l + r;
-      const col: number = r == 0 ? l : (l * r) / (l + r);
-      return { row, col };
-    }
-    function getIfRow(sumRatios: SumRatios): boolean {
-      return getFraction(sumRatios.row) > getFraction(sumRatios.col);
-
-      function getFraction(sumRatioVar: number): number {
-        const containerRatio: number = self.rect.w / self.rect.h;
-        return sumRatioVar < containerRatio
-          ? sumRatioVar / containerRatio
-          : containerRatio / sumRatioVar;
-      }
-    }
-    function getAxis(): Axis {
-      const ifXFilled: boolean = getIfXFilled();
-      const m: number = self.margin;
-      return { x: getX(), y: getY() };
-
-      function getIfXFilled(): boolean {
-        const containerRatio: number = self.rect.w / self.rect.h;
-        return sumRatio > containerRatio;
-      }
-      function getX(): number {
-        const isOneInCol: boolean = self.ratios.remote == 0 || self.isFlexRow;
-        const my: number = isOneInCol ? 2 * m : 4 * m;
-        return ifXFilled ? 0 : sumRatio * (self.rect.h - my);
-      }
-      function getY(): number {
-        const isOneInRow: boolean = self.ratios.remote == 0 || !self.isFlexRow;
-        const mx: number = isOneInRow ? 2 * m : 4 * m;
-        return ifXFilled ? (self.rect.w - mx) / sumRatio : 0;
-      }
-    }
   }
-  async resizeAxis({ isX }: { isX: boolean }) {
-    await new Promise((r) => setTimeout(() => r("")));
-    const self = this;
-
-    const alias: string = isX ? "w" : "h";
-
-    const target = isX ? getTargetW() : getTargetH();
-    const totalChange = target - self.rect[alias];
-
-    if (totalChange == 0) return;
-
-    let curTime = Date.now();
-
-    const id = setInterval(() => smoothAxisChange());
-
-    reassignTransitionId(id);
-
-    function getTargetW(): number {
+  async resizeAxis({ isX }: { isX: boolean }): Promise<void> {
+    const getTargetW = (): number => {
       const pos: number = LayoutHandler.centerColumnPos;
 
-      if (pos != 0) return self.rect.w;
+      if (pos != 0) return this.rect.w;
 
       const columns: ColumnElemnts = LayoutHandler.columns;
 
@@ -155,15 +137,15 @@ export default class ConferenceVideos extends Vue {
         r: columns.right.clientWidth,
       };
       const isOpen: { l: boolean; r: boolean } = {
-        l: self.isPanelToggled.settings,
-        r: self.isPanelToggled.chat,
+        l: this.isPanelToggled.settings,
+        r: this.isPanelToggled.chat,
       };
 
       const sidepanelWidth = isOpen.l ? w.l : isOpen.r ? w.r : 0;
 
       return window.innerWidth - sidepanelWidth;
-    }
-    function getTargetH(): number {
+    };
+    const getTargetH = (): number => {
       const bars: BarElements = LayoutHandler.bars;
 
       if (!bars.top || !bars.bottom) throw new Error("Bar is null");
@@ -173,8 +155,8 @@ export default class ConferenceVideos extends Vue {
         b: bars.bottom.clientHeight,
       };
       const isOpen: { t: boolean; b: boolean } = {
-        t: self.isBarOpen.top,
-        b: self.isBarOpen.bottom,
+        t: this.isBarOpen.top,
+        b: this.isBarOpen.bottom,
       };
 
       let h = window.innerHeight;
@@ -182,34 +164,48 @@ export default class ConferenceVideos extends Vue {
       if (isOpen.b) h -= heights.b;
 
       return h;
-    }
-    function smoothAxisChange(): void {
+    };
+    const smoothAxisChange = (): void => {
+      const getNewVal = () => {
+        const dT: number = Date.now() - curTime;
+        const d: number = (totalChange * dT) / this.transitionTime;
+        return this.rect[alias] + d;
+      };
+
       const newVal: number = getNewVal();
 
       const isOverflow = totalChange < 0 ? newVal < target : newVal > target;
 
       if (isOverflow) {
-        self.rect[alias] = target;
+        this.rect[alias] = target;
         reassignTransitionId(-1);
       } else {
-        self.rect[alias] = newVal;
+        this.rect[alias] = newVal;
         curTime = Date.now();
       }
 
-      self.recalc();
-
-      function getNewVal() {
-        const dT: number = Date.now() - curTime;
-        const d: number = (totalChange * dT) / self.transitionTime;
-        return self.rect[alias] + d;
-      }
-    }
-    function reassignTransitionId(newId: number) {
-      const curId = self.transitionIds[alias];
+      this.recalc();
+    };
+    const reassignTransitionId = (newId: number): void => {
+      const curId = this.transitionIds[alias];
       if (curId > 0) clearInterval(curId);
 
-      self.transitionIds[alias] = newId;
-    }
+      this.transitionIds[alias] = newId;
+    };
+
+    await new Promise((r) => setTimeout(() => r("")));
+
+    const alias: string = isX ? "w" : "h";
+
+    const target = isX ? getTargetW() : getTargetH();
+    const totalChange = target - this.rect[alias];
+
+    if (totalChange == 0) return;
+
+    let curTime = Date.now();
+
+    const id = setInterval(() => smoothAxisChange());
+    reassignTransitionId(id);
   }
 
   @Watch("isPanelToggled", { deep: true })
