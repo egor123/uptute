@@ -8,7 +8,11 @@
       isAfterMounted: isAfterMounted,
       isFullScreen: isFullScreen,
     }"
-    :style="`--w: ${w}px; --transitionTime: ${transitionTime}ms`"
+    :style="`
+    --w: ${w}px; 
+    --transitionTime: ${transitionTime}ms; 
+    --margin: ${margin}px;
+    `"
   >
     <div id="card">
       <Header ref="headerBar" />
@@ -30,6 +34,7 @@ import { Vue, Component, Ref, Inject, Watch } from "vue-property-decorator";
 @Component({ components: { Header } })
 export default class SideBase extends Vue {
   @Inject() readonly transitionTime!: number;
+  @Inject() readonly margin!: number;
   @Inject() readonly isLeft!: boolean;
   @Inject() readonly path!: ButtonToggleEvent;
 
@@ -102,27 +107,39 @@ export default class SideBase extends Vue {
 #panel {
   height: 100vh;
   color: var(--v-light-base);
-  padding: 12px;
+  padding: var(--margin);
   max-width: 100vw;
   position: absolute;
   z-index: 10;
   &.isAfterMounted {
-    transition: transform var(--transitionTime);
     width: var(--w);
+
+    $t: var(--transitionTime);
+    transition: transform $t;
+    &.isToggled {
+      transition: transform $t calc($t / 2);
+    }
+    &:not(.isFullScreen):not(.isToggled) {
+      transition: transform $t, padding $t $t;
+    }
   }
-  &.isToggled {
-    transition: transform var(--transitionTime) calc(var(--transitionTime) / 2);
-  }
+
   &.isLeft {
     right: 100vw;
     &.isToggled {
       transform: translate(var(--w));
+    }
+    &:not(.isFullScreen) {
+      padding-right: 0px;
     }
   }
   &:not(.isLeft) {
     left: 100vw;
     &.isToggled {
       transform: translate(calc(-1 * var(--w)));
+    }
+    &:not(.isFullScreen) {
+      padding-left: 0px;
     }
   }
 
