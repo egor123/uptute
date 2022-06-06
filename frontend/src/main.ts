@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue, { VueConstructor } from "vue";
 import App from "./App.vue";
 
 import { Route } from "vue-router/types/router";

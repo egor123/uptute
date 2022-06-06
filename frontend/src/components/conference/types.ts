@@ -195,3 +195,13 @@ export interface SetColumnEl {
   name: "left" | "center" | "right";
   el: Element;
 }
+
+export interface HorizontalSwipe {
+  towards: "settings" | "chat" | "";
+  from: "settings" | "chat" | "";
+}
+
+export interface isDirectionToggled {
+  towards: boolean;
+  from: boolean;
+}
