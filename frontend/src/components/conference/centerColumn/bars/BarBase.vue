@@ -25,7 +25,7 @@ export default class BarBase extends Vue {
   @Ref() readonly bar!: HTMLDivElement;
 
   visibilityCounter: number = 0;
-  hideTime: number = 1250;
+  hideTime: number = 2500;
   transitionIds: number[] = [];
 
   @Inject() readonly transitionTime!: number;

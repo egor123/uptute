@@ -15,7 +15,7 @@
     `"
   >
     <div id="card">
-      <Header ref="headerBar" v-if="!$mb.isMobileInput()" />
+      <Header ref="headerBar" />
       <div id="content" :style="`--pt: ${topPadding}px;`">
         <slot />
       </div>
@@ -138,7 +138,12 @@ export default class SideBase extends Vue {
     $t: var(--transitionTime);
     transition: transform $t;
     &.isToggled {
-      transition: transform $t calc($t / 2);
+      &.isFullScreen {
+        transition: transform $t calc($t / 3);
+      }
+      &:not(.isFullScreen) {
+        transition: transform $t calc($t / 2);
+      }
     }
     &:not(.isFullScreen):not(.isToggled) {
       transition: transform $t, padding $t $t;
