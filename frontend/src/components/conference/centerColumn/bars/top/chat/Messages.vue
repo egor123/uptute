@@ -97,6 +97,7 @@ export default class ConferenceChatMessages extends Vue {
       width: fit-content;
       text-align: left;
       word-break: break-word;
+      white-space: pre-wrap; // fof tabs (\t) and new lines (\n)
     }
     &.isSelf {
       justify-content: right;

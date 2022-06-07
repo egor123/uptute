@@ -8,7 +8,7 @@
       rows="1"
       v-model="input"
     />
-    <button @click="sendMessage" id="send">
+    <button v-if="$mb.isMobileInput()" @click="sendMessage" id="send">
       <v-icon class="icon"> mdi-send </v-icon>
     </button>
   </div>
@@ -27,10 +27,10 @@ export default class ConferenceChatInputBar extends Vue {
   maxInputHeightPercent: number = 40;
 
   onTextareaKey(e: KeyboardEvent): void {
-    if (e.key == "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      if (!isEmpty(this.input)) this.sendMessage();
-    }
+    if (e.key !== "Enter") return;
+    if (e.shiftKey) return;
+    e.preventDefault();
+    if (!isEmpty(this.input)) this.sendMessage();
 
     function isEmpty(input: string) {
       return !/\S/.test(input);
@@ -77,6 +77,7 @@ export default class ConferenceChatInputBar extends Vue {
     border: 1px var(--v-light-darken4) solid;
     outline: none;
     overflow: auto;
+    width: 300px;
 
     transition: border 300ms;
     &:hover,

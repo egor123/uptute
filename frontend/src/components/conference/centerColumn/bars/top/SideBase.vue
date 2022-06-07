@@ -15,7 +15,7 @@
     `"
   >
     <div id="card">
-      <Header ref="headerBar" />
+      <Header ref="headerBar" v-if="!$mb.isMobileInput()" />
       <div id="content" :style="`--pt: ${topPadding}px;`">
         <slot />
       </div>
@@ -49,54 +49,74 @@ export default class SideBase extends Vue {
   @Ref("headerBar") readonly headerBarRef!: Header;
 
   private initialW: number = 0;
+  private intervalId: number = -1;
 
   public isAfterMounted: boolean = false; // for HTML
   public w: number = 0; // for HTML
   public topPadding: number = 0; // for HTML
 
   mounted(): void {
-    const self = this;
+    const instanceElToLayoutHandler = () => {
+      const name: ColumnName = this.isLeft ? "left" : "right";
+      LayoutHandler.setColumnEl({ name, el: this.$el });
+    };
 
-    this.topPadding = this.headerBarRef.$el.clientHeight;
-    this.w = this.$el.clientWidth;
+    addEventListener("resize", this.onResize);
+
+    this.topPadding = this.headerBarRef?.$el.clientHeight | 0;
+    this.initialW = this.w = this.$el.clientWidth;
     instanceElToLayoutHandler();
 
     setTimeout(() => (this.isAfterMounted = true));
+  }
 
-    function instanceElToLayoutHandler() {
-      const name: ColumnName = self.isLeft ? "left" : "right";
-      LayoutHandler.setColumnEl({ name, el: self.$el });
+  async onResize() {
+    if (this.isFullScreen) this.smoothWidthChange(this.transitionTime / 10);
+    else {
+      this.isAfterMounted = false;
+      await new Promise((r) => this.$nextTick(() => r("")));
+      this.initialW = this.w = this.$el.clientWidth;
+      this.isAfterMounted = true;
     }
   }
 
+  smoothWidthChange(time: number) {
+    const frameWidthChange = (): void => {
+      const curW: number = this.$el.clientWidth;
+      const newTime: number = Date.now();
+      const dT: number = newTime - curTime;
+      curTime = newTime;
+
+      const ifIteerate: boolean = isExpand ? curW < targetW : curW > targetW;
+
+      const delta: number = (dT / time) * totalChange;
+
+      if (ifIteerate) this.w = curW + delta;
+      else {
+        this.w = targetW;
+        clearInterval(this.intervalId);
+        this.intervalId = -1;
+      }
+    };
+
+    if (this.intervalId > 0) {
+      clearInterval(this.intervalId);
+    }
+
+    let curTime: number = Date.now();
+    const isExpand: boolean = this.isFullScreen;
+    const targetW: number = isExpand ? window.innerWidth : this.initialW;
+    const totalChange: number = targetW - this.$el.clientWidth;
+
+    this.intervalId = setInterval(() => frameWidthChange());
+  }
+
   @Watch("isFullScreen")
-  async smoothResize(isFullScreen: boolean): Promise<void> {
-    const self = this;
-
-    if (isFullScreen) this.initialW = this.$el.clientWidth;
-
+  async smoothResize(): Promise<void> {
     if (LayoutHandler.centerColumnPos == 0)
       await new Promise((r) => setTimeout(() => r(""), this.transitionTime));
 
-    smoothWidthChange(1000); // 1000 => instant change
-
-    function smoothWidthChange(delta: number) {
-      const id: number = setInterval(() => frameWidthChange(id));
-
-      function frameWidthChange(id: number): void {
-        const curW: number = self.$el.clientWidth;
-        const isExpand: boolean = self.isFullScreen;
-
-        const targetW: number = isExpand ? window.innerWidth : self.initialW;
-        const ifIteerate: boolean = isExpand ? curW < targetW : curW > targetW;
-
-        if (ifIteerate) self.w = curW + (isExpand ? +delta : -delta);
-        else {
-          self.w = targetW;
-          clearInterval(id);
-        }
-      }
-    }
+    this.smoothWidthChange(1); // 1 ms => instant
   }
 }
 </script>
@@ -111,6 +131,7 @@ export default class SideBase extends Vue {
   max-width: 100vw;
   position: absolute;
   z-index: 10;
+  width: auto;
   &.isAfterMounted {
     width: var(--w);
 

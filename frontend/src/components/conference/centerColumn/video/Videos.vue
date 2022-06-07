@@ -125,7 +125,7 @@ export default class ConferenceVideos extends Vue {
     const getTargetW = (): number => {
       const pos: number = LayoutHandler.centerColumnPos;
 
-      if (pos != 0) return this.rect.w;
+      if (pos != 0) return Math.min(window.innerWidth, this.rect.w);
 
       const columns: ColumnElemnts = LayoutHandler.columns;
 
