@@ -1,6 +1,6 @@
 <template>
   <SidepanelBase>
-    <div id="chat" ref="chat">
+    <div id="chat">
       <Messages />
       <InputBar />
     </div>

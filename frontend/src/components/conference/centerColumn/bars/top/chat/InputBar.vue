@@ -4,7 +4,7 @@
       @keypress="onTextareaKey"
       id="inputLine"
       type="text"
-      ref="textarea"
+      ref="textareaRef"
       rows="1"
       v-model="input"
     />
@@ -16,12 +16,13 @@
 
 <script lang="ts">
 import Chat from "@/store/modules/conference/chat";
+import ToggleStore from "@/store/modules/conference/toggleStore";
 
 import { Vue, Component, Ref, Watch } from "vue-property-decorator";
 
 @Component
 export default class ConferenceChatInputBar extends Vue {
-  @Ref("textarea") textareaRef!: HTMLTextAreaElement;
+  @Ref() textareaRef!: HTMLTextAreaElement;
 
   input: string = "";
   maxInputHeightPercent: number = 40;
@@ -53,8 +54,42 @@ export default class ConferenceChatInputBar extends Vue {
     });
   }
 
+  scheduleFocus(): void {
+    const focusOnInViewoport = (id: number): void => {
+      const isInView: boolean =
+        this.textareaRef.getBoundingClientRect().right < window.innerWidth;
+
+      if (!isInView) return;
+
+      this.focus();
+      clearInterval(id);
+    };
+
+    console.log("START");
+
+    const id: number = setInterval(() => focusOnInViewoport(id), 0);
+  }
+
+  focus(): void {
+    if (this.textareaRef) this.textareaRef.focus();
+    else throw new Error(`textareaRef is ${this.textareaRef}`);
+  }
+  blur(): void {
+    if (this.textareaRef) this.textareaRef.blur();
+    else throw new Error(`textareaRef is ${this.textareaRef}`);
+  }
+
   @Watch("input")
   onInputChange = (): void => this.resizeTextArea();
+
+  private get isToggle() {
+    return ToggleStore.isToggled.top.chat;
+  }
+  @Watch("isToggle")
+  onToggle = (bool: boolean) => {
+    if (bool && !this.$mb.isMobileInput()) this.scheduleFocus();
+    else this.blur();
+  };
 }
 </script>
 
