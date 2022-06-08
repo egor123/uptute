@@ -24,5 +24,6 @@ export default class EndBtn extends Vue {
   }
   @Provide() icons: Icons = { on: "phone-hangup", off: "phone-hangup" };
   @Provide() bgColor = "var(--v-error-darken1)";
+  @Provide() isElongated = true;
 }
 </script>

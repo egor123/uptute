@@ -1,11 +1,11 @@
 <template>
   <BarBase :isTopBar="false">
-    <div ref="wrapper">
-      <MicOff />
-      <CamOff />
-      <End />
-      <ScreenShare />
-      <Whiteboard />
+    <div id="wrapper" ref="wrapper" :class="{ isMobile: $mb.isMobileInput() }">
+      <MicOff id="mic" />
+      <CamOff id="cam" />
+      <ScreenShare v-if="!$mb.isMobileInput()" />
+      <End id="end" />
+      <!-- <Whiteboard /> -->
     </div>
   </BarBase>
 </template>
@@ -33,3 +33,22 @@ export default class BottomBar extends Vue {
   }
 }
 </script>
+
+<style scoped lang="scss">
+#wrapper {
+  display: flex;
+  flex-direction: row;
+
+  &.isMobile {
+    #mic {
+      order: 1;
+    }
+    #cam {
+      order: 2;
+    }
+    #end {
+      order: 3;
+    }
+  }
+}
+</style>
