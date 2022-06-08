@@ -47,25 +47,23 @@ export default class VideoBase extends Vue {
   public rect: Rect = { w: 0, h: 0 }; // for HTML
 
   mounted(): void {
-    this.videoRef.addEventListener("loadedmetadata", this.onMetadata);
+    this.videoRef.addEventListener("loadedmetadata", this.calcRatio);
+    addEventListener("orientationchange", this.calcRatio);
   }
   beforeDestroy(): void {
-    this.videoRef.removeEventListener("loadedmetadata", this.onMetadata);
+    this.videoRef.removeEventListener("loadedmetadata", this.calcRatio);
+    removeEventListener("orientationchange", this.calcRatio);
   }
 
-  private onMetadata(): void {
-    const self = this;
+  private calcRatio(): void {
+    const emitRatio = (ratio: number) => {
+      this.videosInstance.$emit("gotRatio", { isLocal: this.isLocal, ratio });
+    };
 
-    this.ratio = getRatio();
+    if (!this.videoRef?.videoWidth || !this.videoRef?.videoWidth) return;
+
+    this.ratio = this.videoRef.videoWidth / this.videoRef.videoHeight;
     emitRatio(this.ratio);
-
-    function getRatio() {
-      return self.videoRef.videoWidth / self.videoRef.videoHeight;
-    }
-    function emitRatio(ratio: number) {
-      const isLocal = self.isLocal;
-      self.videosInstance.$emit("gotRatio", { isLocal, ratio });
-    }
   }
 
   calcRect(): void {
