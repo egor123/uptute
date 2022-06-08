@@ -113,6 +113,8 @@ class ConferenceMain extends VuexModule {
     this.addTrackToPeerConnection({ source: local, isVideo: true });
     this.addTrackToPeerConnection({ source: local, isVideo: false });
 
+    InitState.setMediaAllowed(true);
+
     return true;
   }
   @Action
