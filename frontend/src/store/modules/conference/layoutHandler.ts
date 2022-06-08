@@ -37,12 +37,17 @@ class ConferenceLayoutHandler extends VuexModule {
 
     await new Promise((r) => setTimeout(() => r(""), 0));
 
+    this.setLayout();
+  }
+  @Action
+  async setLayout() {
     const sum: number | void = await this.getSumWidth();
 
     if (!sum) return;
 
     if (sum > window.innerWidth) {
-      if (isLeft) this.setCenterColumnPos(1);
+      const isLeftPanelOpen: boolean = ToggleStore.isToggled.top.settings;
+      if (isLeftPanelOpen) this.setCenterColumnPos(1);
       else this.setCenterColumnPos(-1);
     } else this.setCenterColumnPos(0);
   }
