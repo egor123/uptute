@@ -4,6 +4,7 @@ import router from "@/router";
 import { firestore } from "@/firebase";
 import { config, constraints } from "@/constants/peer-connection";
 
+import InitState from "@/store/modules/conference/initState";
 import Caller from "@/store/modules/conference/caller";
 import Callee from "@/store/modules/conference/callee";
 import {
@@ -30,12 +31,14 @@ import {
 
 @Module({ name: "conferenceMain", namespaced: true, dynamic: true, store })
 class ConferenceMain extends VuexModule {
-  streams: Streams = {
+  public isMediaAllowed: boolean | null = null;
+
+  public streams: Streams = {
     local: new MediaStream(),
     remote: new MediaStream(),
   };
-  peerConnection: RTCPeerConnection = new RTCPeerConnection(config);
-  roomRef: DocRef | null = null;
+  public peerConnection: RTCPeerConnection = new RTCPeerConnection(config);
+  public roomRef: DocRef | null = null;
 
   // ! -----------------------------------------------------------------------------------
 
@@ -47,7 +50,9 @@ class ConferenceMain extends VuexModule {
   async init({ isCaller, id }: InitParams): Promise<void> {
     if (!isCaller && !id) return this.failedToJoin({ err: "Room id is null" });
 
-    await this.addLocalTracks();
+    const ifSuccess: boolean = await this.addLocalTracks();
+
+    if (!ifSuccess) return InitState.onMediaBlocked({ isCaller, id });
 
     const isSuccess: boolean = isCaller
       ? await Caller.createRoom()
@@ -94,14 +99,21 @@ class ConferenceMain extends VuexModule {
   //   }
   // }
   @Action
-  async addLocalTracks() {
-    const source = await navigator.mediaDevices.getUserMedia(constraints);
+  async addLocalTracks(): Promise<boolean> {
+    const source: MediaStream | null = await navigator.mediaDevices
+      .getUserMedia(constraints)
+      .catch(() => null);
+
+    if (!source) return false;
+
     this.addMediaTrackToStream({ source, isVideo: true, isLocal: true });
     this.addMediaTrackToStream({ source, isVideo: false, isLocal: true });
 
     const local: MediaStream = this.streams.local;
     this.addTrackToPeerConnection({ source: local, isVideo: true });
     this.addTrackToPeerConnection({ source: local, isVideo: false });
+
+    return true;
   }
   @Action
   setListeners({ isCaller }: { isCaller: boolean }) {

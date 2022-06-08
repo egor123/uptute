@@ -27,10 +27,9 @@ export default class Interface extends mixins(Swipe) {
 
 #interface {
   position: relative;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   @include flexbox(row);
-  background: var(--v-background-base);
   overflow: hidden;
 
   ::-webkit-scrollbar {
