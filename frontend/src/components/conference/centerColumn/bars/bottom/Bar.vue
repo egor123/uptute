@@ -1,5 +1,5 @@
 <template>
-  <BarBase :isTopBar="false">
+  <BarBase :isTop="false">
     <div id="wrapper" ref="wrapper" :class="{ isMobile: $mb.isMobileInput() }">
       <MicOff id="mic" />
       <CamOff id="cam" />

@@ -82,13 +82,13 @@ function addSwipedListener(callback: SwipedEventCallback, el = document) {
       setTimeout(() => res({ x: 0, y: 0 }), delay);
     };
 
-    const getDirection = (move: Vector): Direction => {
+    const getDirection = (move: Vector): Direction | null => {
       const magnitude: number = Math.sqrt(move.x * move.x + move.y * move.y);
       const isHorisontal: boolean = Math.abs(move.x) > Math.abs(move.y);
 
       if (magnitude < minMagnitude) return null;
       if (isHorisontal) return move.x > 0 ? "right" : "left";
-      else return move.y > 0 ? "up" : "down";
+      else return move.y > 0 ? "down" : "up";
     };
 
     const pos: Vector = { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -96,7 +96,8 @@ function addSwipedListener(callback: SwipedEventCallback, el = document) {
 
     new Promise(calcMove).then((move) => {
       el.removeEventListener("touchmove", touchmove);
-      callback(getDirection(move));
+      const dir: Direction | null = getDirection(move);
+      if (dir !== null) callback(dir);
     });
   };
 

@@ -10,14 +10,19 @@
 import Settings from "@/components/conference/centerColumn/bars/top/settings/Sidepanel.vue";
 import CentralColumn from "@/components/conference/centerColumn/CenterColumn.vue";
 import Chat from "@/components/conference/centerColumn/bars/top/chat/Sidepanel.vue";
-import Swipe from "@/components/conference/plugins/Swipe.vue";
+import SwipeInput from "@/components/conference/plugins/alternativeInput/Swipe.vue";
+import KeyboardInput from "@/components/conference/plugins/alternativeInput/Keyboard.vue";
 import OnRotate from "@/components/conference/plugins/OnRotate.vue";
 
 import { Component, Provide } from "vue-property-decorator";
 import { mixins } from "vue-class-component";
 
 @Component({ components: { Settings, CentralColumn, Chat } })
-export default class Interface extends mixins(Swipe, OnRotate) {
+export default class Interface extends mixins(
+  SwipeInput,
+  KeyboardInput,
+  OnRotate
+) {
   @Provide() readonly margin: number = 12; //px
   @Provide() readonly transitionTime: number = 700; //ms
 }

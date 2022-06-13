@@ -1,9 +1,8 @@
 <template>
   <div
-    ref="bar"
     id="buttons"
-    :class="{ isTopBar: isTopBar, isVisible: isVisible }"
-    :style="`--transitionTime: ${transitionTime}ms;`"
+    :class="{ isTop: isTop, isVisible: isVisible }"
+    :style="`--t: ${transitionTime}ms;`"
   >
     <slot />
   </div>
@@ -11,54 +10,59 @@
 
 <script lang="ts">
 import LayoutHandler from "@/store/modules/conference/layoutHandler";
-import {
-  Vue,
-  Component,
-  Ref,
-  Prop,
-  Watch,
-  Inject,
-} from "vue-property-decorator";
+import { Vue, Component, Prop, Watch, Inject } from "vue-property-decorator";
 
 @Component
-export default class BarBase extends Vue {
-  @Ref() readonly bar!: HTMLDivElement;
-
-  visibilityCounter: number = 0;
-  hideTime: number = 2500;
-  transitionIds: number[] = [];
-
+export default class ConferenceBarBase extends Vue {
   @Inject() readonly transitionTime!: number;
-  @Prop(Boolean) readonly isTopBar!: boolean;
+  @Prop(Boolean) readonly isTop!: boolean;
 
-  get isVisible(): boolean {
-    return this.visibilityCounter > 0;
+  private hideTime: number = 2500; // ms
+  private timeoutId: number = -1;
+
+  public get isVisible(): boolean {
+    return this.timeoutId >= 0;
   }
-
-  mounted(): void {
-    this.setBarEl();
-    this.setBarState();
-
-    addEventListener("mousemove", this.onMouseMove);
-  }
-  beforeUnmount(): void {
-    removeEventListener("mousemove", this.onMouseMove);
+  private get side(): "top" | "bottom" {
+    return this.isTop ? "top" : "bottom";
   }
 
-  onMouseMove(): void {
-    this.visibilityCounter++;
-    setTimeout(() => this.visibilityCounter--, this.hideTime);
+  private mounted(): void {
+    this.dispatchEl();
+    this.dispatchVisibility();
+
+    addEventListener("mousemove", this.makeTemporarilyVisible);
+  }
+  private beforeUnmount(): void {
+    removeEventListener("mousemove", this.makeTemporarilyVisible);
   }
 
-  setBarEl() {
-    LayoutHandler.setbarEl({ isTop: this.isTopBar, el: this.$el });
+  private dispatchEl() {
+    LayoutHandler.setbarEl({ isTop: this.isTop, el: this.$el });
   }
-  setBarState(): void {
-    LayoutHandler.setBarState({ isTop: this.isTopBar, val: this.isVisible });
+  private dispatchVisibility(): void {
+    LayoutHandler.setBarState({ isTop: this.isTop, val: this.isVisible });
   }
+
+  private makeTemporarilyVisible(): void {
+    const id: number = setTimeout(() => this.setTimeoutId(-1), this.hideTime);
+    this.setTimeoutId(id);
+  }
+
+  private setTimeoutId(val: number): void {
+    if (this.timeoutId >= 0) clearTimeout(this.timeoutId);
+    this.timeoutId = val;
+  }
+
+  private get remoteIsVisible(): boolean {
+    return LayoutHandler.isBarOpen[this.side];
+  }
+  @Watch("remoteIsVisible")
+  onLayoutHandlerVisibleChange = (remoteIsVisible: boolean): void =>
+    remoteIsVisible ? this.makeTemporarilyVisible() : this.setTimeoutId(-1);
 
   @Watch("isVisible")
-  onIsVisibleChange = (): void => this.setBarState();
+  onLocalIsVisibleChange = this.dispatchVisibility;
 }
 </script>
 
@@ -66,7 +70,7 @@ export default class BarBase extends Vue {
 @import "@/scss/styles.scss";
 
 #buttons {
-  transition: transform var(--transitionTime);
+  transition: transform var(--t);
   flex: 0;
   $padding: 6px;
   @include flexbox(row);
@@ -76,17 +80,17 @@ export default class BarBase extends Vue {
   position: absolute;
 
   &.isVisible {
-    transition: transform var(--transitionTime) calc(var(--transitionTime) / 2);
+    transition: transform var(--t) calc(var(--t) / 2);
   }
 
-  &.isTopBar {
+  &.isTop {
     padding-top: $padding;
     top: 0px;
     &:not(.isVisible) {
       transform: translateY(-100%);
     }
   }
-  &:not(.isTopBar) {
+  &:not(.isTop) {
     padding-bottom: $padding;
     bottom: 0px;
     &:not(.isVisible) {

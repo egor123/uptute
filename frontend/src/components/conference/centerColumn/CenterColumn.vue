@@ -9,20 +9,20 @@
     }"
   >
     <TopBar />
-    <Videos />
+    <VideosWrapper />
     <BottomBar />
   </div>
 </template>
 
 <script lang="ts">
 import TopBar from "@/components/conference/centerColumn/bars/top/Bar.vue";
-import Videos from "@/components/conference/centerColumn/video/Videos.vue";
+import VideosWrapper from "@/components/conference/centerColumn/video/Wrapper.vue";
 import BottomBar from "@/components/conference/centerColumn/bars/bottom/Bar.vue";
 
 import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import ToggleStore from "@/store/modules/conference/toggleStore";
 import { Vue, Component } from "vue-property-decorator";
-@Component({ components: { TopBar, Videos, BottomBar } })
+@Component({ components: { TopBar, VideosWrapper, BottomBar } })
 export default class ConferenceCenterColumn extends Vue {
   get pos() {
     return LayoutHandler.centerColumnPos;

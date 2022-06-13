@@ -85,6 +85,11 @@ class ConferenceLayoutHandler extends VuexModule {
     this.isBarOpen[name] = val;
   }
   @Mutation
+  toggleBarState({ isTop }: { isTop: boolean }) {
+    const name: string = isTop ? "top" : "bottom";
+    this.isBarOpen[name] = !this.isBarOpen[name];
+  }
+  @Mutation
   setbarEl({ isTop, el }: SetBarEl) {
     const name = isTop ? "top" : "bottom";
     this.bars[name] = el;

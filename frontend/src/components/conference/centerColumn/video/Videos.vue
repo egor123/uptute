@@ -1,9 +1,11 @@
 <template>
-  <div id="wrapper" :style="`--w: ${rect.w}px; --h: ${rect.h}px;`">
-    <div id="videos" :class="{ flexRow: isFlexRow }">
-      <LocalVideo ref="local" />
-      <RemoteVideo ref="remote" />
-    </div>
+  <div
+    id="videos"
+    :class="{ flexRow: isFlexRow }"
+    :style="`--w: ${rect.w}px; --h: ${rect.h}px;`"
+  >
+    <LocalVideo ref="local" />
+    <RemoteVideo ref="remote" />
   </div>
 </template>
 
@@ -67,16 +69,16 @@ export default class ConferenceVideos extends Vue {
     removeEventListener("resize", this.onResize);
   }
 
-  onGotRatio({ isLocal, ratio }: RatioEvent): void {
+  private onGotRatio({ isLocal, ratio }: RatioEvent): void {
     const type: string = isLocal ? "local" : "remote";
     this.ratios[type] = ratio;
     this.recalc();
   }
-  onResize(): void {
+  private onResize(): void {
     this.resizeAxis({ isX: true });
     this.resizeAxis({ isX: false });
   }
-  recalc(): void {
+  private recalc(): void {
     const getIfRow = (sumRatios: SumRatios): boolean => {
       const getFraction = (sumRatioVar: number): number => {
         const containerRatio: number = this.rect.w / this.rect.h;
@@ -86,14 +88,14 @@ export default class ConferenceVideos extends Vue {
       };
       return getFraction(sumRatios.row) > getFraction(sumRatios.col);
     };
-    function getSumRatios(ratios: Ratios): SumRatios {
+    const getSumRatios = (ratios: Ratios): SumRatios => {
       const l = ratios.local;
       const r = ratios.remote;
       const row: number = l + r;
       const col: number = r == 0 ? l : (l * r) / (l + r);
 
       return { row, col };
-    }
+    };
     const getAxis = (): Axis => {
       const getIfXFilled = (): boolean => {
         const containerRatio: number = this.rect.w / this.rect.h;
@@ -121,7 +123,7 @@ export default class ConferenceVideos extends Vue {
     const sumRatio = this.isFlexRow ? sumRatios.row : sumRatios.col;
     this.axis = getAxis();
   }
-  async resizeAxis({ isX }: { isX: boolean }): Promise<void> {
+  private async resizeAxis({ isX }: { isX: boolean }): Promise<void> {
     const getTargetW = (): number => {
       const pos: number = LayoutHandler.centerColumnPos;
 
@@ -167,8 +169,11 @@ export default class ConferenceVideos extends Vue {
     };
     const smoothAxisChange = (): void => {
       const getNewVal = () => {
+        const minSpeed: number = 0.21; // px / ms
         const dT: number = Date.now() - curTime;
-        const d: number = (totalChange * dT) / this.transitionTime;
+        let d: number = (totalChange * dT) / this.transitionTime;
+        d = Math.abs(d / dT) > minSpeed ? d : (d > 0 ? 1 : -1) * minSpeed * dT;
+
         return this.rect[alias] + d;
       };
 
@@ -219,19 +224,14 @@ export default class ConferenceVideos extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/styles.scss";
 
-#wrapper {
+#videos {
   width: var(--w);
   height: var(--h);
-  position: relative;
-  #videos {
-    position: absolute;
-    @include box-size(100%);
-    &.flexRow {
-      @include flexbox(row);
-    }
-    &:not(.flexRow) {
-      @include flexbox(column);
-    }
+  &.flexRow {
+    @include flexbox(row);
+  }
+  &:not(.flexRow) {
+    @include flexbox(column);
   }
 }
 </style>

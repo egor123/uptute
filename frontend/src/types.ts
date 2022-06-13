@@ -15,4 +15,4 @@ export interface PromiseRes<T = unknown> {
   (value: T): void;
 }
 
-export type Direction = "right" | "left" | "up" | "down" | null;
+export type Direction = "right" | "left" | "up" | "down";

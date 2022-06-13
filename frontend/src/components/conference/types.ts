@@ -1,4 +1,5 @@
 import { firestore } from "@/firebase";
+import { Direction } from "@/types";
 
 export interface IsToggled {
   [index: string]: { [index: string]: boolean };
@@ -196,10 +197,17 @@ export interface SetColumnEl {
   el: Element;
 }
 
-export interface HorizontalSwipe {
-  towards: "settings" | "chat" | "";
-  from: "settings" | "chat" | "";
+export interface DirPair {
+  towards: DirectionComponentName;
+  from: DirectionComponentName;
 }
+
+export type DirectionComponentName =
+  | "top"
+  | "chat"
+  | "bottom"
+  | "settings"
+  | "";
 
 export interface isDirectionToggled {
   towards: boolean;
@@ -239,4 +247,16 @@ type FaceingMode = "user" | "environment" | "left" | "right";
 
 export interface RTCDataChannelOverride {
   ordered: boolean;
+}
+
+export type DirTuple = [DirectionComponentName, DirectionComponentName];
+
+export interface BoolDirPair {
+  from: boolean;
+  towards: boolean;
+}
+
+export interface DirectionPairs {
+  isToggled: BoolDirPair;
+  name: DirPair;
 }

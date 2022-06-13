@@ -1,5 +1,5 @@
 <template>
-  <BarBase :isTopBar="true">
+  <BarBase :isTop="true">
     <SettingsBtn />
     <v-spacer />
     <ChatBtn />
