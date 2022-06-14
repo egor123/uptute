@@ -3,11 +3,9 @@
     class="textInput"
     ref="textInput"
     :class="{ errorMovement: errorAnim, errorColor: error }"
-    :style="
-      `--displayShadow: ${flat ? 'none' : 'flex'};
+    :style="`--displayShadow: ${flat ? 'none' : 'flex'};
       --backgroundColor: ${backgroundColor}; 
-      --borderRadius: ${borderRadius}`
-    "
+      --borderRadius: ${borderRadius}`"
   >
     <!-- :rules="rules(input)" -->
     <div
@@ -93,7 +91,7 @@ export default {
     }
   },
   watch: {
-    input: function(val) {
+    input: function (val) {
       if (this.area) {
         const el = this.$refs.textarea;
         el.style.height = "auto";
@@ -102,7 +100,7 @@ export default {
       if (this.rules != undefined && this.rules(this.input)) this.error = false;
       this.$emit("input", val);
     },
-    value: function(val) {
+    value: function (val) {
       this.input = val;
     },
   },

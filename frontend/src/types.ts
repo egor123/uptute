@@ -1,6 +1,7 @@
 export interface SwipeEventCallback {
-  (move: { x: number; y: number }, status: "start" | "move" | "end"): void;
+  (move: Vector, status: SwipeStatus): void;
 }
+export type SwipeStatus = "start" | "move" | "end";
 
 export interface SwipedEventCallback {
   (direction: Direction): void;

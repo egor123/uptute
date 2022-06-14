@@ -10,15 +10,15 @@
       <TextField
         v-model="roomId"
         label="Room id"
-        :rules="(v) => true"
+        :rules="() => true"
         :borderRadius="'15px 15px 15px 15px'"
-        :flat="false"
+        :flat="true"
         :errMsg="errMsg"
         required
       />
-      <v-btn rounded outlined color="accent" class="mt-4" @click="emitJoin()">
-        Enter
-      </v-btn>
+      <v-btn rounded outlined color="accent" class="mt-4" @click="emitJoin()"
+        >Enter</v-btn
+      >
     </template>
   </Dialog>
 </template>

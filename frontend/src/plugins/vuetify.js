@@ -26,6 +26,7 @@ export default new Vuetify({
         innerThumbHover: "#d6d6d6",
       },
       dark: {
+        primary: "#000",
         background: "#131313",
         btnOn: "#333",
         btnOff: "#131313",

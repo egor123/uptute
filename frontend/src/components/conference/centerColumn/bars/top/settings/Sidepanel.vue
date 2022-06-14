@@ -1,5 +1,6 @@
 <template>
   <SidepanelBase>
+    <NavigationTip class="navigationTip" />
     <table id="info" ref="info">
       <tr v-for="(param, id) in info" :key="id">
         <td class="key">{{ param.name }}</td>
@@ -11,6 +12,7 @@
 
 <script lang="ts">
 import SidepanelBase from "@/components/conference/centerColumn/bars/top/SideBase.vue";
+import NavigationTip from "@/components/conference/centerColumn/bars/top/settings/NavigationTip.vue";
 
 import Main from "@/store/modules/conference/main";
 import { Vue, Component, Provide } from "vue-property-decorator";
@@ -23,7 +25,7 @@ interface Info {
   };
 }
 
-@Component({ components: { SidepanelBase } })
+@Component({ components: { NavigationTip, SidepanelBase } })
 export default class SettingsPanel extends Vue {
   info: Info = { id: { name: "Conference ID", val: Main.roomRef?.id } };
 
@@ -35,6 +37,9 @@ export default class SettingsPanel extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/styles.scss";
 
+.navigationTip {
+  margin-bottom: 16px;
+}
 #info {
   width: 100%;
   td {
