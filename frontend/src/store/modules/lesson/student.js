@@ -1,6 +1,7 @@
 import { apiRequest, isJwtExpired } from "@/services/api.service.js";
 import router from "@/router";
 import axios from "axios";
+import ConferenceMain from "@/store/modules/conference/main.ts";
 
 export default {
   namespaced: true,
@@ -157,7 +158,7 @@ async function listenForInit(context) {
   const initLog = getInitLog(getInitRes);
   if (initLog) {
     context.commit("mutate", { name: "state", val: "conference" });
-    window.open(getLink(initLog), "_self");
+    enterRoom(initLog);
   }
   return;
 
@@ -179,8 +180,11 @@ async function listenForInit(context) {
       (childLog) => childLog.type === "INIT"
     );
   }
-  function getLink(initLog) {
-    return initLog.details;
+  function enterRoom(initLog) {
+    const conferenceId = initLog.details;
+    router.push({ path: "conference" });
+    console.log("!!!", conferenceId);
+    ConferenceMain.init({ isCaller: false, id: conferenceId });
   }
 }
 

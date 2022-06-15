@@ -40,6 +40,7 @@
 <script>
 import Dialog from "@/components/global/Dialog.vue";
 import PageViewer from "@/components/global/PageViewer.vue";
+import TutorLesson from "@/store/modules/lesson/tutor";
 
 export default {
   data() {
@@ -65,7 +66,7 @@ export default {
   },
   computed: {
     isOffered: function () {
-      return this.$store.state["lesson/tutor"].offeredLessons.length > 0;
+      return TutorLesson.lessons.offered.length > 0;
     },
   },
   props: ["student"],
@@ -75,19 +76,15 @@ export default {
   },
   methods: {
     async sendOffer() {
-      const lessonIdAndLogId = {
-        lessonId: this.student.lessonId,
-        logId: this.student.logId,
+      const lessonIds = {
+        lesson: this.student.lessonId,
+        log: this.student.logId,
       };
 
-      this.$store.dispatch("lesson/tutor/sendOffer", {
-        lesson: lessonIdAndLogId,
-      });
+      TutorLesson.sendOffer(lessonIds);
     },
     cancelOffer() {
-      this.$store.dispatch("lesson/tutor/cancelOffer", {
-        offerLogId: this.student.offerLogId,
-      });
+      TutorLesson.cancelOffer(this.student.offerLogId);
     },
   },
 };

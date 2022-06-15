@@ -18,7 +18,7 @@
         }`"
         :convertor="(item) => $l('find.filters.filters.' + item.name)"
       />
-      <StudentPanels id="panels" :students="getStudentsArr()" />
+      <StudentPanels id="panels" :students="getStudentsArr" />
     </div>
   </Background>
 </template>
@@ -31,6 +31,7 @@ import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
 import Searching from "@/components/choosing/Searching.vue";
 import SortBy from "@/components/filterPanel/ExpandableSortBy.vue";
 import StudentPanels from "@/components/choosing/choosingAStudent/StudentPanels.vue";
+import TutorLesson from "@/store/modules/lesson/tutor";
 
 export default {
   permisions: {
@@ -98,16 +99,17 @@ export default {
     //     year: date.getFullYear(),
     //   };
     // },
+  },
+  computed: {
     getStudentsArr() {
-      const stateObj = this.$store.state["lesson/tutor"];
-      console.log(stateObj);
-      if (stateObj.offeredLessons.length > 0) return stateObj.offeredLessons;
-      return stateObj.lessons;
+      if (TutorLesson.lessons.offered.length > 0)
+        return TutorLesson.lessons.offered;
+      return TutorLesson.lessons.open;
     },
   },
   beforeMount() {
     // this.settingDate();
-    this.$store.dispatch("lesson/tutor/getLessons", { vm: this });
+    TutorLesson.initSearch();
   },
   mounted() {
     // for (var i = 0; i < 5; i++) {
@@ -115,7 +117,7 @@ export default {
     // }
   },
   beforeRouteLeave(to, from, next) {
-    this.$store.commit("lesson/tutor/mutate", { name: "state", val: "idle" });
+    TutorLesson.setPhase("idle");
     next();
   },
 };
