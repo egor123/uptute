@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { rndBtw } from "@/plugins/GlobalMethods.js";
+import { rndBtw } from "@/plugins/utilityMethods.js";
 import Char from "@/classes/heroCanvas/Char.js";
 
 export default {

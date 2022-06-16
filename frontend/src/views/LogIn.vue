@@ -58,7 +58,7 @@
 //import { mapActions } from "vuex";
 import Subheader from "@/components/app/Subheader.vue";
 // import { GoogleAuthService } from "@/services/index";
-import { goTo } from "@/plugins/GlobalMethods.js";
+import { goTo } from "@/plugins/utilityMethods.js";
 
 export default {
   permisions: {

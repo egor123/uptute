@@ -12,7 +12,7 @@ export interface Lesson {
   studentUUID: string;
 }
 
-export interface PLesson extends Omit<Lesson, "details"> {
+export interface LessonWithoutStudent extends Omit<Lesson, "details"> {
   details: LessonInfo;
 }
 

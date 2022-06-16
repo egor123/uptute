@@ -31,7 +31,7 @@ import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
 import Searching from "@/components/choosing/Searching.vue";
 import SortBy from "@/components/filterPanel/ExpandableSortBy.vue";
 import StudentPanels from "@/components/choosing/choosingAStudent/StudentPanels.vue";
-import TutorLesson from "@/store/modules/lesson/tutor";
+import TutorLesson from "@/store/modules/lesson/tutor/module";
 
 export default {
   permisions: {
@@ -117,7 +117,7 @@ export default {
     // }
   },
   beforeRouteLeave(to, from, next) {
-    TutorLesson.setPhase("idle");
+    TutorLesson.clearAll();
     next();
   },
 };

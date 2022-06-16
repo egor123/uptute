@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { scrolled } from "@/plugins/GlobalMethods";
+import { scrolled } from "@/plugins/utilityMethods";
 
 export default {
   props: {
@@ -153,3 +153,4 @@ $title-margin-bottom: 2rem;
   }
 }
 </style>
+

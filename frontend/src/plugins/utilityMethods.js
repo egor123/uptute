@@ -73,3 +73,6 @@ export function ruleBase({ self, title, condition, pathEnd, lParams }) {
     self[title].errMsg = self.$l(`auth.rules.${pathEnd}`, lParams || {});
   return condition;
 }
+
+export const sleep = async (time = 0) =>
+  await new Promise((r) => setTimeout(r, time));

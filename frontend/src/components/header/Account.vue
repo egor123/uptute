@@ -27,7 +27,7 @@
 
 <script>
 import HeaderMenu from "@/components/header/HeaderMenu.vue";
-import { goTo } from "@/plugins/GlobalMethods.js";
+import { goTo } from "@/plugins/utilityMethods.js";
 
 export default {
   props: {

@@ -104,7 +104,7 @@ import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 import TextField from "@/components/filterPanel/TextField";
 
 import Dialog from "@/components/global/Dialog.vue";
-import { ruleBase } from "@/plugins/GlobalMethods.js";
+import { ruleBase } from "@/plugins/utilityMethods.js";
 
 export default {
   components: {

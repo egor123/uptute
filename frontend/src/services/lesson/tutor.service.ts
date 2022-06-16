@@ -1,5 +1,5 @@
 import { apiRequest } from "@/services/api.service.js";
-import { RequestMethod } from "@/store/modules/lesson/types";
+import { RequestMethod } from "@/store/modules/lesson/tutor/types";
 import {
   AxiosLogWithAccepted,
   AxiosLessonIds,
@@ -8,28 +8,24 @@ import {
   AxiosInit,
 } from "./types";
 
-const request = (method: RequestMethod, url: string, data?: object) =>
+const req = (method: RequestMethod, url: string, data?: object) =>
   apiRequest({ method, urlEnd: url, data });
 
-export const sendOffer = (logId: number): Promise<AxiosLessonIds> =>
-  request("post", `/lessons/logs/${logId}/offer`);
+export default {
+  sendOffer: (logId: number): Promise<AxiosLessonIds> =>
+    req("post", `/lessons/logs/${logId}/offer`),
 
-export const cancelOffer = (offerLogId: number): Promise<AxiosLessonIds> =>
-  request("post", `/lessons/logs/${offerLogId}/close`);
+  cancelOffer: (offerLogId: number): Promise<AxiosLessonIds> =>
+    req("post", `/lessons/logs/${offerLogId}/close`),
 
-export const getRawLessons = (): Promise<AxiosRawLessons> =>
-  request("get", "/lessons/open");
+  getRawLessons: (): Promise<AxiosRawLessons> => req("get", "/lessons/open"),
 
-export const getStudent = (uuid: string): Promise<AxiosStudent> =>
-  request("get", `/account/${uuid}/student`);
+  getStudent: (uuid: string): Promise<AxiosStudent> =>
+    req("get", `/account/${uuid}/student`),
 
-export const getLogWithAccepted = (
-  offerLogId: number
-): Promise<AxiosLogWithAccepted> =>
-  request("get", `/lessons/logs/${offerLogId}/accepted`);
+  getLogWithAccepted: (offerLogId: number): Promise<AxiosLogWithAccepted> =>
+    req("get", `/lessons/logs/${offerLogId}/accepted`),
 
-export const initConference = (
-  acceptedLogId: number,
-  roomId: string
-): Promise<AxiosInit> =>
-  request("post", `/lessons/logs/${acceptedLogId}/init`, { zoomLink: roomId });
+  initConference: (acceptedLogId: number, roomId: string): Promise<AxiosInit> =>
+    req("post", `/lessons/logs/${acceptedLogId}/init`, { zoomLink: roomId }),
+};

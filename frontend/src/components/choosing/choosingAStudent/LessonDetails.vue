@@ -40,7 +40,7 @@
 <script>
 import Dialog from "@/components/global/Dialog.vue";
 import PageViewer from "@/components/global/PageViewer.vue";
-import TutorLesson from "@/store/modules/lesson/tutor";
+import TutorLesson from "@/store/modules/lesson/tutor/module";
 
 export default {
   data() {

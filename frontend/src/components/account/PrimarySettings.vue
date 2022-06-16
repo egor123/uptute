@@ -49,7 +49,7 @@
 import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
 import ExpandableCalendar from "@/components/filterPanel/ExpandableCalendar.vue";
 import TextField from "@/components/filterPanel/TextField";
-import { ruleBase } from "@/plugins/GlobalMethods.js";
+import { ruleBase } from "@/plugins/utilityMethods.js";
 
 export default {
   components: {

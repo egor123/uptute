@@ -1,4 +1,4 @@
-import { RawLesson, Student } from "@/store/modules/lesson/types";
+import { RawLesson, Student } from "@/store/modules/lesson/tutor/types";
 import { AxiosResponse } from "axios";
 
 export type AxiosRawLessons = AxiosResponse<{ lessons: RawLesson[] }>;

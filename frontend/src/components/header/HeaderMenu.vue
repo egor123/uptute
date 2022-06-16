@@ -12,14 +12,12 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <div
-        :style="
-          `--justifyContent: ${justifyContent}; 
+        :style="`--justifyContent: ${justifyContent}; 
           --paddingTop: ${paddingTop}; 
           --transformOrigin: ${transformOrigin};
           --rightDistance: ${rightDistance}px;
           --padding: ${padding};
-         `
-        "
+         `"
         v-bind="attrs"
         v-on="on"
         :id="id"
@@ -36,13 +34,11 @@
     <v-list
       eager
       ref="list"
-      :style="
-        `--color: ${color}; 
+      :style="`--color: ${color}; 
         --textColor: ${textColor}; 
         --borderRadius: ${borderRadius}; 
         --border: ${border};
-        `
-      "
+        `"
     >
       <div id="trianglePointer" />
       <slot name="content" />
@@ -51,7 +47,7 @@
 </template>
 
 <script>
-import { getId } from "@/plugins/GlobalMethods.js";
+import { getId } from "@/plugins/utilityMethods.js";
 
 export default {
   props: {
