@@ -14,7 +14,7 @@
     </template>
     <template v-slot:content>
       <v-list-item
-        v-for="(l, index) in locales"
+        v-for="(l, index) in otherLocales"
         :key="index"
         v-on:change="changeLocale(l)"
       >
@@ -33,29 +33,30 @@ export default {
   },
   data() {
     return {
-      locales: [],
+      locales: ["en", "est"],
       locale: "",
     };
   },
   created() {
-    this.updateLocales(this.$route.params.locale);
+    this.locale = this.$route.params.locale;
+  },
+  computed: {
+    otherLocales() {
+      return this.locales.filter((l) => l !== this.locale);
+    },
+  },
+  mounted() {
+    for (const l of this.locales)
+      if (require(`@/locales/${l}.json`).id !== l)
+        throw new Error("Locale ID is not correct");
   },
   methods: {
     getImgUrl(locale) {
       return require("@/assets/icons/flags/" + locale + ".svg");
     },
-    changeLocale(val) {
-      this.$router.replace({
-        params: { locale: val },
-      });
-      this.updateLocales(val);
-    },
-    updateLocales(locale) {
+    changeLocale(locale) {
+      this.$router.replace({ params: { locale: locale } });
       this.locale = locale;
-      let locales = require.context("@/locales", true, /^.*\.json$/).keys();
-      locales = locales.map((l) => l.slice(2, -5));
-      locales.splice(locales.indexOf(locale), 1);
-      this.locales = locales;
     },
   },
 };
@@ -76,3 +77,4 @@ export default {
   cursor: pointer;
 }
 </style>
+

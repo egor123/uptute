@@ -19,37 +19,35 @@ export default {
 
 */
 
-export function createRoutes(prefix = "") {
-  const context = require.context("@/views", true, /.vue$/);
-  return context.keys().map((key) => {
-    const component = context(key).default;
-    const name = component.name ?? key.replace(/.\/|.vue/g, "");
-    const path =
-      prefix +
-      (component.path ??
-        name.replace(
-          /^.|[A-Z]/g,
-          (c, i) => (i === 0 ? "/" : "_") + c.toLowerCase()
-        ));
+import { views } from "@/router/indexer";
+
+export const createRoutes = (prefix = "") =>
+  Object.keys(views).map((key) => {
+    const component = views[key];
+
+    const name = component.name;
+    if (!name) throw new Error(`Module ${key} does not have a name specified`);
+
+    const path = prefix + (component.path ?? getPathFromName(name));
+
     const meta = createMeta(component);
+
     const children = component.children;
+
     return { name, path, meta, component, children };
   });
-}
 
-function createMeta(component) {
-  return {
-    allowedOrigins: convertToPermisions(component.permisions?.allowedOrigins),
-    allowedRoles: convertToPermisions(component.permisions?.roles),
-    redirect: component.permisions?.redirect || "LogIn",
-  };
-}
+const getPathFromName = (name) =>
+  name.replace(/^.|[A-Z]/g, (c, i) => (i === 0 ? "/" : "_") + c.toLowerCase());
 
-function convertToPermisions(val) {
-  return val == null ? ["ALL"] : Array.isArray(val) ? val : [val];
-}
+const createMeta = (component) => ({
+  allowedOrigins: convertToPermisions(component.permisions?.allowedOrigins),
+  allowedRoles: convertToPermisions(component.permisions?.roles),
+  redirect: component.permisions?.redirect || "LogIn",
+});
 
-export function redirect(path, redirect) {
-  return { path, redirect };
-}
+const convertToPermisions = (val) =>
+  val == null ? ["ALL"] : Array.isArray(val) ? val : [val];
+
+export const redirect = (path, redirect) => ({ path, redirect });
 

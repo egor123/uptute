@@ -1,21 +1,21 @@
 <template>
   <v-app>
     <Navigation v-if="ifNavigation" />
-    <Header v-if="ifHeader" />
+    <HeaderCustom v-if="ifHeader" />
     <v-main>
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
     </v-main>
     <!-- <MessengerChat /> -->
-    <Footer v-if="ifFooter" />
+    <FooterCustom v-if="ifFooter" />
   </v-app>
 </template>
 
 <script>
 import { mapActions } from "vuex";
-import Header from "@/components/app/Header.vue";
-import Footer from "@/components/app/Footer.vue";
+import HeaderCustom from "@/components/app/Header.vue";
+import FooterCustom from "@/components/app/Footer.vue";
 import Navigation from "@/components/app/Navigation.vue";
 // import MessengerChat from "@/components/MessengerChat.vue";
 import { apiRequest } from "@/services/api.service.js";
@@ -26,8 +26,8 @@ export default {
     drawer: false,
   }),
   components: {
-    Header,
-    Footer,
+    HeaderCustom,
+    FooterCustom,
     Navigation,
     // MessengerChat,
   },

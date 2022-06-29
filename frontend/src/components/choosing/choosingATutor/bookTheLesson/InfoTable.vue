@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     lesson: function () {
-      return this.$store.state["lesson/student"].info;
+      return this.$store.state["student"].info;
     },
   },
   created() {

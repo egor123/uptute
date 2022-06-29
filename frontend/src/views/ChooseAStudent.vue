@@ -34,6 +34,7 @@ import StudentPanels from "@/components/choosing/choosingAStudent/StudentPanels.
 import TutorLesson from "@/store/modules/lesson/tutor/module";
 
 export default {
+  name: "ChooseAStudent",
   permisions: {
     roles: "ROLE_TUTOR",
     redirect: "/setting_up/tutor",
@@ -49,6 +50,7 @@ export default {
   },
   data() {
     return {
+      name: "ChooseAStudent",
       filter: { name: "time", dir: "up" },
       filters: [
         //TO DO!!!!!!!!!

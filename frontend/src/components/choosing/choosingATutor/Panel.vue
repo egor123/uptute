@@ -89,7 +89,7 @@ export default {
     async reject() {
       const offerLogId = this.tutor.offerLogId;
       this.$store
-        .dispatch("lesson/student/rejectOffer", { offerLogId })
+        .dispatch("student/rejectOffer", { offerLogId })
         .then((isRej) => (this.visible = !isRej));
     },
   },

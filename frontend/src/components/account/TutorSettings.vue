@@ -38,7 +38,7 @@
         :errMsg="link.errMsg"
       />
       <div id="dialogContainer">
-        <Dialog class="notInput">
+        <DialogCustom class="notInput">
           <template v-slot:object>
             <button id="dialog">?</button>
           </template>
@@ -56,7 +56,7 @@
               {{ $l("set_up.dialog.link") }}</a
             >
           </template>
-        </Dialog>
+        </DialogCustom>
       </div>
     </FilterPanel>
 
@@ -103,7 +103,7 @@ import ExpandableListSelector from "@/components/filterPanel/ExpandableListSelec
 import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 import TextField from "@/components/filterPanel/TextField";
 
-import Dialog from "@/components/global/Dialog.vue";
+import DialogCustom from "@/components/global/Dialog.vue";
 import { ruleBase } from "@/plugins/utilityMethods.js";
 
 export default {
@@ -113,7 +113,7 @@ export default {
     ExpandableSlider,
     TextField,
 
-    Dialog,
+    DialogCustom,
   },
   data() {
     return {

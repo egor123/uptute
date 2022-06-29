@@ -1,5 +1,5 @@
 <template>
-  <Dialog>
+  <DialogCustom>
     <template v-slot:object>
       <v-btn rounded outlined color="accent" @click="acceptOffer()">
         {{ $l("booking.confirm") }}
@@ -13,15 +13,15 @@
     <template v-slot:text>
       {{ $l("booking.dialog.text") }}
     </template>
-  </Dialog>
+  </DialogCustom>
 </template>
 
 <script>
-import Dialog from "@/components/global/Dialog.vue";
+import DialogCustom from "@/components/global/Dialog.vue";
 
 export default {
   components: {
-    Dialog,
+    DialogCustom,
   },
   props: {
     link: String,
@@ -31,7 +31,7 @@ export default {
     acceptOffer() {
       console.log("!!!");
       console.log(this.tutor);
-      this.$store.dispatch("lesson/student/accept", {
+      this.$store.dispatch("student/accept", {
         offerLogId: this.tutor.offerLog,
       });
     },

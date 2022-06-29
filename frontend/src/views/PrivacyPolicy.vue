@@ -2,9 +2,7 @@
   <div>
     <Subheader title="Privaatsuspoliitika" />
     <div class="container">
-      <h2>
-        Sissejuhatus
-      </h2>
+      <h2>Sissejuhatus</h2>
       <p>
         UpTute OÜ vahendab agenditeenuse korras oma veebikeskkonnas
         <a href="http://www.uptute.com">uptute.com</a> eratundide teenust, mille
@@ -328,6 +326,7 @@
 <script>
 import Subheader from "@/components/app/Subheader.vue";
 export default {
+  name: "PrivacyPolicy",
   permisions: {
     roles: "ALL",
   },

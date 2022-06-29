@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import { defaultLocale } from "../services/locale.service.js";
 import { redirect, createRoutes } from "./extensions.js";
 import store from "@/store/index";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -10,7 +11,6 @@ const routes = [
   redirect("*", "Home"),
   ...createRoutes("/:locale"),
 ];
-// console.log(...routes);
 
 const router = new VueRouter({
   mode: "history",

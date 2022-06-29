@@ -7,6 +7,7 @@
 // import { onMounted } from "vue";
 
 export default {
+  name: "Stripe",
   data() {
     return {
       stripe: null,

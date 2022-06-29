@@ -42,6 +42,7 @@ import Logs from "@/components/account/Logs.vue";
 import Settings from "@/components/account/Settings.vue";
 
 export default {
+  name: "Account",
   permisions: {
     roles: ["ROLE_STUDENT"],
     redirect: "LogIn",

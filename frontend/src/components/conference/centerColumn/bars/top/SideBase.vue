@@ -15,7 +15,7 @@
     `"
   >
     <div id="card">
-      <Header ref="headerBar" />
+      <HeaderCustom ref="headerBar" />
       <div id="content" :style="`--pt: ${topPadding}px;`">
         <slot />
       </div>
@@ -24,14 +24,14 @@
 </template>
 
 <script lang="ts">
-import Header from "@/components/conference/centerColumn/bars/top/HeaderBar.vue";
+import HeaderCustom from "@/components/conference/centerColumn/bars/top/HeaderBar.vue";
 import { ButtonToggleEvent, ColumnName } from "@/components/conference/types";
 
 import LayoutHandler from "@/store/modules/conference/layoutHandler";
 import ToggleStore from "@/store/modules/conference/toggleStore";
 import { Vue, Component, Ref, Inject, Watch } from "vue-property-decorator";
 
-@Component({ components: { Header } })
+@Component({ components: { HeaderCustom } })
 export default class SideBase extends Vue {
   @Inject() readonly transitionTime!: number;
   @Inject() readonly margin!: number;
@@ -46,7 +46,7 @@ export default class SideBase extends Vue {
   }
 
   @Ref() readonly panelRef!: HTMLDivElement;
-  @Ref("headerBar") readonly headerBarRef!: Header;
+  @Ref("headerBar") readonly headerBarRef!: HeaderCustom;
 
   private initialW: number = 0;
   private intervalId: number = -1;

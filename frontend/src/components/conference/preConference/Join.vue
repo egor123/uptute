@@ -1,5 +1,5 @@
 <template>
-  <Dialog>
+  <DialogCustom>
     <template v-slot:object>
       <v-btn rounded outlined color="accent">Join</v-btn>
     </template>
@@ -20,12 +20,12 @@
         >Enter</v-btn
       >
     </template>
-  </Dialog>
+  </DialogCustom>
 </template>
 
 <script>
 import TextField from "@/components/filterPanel/TextField.vue";
-import Dialog from "@/components/global/Dialog.vue";
+import DialogCustom from "@/components/global/Dialog.vue";
 export default {
   data() {
     return {
@@ -34,7 +34,7 @@ export default {
     };
   },
   components: {
-    Dialog,
+    DialogCustom,
     TextField,
   },
   methods: {

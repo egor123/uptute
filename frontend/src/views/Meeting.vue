@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  name: "Meeting",
   data() {
     return {
       meetingID: 5839697402,

@@ -1,5 +1,5 @@
 <template>
-  <Dialog class="dialog" ref="dialog">
+  <DialogCustom class="dialog" ref="dialog">
     <template v-slot:object>
       <img class="userImg" src="@/assets/icons/user.svg" />
     </template>
@@ -14,17 +14,17 @@
         :toComments="toComments"
       />
     </template>
-  </Dialog>
+  </DialogCustom>
 </template>
 
 <script>
-import Dialog from "@/components/global/Dialog.vue";
+import DialogCustom from "@/components/global/Dialog.vue";
 import AboutTutorTitle from "@/components/choosing/choosingATutor/aboutTutor/AboutTutorTitle.vue";
 import AboutTutorContent from "@/components/choosing/choosingATutor/aboutTutor/AboutTutorContent.vue";
 
 export default {
   components: {
-    Dialog,
+    DialogCustom,
     AboutTutorTitle,
     AboutTutorContent,
   },

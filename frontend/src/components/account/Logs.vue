@@ -68,13 +68,13 @@
       </div>
     </Loading>
     <!-- </div> -->
-    <Dialog ref="dialog" @dialogClosed="currentComment = ''">
+    <DialogCustom ref="dialog" @dialogClosed="currentComment = ''">
       <template v-slot:title id="title"> Comment </template>
 
       <template v-slot:text>
         {{ currentComment }}
       </template>
-    </Dialog>
+    </DialogCustom>
   </div>
 </template>
 
@@ -83,7 +83,7 @@ import Loading from "@/components/global/Loading.vue";
 import CheckboxButtons from "@/components/account/CheckboxButtons.vue";
 import Subheader from "@/components/app/Subheader.vue";
 import Rating from "@/components/choosing/choosingATutor/Rating.vue";
-import Dialog from "@/components/global/Dialog.vue";
+import DialogCustom from "@/components/global/Dialog.vue";
 
 export default {
   components: {
@@ -91,7 +91,7 @@ export default {
     CheckboxButtons,
     Subheader,
     Rating,
-    Dialog,
+    DialogCustom,
   },
   data() {
     return {
@@ -289,3 +289,4 @@ export default {
   }
 }
 </style>
+

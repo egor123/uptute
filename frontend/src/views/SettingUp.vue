@@ -16,6 +16,7 @@ import StudentSettingUp from "@/components/account/StudentSettingUp.vue";
 import TutorSettingUp from "@/components/account/TutorSettingUp.vue";
 
 export default {
+  name: "SettingUp",
   children: [
     {
       name: "PrimarySettingUp",

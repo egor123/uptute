@@ -122,6 +122,7 @@ import TextField from "@/components/filterPanel/TextField";
 import PageViewer from "@/components/global/PageViewer.vue";
 
 export default {
+  name: "FindATutor",
   permisions: {
     roles: ["ROLE_STUDENT"],
     redirect: "LogIn",
@@ -193,7 +194,7 @@ export default {
       this.$refs.panel2[action]();
     },
     async sendLessonRequest() {
-      const bool = await this.$store.dispatch("lesson/student/request", {
+      const bool = await this.$store.dispatch("student/request", {
         info: this.info,
         vm: this.getThis(),
       });

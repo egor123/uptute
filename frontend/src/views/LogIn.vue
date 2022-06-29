@@ -61,6 +61,7 @@ import Subheader from "@/components/app/Subheader.vue";
 import { goTo } from "@/plugins/utilityMethods.js";
 
 export default {
+  name: "LogIn",
   permisions: {
     roles: "ALL",
   },

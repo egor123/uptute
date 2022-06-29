@@ -10,7 +10,7 @@
       :upload="false"
     />
 
-    <Dialog>
+    <DialogCustom>
       <template v-slot:object>
         <v-btn
           @click="isOffered ? cancelOffer() : sendOffer()"
@@ -33,12 +33,12 @@
       <template v-slot:text>
         {{ $l("choose_a.student.dialog.text") }}
       </template>
-    </Dialog>
+    </DialogCustom>
   </div>
 </template>
 
 <script>
-import Dialog from "@/components/global/Dialog.vue";
+import DialogCustom from "@/components/global/Dialog.vue";
 import PageViewer from "@/components/global/PageViewer.vue";
 import TutorLesson from "@/store/modules/lesson/tutor/module";
 
@@ -71,7 +71,7 @@ export default {
   },
   props: ["student"],
   components: {
-    Dialog,
+    DialogCustom,
     PageViewer,
   },
   methods: {

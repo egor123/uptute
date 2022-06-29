@@ -188,9 +188,7 @@
           mõistlikult, järgides hoolsuse nõudeid ning arvestades valdkondlikke
           tavasid ja praktikat.
         </li>
-        <li>
-          UpTute ja klient vastutavad kohustuse süülise rikkumise eest.
-        </li>
+        <li>UpTute ja klient vastutavad kohustuse süülise rikkumise eest.</li>
         <li>
           UpTute’i vastutus on piiratud ning ühelgi juhul ei vastuta UpTute
           kolmanda isiku tegevuse eest, isegi kui kolmanda isiku tegevus on
@@ -238,6 +236,7 @@
 <script>
 import Subheader from "@/components/app/Subheader.vue";
 export default {
+  name: "TermsOfUse",
   permisions: {
     roles: "ALL",
   },

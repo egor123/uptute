@@ -15,7 +15,10 @@ import InitState from "@/store/modules/conference/initState";
 import Main from "@/store/modules/conference/main";
 import { Vue, Component } from "vue-property-decorator";
 
-@Component({ components: { PreConference, MediaBlocked, Interface } })
+@Component({
+  components: { PreConference, MediaBlocked, Interface },
+  name: "Conference",
+})
 export default class Conference extends Vue {
   public InitState = InitState;
   public Main = Main;
