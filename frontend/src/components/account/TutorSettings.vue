@@ -5,7 +5,8 @@
       @next="(action, callback) => callback($refs.panel2[action]())"
     >
       <TextField
-        v-model="data.moto"
+        :value="value.moto"
+        @input="(v) => $emit('input', { ...value, moto: v })"
         :label="$l('set_up.motto')"
         :borderRadius="'15px 15px 0px 0px'"
         :flat="false"
@@ -13,8 +14,9 @@
       />
       <!-- :rules="(val) => val != '' && val != null" -->
       <TextField
+        :value="value.about"
+        @input="(v) => $emit('input', { ...value, about: v })"
         :area="true"
-        v-model="data.about"
         :label="$l('set_up.about')"
         :borderRadius="'0px 0px 15px 15px'"
         :flat="false"
@@ -29,13 +31,14 @@
       id="zoomDiv"
     >
       <TextField
-        v-model="data.conferenceLink"
+        :value="value.conferenceLink"
+        @input="(v) => $emit('input', { ...value, conferenceLink: v })"
         class="zoom"
         :label="$l('set_up.zoom')"
         img="zoom-icon"
         :flat="false"
-        :rules="linkRules"
-        :errMsg="link.errMsg"
+        :rules="(v) => ifPassesLinkRules(v, info.conferenceLink)"
+        :errMsg="info.conferenceLink.errMsg"
       />
       <div id="dialogContainer">
         <DialogCustom class="notInput">
@@ -62,9 +65,10 @@
 
     <FilterPanel ref="panel3">
       <ExpandableListSelector
-        v-model="data.subjects"
+        :value="value.subjects"
+        @input="(v) => $emit('input', { ...value, subjects: v })"
         :label="$l('set_up.subjects')"
-        :text="data.subjects.map((l) => $l('data.subjects.' + l)).join(', ')"
+        :text="value.subjects.map((l) => $l('data.subjects.' + l)).join(', ')"
         :list="['MATH', 'BIOL', 'ESL', 'PHYS', 'GEOG', 'CHEM', 'CIS']"
         :convertor="(item) => $l('data.subjects.' + item)"
         :searchLabel="$l('find.filters.subject.search')"
@@ -73,9 +77,10 @@
         :flat="false"
       />
       <ExpandableSlider
-        v-model="data.audience"
+        :value="value.audience"
+        @input="(v) => $emit('input', { ...value, audience: v })"
         :label="$l('find.filters.audience.h')"
-        :text="data.audience.join(' - ')"
+        :text="value.audience.join(' - ')"
         :min="1"
         :max="12"
         borderRadius="0px"
@@ -83,9 +88,10 @@
         :flat="false"
       />
       <ExpandableListSelector
-        v-model="data.languages"
+        :value="value.languages"
+        @input="(v) => $emit('input', { ...value, languages: v })"
         :label="$l('find.filters.language.h')"
-        :text="data.languages.map((l) => $l('data.languages.' + l)).join(', ')"
+        :text="value.languages.map((l) => $l('data.languages.' + l)).join(', ')"
         :list="['EN', 'EST', 'RU']"
         :convertor="(item) => $l('data.languages.' + item)"
         :multiple="true"
@@ -97,16 +103,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
 import ExpandableListSelector from "@/components/filterPanel/ExpandableListSelector.vue";
 import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
-import TextField from "@/components/filterPanel/TextField";
+import TextField from "@/components/filterPanel/TextField.vue";
 
 import DialogCustom from "@/components/global/Dialog.vue";
-import { ruleBase } from "@/plugins/utilityMethods.js";
+import { ifPassesLinkRules } from "./rules/link";
 
-export default {
+import { Vue, Component, Prop, Ref } from "vue-property-decorator";
+import { Info } from "./classes/Info";
+import { Details as D } from "./types";
+import { Details } from "./classes/Details";
+
+@Component({
   components: {
     FilterPanel,
     ExpandableListSelector,
@@ -115,50 +126,19 @@ export default {
 
     DialogCustom,
   },
-  data() {
-    return {
-      link: {
-        errMsg: "",
-      },
-    };
-  },
-  methods: {
-    async isValid() {
-      return await this.$refs.panel.isValid();
-    },
-    linkRules(v) {
-      const title = "link";
-      const self = this;
-      this.link.errMsg = "";
-      const ifNotNull = (v) =>
-        rule({
-          condition: !!v && v.length > 0,
-          pathEnd: "link.require",
-        });
+  methods: { ifPassesLinkRules },
+})
+export default class TutorSettings extends Vue {
+  @Ref() readonly panel!: typeof FilterPanel; // TODO to TS
+  @Prop({ type: Object, default: () => new Details.Tutor() })
+  readonly value!: D.Tutor;
 
-      const ifHasHttp = (v) =>
-        rule({
-          condition: v.match(new RegExp("https?://")),
-          pathEnd: "link.valid",
-        });
+  info = new Info.Tutor();
 
-      return ifNotNull(v) && ifHasHttp(v);
-
-      function rule({ condition, pathEnd, lParams }) {
-        return ruleBase({
-          self,
-          title,
-          condition,
-          pathEnd,
-          lParams,
-        });
-      }
-    },
-  },
-  props: {
-    data: Object,
-  },
-};
+  async isValid() {
+    return await this.panel.isValid();
+  }
+}
 </script>
 
 <style lang="scss" scoped>

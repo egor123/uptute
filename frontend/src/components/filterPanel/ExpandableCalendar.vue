@@ -75,7 +75,11 @@ export default {
       this.$refs.menu.save(date);
     },
   },
-  watch,
+  watch: {
+    input(val) {
+      this.$emit("input", val);
+    },
+  },
 };
 </script>
 
@@ -96,3 +100,4 @@ export default {
   }
 }
 </style>
+

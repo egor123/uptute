@@ -1,16 +1,20 @@
 <template>
-  <!-- <AccountBase :title="$l('set_up.subheader')"> -->
   <div>
     <Subheader :title="$l('set_up.subheader')" />
-    <PrimarySettings ref="primarySettings" :data="data" />
+    <PrimarySettings ref="primarySettings" v-model="data" />
 
     <div id="buttons">
-      <v-btn @click="asStudent()" id="student" rounded outlined color="accent">
+      <v-btn @click="done({ isStudent: true })" rounded outlined color="accent">
         {{ $l("set_up.as_student") }}
       </v-btn>
-      <v-btn @click="asTutor()" id="tutor" rounded outlined color="accent">
-        {{ $l("set_up.as_tutor") }}</v-btn
+      <v-btn
+        @click="done({ isStudent: false })"
+        rounded
+        outlined
+        color="accent"
       >
+        {{ $l("set_up.as_tutor") }}
+      </v-btn>
     </div>
   </div>
 </template>
@@ -26,37 +30,30 @@ export default {
   },
   data() {
     return {
-      checkbox: false,
-      data: {
-        firstName: null,
-        lastName: null,
-        birthday: null,
-      },
+      data: { firstName: "", lastName: "", birthday: "" },
     };
   },
   methods: {
     routerPush(to) {
       this.$router.push({ name: to });
     },
-    async asStudent() {
+    async done({ isStudent }) {
       if (!this.checkRules()) return;
       const r = await this.upgradeToUser();
-      if (r.statusText == "OK") this.routerPush("StudentSettingUp");
-      else alert("Check your input"); // Validate instead
-    },
-    async asTutor() {
-      if (!this.checkRules()) return;
-      const r = await this.upgradeToUser();
-      if (r.statusText == "OK") this.routerPush("TutorSettingUp");
-      else alert("Check your input"); // Validate instead
+      if (r.statusText == "OK")
+        this.routerPush(`${isStudent ? "Student" : "Tutor"}SettingUp`);
+      else alert("Check your input"); // TODO Validate instead
     },
     checkRules() {
-      const primarySettings = this.$refs.primarySettings;
+      const refs = this.$refs.primarySettings.$refs;
 
-      const inputFields = primarySettings.$children.reduce(
-        (pr, cur) => pr.concat(cur.$children[0].$children),
-        []
-      );
+      const panels = [refs.panelRef, refs.panel2Ref];
+
+      const addChildren = (fields, panel) => [
+        ...fields,
+        ...panel.$children[0].$children,
+      ];
+      const inputFields = panels.reduce(addChildren, []);
       inputFields.forEach((el) => el.isValid());
       const isValid = inputFields.every((el) => el.isValid());
       return isValid;
@@ -80,21 +77,14 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
-
-// ::v-deep {
-//   #buttonWrapper {
-//     display: none;
-//   }
-// }
-
 #buttons {
   @include flexbox;
   margin-top: 3rem;
-  #student {
+  & > *:first-child {
     border-radius: 15px 0 0 15px;
     border-right: 0px;
   }
-  #tutor {
+  & > *:last-child {
     border-radius: 0 15px 15px 0;
     border-left: 1px dashed var(--v-accent-base);
   }

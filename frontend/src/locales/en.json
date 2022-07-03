@@ -38,21 +38,21 @@
         "require": "Password is required",
         "not_matching": "Passwords are not matching",
         "length": {
-          "max": "Password must be less than ${n} characters",
+          "max": "Max ${n} characters",
           "min": "Min ${n} characters"
         }
       },
       "name": {
         "require": "Name is required",
         "length": {
-          "max": "Name must be less than ${n} characters",
+          "max": "Max ${n} characters",
           "min": "Min ${n} characters"
         }
       },
       "surname": {
         "require": "Surname is required",
         "length": {
-          "max": "Surname must be less than ${n} characters",
+          "max": "Max ${n} characters",
           "min": "Min ${n} characters"
         }
       },

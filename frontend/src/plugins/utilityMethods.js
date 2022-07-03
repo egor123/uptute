@@ -1,3 +1,5 @@
+import { vm } from "@/main";
+
 export function getId() {
   var result = "ID-";
   var characters =
@@ -68,9 +70,8 @@ export function rndBtw(start, end) {
 //       "transition: all 1s; transform: perspective(1000px) translateZ(0px); ";
 // });
 
-export function ruleBase({ self, title, condition, pathEnd, lParams }) {
-  if (!condition)
-    self[title].errMsg = self.$l(`auth.rules.${pathEnd}`, lParams || {});
+export function ruleBase({ obj, condition, pathEnd, lParams }) {
+  if (!condition) obj.errMsg = vm.$l(`auth.rules.${pathEnd}`, lParams || {});
   return condition;
 }
 

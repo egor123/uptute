@@ -1,10 +1,11 @@
 <template>
   <div id="wrapper">
-    <FilterPanel ref="panel">
+    <FilterPanel ref="panelRef">
       <ExpandableSlider
-        v-model="data.grade"
+        :value="value.grade"
+        @input="(grade) => $emit('input', { ...value, grade })"
         :label="$l('set_up.grade')"
-        :text="data.grade"
+        :text="value.grade"
         :min="1"
         :max="12"
         borderRadius="15px"
@@ -14,27 +15,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
 import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 
-export default {
-  components: {
-    FilterPanel,
-    ExpandableSlider,
-  },
-  data() {
-    return {};
-  },
-  methods: {
-    async isValid() {
-      await this.$refs.panel.isValid();
-    },
-  },
-  props: {
-    data: Object,
-  },
-};
+import { Vue, Component, Prop, Ref } from "vue-property-decorator";
+import { Details as D } from "./types";
+import { Details } from "./classes/Details";
+
+@Component({ components: { FilterPanel, ExpandableSlider } })
+export default class StudentSettings extends Vue {
+  @Ref() readonly panelRef!: typeof FilterPanel; // TODO to TS
+  @Prop({ type: Object, default: () => new Details.Student() })
+  readonly value!: D.Student;
+
+  async isValid() {
+    await this.panelRef.isValid();
+  }
+}
 </script>
 
 <style lang="scss" scoped>

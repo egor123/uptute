@@ -1,7 +1,7 @@
 <template>
   <div>
     <Subheader :title="$l('set_up.subheader')" />
-    <StudentSettings :data="data" />
+    <StudentSettings v-model="data" />
     <v-btn @click="done(data)" id="done" rounded outlined color="accent">{{
       $l("set_up.button")
     }}</v-btn>
@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       data: {
+        data: {},
         grade: null,
         inProcess: false,
       },

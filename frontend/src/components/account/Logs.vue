@@ -69,7 +69,7 @@
     </Loading>
     <!-- </div> -->
     <DialogCustom ref="dialog" @dialogClosed="currentComment = ''">
-      <template v-slot:title id="title"> Comment </template>
+      <template v-slot:title> Comment </template>
 
       <template v-slot:text>
         {{ currentComment }}

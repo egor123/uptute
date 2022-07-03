@@ -7,7 +7,6 @@
       --backgroundColor: ${backgroundColor}; 
       --borderRadius: ${borderRadius}`"
   >
-    <!-- :rules="rules(input)" -->
     <div
       class="slot"
       ref="slot"
@@ -19,8 +18,8 @@
         class="input"
         rows="1"
         :class="{ active: input != '' && input != null }"
-        v-model="input"
         ref="textarea"
+        v-model="input"
       />
       <input
         v-else
@@ -29,6 +28,7 @@
         :class="{ active: input != '' && input != null }"
         v-model="input"
       />
+
       <label>{{ label }}</label>
       <img v-if="img" :src="getImg(img)" alt="" />
 
@@ -146,6 +146,7 @@ export default {
   $color-sec: var(--v-secondary-darken2);
   border-radius: var(--borderRadius) !important;
   position: relative;
+  height: fit-content;
 
   &::before {
     @include box-shadow();

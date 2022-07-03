@@ -8,7 +8,6 @@ export default {
     });
   },
   async updateUserDetails({ data }) {
-    console.log(data);
     return await apiRequest({
       method: "patch",
       urlEnd: "/account/me",

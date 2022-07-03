@@ -75,5 +75,7 @@ export default {
 <style lang="scss" scoped>
 #wrapper {
   padding-top: 2rem;
+  width: 100%;
 }
 </style>
+

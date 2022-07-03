@@ -7,10 +7,12 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 
 import VueAnalytics from "vue-analytics";
+//@ts-ignore Does not have @types/...
 import VueAnimate from "vue-animate-scroll";
 import { BackendService, AuthService, LocaleService } from "./services";
 import mdiVue from "mdi-vue/v2";
 import * as mdijs from "@mdi/js";
+import "@mdi/font/css/materialdesignicons.css";
 import mobileInput from "./plugins/mobileInput";
 
 Vue.prototype.$backend = BackendService;
