@@ -199,10 +199,8 @@ export default {
   @include box-shadow;
   border-radius: 15px;
 
-  ::v-deep {
-    .v-messages__message {
-      font-size: 12px !important;
-    }
+  ::v-deep(.v-messages__message) {
+    font-size: 12px !important;
   }
 }
 
@@ -229,10 +227,8 @@ p.link {
   margin: 1rem 0 0 0;
 }
 
-::v-deep {
-  .v-text-field .v-input__slot {
-    overflow: hidden;
-  }
+::v-deep(.v-text-field .v-input__slot) {
+  overflow: hidden;
 }
 
 #progressBar {

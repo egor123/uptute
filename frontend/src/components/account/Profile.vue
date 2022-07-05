@@ -234,20 +234,18 @@ $progressOverlay: var(--v-accent-base);
   }
 
   #lvlCard {
-    ::v-deep {
-      .v-progress-circular__underlay {
-        stroke: $progressUnderlay;
-      }
-      .v-progress-circular__overlay {
-        stroke: $progressOverlay;
-      }
-      .v-progress-circular__info {
-        @include flexbox(column);
+    ::v-deep(.v-progress-circular__underlay) {
+      stroke: $progressUnderlay;
+    }
+    ::v-deep(.v-progress-circular__overlay) {
+      stroke: $progressOverlay;
+    }
+    ::v-deep(.v-progress-circular__info) {
+      @include flexbox(column);
 
-        p {
-          text-align: center;
-          margin-bottom: 0;
-        }
+      p {
+        text-align: center;
+        margin-bottom: 0;
       }
     }
     #lvlInfo {
@@ -273,15 +271,15 @@ $progressOverlay: var(--v-accent-base);
     .v-progress-linear {
       position: absolute;
       top: 0;
-      ::v-deep {
-        .v-progress-linear__background {
-          background-color: $progressUnderlay !important;
-          opacity: 1 !important;
-        }
-        .v-progress-linear__determinate {
-          background-color: $progressOverlay !important;
-        }
+
+      ::v-deep(.v-progress-linear__background) {
+        background-color: $progressUnderlay !important;
+        opacity: 1 !important;
       }
+      ::v-deep(.v-progress-linear__determinate) {
+        background-color: $progressOverlay !important;
+      }
+
       &__content {
         p {
           text-align: center !important;
@@ -311,3 +309,4 @@ $progressOverlay: var(--v-accent-base);
   }
 }
 </style>
+

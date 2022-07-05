@@ -321,66 +321,64 @@ export default {
 $buttons-offset: 5vw;
 $buttons-offset-at-900px: 2vw;
 
-::v-deep {
-  &.v-dialog__content {
-    $background: rgba(
-      $color: #000,
-      $alpha: 0.7,
-    );
-    background-color: transparent;
+::v-deep(&.v-dialog__content) {
+  $background: rgba(
+    $color: #000,
+    $alpha: 0.7,
+  );
+  background-color: transparent;
 
-    transition: background-color 0.8s;
-    &.v-dialog__content--active {
-      background-color: $background;
-      .imgContainer {
-        transform: scale(1) !important;
-        opacity: 1 !important;
-      }
+  transition: background-color 0.8s;
+  &.v-dialog__content--active {
+    background-color: $background;
+    .imgContainer {
+      transform: scale(1) !important;
+      opacity: 1 !important;
     }
-    .v-dialog {
-      overflow: hidden;
+  }
+  .v-dialog {
+    overflow: hidden;
+    // background: var(--v-background-base);
+    // background: transparent;
+    // @include flexbox;
+    box-shadow: none;
+    background-color: transparent;
+    border-radius: 15px;
+    transition: opacity 0.45s, transform 0.6s;
+    // transform: scale(1);
+    // opacity: 1;
+
+    .v-card {
+      min-height: 0;
       // background: var(--v-background-base);
-      // background: transparent;
-      // @include flexbox;
+      border-radius: 0;
+      background: transparent;
+
       box-shadow: none;
-      background-color: transparent;
-      border-radius: 15px;
-      transition: opacity 0.45s, transform 0.6s;
-      // transform: scale(1);
-      // opacity: 1;
-
-      .v-card {
-        min-height: 0;
-        // background: var(--v-background-base);
-        border-radius: 0;
-        background: transparent;
-
-        box-shadow: none;
-        .v-card__text {
-          padding: 0;
-          display: flex;
-          overflow: hidden;
-          #outsideWrapper {
+      .v-card__text {
+        padding: 0;
+        display: flex;
+        overflow: hidden;
+        #outsideWrapper {
+          @include flexbox;
+          &.transition {
+            transition: all 400ms;
+          }
+          .fullScreen {
             @include flexbox;
-            &.transition {
-              transition: all 400ms;
-            }
-            .fullScreen {
-              @include flexbox;
 
-              width: 100vw;
-              height: 100vh;
+            width: 100vw;
+            height: 100vh;
 
-              .imgContainer {
-                position: relative;
-                .expandedImg {
-                  min-width: 30vw;
-                  max-width: 95vw;
-                  min-height: 30vh;
-                  max-height: 95vh;
-                  border-radius: 15px;
-                  margin: 5px;
-                }
+            .imgContainer {
+              position: relative;
+              .expandedImg {
+                min-width: 30vw;
+                max-width: 95vw;
+                min-height: 30vh;
+                max-height: 95vh;
+                border-radius: 15px;
+                margin: 5px;
               }
             }
           }

@@ -3,11 +3,9 @@
     ref="panel"
     class="panel"
     :class="{ errorMovement: errorAnim }"
-    :style="
-      `--displayShadow: ${flat ? 'none' : 'flex'};
+    :style="`--displayShadow: ${flat ? 'none' : 'flex'};
         --backgroundColor: ${backgroundColor};
-        --borderRadius: ${borderRadius}`
-    "
+        --borderRadius: ${borderRadius}`"
   >
     <v-expansion-panel-header hover="false" :class="{ errorColor: error }">
       {{ label }}
@@ -75,10 +73,8 @@ export default {
   }
 }
 
-::v-deep {
-  .v-slider__track-container .v-slider__track-background.primary {
-    background: var(--v-secondary-darken1) !important;
-  }
+::v-deep(.v-slider__track-container .v-slider__track-background.primary) {
+  background: var(--v-secondary-darken1) !important;
 }
 </style>
 

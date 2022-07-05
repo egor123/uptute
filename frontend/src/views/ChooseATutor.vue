@@ -148,7 +148,7 @@ export default {
 @import "@/scss/mixins.scss";
 $inner-content-width: 350px;
 
-::v-deep .v-snack__wrapper {
+::v-deep(.v-snack__wrapper) {
   border-radius: 15px !important;
   .v-snack__content {
     @include flexbox(column);
@@ -185,20 +185,18 @@ $inner-content-width: 350px;
 @media (max-width: 300px) {
 }
 
-// ::v-deep {
-//   @media (max-width: 1200px) {
-//     .lessonInfo {
-//       &#wrapper {
-//         border-radius: 15px 15px 0 0;
-//         // position: static;
-//       }
-
+// @media (max-width: 1200px) {
+//   ::v-deep(.lessonInfo) {
+//     &#wrapper {
+//       border-radius: 15px 15px 0 0;
 //       // position: static;
 //     }
-//     .infoCard {
-//       &.baseCard {
-//         border-radius: 0 0 15px 15px;
-//       }
+
+//     // position: static;
+//   }
+//   ::v-deep(.infoCard) {
+//     &.baseCard {
+//       border-radius: 0 0 15px 15px;
 //     }
 //   }
 // }

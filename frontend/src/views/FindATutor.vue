@@ -221,7 +221,7 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-::v-deep .v-snack__wrapper {
+::v-deep(.v-snack__wrapper) {
   border-radius: 15px !important;
   .v-snack__content {
     @include flexbox(column);

@@ -111,10 +111,8 @@ export default {
 $toMVWidth: 500px;
 $triangleOffset: 30px;
 
-::v-deep {
-  div.title > span {
-    @include hoverOpacity();
-  }
+::v-deep(div.title > span) {
+  @include hoverOpacity();
 }
 
 div.title {
@@ -191,21 +189,19 @@ div.title {
   }
 }
 
-::v-deep {
-  .v-list-item > * {
+::v-deep(.v-list-item > *) {
+  width: 100%;
+  &.v-btn,
+  .v-btn {
+    border-radius: 50px;
     width: 100%;
-    &.v-btn,
-    .v-btn {
-      border-radius: 50px;
-      width: 100%;
-      color: var(--textColor) !important;
-      text-transform: none;
-      img,
-      .v-icon {
-        margin-right: 10px;
-        @include box-size(1.5rem);
-        color: var(--v-background-base);
-      }
+    color: var(--textColor) !important;
+    text-transform: none;
+    img,
+    .v-icon {
+      margin-right: 10px;
+      @include box-size(1.5rem);
+      color: var(--v-background-base);
     }
   }
 }

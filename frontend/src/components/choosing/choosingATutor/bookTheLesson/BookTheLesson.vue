@@ -39,9 +39,7 @@ export default {
 #profile {
   @include flexbox;
 }
-::v-deep {
-  .userImg {
-    margin-right: 1rem;
-  }
+::v-deep(.userImg) {
+  margin-right: 1rem;
 }
 </style>

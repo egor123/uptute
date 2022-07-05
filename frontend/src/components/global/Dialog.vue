@@ -10,9 +10,7 @@
       <div ref="start" />
       <v-card-title id="cardTitle" class="justify-center text-h5 background">
         <button class="cross" @click="crossClick()">
-          <v-icon class="backIcon">
-            mdi-close
-          </v-icon>
+          <v-icon class="backIcon"> mdi-close </v-icon>
         </button>
 
         <slot name="title" />
@@ -47,7 +45,7 @@ export default {
     scrollToComments() {},
   },
   watch: {
-    showDialog: function(val) {
+    showDialog: function (val) {
       !val ? this.$emit("closed") : null;
     },
     // showDialog: function(val) {
@@ -83,46 +81,44 @@ export default {
   height: max-content;
 }
 
-::v-deep {
-  .v-dialog {
-    scrollbar-width: none;
-  }
-  .v-card {
-    #cardTitle {
-      z-index: 10;
-      font-family: Comfortaa !important;
-      position: sticky;
-      background: var(--v-header-base) !important;
-      opacity: 0.7;
-      top: 0px;
-      border-radius: 15px 15px 0 0;
-      width: 100%;
-      color: var(--v-primary-base);
-      box-shadow: 0px 2px 6px var(--v-secondary-darken1);
-      * {
-        font-weight: 600;
-      }
-    }
-
-    & > .v-card__text {
-      color: var(--v-primary-lighten3);
+::v-deep(.v-dialog) {
+  scrollbar-width: none;
+}
+::v-deep(.v-card) {
+  #cardTitle {
+    z-index: 10;
+    font-family: Comfortaa !important;
+    position: sticky;
+    background: var(--v-header-base) !important;
+    opacity: 0.7;
+    top: 0px;
+    border-radius: 15px 15px 0 0;
+    width: 100%;
+    color: var(--v-primary-base);
+    box-shadow: 0px 2px 6px var(--v-secondary-darken1);
+    * {
+      font-weight: 600;
     }
   }
 
-  .v-dialog {
-    width: 40rem;
-    max-width: calc(100vw - 2rem);
-
-    border-radius: 15px;
+  & > .v-card__text {
+    color: var(--v-primary-lighten3);
   }
+}
 
-  .v-sheet.v-card {
-    border-radius: 0;
-  }
+::v-deep(.v-dialog) {
+  width: 40rem;
+  max-width: calc(100vw - 2rem);
 
-  ::-webkit-scrollbar {
-    width: 0px;
-  }
+  border-radius: 15px;
+}
+
+::v-deep(.v-sheet.v-card) {
+  border-radius: 0;
+}
+
+::v-deep(::-webkit-scrollbar) {
+  width: 0px;
 }
 
 .cross {

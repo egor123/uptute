@@ -264,37 +264,35 @@ $gap: 0.6rem;
   }
 }
 
-::v-deep {
-  .headerCircle {
-    $circleSize: 35px;
-    &.v-icon {
-      font-size: $circleSize;
-    }
-    &.img {
-      $imgSize: $circleSize * 0.845;
-      width: $imgSize !important;
-      margin: 0 ($circleSize - $imgSize) / 2 !important;
-    }
+::v-deep(.headerCircle) {
+  $circleSize: 35px;
+  &.v-icon {
+    font-size: $circleSize;
   }
+  &.img {
+    $imgSize: $circleSize * 0.845;
+    width: $imgSize !important;
+    margin: 0 ($circleSize - $imgSize) / 2 !important;
+  }
+}
 
-  #rightSide {
-    & > * {
-      padding: 0 calc(#{$gap} / 2);
-    }
-    min-width: max-content;
+::v-deep(#rightSide) {
+  & > * {
+    padding: 0 calc(#{$gap} / 2);
   }
-  #buttons > * {
-    & {
-      padding: 0 calc(#{$gap} * 1.5);
-    }
-    min-width: max-content;
+  min-width: max-content;
+}
+::v-deep(#buttons > *) {
+  & {
+    padding: 0 calc(#{$gap} * 1.5);
   }
-  .v-snack__wrapper {
-    border-radius: 15px !important;
-  }
-  .v-btn__content {
-    font-size: 1rem !important;
-  }
+  min-width: max-content;
+}
+::v-deep(.v-snack__wrapper) {
+  border-radius: 15px !important;
+}
+::v-deep(.v-btn__content) {
+  font-size: 1rem !important;
 }
 
 #subHeader {

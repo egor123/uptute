@@ -88,11 +88,10 @@ $card-rows-margin: 5px;
   }
 }
 
-// ::v-deep {
-// #moto {
+// ::v-deep(#moto)
+//  {
 //   margin: 1rem auto;
 //   border-radius: 15px;
-// }
 // }
 
 .vForDiv:last-child {

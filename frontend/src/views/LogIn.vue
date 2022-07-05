@@ -137,7 +137,7 @@ export default {
 <style scoped lang="scss">
 @import "@/scss/mixins.scss";
 
-::v-deep .v-snack__wrapper {
+::v-deep(.v-snack__wrapper) {
   border-radius: 15px !important;
 }
 
@@ -151,10 +151,8 @@ export default {
   margin: calc(106px + 3rem) auto 3rem auto;
   border-radius: 15px;
   @include box-shadow;
-  ::v-deep {
-    .v-messages__message {
-      font-size: 12px !important;
-    }
+  ::v-deep(.v-messages__message) {
+    font-size: 12px !important;
   }
 }
 

@@ -84,20 +84,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep {
-  .v-picker__title.primary {
-    background: var(--v-secondary-darken3) !important;
-  }
-  .v-picker {
-    border-radius: 15px;
-  }
-  &.v-menu__content {
-    border-radius: 15px !important;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--v-secondary-base);
-    margin: 10px 0;
-  }
+::v-deep(.v-picker__title.primary) {
+  background: var(--v-secondary-darken3) !important;
+}
+::v-deep(.v-picker) {
+  border-radius: 15px;
+}
+::v-deep(&.v-menu__content) {
+  border-radius: 15px !important;
+}
+::v-deep(::-webkit-scrollbar-track) {
+  background: var(--v-secondary-base);
+  margin: 10px 0;
 }
 </style>
 

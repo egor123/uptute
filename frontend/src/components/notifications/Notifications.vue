@@ -98,30 +98,27 @@ export default {
   opacity: 0.2;
 }
 
-::v-deep {
-  .v-list-item,
-  &.v-list-item {
+::v-deep(.v-list-item, &.v-list-item) {
+  @include flexbox();
+  max-width: calc(95vw);
+  width: max-content;
+  text-transform: none;
+  height: fit-content !important;
+  min-height: 0;
+  margin: 1rem;
+  text-align: left;
+  @media (max-width: 500px) {
+    margin: 1rem 0;
+  }
+  & > * {
+    @include box-size(fit-content);
+    color: var(--v-background-base) !important;
+  }
+  .v-icon {
+    // display: inline-flex !important;
     @include flexbox();
-    max-width: calc(95vw);
-    width: max-content;
-    text-transform: none;
-    height: fit-content !important;
-    min-height: 0;
-    margin: 1rem;
-    text-align: left;
-    @media (max-width: 500px) {
-      margin: 1rem 0;
-    }
-    & > * {
-      @include box-size(fit-content);
-      color: var(--v-background-base) !important;
-    }
-    .v-icon {
-      // display: inline-flex !important;
-      @include flexbox();
-      color: var(--v-background-base);
-      margin: 0 1rem 0 0;
-    }
+    color: var(--v-background-base);
+    margin: 0 1rem 0 0;
   }
 }
 
