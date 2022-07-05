@@ -32,8 +32,6 @@ export default class FilterPanel extends Vue {
       await sleep(100);
     }
 
-    console.warn(...this.onlyInputs());
-
     var nextVal: Promise<boolean> = new Promise((r) => r);
     this.$emit("next", "isValid", (r: Promise<boolean>) => (nextVal = r));
 
@@ -45,9 +43,7 @@ export default class FilterPanel extends Vue {
   }
   onlyInputs(): Field[] {
     const isInput = (field: Vue) => !field.$el.classList.contains("notInput");
-    const fields = this.Panel.$children;
-    console.warn(fields[1].$el.childNodes);
-    return fields.filter(isInput) as Field[];
+    return this.Panel.$children.filter(isInput) as Field[];
   }
   refresh() {
     for (const field of this.onlyInputs()) field.refresh();

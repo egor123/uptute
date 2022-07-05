@@ -54,3 +54,5 @@ export interface rule {
 export interface rules {
   [index: string]: rule;
 }
+
+export type PanelAction = "isValid" | "refresh";

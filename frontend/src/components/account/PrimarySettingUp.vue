@@ -61,7 +61,6 @@ export default {
       return await this.$store.dispatch("account/upgradeToUser", { data });
     },
     // async updateUserDetails(data) {
-    //   console.log(data);
     //   if (this.isUpdating) return;
     //   this.isUpdating = true;
     //   await this.$store.dispatch("account/updateUserDetails", { data });

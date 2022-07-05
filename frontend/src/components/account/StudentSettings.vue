@@ -25,7 +25,7 @@ import { Details } from "./classes/Details";
 
 @Component({ components: { FilterPanel, ExpandableSlider } })
 export default class StudentSettings extends Vue {
-  @Ref() readonly panelRef!: InstanceType<typeof FilterPanel>; // TODO to TS
+  @Ref() readonly panelRef!: InstanceType<typeof FilterPanel>;
   @Prop({ type: Object, default: () => new Details.Student() })
   readonly value!: D.Student;
 

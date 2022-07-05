@@ -34,7 +34,7 @@ import NameTextField from "@/components/account/NameTextField.vue";
 import { ifPassesNameRules } from "./rules/name";
 
 import { Vue, Component, Prop, Ref } from "vue-property-decorator";
-import { Details as D } from "./types";
+import { Details as D, PanelAction } from "./types";
 import { Details } from "./classes/Details";
 import { Info } from "./classes/Info";
 
@@ -43,8 +43,8 @@ import { Info } from "./classes/Info";
   methods: { ifPassesNameRules },
 })
 export default class PrimarySettings extends Vue {
-  @Ref() readonly panelRef!: typeof FilterPanel; // TODO correct type
-  @Ref() readonly panel2Ref!: typeof FilterPanel; // TODO correct type
+  @Ref() readonly panelRef!: InstanceType<typeof FilterPanel>;
+  @Ref() readonly panel2Ref!: InstanceType<typeof FilterPanel>;
   @Prop({ type: Object, default: () => new Details.User() })
   readonly value!: D.User;
 
@@ -53,15 +53,13 @@ export default class PrimarySettings extends Vue {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9tbe0h9I_HCaMS2lyCsdTRXmznpSg9Rn5iA&usqp=CAU";
   info = new Info.User();
 
-  actionOnPanel2(action: string) {
-    //@ts-ignore : FilterPanel is not in TS
+  actionOnPanel2(action: PanelAction) {
     this.panel2Ref[action]();
   }
   handleInput(name: string, val: string) {
     this.$emit("input", { ...this.value, [name]: val });
   }
   async isValid() {
-    //@ts-ignore : FilterPanel is not in TS
     await this.panelRef.isValid();
   }
 }
