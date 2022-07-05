@@ -15,7 +15,7 @@
       >
     </template>
 
-    <template content-class="dropDownMenu" v-slot:content>
+    <template v-slot:content>
       <div v-for="(notification, index) in notifications" :key="index">
         <Feedback
           v-if="notification.type === 'feedback'"

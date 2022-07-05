@@ -56,3 +56,5 @@ export interface rules {
 }
 
 export type PanelAction = "isValid" | "refresh";
+
+export type Rules<T = string> = (v: T) => boolean;

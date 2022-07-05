@@ -55,110 +55,44 @@
       <SliderLayout
         ref="block0"
         :title="$l('home.mission.title')"
-        :elements="[
-          {
-            img: 'happiness',
-            txt: $l('home.mission.list.process'),
-          },
-          {
-            img: 'heart',
-            txt: $l('home.mission.list.passion'),
-          },
-          {
-            img: 'coins',
-            txt: $l('home.mission.list.affordable'),
-          },
-        ]"
+        :elements="sliderLayout.missions"
       />
       <CheckerLayout
         inversed
         ref="block1"
         color="background"
         :title="$l('home.how_it_works.title')"
-        :rows="[
-          {
-            img: 'howItWorks/filter',
-            title: $l('home.how_it_works.list.filters.h'),
-            txt: $l('home.how_it_works.list.filters.p'),
-          },
-          {
-            img: 'howItWorks/choosing',
-            title: $l('home.how_it_works.list.choose.h'),
-            txt: $l('home.how_it_works.list.choose.p'),
-          },
-          {
-            img: 'howItWorks/notebook',
-            title: $l('home.how_it_works.list.lesson.h'),
-            txt: $l('home.how_it_works.list.lesson.p'),
-          },
-          {
-            img: 'howItWorks/rating',
-            title: $l('home.how_it_works.list.rate.h'),
-            txt: $l('home.how_it_works.list.rate.p'),
-          },
-        ]"
+        :rows="checkerLayout.howItWorks"
       />
       <CheckerLayout
         ref="block2"
         inversed
         color="header"
         :title="$l('why_us.student.title')"
-        :rows="[
-          {
-            img: 'whyUpTute/forStudent/piggy-bank',
-            title: $l('why_us.student.list.price.h'),
-            txt: $l('why_us.student.list.price.p'),
-          },
-          {
-            img: 'whyUpTute/forStudent/fast',
-            title: $l('why_us.student.list.now.h'),
-            txt: $l('why_us.student.list.now.p'),
-          },
-          {
-            img: 'whyUpTute/forStudent/friend',
-            title: $l('why_us.student.list.understand.h'),
-            txt: $l('why_us.student.list.understand.p'),
-          },
-        ]"
+        :rows="checkerLayout.forStudent"
       />
       <CheckerLayout
         ref="block3"
         color="background"
         :title="$l('why_us.tutor.title')"
-        :rows="[
-          {
-            img: 'whyUpTute/forTutor/goal',
-            title: $l('why_us.tutor.list.not_just.h'),
-            txt: $l('why_us.tutor.list.not_just.p'),
-          },
-          {
-            img: 'whyUpTute/forTutor/money-bag',
-            title: $l('why_us.tutor.list.salary.h'),
-            txt: $l('why_us.tutor.list.salary.p'),
-          },
-          {
-            img: 'whyUpTute/forTutor/algorithm',
-            title: $l('why_us.tutor.list.price.h'),
-            txt: $l('why_us.tutor.list.price.p'),
-          },
-          {
-            img: 'whyUpTute/forTutor/time-management',
-            title: $l('why_us.tutor.list.flexible.h'),
-            txt: $l('why_us.tutor.list.flexible.p'),
-          },
-        ]"
+        :rows="checkerLayout.forTutor"
       />
     </div>
   </div>
 </template>
 
 <script>
-import SliderLayout from "@/components/global/layouts/SliderLayout.vue";
+import SliderLayout from "@/components/global/layouts/sliderLayout/SliderLayout.vue";
 // import Begin from "@/components/header/Begin.vue";
 import Account from "@/components/header/Account.vue";
 import LessonMenu from "@/components/header/LessonMenu.vue";
-import CheckerLayout from "@/components/global/layouts/CheckerLayout.vue";
+import CheckerLayout from "@/components/global/layouts/checkerLayout/CheckerLayout.vue";
 import HeroCanvas from "@/components/HeroCanvas.vue";
+
+import { Mission } from "@/components/global/layouts/sliderLayout/classes/Mission";
+import { HowItWorks } from "@/components/global/layouts/checkerLayout/classes/HowItWorks";
+import { ForStudent } from "@/components/global/layouts/checkerLayout/classes/ForStudent";
+import { ForTutor } from "@/components/global/layouts/checkerLayout/classes/ForTutor";
 
 export default {
   name: "Home",
@@ -177,6 +111,14 @@ export default {
   },
   data() {
     return {
+      sliderLayout: {
+        missions: new Mission(this).arr,
+      },
+      checkerLayout: {
+        howItWorks: new HowItWorks(this).arr,
+        forStudent: new ForStudent(this).arr,
+        forTutor: new ForTutor(this).arr,
+      },
       menu: {
         color: "var(--v-background-base)",
         textColor: "var(--v-secondary-darken3)",
@@ -184,13 +126,12 @@ export default {
         border: "dashed 2px var(--v-accent-base)",
         padding: "1rem 3rem",
       },
-      url:
-        "https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500&enablejsapi=1",
+      url: "https://player.vimeo.com/video/20924263?muted=1&autoplay=1&loop=1&sidedock=0&color=ffa500&enablejsapi=1",
       heroFadeTimeout: 300,
     };
   },
   computed: {
-    roles: function() {
+    roles: function () {
       return this.$store.getters["auth/roles"];
     },
   },
@@ -203,71 +144,6 @@ export default {
       this.$refs.heroCanvas.mouseEnter
     );
   },
-  //   data() {
-  //     return {
-  //       currentBlock: 0,
-  //       oldScrollPos: 0,
-  //     };
-  //   },
-  //   mounted() {
-  //     document.addEventListener("scroll", this.scrolled);
-  //   },
-  //   destroyed() {
-  //     document.removeEventListener("scroll", this.scrolled);
-  //   },
-  //   methods: {
-  //     scrolled() {
-  //       var dom = this.$refs[
-  //         `block${this.currentBlock}`
-  //       ].$el.getBoundingClientRect();
-  //       var newScrollPos = window.scrollY;
-
-  //       var offsetY = 0;
-  //       console.log(document.documentElement.scrollTop);
-
-  //       if (
-  //         dom.top < window.innerHeight - dom.height &&
-  //         this.currentBlock != 3 &&
-  //         newScrollPos > this.oldScrollPos
-  //       ) {
-  //         for (var i = 0; i <= this.currentBlock; i++) {
-  //           offsetY += this.$refs[`block${i}`].$el.getBoundingClientRect().height;
-  //         }
-
-  //         console.log("TRIED DOWN");
-
-  //         window.scrollTo(0, offsetY + window.innerHeight, "smooth"); //innerHeight for Hero
-
-  //         this.currentBlock++;
-  //         // }
-  //       }
-
-  //       // -------------
-  //       else if (
-  //         dom.top > 0 &&
-  //         this.currentBlock != 0 &&
-  //         newScrollPos < this.oldScrollPos
-  //       ) {
-  //         if (this.currentBlock > 0) {
-  //           for (var l = 0; l <= this.currentBlock - 1; l++) {
-  //             offsetY += this.$refs[`block${l}`].$el.getBoundingClientRect()
-  //               .height;
-  //           }
-  //         }
-
-  //         console.log("TRIED UP");
-  //         console.log("domTop:" + dom.top);
-  //         console.log("new: " + newScrollPos);
-  //         console.log("old: " + this.oldScrollPos);
-
-  //         document.documentElement.scrollTop = offsetY;
-
-  //         this.currentBlock--;
-  //         // }
-  //       }
-  //       this.oldScrollPos = newScrollPos;
-  //     },
-  //   },
 };
 </script>
 

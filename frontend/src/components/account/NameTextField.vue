@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import TextField from "@/components/filterPanel/TextField.vue";
-import { NameObject } from "./types";
+import { NameObject, Rules } from "./types";
 import { Name } from "./classes/Name";
 
 import { Vue, Component, Prop, Ref } from "vue-property-decorator";
@@ -22,7 +22,7 @@ export default class NameTextField extends Vue {
   @Prop(String) readonly value!: NameObject;
   @Prop(Name) readonly obj!: NameObject;
   @Prop(String) readonly borderRadius!: string;
-  @Prop(Function) readonly rules!: (v: string) => boolean;
+  @Prop(Function) readonly rules!: Rules<string>;
   @Ref() readonly textFieldRef!: typeof TextField;
 
   get finalBorderRadius() {

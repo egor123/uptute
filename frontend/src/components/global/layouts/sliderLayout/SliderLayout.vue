@@ -4,7 +4,7 @@
       <h1 v-animate="'fadeIn'">{{ title }}</h1>
       <div v-animate="'fadeIn'" id="content" ref="content">
         <div
-          class="element "
+          class="element"
           v-for="(element, i) in elements"
           :key="i"
           :ref="`element${i}`"
@@ -56,10 +56,6 @@ export default {
     elements: Array,
     title: String,
   },
-  created() {
-    if (this.elements.length % 2 === 0)
-      this.elements.push({ txt: "", img: "happiness" });
-  },
   mounted() {
     this.total = this.elements.length;
     this.setStyles(false);
@@ -70,10 +66,10 @@ export default {
       return this.imgSize ?? 100;
     },
     current: {
-      get: function() {
+      get: function () {
         return this.currentValue;
       },
-      set: function(value) {
+      set: function (value) {
         if (!this.enabled) return;
         this.currentValue = value;
         if (this.current < 0) this.currentValue = this.total - 1;
@@ -118,8 +114,9 @@ export default {
         const distance = Math.abs(position);
 
         element.classList.toggle("transition", transition);
-        element.style.transform = `perspective(200px) translate3d(${position *
-          330}px, 0, ${distance * -120}px)`;
+        element.style.transform = `perspective(200px) translate3d(${
+          position * 330
+        }px, 0, ${distance * -120}px)`;
         if (i === c) element.style.cursor = "default";
         else element.style.cursor = "pointer";
       }
