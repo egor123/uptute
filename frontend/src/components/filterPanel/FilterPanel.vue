@@ -1,51 +1,59 @@
 <template>
-  <v-expansion-panels flat id="panels" ref="panel">
+  <v-expansion-panels flat ref="Panel">
     <slot />
   </v-expansion-panels>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      inProgress: false,
-    };
-  },
-  props: ["next"],
-  methods: {
-    async isValid() {
-      if (this.inProgress) return;
-      this.inProgress = true;
-      var val = true;
+<script lang="ts">
+import { Vue, Component, Ref } from "vue-property-decorator";
+import { VExpansionPanel } from "vuetify/lib";
+import { sleep } from "@/plugins/utilityMethods";
 
-      const inputFields = this.$refs.panel.$children.filter(
-        (el) => !el.$el.classList.contains("notInput")
-      );
+interface Field extends Vue {
+  isValid: () => boolean;
+  refresh: () => void;
+}
 
-      for (const el of inputFields) {
-        if (!el.isValid()) val = false;
-        await new Promise((res) => setTimeout(res, 100));
-      }
-      var nextValPromise = Promise;
+@Component
+export default class FilterPanel extends Vue {
+  @Ref() readonly Panel!: InstanceType<typeof VExpansionPanel>;
 
-      this.$emit("next", "isValid", (r) => (nextValPromise = r));
+  inProgress: boolean = false;
 
-      var bool = await Promise.resolve(nextValPromise);
-      if (bool == false) val = false;
-      // if (!val) await new Promise((res) => setTimeout(res, 300));
+  async isValid(): Promise<boolean> {
+    if (this.inProgress) return false;
 
-      this.inProgress = false;
+    this.inProgress = true;
 
-      return val;
-    },
-    refresh() {
-      for (const el of this.$refs.panel.$children) {
-        el.refresh();
-      }
-      this.$emit("next", "refresh");
-    },
-  },
-};
+    let val = true;
+
+    for (const field of this.onlyInputs()) {
+      if (!field.isValid()) val = false;
+      await sleep(100);
+    }
+
+    console.warn(...this.onlyInputs());
+
+    var nextVal: Promise<boolean> = new Promise((r) => r);
+    this.$emit("next", "isValid", (r: Promise<boolean>) => (nextVal = r));
+
+    if (!(await nextVal)) val = false;
+
+    this.inProgress = false;
+
+    return val;
+  }
+  onlyInputs(): Field[] {
+    const isInput = (field: Vue) => !field.$el.classList.contains("notInput");
+    const fields = this.Panel.$children;
+    console.warn(fields[1].$el.childNodes);
+    return fields.filter(isInput) as Field[];
+  }
+  refresh() {
+    for (const field of this.onlyInputs()) field.refresh();
+    this.$emit("next", "refresh");
+  }
+}
 </script>
 
 <style scoped lang="scss">

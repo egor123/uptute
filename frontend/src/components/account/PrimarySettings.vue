@@ -54,12 +54,14 @@ export default class PrimarySettings extends Vue {
   info = new Info.User();
 
   actionOnPanel2(action: string) {
+    //@ts-ignore : FilterPanel is not in TS
     this.panel2Ref[action]();
   }
   handleInput(name: string, val: string) {
     this.$emit("input", { ...this.value, [name]: val });
   }
   async isValid() {
+    //@ts-ignore : FilterPanel is not in TS
     await this.panelRef.isValid();
   }
 }

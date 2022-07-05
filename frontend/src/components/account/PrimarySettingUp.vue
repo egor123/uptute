@@ -22,6 +22,7 @@
 <script>
 import PrimarySettings from "./PrimarySettings.vue";
 import Subheader from "@/components/app/Subheader.vue";
+import { Details } from "./classes/Details";
 
 export default {
   components: {
@@ -30,7 +31,7 @@ export default {
   },
   data() {
     return {
-      data: { firstName: "", lastName: "", birthday: "" },
+      data: new Details.User(),
     };
   },
   methods: {
@@ -54,15 +55,10 @@ export default {
         ...panel.$children[0].$children,
       ];
       const inputFields = panels.reduce(addChildren, []);
-      inputFields.forEach((el) => el.isValid());
-      const isValid = inputFields.every((el) => el.isValid());
-      return isValid;
+      return inputFields.every((el) => el.isValid());
     },
-    async upgradeToUser() {
-      const data = this.data;
-      console.log(data);
-      const res = await this.$store.dispatch("account/upgradeToUser", { data });
-      return res;
+    async upgradeToUser(data = this.data) {
+      return await this.$store.dispatch("account/upgradeToUser", { data });
     },
     // async updateUserDetails(data) {
     //   console.log(data);

@@ -3,7 +3,7 @@
     <Subheader :title="$l('acc_pages.settings')" />
 
     <PrimarySettings v-model="details.userDetails" />
-    <!-- TODO Student setings -->
+    <StudentSettings v-model="details.studentDetails" v-if="isStudent" />
     <TutorSettings v-model="details.tutorDetails" v-if="isTutor" />
 
     <v-btn @click="saveChanges" rounded outlined color="accent">
@@ -15,6 +15,7 @@
 <script lang="ts">
 import Subheader from "@/components/app/Subheader.vue";
 import PrimarySettings from "@/components/account/PrimarySettings.vue";
+import StudentSettings from "@/components/account/StudentSettings.vue";
 import TutorSettings from "@/components/account/TutorSettings.vue";
 import { Details } from "./classes/Details";
 
@@ -23,8 +24,8 @@ import { Vue, Component } from "vue-property-decorator";
 @Component({
   name: "Settings",
   path: "/settings",
-  permisions: { roles: ["ROLE_STUDENT"], redirect: "LogIn" },
-  components: { Subheader, PrimarySettings, TutorSettings },
+  permisions: { roles: [], redirect: "LogIn" }, // "ROLE_STUDENT"
+  components: { Subheader, PrimarySettings, StudentSettings, TutorSettings },
 })
 export default class Settings extends Vue {
   details = new Details.All();
@@ -37,6 +38,9 @@ export default class Settings extends Vue {
     this.details.update(await fetch());
   }
 
+  get isStudent() {
+    return this.$store.getters[`auth/roles`].includes("ROLE_STUDENT");
+  }
   get isTutor() {
     return this.$store.getters[`auth/roles`].includes("ROLE_TUTOR");
   }
