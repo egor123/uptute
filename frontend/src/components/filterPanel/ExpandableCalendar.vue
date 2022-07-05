@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { refresh, isValid, convert, watch } from "./store.js";
+import { refresh, isValid, convert } from "./store.js";
 import BaseComponent from "./ExpansionBaseComponent.vue";
 
 export default {

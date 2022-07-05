@@ -45,7 +45,7 @@
             <button id="dialog">?</button>
           </template>
 
-          <template v-slot:title id="title">
+          <template v-slot:title>
             {{ $l("set_up.dialog.title") }}
           </template>
 
