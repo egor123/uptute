@@ -7,6 +7,7 @@
     <PageViewer
       v-if="student.details.imgs && student.details.imgs.length > 0"
       :imgs="student.imgs"
+      @imgs="(imgs) => (student.imgs = imgs)"
       :upload="false"
     />
 

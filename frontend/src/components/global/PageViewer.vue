@@ -84,13 +84,13 @@ export default {
     },
     addImg(e) {
       const file = e.target.files[0];
-      this.imgs.push({
-        image: file,
-        imageUrl: URL.createObjectURL(file),
-      });
+      const newImg = { image: file, imageUrl: URL.createObjectURL(file) };
+      this.$emit("imgs", [...this.imgs, newImg]);
     },
     deleteImg(index) {
-      this.imgs.splice(index, 1);
+      const _imgs = [...this.imgs];
+      _imgs.splice(index, 1);
+      this.$emit("imgs", _imgs);
     },
     keyDown(key) {
       if (!this.expandImg) return;
@@ -128,9 +128,9 @@ export default {
     setWrapperOffset(imgs, px = 0) {
       const wrapper = this.$refs.outsideWrapper;
       if (wrapper)
-        wrapper.style.transform = `translateX(${(imgs +
-          px / window.innerWidth) *
-          -100}vw)`;
+        wrapper.style.transform = `translateX(${
+          (imgs + px / window.innerWidth) * -100
+        }vw)`;
     },
     calculateSizes(maxWidth) {
       maxWidth =
@@ -198,7 +198,7 @@ export default {
     },
   },
   watch: {
-    currentImg: function(val) {
+    currentImg: function (val) {
       const imgs = this.$refs.imgContainer.children;
       let size = imgs.length;
       if (imgs[size - 1].nodeName === "LABEL") size--;
@@ -206,7 +206,7 @@ export default {
       if (val > size - 1) return (this.currentImg = 0);
       this.setWrapperOffset(val);
     },
-    imgs: function() {
+    imgs: function () {
       this.expandImg = false;
       this.calculateSizes();
       this.calculateSizes(); // ?!?!?!?!?!???!!??! WTF

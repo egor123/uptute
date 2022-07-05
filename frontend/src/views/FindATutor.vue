@@ -48,7 +48,12 @@
         />
       </FilterPanel>
 
-      <PageViewer id="pageViewer" :imgs="info.imgs" :upload="true" />
+      <PageViewer
+        id="pageViewer"
+        :imgs="info.imgs"
+        @imgs="(imgs) => (info.imgs = imgs)"
+        :upload="true"
+      />
 
       <FilterPanel ref="panel2">
         <ExpandableListSelector

@@ -4,7 +4,7 @@
       <v-btn rounded outlined color="accent">Join</v-btn>
     </template>
 
-    <template v-slot:title id="title"> Room id </template>
+    <template v-slot:title> Room id </template>
 
     <template v-slot:text>
       <TextField
@@ -44,7 +44,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import "@/scss/styles.scss";
-</style>
