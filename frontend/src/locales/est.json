@@ -103,6 +103,10 @@
           "gave": "COMMENTER andis",
           "link": "tagasiside"
         }
+      },
+      "balance": {
+        "purchase": "Osta",
+        "withdraw": "Välja"
       }
     },
     "footer": {

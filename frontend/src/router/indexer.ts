@@ -11,6 +11,7 @@ import Register from "@/views/Register.vue";
 import SettingUp from "@/views/SettingUp.vue";
 import Stripe from "@/views/Stripe.vue";
 import TermsOfUse from "@/views/TermsOfUse.vue";
+import Shop from "@/views/Shop.vue";
 
 export const views = {
   Account,
@@ -26,4 +27,5 @@ export const views = {
   SettingUp,
   Stripe,
   TermsOfUse,
+  Shop,
 };

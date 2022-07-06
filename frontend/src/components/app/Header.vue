@@ -43,6 +43,7 @@
         <Notifications v-if="false" />
         <!-- v-if="roles.length > 0" -->
         <AccountMenu v-if="roles.length > 0" />
+        <BalanceMenu />
       </div>
       <!-- </div> -->
     </div>
@@ -69,6 +70,7 @@ import Account from "@/components/header/Account.vue";
 import LocalesMenu from "@/components/header/LocalesMenu.vue";
 import AccountMenu from "@/components/header/AccountMenu.vue";
 import Notifications from "@/components/notifications/Notifications.vue";
+import BalanceMenu from "@/components/header/balance/Menu.vue";
 
 export default {
   data() {
@@ -86,6 +88,7 @@ export default {
     AccountMenu,
 
     Notifications,
+    BalanceMenu,
   },
   computed: {
     ...mapGetters(["getNavBar"]),

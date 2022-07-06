@@ -51,10 +51,22 @@ import { getId } from "@/plugins/utilityMethods.js";
 
 export default {
   props: {
-    color: String,
-    textColor: String,
-    borderRadius: String,
-    border: String,
+    color: {
+      type: String,
+      default: "#000",
+    },
+    textColor: {
+      type: String,
+      default: "var(--v-background-base)",
+    },
+    borderRadius: {
+      type: String,
+      default: "15px",
+    },
+    border: {
+      type: String,
+      default: "none",
+    },
     padding: {
       type: String,
       default: "0px",
@@ -69,7 +81,7 @@ export default {
     },
     transformOrigin: {
       type: String,
-      default: "center top ",
+      default: "center top",
     },
     onHover: {
       type: Boolean,

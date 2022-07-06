@@ -90,6 +90,10 @@
         "nothing": "Nothing here",
         "accepted": { "lesson": "A lesson with NAME", "link": "here" },
         "feedback": { "gave": "COMMENTER gave you a", "link": "feedback" }
+      },
+      "balance": {
+        "purchase": "Purchase",
+        "withdraw": "Withdraw"
       }
     },
     "footer": { "pages_title": "Some pages:" }

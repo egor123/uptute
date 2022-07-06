@@ -50,15 +50,14 @@
 
 <script>
 import HeaderMenu from "@/components/header/HeaderMenu.vue";
+import { goTo } from "@/plugins/utilityMethods";
 
 export default {
   components: {
     HeaderMenu,
   },
   methods: {
-    goTo(pageName) {
-      if (this.$route.name !== pageName) this.$router.push({ name: pageName });
-    },
+    goTo,
     logout() {
       this.$store.dispatch("auth/logout");
     },
