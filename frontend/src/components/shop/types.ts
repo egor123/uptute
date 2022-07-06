@@ -3,7 +3,8 @@ export interface Items {
 }
 
 export interface Item {
-  amount: number;
-  // price: number;
+  /**
+   * Id of a Stripe product price.
+   */
   price: string;
 }

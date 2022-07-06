@@ -9,14 +9,8 @@ export class Items implements I {
 
   constructor() {
     this._arr = [
-      {
-        amount: 10,
-        price: "price_1LIRxmGR1ZOj2dmhlpIJfcnE",
-      },
-      {
-        amount: 100,
-        price: "price_1LIRyMGR1ZOj2dmh6uCi0i0m",
-      },
+      { price: "price_1LIRxmGR1ZOj2dmhlpIJfcnE" },
+      { price: "price_1LIRyMGR1ZOj2dmh6uCi0i0m" },
     ];
   }
 }

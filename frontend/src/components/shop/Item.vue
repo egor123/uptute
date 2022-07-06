@@ -1,11 +1,12 @@
 <template>
-  <button id="card" @click="buy">
+  <button id="card" @click="checkout(value.price)">
+    Price id: {{ value.price }}
     <div id="coin">
-      <div class="amount">{{ value.amount }}</div>
+      <div class="amount">HARDCODED_AMOUNT</div>
       <div class="currency">UC</div>
     </div>
     <div id="price">
-      <div class="amount">{{ value.price }}</div>
+      <div class="amount">HARDCODED_PRICE</div>
       <div class="currency">€</div>
     </div>
   </button>
@@ -16,13 +17,9 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import { Item as I } from "./types";
 import { checkout } from "./stripe.service";
 
-@Component
+@Component({ methods: { checkout } })
 export default class Item extends Vue {
   @Prop() readonly value!: I;
-
-  buy() {
-    checkout(this.value.price);
-  }
 }
 </script>
 
