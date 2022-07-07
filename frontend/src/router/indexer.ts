@@ -12,6 +12,7 @@ import SettingUp from "@/views/SettingUp.vue";
 import Stripe from "@/views/Stripe.vue";
 import TermsOfUse from "@/views/TermsOfUse.vue";
 import Shop from "@/views/Shop.vue";
+import Withdraw from "@/views/Withdraw.vue";
 
 export const views = {
   Account,
@@ -28,4 +29,5 @@ export const views = {
   Stripe,
   TermsOfUse,
   Shop,
+  Withdraw,
 };

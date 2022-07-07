@@ -6,12 +6,12 @@
     :onHover="false"
   >
     <template v-slot:title>
-      <div id="sum">9.91</div>
+      <div id="sum">{{ Balance.balance }}UC</div>
     </template>
 
     <template v-slot:content>
       <Purchase />
-      <!-- <Withdraw /> -->
+      <Withdraw />
     </template>
   </HeaderMenu>
 </template>
@@ -21,10 +21,14 @@ import HeaderMenu from "@/components/header/HeaderMenu.vue";
 import Purchase from "./Purchase.vue";
 import Withdraw from "./Withdraw.vue";
 
+import Balance from "@/store/modules/balance/main";
+
 import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { HeaderMenu, Purchase, Withdraw } })
-export default class BalanceMenu extends Vue {}
+export default class BalanceMenu extends Vue {
+  Balance = Balance;
+}
 </script>
 
 <style lang="scss" scoped>

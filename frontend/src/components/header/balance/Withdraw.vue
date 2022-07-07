@@ -1,6 +1,5 @@
 <template>
   <v-list-item>
-    <!-- TODO route Withdraw doesn't exist yet -->
     <v-btn text @click="goTo('Withdraw')">
       <v-icon>mdi-cash-multiple</v-icon>
       {{ $l("app.header.balance.withdraw") }}
