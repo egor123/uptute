@@ -227,7 +227,6 @@
       "fail": {
         "init": "Failed to create a lesson request",
         "offers": "Failed to get offers",
-        "reject": "Failed to reject the offer",
         "accept": "Failed to accept an offer",
         "conference": "Failed to join a conference"
       }

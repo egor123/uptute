@@ -17,10 +17,12 @@ const exports = {
     vm.$router.go(-1);
     return false;
   },
+
   cancelAllOffers: () => {
     const offeredLessons: LessonWithOffer[] = Module.lessons.offered;
     axios.all(offeredLessons.map((o) => server.cancelOffer(o.offerLogId)));
   },
+
   getOfferLogIdByLessonId: (lessonId: number): number => {
     const offeredLessons = Module.lessons.offered;
     const offerLogId = offeredLessons.find((l) => l.lessonId)?.offerLogId;
@@ -32,9 +34,11 @@ const exports = {
     if (l) return l;
     throw new Error(`lesson is ${l}`);
   },
+
   tryGetLesson: (lessonId: number): Lesson | undefined => {
     return Module.lessons.open.find((el) => el.lessonId == lessonId);
   },
+
   addStudentInfo: async (
     lessons: LessonWithoutStudent[]
   ): Promise<Lesson[]> => {
@@ -46,25 +50,31 @@ const exports = {
   },
   getAcceptedLog: {
     arr: async (): Promise<AxiosLogWithAccepted[]> => {
-      const request = async (lesson: LessonWithOffer) => {
-        const log = await server.getLogWithAccepted(lesson.offerLogId);
+      const request = async (offerLogId: number) => {
+        const log = await server.getLogWithAccepted(offerLogId);
+        if (log.statusText != "OK") Module.deleteOfferedLesson(offerLogId);
+
         return log.data ? log : null;
       };
       return await axios
-        .all(Module.lessons.offered.map((lesson) => request(lesson)))
-        .then((arr) => arr.filter((r) => r) as AxiosLogWithAccepted[]);
+        .all(Module.lessons.offered.map((lesson) => request(lesson.offerLogId)))
+        .then((arr) => arr as AxiosLogWithAccepted[]);
     },
+
     single: (logs: AxiosLogWithAccepted[]): AxiosLogWithAccepted | undefined =>
       logs.find((log) => log.data.childLogs.some((c) => c.type == "ACCEPTED")),
+
     id: (acceptedLog: AxiosResponse<LessonLog>): number | undefined =>
       acceptedLog.data.childLogs.find((c) => c.type === "ACCEPTED")?.id,
   },
+
   cancelOtherLessons: async (lessonId: number) => {
     const offerLogId: number = exports.getOfferLogIdByLessonId(lessonId);
     const offeredLessons: LessonWithOffer[] = Module.lessons.offered;
     const others = offeredLessons.filter((l) => l.offerLogId != offerLogId);
     others.forEach((l) => Module.cancelOffer(l.offerLogId));
   },
+
   notifyStudent: async (acceptedLogId: number, roomId: string) => {
     const r: AxiosInit = await server.initConference(acceptedLogId, roomId);
     return r.statusText === "OK";

@@ -87,10 +87,8 @@ export default {
       }, 0);
     },
     async reject() {
-      const offerLogId = this.tutor.offerLogId;
-      this.$store
-        .dispatch("student/rejectOffer", { offerLogId })
-        .then((isRej) => (this.visible = !isRej));
+      this.$store.dispatch("student/rejectOffer", this.tutor.offerLog);
+      this.visible = false;
     },
   },
   // mounted() {

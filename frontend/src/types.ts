@@ -17,3 +17,14 @@ export interface PromiseRes<T = unknown> {
 }
 
 export type Direction = "right" | "left" | "up" | "down";
+
+export type language = "EN" | "EST" | "RU";
+
+export type subject =
+  | "MATH"
+  | "BIOL"
+  | "ESL"
+  | "PHYS"
+  | "GEOG"
+  | "CHEM"
+  | "CIS";

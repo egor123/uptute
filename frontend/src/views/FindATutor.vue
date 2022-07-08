@@ -55,7 +55,12 @@
         :upload="true"
       />
 
-      <FilterPanel ref="panel2">
+      <FilterPanel
+        ref="panel2"
+        @next="
+          (action, callback) => (action == 'isValid' ? callback(true) : null)
+        "
+      >
         <ExpandableListSelector
           v-model="info.languages"
           :label="$l('find.filters.language.h')"
@@ -96,7 +101,7 @@
         />
       </FilterPanel>
 
-      <v-btn @click="request()" id="requestBtn" rounded outlined color="accent">
+      <v-btn @click="request" id="requestBtn" rounded outlined color="accent">
         {{ $l("find.request") }}
       </v-btn>
     </div>
@@ -124,6 +129,8 @@ import ExpandableListSelector from "@/components/filterPanel/ExpandableListSelec
 import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 import TextField from "@/components/filterPanel/TextField";
 
+import StudentLesson from "@/store/modules/lesson/student/module";
+
 import PageViewer from "@/components/global/PageViewer.vue";
 
 export default {
@@ -147,12 +154,12 @@ export default {
       info: {
         name: "Someone", // Pull from account !!!!
         grade: 12, //Pull from account !!!!
-        subject: null, // null
-        topic: "",
-        details: "",
+        subject: "MATH", // null
+        topic: "Topic",
+        details: "Details",
 
         // ----------------- this are going to be checked but not rendered
-        languages: [], // ["EN"]
+        languages: ["EN"], // ["EN"]
         age: [15, 100],
         price: [0, 150],
         // -----------------
@@ -199,10 +206,8 @@ export default {
       this.$refs.panel2[action]();
     },
     async sendLessonRequest() {
-      const bool = await this.$store.dispatch("student/request", {
-        info: this.info,
-        vm: this.getThis(),
-      });
+      const bool = await StudentLesson.openRequest(this.info);
+      // const bool = await this.$store.dispatch("student/openRequest", this.info);
       if (bool) this.$router.push({ name: "ChooseATutor" });
     },
     keyPressed(e) {

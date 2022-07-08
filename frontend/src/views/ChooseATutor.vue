@@ -121,7 +121,7 @@ export default {
   },
   async beforeRouteLeave(to, from, next) {
     const jwt = JSON.parse(sessionStorage.getItem("user")).jwt;
-    if (this.$store.state["student"].state === "idle" || isJwtExpired(jwt))
+    if (this.$store.state["student"].phase === "idle" || isJwtExpired(jwt))
       next();
     this.showAlert = true;
     this.untilClick().then(async (val) => {

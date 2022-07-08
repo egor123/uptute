@@ -271,7 +271,6 @@
       "fail": {
         "init": "Tunni päringu loomine ebaõnnestus",
         "offers": "Tunni pakkumiste hankimine ebaõnnestus",
-        "reject": "Tunni pakkumise tagasilükkamine ebaõnnestus",
         "accept": "Pakkumise vastuvõtmine ebaõnnestus",
         "conference": "Koosolekuga liitumine ebaõnnestus"
       }

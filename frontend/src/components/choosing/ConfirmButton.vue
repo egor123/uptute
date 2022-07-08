@@ -31,9 +31,7 @@ export default {
     acceptOffer() {
       console.log("!!!");
       console.log(this.tutor);
-      this.$store.dispatch("student/accept", {
-        offerLogId: this.tutor.offerLog,
-      });
+      this.$store.dispatch("student/acceptOffer", this.tutor.offerLog);
     },
   },
 };

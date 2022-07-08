@@ -30,11 +30,6 @@ export default {
         .then((r) => tryUpdateUser(r));
     },
   },
-  mutations: {
-    mutate(state, { name, val }) {
-      state[name] = val;
-    },
-  },
 };
 
 function tryUpdateUser(r) {

@@ -100,6 +100,8 @@ export class TutorLesson extends VuexModule {
     if (!helper.exitIfFalsy(bool, "conference"))
       return this.setPhase("listening");
 
+    await sleep(1000); // TODO remove somehow (temporarily gives student time to read the log)
+
     router.push({ path: "conference" });
     this.setPhase("conference");
   }
@@ -142,7 +144,7 @@ export class TutorLesson extends VuexModule {
   }
 
   @Mutation
-  private deleteOfferedLesson(offerLogId: number) {
+  public deleteOfferedLesson(offerLogId: number) {
     const isNotToDelete = (lesson: LessonWithOffer): boolean =>
       lesson.offerLogId != offerLogId;
 
