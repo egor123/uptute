@@ -1,4 +1,4 @@
-import { req } from "./base";
+import { req } from "../base";
 import {
   AxiosLogWithAccepted,
   AxiosLessonIds,

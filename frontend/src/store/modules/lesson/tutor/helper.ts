@@ -1,5 +1,5 @@
 import Module from "@/store/modules/lesson/tutor/module";
-import server from "@/services/lesson/tutor.service";
+import server from "@/services/lesson/tutor/tutor.service";
 import axios, { AxiosResponse } from "axios";
 import { Lesson, LessonWithOffer, LessonWithoutStudent } from "./types";
 import { vm } from "@/main";
@@ -7,7 +7,7 @@ import {
   AxiosInit,
   AxiosLogWithAccepted,
   LessonLog,
-} from "@/services/lesson/types";
+} from "@/services/lesson/tutor/types";
 
 const exports = {
   exitIfFalsy: (bool: boolean, name: string): boolean => {
