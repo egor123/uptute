@@ -164,10 +164,6 @@ $inner-content-width: 350px;
   width: $inner-content-width;
 }
 
-#filterPanel {
-  margin-bottom: 2rem;
-}
-
 #panels {
   margin-bottom: 3rem;
 }

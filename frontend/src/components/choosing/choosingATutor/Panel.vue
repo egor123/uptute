@@ -1,5 +1,10 @@
 <template>
-  <HiddenButtonCard v-if="visible" :tutor="tutor" ref="hiddenButtonCard">
+  <HiddenButtonCard
+    v-if="visible"
+    :tutor="tutor"
+    class="card"
+    ref="hiddenButtonCard"
+  >
     <template v-slot:static>
       <button class="rejectBtn" @click="reject()">
         <v-icon class="rejectIcon">mdi-close</v-icon>
@@ -102,76 +107,76 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-* {
-  margin: auto 0;
-}
+.card {
+  margin: 10px 0;
 
-.rejectBtn {
-  position: absolute;
-  right: 4px;
-  top: 4px;
-  .rejectIcon {
-    color: var(--v-secondary-darken2);
-    transition: all 500ms;
-    &:hover {
-      transform: rotate(180deg) scale(0.8);
-      color: var(--v-accent-base) !important;
-    }
-  }
-}
-
-.profile {
-  display: inline-flex;
-  width: 100%;
-  text-align: left;
-  div {
-    margin-left: 10px;
-    width: 100%;
-    padding: 0;
-  }
-  .pph {
-    float: right;
-  }
-  p {
-    margin: 0;
-  }
-}
-
-.tutor {
-  display: flex;
-  position: relative;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  .rating {
+  .rejectBtn {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .hoursDiv,
-  .commentsDiv {
-    opacity: 0.6;
-    cursor: pointer;
-
-    transition: opacity 300ms;
-    &:hover {
-      opacity: 1;
+    right: 4px;
+    top: 4px;
+    .rejectIcon {
+      color: var(--v-secondary-darken2);
+      transition: all 500ms;
+      &:hover {
+        transform: rotate(180deg) scale(0.8);
+        color: var(--v-accent-base) !important;
+      }
     }
   }
-  div {
-    display: flex;
-  }
-  * {
-    margin: auto 0;
-  }
-}
 
-.tooltip {
-  opacity: 1 !important;
-  width: max-content !important;
-  min-width: 0 !important;
-  background: var(--v-background-base) !important;
-  color: var(--v-background-darken3) !important;
-  @include box-shadow();
+  .profile {
+    display: inline-flex;
+    width: 100%;
+    text-align: left;
+    div {
+      margin-left: 10px;
+      width: 100%;
+      padding: 0;
+    }
+    .pph {
+      float: right;
+    }
+    p {
+      margin: 0;
+    }
+  }
+
+  .tutor {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    .rating {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .hoursDiv,
+    .commentsDiv {
+      opacity: 0.6;
+      cursor: pointer;
+
+      transition: opacity 300ms;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    div {
+      display: flex;
+    }
+    * {
+      margin: auto 0;
+    }
+  }
+
+  .tooltip {
+    opacity: 1 !important;
+    width: max-content !important;
+    min-width: 0 !important;
+    background: var(--v-background-base) !important;
+    color: var(--v-background-darken3) !important;
+    @include box-shadow();
+  }
 }
 </style>
