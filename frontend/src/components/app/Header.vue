@@ -15,6 +15,7 @@
           <h1 id="name">UpTute</h1>
         </button>
       </div>
+
       <v-spacer ref="spacer" style="height: 1px" />
 
       <div ref="rightSide" id="rightSide">
@@ -39,11 +40,10 @@
             borderRadius="0 0 15px 15px"
           />
         </div>
-        <LocalesMenu />
-        <Notifications v-if="false" />
-        <!-- v-if="roles.length > 0" -->
-        <AccountMenu v-if="roles.length > 0" />
-        <BalanceMenu />
+        <div><LocalesMenu /></div>
+        <div><Notifications /></div>
+        <div><AccountMenu v-if="roles.length > 0" /></div>
+        <div><BalanceMenu /></div>
       </div>
       <!-- </div> -->
     </div>
@@ -188,6 +188,7 @@ export default {
   },
 };
 </script>
+
 <style scoped lang="scss">
 $header-height: 56px;
 $gap: 0.6rem;
@@ -267,23 +268,11 @@ $gap: 0.6rem;
   }
 }
 
-::v-deep(.headerCircle) {
-  $circleSize: 35px;
-  &.v-icon {
-    font-size: $circleSize;
-  }
-  &.img {
-    $imgSize: $circleSize * 0.845;
-    width: $imgSize !important;
-    margin: 0 ($circleSize - $imgSize) / 2 !important;
-  }
-}
-
-::v-deep(#rightSide) {
+#rightSide {
   & > * {
     padding: 0 calc(#{$gap} / 2);
   }
-  min-width: max-content;
+  // min-width: max-content;
 }
 ::v-deep(#buttons > *) {
   & {

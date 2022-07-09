@@ -6,11 +6,7 @@
     border="none"
   >
     <template v-slot:title>
-      <img
-        :src="getImgUrl(locale)"
-        :alt="locale"
-        class="flagImg img headerCircle"
-      />
+      <img :src="getImgUrl(locale)" :alt="locale" class="img" />
     </template>
     <template v-slot:content>
       <v-list-item
@@ -18,7 +14,7 @@
         :key="index"
         v-on:change="changeLocale(l)"
       >
-        <img :src="getImgUrl(l)" :alt="l" class="flagImg img headerCircle" />
+        <img :src="getImgUrl(l)" :alt="l" class="img" />
       </v-list-item>
     </template>
   </HeaderMenu>
@@ -65,15 +61,14 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-.flagImg {
-  // $iconWidth: calc(30px * 0.845);
+.img {
+  $iconWidth: calc(30px * 0.845);
   @include hoverOpacity();
   border-radius: 1.5px;
-  // width: 30px;
-  // width: $iconWidth;
-  // margin: 0 calc(30px - #{$iconWidth});
+  width: $iconWidth;
+  margin: 0 calc((30px - #{$iconWidth}) / 2);
 }
-.v-list-item .flagImg {
+.v-list-item .img {
   cursor: pointer;
 }
 </style>

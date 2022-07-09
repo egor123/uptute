@@ -10,9 +10,7 @@
     :onHover="false"
   >
     <template v-slot:title>
-      <v-icon ref="important" class="headerCircle" id="important"
-        >mdi-bell-circle</v-icon
-      >
+      <v-icon ref="important" id="important"> mdi-bell-circle </v-icon>
     </template>
 
     <template v-slot:content>
@@ -91,7 +89,7 @@ export default {
   color: var(--v-background-base);
   cursor: pointer;
   @include hoverOpacity();
-  // font-size: 30px;
+  font-size: 30px;
 }
 .dividor {
   background: var(--v-background-base);
@@ -118,7 +116,6 @@ export default {
     // display: inline-flex !important;
     @include flexbox();
     color: var(--v-background-base);
-    margin: 0 1rem 0 0;
   }
 }
 

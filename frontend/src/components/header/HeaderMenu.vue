@@ -27,7 +27,7 @@
           triangle: paddingTop !== '0' && paddingTop !== '0px',
         }"
       >
-        <slot name="title" />
+        <slot name="title"></slot>
       </div>
     </template>
 
@@ -128,6 +128,13 @@ $triangleOffset: 30px;
 }
 
 div.title {
+  #icon {
+    width: 24px;
+    height: 100%;
+
+    @include flexbox;
+  }
+
   position: relative;
   height: 100%;
   cursor: default;
