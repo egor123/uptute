@@ -23,3 +23,10 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.v-icon {
+  margin-right: 10px;
+}
+</style>
+

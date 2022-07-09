@@ -1,17 +1,17 @@
 <template>
-  <v-list-item>
-    <v-btn text @click="goTo('Withdraw')">
-      <v-icon>mdi-cash-multiple</v-icon>
-      {{ $l("app.header.balance.withdraw") }}
-    </v-btn>
-  </v-list-item>
+  <HeaderListItem
+    @click="goTo('Withdraw')"
+    icon="mdi-cash-multiple"
+    :text="$l('app.header.balance.withdraw')"
+  />
 </template>
 
 <script lang="ts">
 import { goTo } from "@/plugins/utilityMethods";
+import HeaderListItem from "../HeaderListItem.vue";
 
 import { Vue, Component } from "vue-property-decorator";
 
-@Component({ methods: { goTo } })
+@Component({ components: { HeaderListItem }, methods: { goTo } })
 export default class Withdraw extends Vue {}
 </script>

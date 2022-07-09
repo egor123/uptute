@@ -1,17 +1,17 @@
 <template>
-  <v-list-item>
-    <v-btn text @click="goTo('Shop')">
-      <v-icon>mdi-currency-btc</v-icon>
-      {{ $l("app.header.balance.purchase") }}
-    </v-btn>
-  </v-list-item>
+  <HeaderListItem
+    @click="goTo('Shop')"
+    icon="mdi-currency-btc"
+    :text="$l('app.header.balance.purchase')"
+  />
 </template>
 
 <script lang="ts">
 import { goTo } from "@/plugins/utilityMethods";
+import HeaderListItem from "../HeaderListItem.vue";
 
 import { Vue, Component } from "vue-property-decorator";
 
-@Component({ methods: { goTo } })
+@Component({ components: { HeaderListItem }, methods: { goTo } })
 export default class Purchase extends Vue {}
 </script>

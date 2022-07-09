@@ -11,16 +11,16 @@
       <span v-if="ifWithText">{{ $l("auth.header.account") }}</span>
     </template>
     <template v-slot:content>
-      <v-list-item>
-        <v-btn text @click="goTo('LogIn')">{{
-          $l("auth.header.sign_in")
-        }}</v-btn>
-      </v-list-item>
-      <v-list-item>
-        <v-btn text @click="goTo('Register')">{{
-          $l("auth.header.sign_up")
-        }}</v-btn>
-      </v-list-item>
+      <HeaderListItem
+        @click="goTo('LogIn')"
+        :text="$l('auth.header.sign_in')"
+        justify="center"
+      />
+      <HeaderListItem
+        @click="goTo('Register')"
+        :text="$l('auth.header.sign_up')"
+        justify="center"
+      />
     </template>
   </HeaderMenu>
 </template>
@@ -28,6 +28,7 @@
 <script>
 import HeaderMenu from "@/components/header/HeaderMenu.vue";
 import { goTo } from "@/plugins/utilityMethods.js";
+import HeaderListItem from "./HeaderListItem";
 
 export default {
   props: {
@@ -47,6 +48,7 @@ export default {
   },
   components: {
     HeaderMenu,
+    HeaderListItem,
   },
   methods: {
     goTo,

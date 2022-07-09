@@ -31,8 +31,8 @@
         <div class="dividor" v-if="index !== notifications.length - 1" />
       </div>
       <v-list-item id="noNotifications" v-if="notifications.length === 0">
-        {{ $l("app.header.notifications.nothing") }}</v-list-item
-      >
+        {{ $l("app.header.notifications.nothing") }}
+      </v-list-item>
     </template>
   </HeaderMenu>
 </template>

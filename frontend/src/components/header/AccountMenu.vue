@@ -14,36 +14,32 @@
     </template>
 
     <template v-slot:content>
-      <!-- <v-list-item>
-        <v-btn text @click="goTo('Profile')">
-          <v-icon>mdi-account-circle</v-icon>
-          {{ $l("acc_pages.profile") }}
-        </v-btn>
-      </v-list-item> -->
-      <!-- <v-list-item>
-        <v-btn text @click="goTo('Calendar')">
-          <v-icon>mdi-calendar-clock</v-icon>
-          {{ $l("acc_pages.calendar") }}
-        </v-btn>
-      </v-list-item> -->
-      <!-- <v-list-item>
-        <v-btn text @click="goTo('Logs')">
-          <v-icon>mdi-calendar-check</v-icon>
-          {{ $l("acc_pages.logs") }}
-        </v-btn>
-      </v-list-item> -->
-      <v-list-item>
-        <v-btn text @click="goTo('Settings')">
-          <v-icon>mdi-account-cog</v-icon>
-          {{ $l("acc_pages.settings") }}
-        </v-btn>
-      </v-list-item>
-      <v-list-item>
-        <v-btn text @click="logout()" id="logOut">
-          <v-icon>mdi-logout</v-icon>
-          {{ $l("acc_pages.log_out") }}
-        </v-btn>
-      </v-list-item>
+      <!-- <HeaderListItem
+        @click="goTo('Profile')"
+        icon="mdi-account"
+        :text="$l('acc_pages.profile')"
+      /> -->
+      <!-- <HeaderListItem
+        @click="goTo('Calendar')"
+        icon="mdi-calendar-clock"
+        :text="$l('acc_pages.calendar')"
+      /> -->
+      <!-- <HeaderListItem
+        @click="goTo('Logs')"
+        icon="mdi-calendar-check"
+        :text="$l('acc_pages.logs')"
+      /> -->
+      <HeaderListItem
+        @click="goTo('Settings')"
+        icon="mdi-account-cog"
+        :text="$l('acc_pages.settings')"
+      />
+      <HeaderListItem
+        @click="logout"
+        icon="mdi-logout"
+        :text="$l('acc_pages.log_out')"
+        color="var(--v-accent-base)"
+      />
     </template>
   </HeaderMenu>
 </template>
@@ -51,10 +47,12 @@
 <script>
 import HeaderMenu from "@/components/header/HeaderMenu.vue";
 import { goTo } from "@/plugins/utilityMethods";
+import HeaderListItem from "./HeaderListItem";
 
 export default {
   components: {
     HeaderMenu,
+    HeaderListItem,
   },
   methods: {
     goTo,
@@ -74,13 +72,7 @@ export default {
   cursor: pointer;
   @include hoverOpacity();
 }
-#logOut {
-  //   background: var(--v-error-base);
-  &,
-  .v-icon {
-    color: var(--v-accent-base) !important;
-  }
-}
+
 .v-btn {
   width: fit-content !important;
 }

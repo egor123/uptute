@@ -9,23 +9,25 @@
       <img :src="getImgUrl(locale)" :alt="locale" class="img" />
     </template>
     <template v-slot:content>
-      <v-list-item
+      <HeaderListItem
+        @click="changeLocale(l)"
         v-for="(l, index) in otherLocales"
         :key="index"
-        v-on:change="changeLocale(l)"
-      >
-        <img :src="getImgUrl(l)" :alt="l" class="img" />
-      </v-list-item>
+        :img="getImgUrl(l)"
+        alt="l"
+      />
     </template>
   </HeaderMenu>
 </template>
 
 <script>
 import HeaderMenu from "@/components/header/HeaderMenu.vue";
+import HeaderListItem from "./HeaderListItem";
 
 export default {
   components: {
     HeaderMenu,
+    HeaderListItem,
   },
   data() {
     return {

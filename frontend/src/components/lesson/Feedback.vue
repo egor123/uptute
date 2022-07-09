@@ -25,11 +25,6 @@ export default {
     Rating,
     TextField,
   },
-  // mounted() {
-  //   setTimeout(() => {
-  //     this.$refs.dialog.open();
-  //   }, 2000);
-  // },
 };
 </script>
 

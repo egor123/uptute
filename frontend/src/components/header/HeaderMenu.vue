@@ -128,13 +128,6 @@ $triangleOffset: 30px;
 }
 
 div.title {
-  #icon {
-    width: 24px;
-    height: 100%;
-
-    @include flexbox;
-  }
-
   position: relative;
   height: 100%;
   cursor: default;
@@ -204,23 +197,6 @@ div.title {
       background: var(--color) !important;
       border-radius: var(--borderRadius);
       border: var(--border);
-    }
-  }
-}
-
-::v-deep(.v-list-item > *) {
-  width: 100%;
-  &.v-btn,
-  .v-btn {
-    border-radius: 50px;
-    width: 100%;
-    color: var(--textColor) !important;
-    text-transform: none;
-    img,
-    .v-icon {
-      margin-right: 10px;
-      @include box-size(1.5rem);
-      color: var(--v-background-base);
     }
   }
 }

@@ -1,8 +1,6 @@
 <template>
   <div id="wrapper" ref="wrapper" scrollDist="30">
     <div id="header" ref="header">
-      <!-- <div id="container" ref="container"> -->
-
       <div ref="navIcon" id="navIcon">
         <v-app-bar-nav-icon @click="setNavBar(!getNavBar)" />
       </div>
@@ -19,14 +17,7 @@
       <v-spacer ref="spacer" style="height: 1px" />
 
       <div ref="rightSide" id="rightSide">
-        <div id="buttons" ref="buttons">
-          <!-- <Begin
-            v-if="roles.length == 0"
-            color="#000"
-            textColor="white"
-            borderRadius="0 0 15px 15px"
-            border="none"
-          /> -->
+        <div>
           <Account
             v-if="roles.length == 0"
             color="#000"
@@ -34,18 +25,21 @@
             :ifWithText="!mv"
             borderRadius="0 0 15px 15px"
           />
+        </div>
+
+        <div>
           <LessonMenu
             v-if="roles.length > 0"
             :ifWithText="!mv"
             borderRadius="0 0 15px 15px"
           />
         </div>
+
         <div><LocalesMenu /></div>
-        <div><Notifications /></div>
+        <!-- <div><Notifications /></div> -->
         <div><AccountMenu v-if="roles.length > 0" /></div>
         <div><BalanceMenu /></div>
       </div>
-      <!-- </div> -->
     </div>
     <div id="subHeader" ref="subHeader" />
     <v-snackbar
@@ -65,11 +59,10 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import LessonMenu from "@/components/header/LessonMenu.vue";
-// import Begin from "@/components/header/Begin.vue";
 import Account from "@/components/header/Account.vue";
 import LocalesMenu from "@/components/header/LocalesMenu.vue";
 import AccountMenu from "@/components/header/AccountMenu.vue";
-import Notifications from "@/components/notifications/Notifications.vue";
+// import Notifications from "@/components/notifications/Notifications.vue";
 import BalanceMenu from "@/components/header/balance/Menu.vue";
 
 export default {
@@ -82,12 +75,11 @@ export default {
   },
   components: {
     LessonMenu,
-    // Begin,
     Account,
     LocalesMenu,
     AccountMenu,
 
-    Notifications,
+    // Notifications,
     BalanceMenu,
   },
   computed: {
@@ -134,7 +126,6 @@ export default {
       }
     },
     setStyles() {
-      // this.buttons.style.display = this.mv ? "none" : "flex";
       this.title.style.display = this.mv ? "none" : "flex";
       this.navIcon.style.display = this.mv ? "inline" : "none";
       this.setMobileView(this.mv);
@@ -244,12 +235,6 @@ $gap: 0.6rem;
     }
   }
 
-  #buttons {
-    height: 100%;
-    @include flexbox();
-    // padding: 0 2rem;
-  }
-
   #nav a {
     margin: 2px;
     background-color: var(--v-primary-base);
@@ -271,20 +256,9 @@ $gap: 0.6rem;
 #rightSide {
   & > * {
     padding: 0 calc(#{$gap} / 2);
+    height: 100%;
+    @include flexbox();
   }
-  // min-width: max-content;
-}
-::v-deep(#buttons > *) {
-  & {
-    padding: 0 calc(#{$gap} * 1.5);
-  }
-  min-width: max-content;
-}
-::v-deep(.v-snack__wrapper) {
-  border-radius: 15px !important;
-}
-::v-deep(.v-btn__content) {
-  font-size: 1rem !important;
 }
 
 #subHeader {

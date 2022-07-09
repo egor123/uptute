@@ -19,17 +19,6 @@
       ></HeroCanvas>
 
       <div id="heroWrapper" class="boxShadow">
-        <!-- <div id="moto">Fun. Fast. Friendly.</div> -->
-        <!-- id="beginWrapper" -->
-
-        <!-- <Begin
-          v-if="roles.length == 0"
-          :color="menu.color"
-          :textColor="menu.textColor"
-          :borderRadius="menu.borderRadius"
-          :border="menu.border"
-          :padding="menu.padding"
-        /> -->
         <Account
           v-if="roles.length == 0"
           :ifWithIcon="false"
@@ -83,7 +72,6 @@
 
 <script>
 import SliderLayout from "@/components/global/layouts/sliderLayout/SliderLayout.vue";
-// import Begin from "@/components/header/Begin.vue";
 import Account from "@/components/header/Account.vue";
 import LessonMenu from "@/components/header/LessonMenu.vue";
 import CheckerLayout from "@/components/global/layouts/checkerLayout/CheckerLayout.vue";
@@ -104,7 +92,6 @@ export default {
   components: {
     SliderLayout,
     CheckerLayout,
-    // Begin,
     Account,
     LessonMenu,
     HeroCanvas,
