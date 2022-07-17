@@ -9,8 +9,6 @@
 
       <Panels id="panels" :tutors="getTutors()" />
     </div>
-
-    <ExitSnackbar ref="ExitSnackbarRef" />
   </Background>
 </template>
 
@@ -21,7 +19,6 @@ import Panels from "@/components/choosing/choosingATutor/Panels";
 import Searching from "@/components/choosing/Searching.vue";
 import SortBy from "@/components/choosing/choosingATutor/SortBy.vue";
 import { isJwtExpired } from "@/services/api.service.js";
-import ExitSnackbar from "@/components/choosing/choosingATutor/ExitSnackbar.vue";
 
 import StudentLesson from "@/store/modules/lesson/student/module";
 
@@ -38,7 +35,6 @@ export default {
     Panels,
     Searching,
     SortBy,
-    ExitSnackbar,
   },
   data() {
     return {
@@ -64,19 +60,12 @@ export default {
 
     if (StudentLesson.phase === "idle" || isJwtExpired(jwt)) next();
 
-    const name = await this.$refs.ExitSnackbarRef.getInput();
+    const bool = await this.$pop.confirm(this.$l("choose_a.tutor.ended"));
 
-    switch (name) {
-      case "anyway":
-        next();
-        StudentLesson.deleteLesson();
-        break;
-      case "cancel":
-        next(false);
-        break;
-      default:
-        throw new Error(`\`${name}\` is not a valid snackbar input`);
-    }
+    if (bool) {
+      next();
+      StudentLesson.deleteLesson();
+    } else next(false);
   },
 
   mounted() {

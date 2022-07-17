@@ -14,6 +14,7 @@ import mdiVue from "mdi-vue/v2";
 import * as mdijs from "@mdi/js";
 import "@mdi/font/css/materialdesignicons.css";
 import mobileInput from "./plugins/mobileInput";
+import popUp from "./plugins/popUp";
 
 Vue.prototype.$backend = BackendService;
 Vue.prototype.$auth = AuthService;
@@ -36,8 +37,12 @@ Vue.use(mdiVue, {
   icons: mdijs,
 });
 
+// Plugins
+
 Vue.use(VueAnimate);
 Vue.use(mobileInput);
+Vue.use(popUp);
+
 export const vm = new Vue({
   router,
   store,

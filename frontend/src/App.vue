@@ -8,6 +8,7 @@
       </transition>
     </v-main>
     <!-- <MessengerChat /> -->
+    <PopUp />
     <FooterCustom v-if="ifFooter" />
   </v-app>
 </template>
@@ -20,6 +21,7 @@ import Navigation from "@/components/app/Navigation.vue";
 // import MessengerChat from "@/components/MessengerChat.vue";
 import { apiRequest } from "@/services/api.service.js";
 import rules from "@/router/rules.js";
+import PopUp from "@/components/global/PopUp.vue";
 
 export default {
   data: () => ({
@@ -30,6 +32,7 @@ export default {
     FooterCustom,
     Navigation,
     // MessengerChat,
+    PopUp,
   },
   methods: {
     ...mapActions(["isAuth"]),

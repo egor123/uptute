@@ -2,16 +2,16 @@
   <v-snackbar
     max-width="800"
     min-width="fit-content"
-    :color="backgroundColor"
+    :color="Module.backgroundColor"
     timeout="-1"
-    :value="value"
-    :style="`--color: ${color}`"
+    :value="Module.title.length > 0"
+    :style="`--color: ${Module.color}`"
   >
-    <div id="snackTitle">{{ title }}</div>
+    <div id="snackTitle">{{ Module.title }}</div>
     <div id="snackButtons">
       <v-btn
-        v-for="button in buttons"
-        :key="button.id"
+        v-for="(button, id) in Module.buttons"
+        :key="id"
         text
         @click="$emit('input', button.name)"
       >
@@ -22,34 +22,22 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
+
+import Module from "@/store/modules/popUp/popUp";
 
 @Component
 export default class PopUp extends Vue {
-  @Prop(String) readonly title!: string;
-  @Prop(Array) readonly buttons!: { text: string; name: string }[];
-  @Prop({ type: String, default: "var(--v-accent-base)" })
-  readonly backgroundColor!: string;
-  @Prop({ type: String, default: "#fff" }) readonly color!: string;
+  Module = Module;
 
-  value = false;
+  private emitInput(name: string) {
+    this.$root.$emit("popUpAnswer", name);
+    Module.setDefauls();
+  }
 
-  /**
-   * Opens a snackbar.
-   * May ask for button click.
-   */
-  public async getInput() {
-    this.value = true;
-
-    console.warn();
-
-    const name = await new Promise((r) => this.$on("input", r));
-
-    console.warn("NAME", name);
-
-    this.value = false;
-
-    return name;
+  mounted() {
+    this.$on("input", this.emitInput);
+    Module.setDefauls();
   }
 }
 </script>

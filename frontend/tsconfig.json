@@ -22,9 +22,6 @@
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "vueCompilerOptions": {
-    "experimentalDisableTemplateSupport": true
-  },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
