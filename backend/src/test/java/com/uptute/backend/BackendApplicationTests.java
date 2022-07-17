@@ -1,16 +1,16 @@
-package com.uptute.backend;
+// package com.uptute.backend;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+// import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class BackendApplicationTests {
+// @SpringBootTest
+// class BackendApplicationTests {
 
-	@Test
-	void contextLoads() {
-		assertEquals("aaa", "bbb");
-	}
+// 	@Test
+// 	void contextLoads() {
+// 		assertEquals("aaa", "bbb");
+// 	}
 
-}
+// }

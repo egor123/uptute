@@ -1,58 +1,29 @@
 <template>
   <Background :title="$l('choose_a.tutor.header')">
     <div class="innerContent">
-      <LessonInfo
-        ref="lessonInfo"
-        :radius="radiusUpperInfo"
-        class="lessonInfo"
-      />
-      <InfoCardBase ref="infoCard" :radius="radiusLowerInfo" class="infoCard">
-        <h3 class="chooseOne">{{ $l("choose_a.tutor.choose") }}</h3>
-      </InfoCardBase>
+      <Info />
+
       <Searching />
-      <FilterPanel id="filterPanel">
-        <ExpandableSortBy
-          v-model="filter"
-          :filters="[
-            { name: 'rating', dir: 'up' },
-            { name: 'price', dir: 'up' },
-            { name: 'hours_taught', dir: 'up' },
-          ]"
-          :label="$l('find.filters.filters.h')"
-          :flat="false"
-          :text="`${$l('find.filters.filters.' + filter.name)} ${
-            filter.dir === 'up' ? '↑' : '↓'
-          }`"
-          :convertor="(item) => $l('find.filters.filters.' + item.name)"
-          borderRadius="15px"
-        />
-      </FilterPanel>
+
+      <SortBy v-model="filter" />
+
       <Panels id="panels" :tutors="getTutors()" />
-      <!-- :lesson="$store.state['student'].info" -->
     </div>
-    <v-snackbar max-width="800" color="error" timeout="-1" v-model="showAlert">
-      {{ $l("choose_a.tutor.ended") }}
-      <div id="snackButtons">
-        <v-btn text v-model="closeButton" ref="closeBtn">
-          {{ $l("choose_a.tutor.anyway") }}
-        </v-btn>
-        <v-btn text v-model="backButton" ref="backBtn">
-          {{ $l("choose_a.tutor.cancel") }}
-        </v-btn>
-      </div>
-    </v-snackbar>
+
+    <ExitSnackbar ref="ExitSnackbarRef" />
   </Background>
 </template>
 
 <script>
 import Background from "@/components/global/background/Background.vue";
-import InfoCardBase from "@/components/choosing/infoCards/InfoCardBase.vue";
+import Info from "@/components/choosing/choosingATutor/Info.vue";
 import Panels from "@/components/choosing/choosingATutor/Panels";
 import Searching from "@/components/choosing/Searching.vue";
-import LessonInfo from "@/components/choosing/infoCards/LessonInfo.vue";
-import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
-import ExpandableSortBy from "@/components/filterPanel/ExpandableSortBy.vue";
+import SortBy from "@/components/choosing/choosingATutor/SortBy.vue";
 import { isJwtExpired } from "@/services/api.service.js";
+import ExitSnackbar from "@/components/choosing/choosingATutor/ExitSnackbar.vue";
+
+import StudentLesson from "@/store/modules/lesson/student/module";
 
 export default {
   name: "ChooseATutor",
@@ -63,22 +34,19 @@ export default {
   },
   components: {
     Background,
-    InfoCardBase,
+    Info,
     Panels,
     Searching,
-    LessonInfo,
-    FilterPanel,
-    ExpandableSortBy,
+    SortBy,
+    ExitSnackbar,
   },
   data() {
     return {
       tutors: [],
       filter: { name: "rating", dir: "up" },
-      showAlert: false,
+      ifSnackbar: false,
       closeButton: false,
       backButton: false,
-      radiusUpperInfo: "15px",
-      radiusLowerInfo: "15px",
     };
   },
   methods: {
@@ -86,60 +54,36 @@ export default {
       event.preventDefault();
       event.returnValue = "";
     },
-    untilClick() {
-      return new Promise((res) => {
-        const backBtn = this.$refs.backBtn.$el;
-        const closeBtn = this.$refs.closeBtn.$el;
-        backBtn.onclick = () => res("back");
-        closeBtn.onclick = () => res("close");
-      });
-    },
-    resized() {
-      var ww = window.innerWidth;
-      var lessonInfo = this.$refs.lessonInfo.$el;
-      var infoCard = this.$refs.infoCard.$el;
-      if (
-        infoCard.getBoundingClientRect().width +
-          2 * lessonInfo.getBoundingClientRect().width +
-          100 >
-        ww
-      ) {
-        lessonInfo.style = "position: static;";
-        infoCard.style = "position: static; margin-top: 0.8rem;";
-        this.radiusUpperInfo = "15px 15px 5px 5px";
-        this.radiusLowerInfo = "5px 5px 15px 15px";
-      } else {
-        lessonInfo.style = "position: fixed; right: 2rem; top: 8rem;";
-        infoCard.style = "position: static;";
-        this.radiusUpperInfo = "15px";
-        this.radiusLowerInfo = "15px";
-      }
-    },
+
     getTutors() {
-      return this.$store.state["student"].tutors;
+      return StudentLesson.tutors;
     },
   },
   async beforeRouteLeave(to, from, next) {
     const jwt = JSON.parse(sessionStorage.getItem("user")).jwt;
-    if (this.$store.state["student"].phase === "idle" || isJwtExpired(jwt))
-      next();
-    this.showAlert = true;
-    this.untilClick().then(async (val) => {
-      this.showAlert = false;
-      if (val === "close") {
-        await this.$store.dispatch("student/deleteLesson");
+
+    if (StudentLesson.phase === "idle" || isJwtExpired(jwt)) next();
+
+    const name = await this.$refs.ExitSnackbarRef.getInput();
+
+    switch (name) {
+      case "anyway":
         next();
-      }
-    });
+        StudentLesson.deleteLesson();
+        break;
+      case "cancel":
+        next(false);
+        break;
+      default:
+        throw new Error(`\`${name}\` is not a valid snackbar input`);
+    }
   },
+
   mounted() {
-    window.addEventListener("beforeunload", this.preventNav);
-    window.addEventListener("resize", this.resized);
-    this.resized();
+    addEventListener("beforeunload", this.preventNav);
   },
   beforeDestroy() {
-    window.removeEventListener("beforeunload", this.preventNav);
-    window.removeEventListener("resize", this.resized);
+    removeEventListener("beforeunload", this.preventNav);
   },
 };
 </script>
@@ -148,24 +92,12 @@ export default {
 @import "@/scss/mixins.scss";
 $inner-content-width: 350px;
 
-::v-deep(.v-snack__wrapper) {
-  border-radius: 15px !important;
-  .v-snack__content {
-    @include flexbox(column);
-  }
-  #snackButtons .v-btn {
-    border-radius: 15px !important;
-    margin: 0.5rem 0.5rem 0 0.5rem;
-  }
-}
-
 .innerContent {
   margin: calc(106px + 3rem) auto 3rem auto;
   width: $inner-content-width;
-}
-
-#panels {
-  margin-bottom: 3rem;
+  #panels {
+    margin-bottom: 3rem;
+  }
 }
 
 @media (max-width: 400px) {
@@ -173,34 +105,5 @@ $inner-content-width: 350px;
     width: 100vh;
     padding: 0 1rem;
   }
-}
-
-@media (max-width: 330px) {
-}
-
-@media (max-width: 300px) {
-}
-
-// @media (max-width: 1200px) {
-//   ::v-deep(.lessonInfo) {
-//     &#wrapper {
-//       border-radius: 15px 15px 0 0;
-//       // position: static;
-//     }
-
-//     // position: static;
-//   }
-//   ::v-deep(.infoCard) {
-//     &.baseCard {
-//       border-radius: 0 0 15px 15px;
-//     }
-//   }
-// }
-
-.chooseOne {
-  font-size: 1rem;
-  font-weight: normal;
-  color: var(--v-primary-lighten4);
-  text-align: center;
 }
 </style>

@@ -114,7 +114,7 @@ import { ifPassesLinkRules } from "./rules/link";
 import { Vue, Component, Prop, Ref } from "vue-property-decorator";
 import { Info } from "./classes/Info";
 import { Details as D } from "./types";
-import { Details } from "./classes/Details";
+import { Details } from "./classes/details";
 
 @Component({
   components: {
