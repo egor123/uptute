@@ -30,8 +30,9 @@ export default {
     },
     async signin(ctx, { form, routeName = null }) {
       const res = await auth.signin(form);
+      console.warn("SIGNIN", res);
       if (res.statusText == "OK") routerPush(routeName);
-      else alert(vm.$l("auth.error.email_or_password")); //Change to something from locales
+      else alert(vm.$l("auth.error.email_or_password"));
       return res;
 
       function routerPush(routeName) {

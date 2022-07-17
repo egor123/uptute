@@ -35,7 +35,7 @@ import { ifPassesNameRules } from "./rules/name";
 
 import { Vue, Component, Prop, Ref } from "vue-property-decorator";
 import { Details as D, PanelAction } from "./types";
-import { Details } from "./classes/Details";
+import { Details } from "./classes/details";
 import { Info } from "./classes/Info";
 
 @Component({

@@ -25,7 +25,7 @@
         >
         </v-text-field>
 
-        <v-btn rounded outlined color="accent" @click="trySignin()">
+        <v-btn rounded outlined color="accent" @click="trySignin">
           {{ $l("auth.btn.log_in") }}
         </v-btn>
       </v-form>

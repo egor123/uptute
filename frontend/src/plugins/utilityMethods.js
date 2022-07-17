@@ -13,7 +13,7 @@ export function getId() {
 }
 
 export function goTo(pageName) {
-  if (this.$route.name !== pageName) this.$router.push({ name: pageName });
+  if (vm.$route.name !== pageName) vm.$router.push({ name: pageName });
 }
 
 export function scrolled({ cards }) {
