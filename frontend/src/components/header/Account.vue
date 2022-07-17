@@ -40,9 +40,18 @@ export default {
       type: Boolean,
       default: true,
     },
-    color: String,
-    textColor: String,
-    borderRadius: String,
+    color: {
+      type: String,
+      default: "#000",
+    },
+    textColor: {
+      type: String,
+      default: "white",
+    },
+    borderRadius: {
+      type: String,
+      default: "0 0 15px 15px",
+    },
     border: String,
     padding: String,
   },

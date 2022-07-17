@@ -1,47 +1,24 @@
 <template>
   <div id="wrapper" ref="wrapper" scrollDist="30">
-    <div id="header" ref="header">
-      <div ref="navIcon" id="navIcon">
-        <v-app-bar-nav-icon @click="setNavBar(!getNavBar)" />
-      </div>
+    <div id="header" ref="header" :style="`--gap: ${gap}`">
+      <div ref="navIcon"><NavIcon /></div>
+      <div ref="title"><HeaderTitle /></div>
 
-      <div id="title" ref="title">
-        <button>
-          <img src="@/assets/logo.svg" id="logo" @click="goTo('Home')" />
-        </button>
-        <button @click="goTo('Home')">
-          <h1 id="name">UpTute</h1>
-        </button>
-      </div>
-
-      <v-spacer ref="spacer" style="height: 1px" />
+      <v-spacer ref="spacer" />
 
       <div ref="rightSide" id="rightSide">
-        <div>
-          <Account
-            v-if="roles.length == 0"
-            color="#000"
-            textColor="white"
-            :ifWithText="!mv"
-            borderRadius="0 0 15px 15px"
-          />
-        </div>
-
-        <div>
-          <LessonMenu
-            v-if="roles.length > 0"
-            :ifWithText="!mv"
-            borderRadius="0 0 15px 15px"
-          />
-        </div>
+        <div v-if="roles.length == 0"><Account :ifWithText="!mv" /></div>
+        <div v-if="roles.length > 0"><LessonMenu :ifWithText="!mv" /></div>
 
         <div><LocalesMenu /></div>
         <!-- <div><Notifications /></div> -->
-        <div><AccountMenu v-if="roles.length > 0" /></div>
+        <div v-if="roles.length > 0"><AccountMenu /></div>
         <div><BalanceMenu /></div>
       </div>
     </div>
+
     <div id="subHeader" ref="subHeader" />
+
     <v-snackbar
       max-width="800"
       color="error"
@@ -64,6 +41,8 @@ import LocalesMenu from "@/components/header/LocalesMenu.vue";
 import AccountMenu from "@/components/header/AccountMenu.vue";
 // import Notifications from "@/components/notifications/Notifications.vue";
 import BalanceMenu from "@/components/header/balance/Menu.vue";
+import HeaderTitle from "./Title.vue";
+import NavIcon from "./NavIcon.vue";
 
 export default {
   data() {
@@ -71,9 +50,13 @@ export default {
       showSnackbar: false,
       mv: false,
       spacerD: 0,
+      gap: "0.6rem",
     };
   },
   components: {
+    NavIcon,
+    HeaderTitle,
+
     LessonMenu,
     Account,
     LocalesMenu,
@@ -83,7 +66,6 @@ export default {
     BalanceMenu,
   },
   computed: {
-    ...mapGetters(["getNavBar"]),
     header() {
       return this.$refs.header;
     },
@@ -102,7 +84,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["setMobileView", "setNavBar"]),
+    ...mapActions(["setMobileView"]),
     goTo(pageName) {
       if (this.$route.name !== pageName) this.$router.push({ name: pageName });
     },
@@ -181,9 +163,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$header-height: 56px;
-$gap: 0.6rem;
 @import "@/scss/mixins.scss";
+
+$header-height: 56px;
 
 #wrapper {
   position: fixed;
@@ -197,7 +179,6 @@ $gap: 0.6rem;
   }
 }
 #header {
-  // $gap: 1rem !important;
   @include box-shadow();
 
   @include flexbox();
@@ -207,33 +188,6 @@ $gap: 0.6rem;
   background-color: var(--v-primary-base);
   opacity: 0.8;
   color: var(--v-secondary-base);
-  #navIcon {
-    padding: $gap / 2;
-
-    position: absolute;
-    left: 10px;
-    .v-btn {
-      color: var(--v-accent-base) !important;
-    }
-  }
-
-  #title {
-    @include flexbox();
-    text-transform: none;
-    color: var(--v-background-base);
-    margin-right: auto;
-
-    #logo {
-      height: 70px;
-    }
-    #name {
-      font-size: 32px;
-      color: var(--v-secondary-base);
-    }
-    * {
-      @include hoverOpacity();
-    }
-  }
 
   #nav a {
     margin: 2px;
@@ -255,7 +209,7 @@ $gap: 0.6rem;
 
 #rightSide {
   & > * {
-    padding: 0 calc(#{$gap} / 2);
+    padding: 0 calc(var(--gap) / 2);
     height: 100%;
     @include flexbox();
   }

@@ -59,7 +59,7 @@ export default {
     },
     borderRadius: {
       type: String,
-      default: "15px",
+      default: "0 0 15px 15px",
     },
     border: {
       type: String,

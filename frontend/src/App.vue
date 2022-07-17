@@ -14,7 +14,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import HeaderCustom from "@/components/app/Header.vue";
+import HeaderCustom from "@/components/app/header/Header.vue";
 import FooterCustom from "@/components/app/Footer.vue";
 import Navigation from "@/components/app/Navigation.vue";
 // import MessengerChat from "@/components/MessengerChat.vue";
