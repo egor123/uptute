@@ -65,7 +65,7 @@ import HiddenButtonCard from "@/components/choosing/HiddenButtonCard.vue";
 import Rating from "./Rating.vue";
 import UserImg from "@/components/choosing/choosingATutor/UserImg.vue";
 import BookButton from "@/components/choosing/choosingATutor/BookButton.vue";
-// import { scrolled } from "@/plugins/utilityMethods";
+// import { scrolled } from "@/utility/methods";
 
 export default {
   data() {

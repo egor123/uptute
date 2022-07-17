@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { goTo } from "@/plugins/utilityMethods";
+import { goTo } from "@/utility/methods";
 import HeaderListItem from "../HeaderListItem.vue";
 
 import { Vue, Component } from "vue-property-decorator";

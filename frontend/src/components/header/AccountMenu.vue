@@ -46,7 +46,7 @@
 
 <script>
 import HeaderMenu from "@/components/header/HeaderMenu.vue";
-import { goTo } from "@/plugins/utilityMethods";
+import { goTo } from "@/utility/methods";
 import HeaderListItem from "./HeaderListItem";
 
 export default {

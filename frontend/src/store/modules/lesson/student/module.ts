@@ -1,6 +1,6 @@
 import { vm } from "@/main";
 import helper from "./helper";
-import { sleep } from "@/plugins/utilityMethods.js";
+import { sleep } from "@/utility/methods.js";
 
 import store from "@/store";
 import {

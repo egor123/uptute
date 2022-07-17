@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { scrolled } from "@/plugins/utilityMethods";
+import { scrolled } from "@/utility/methods";
 
 export default {
   props: {

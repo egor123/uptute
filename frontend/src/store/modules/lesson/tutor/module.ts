@@ -1,7 +1,7 @@
 import server from "@/services/lesson/tutor/tutor.service";
 import router from "@/router";
 import Conference from "@/store/modules/conference/main";
-import { sleep } from "@/plugins/utilityMethods.js";
+import { sleep } from "@/utility/methods.js";
 
 import store from "@/store";
 import {

@@ -97,7 +97,7 @@
 
 <script>
 import Subheader from "../components/app/Subheader.vue";
-import { goTo } from "@/plugins/utilityMethods.js";
+import { goTo } from "@/utility/methods.js";
 
 export default {
   name: "Register",

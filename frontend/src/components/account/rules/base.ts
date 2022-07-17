@@ -1,5 +1,5 @@
 import { rule, rules, withErrMsg } from "../types";
-import { ruleBase } from "@/plugins/utilityMethods.js";
+import { ruleBase } from "@/utility/methods.js";
 
 export const ifPasses = (obj: withErrMsg, rules: rules): boolean => {
   const check = ({ condition, pathEnd, lParams }: rule) =>

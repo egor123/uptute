@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { getId } from "@/plugins/utilityMethods.js";
+import { getId } from "@/utility/methods.js";
 
 export default {
   props: {

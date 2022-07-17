@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Vue, Component, Ref } from "vue-property-decorator";
 import { VExpansionPanel } from "vuetify/lib";
-import { sleep } from "@/plugins/utilityMethods";
+import { sleep } from "@/utility/methods";
 
 interface Field extends Vue {
   isValid: () => boolean;
