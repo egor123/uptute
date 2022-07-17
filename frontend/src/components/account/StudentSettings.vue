@@ -21,7 +21,7 @@ import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 
 import { Vue, Component, Prop, Ref } from "vue-property-decorator";
 import { Details as D } from "./types";
-import { Details } from "./classes/details";
+import { Details } from "./classes/Details";
 
 @Component({ components: { FilterPanel, ExpandableSlider } })
 export default class StudentSettings extends Vue {

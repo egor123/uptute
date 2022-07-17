@@ -1,6 +1,6 @@
 <template>
-  <Snackbar
-    ref="Snackbar"
+  <PopUp
+    ref="PopUp"
     :title="$l('choose_a.tutor.ended')"
     :buttons="[
       { text: $l('choose_a.tutor.anyway'), name: 'anyway' },
@@ -11,17 +11,17 @@
 </template>
 
 <script lang="ts">
-import Snackbar from "@/components/global/Snackbar.vue";
+import PopUp from "@/components/global/PopUp.vue";
 
 import { Vue, Component, Ref } from "vue-property-decorator";
 
-@Component({ components: { Snackbar } })
+@Component({ components: { PopUp } })
 export default class ChooseATutorExitSnackbar extends Vue {
-  @Ref() readonly Snackbar!: Snackbar;
+  @Ref() readonly PopUp!: PopUp;
 
   public getInput() {
     console.warn("WARN");
-    return this.Snackbar.getInput();
+    return this.PopUp.getInput();
   }
 }
 </script>

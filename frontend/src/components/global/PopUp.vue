@@ -25,7 +25,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component
-export default class Snackbar extends Vue {
+export default class PopUp extends Vue {
   @Prop(String) readonly title!: string;
   @Prop(Array) readonly buttons!: { text: string; name: string }[];
   @Prop({ type: String, default: "var(--v-accent-base)" })

@@ -22,7 +22,7 @@
 <script>
 import PrimarySettings from "./PrimarySettings.vue";
 import Subheader from "@/components/app/Subheader.vue";
-import { Details } from "./classes/details";
+import { Details } from "./classes/Details";
 
 export default {
   components: {

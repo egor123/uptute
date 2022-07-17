@@ -11,7 +11,7 @@
 <script lang="ts">
 import TutorSettings from "./TutorSettings.vue";
 import Subheader from "@/components/app/Subheader.vue";
-import { Details } from "./classes/details";
+import { Details } from "./classes/Details";
 
 import { Vue, Component, Ref } from "vue-property-decorator";
 

@@ -17,7 +17,7 @@ import Subheader from "@/components/app/Subheader.vue";
 import PrimarySettings from "@/components/account/PrimarySettings.vue";
 import StudentSettings from "@/components/account/StudentSettings.vue";
 import TutorSettings from "@/components/account/TutorSettings.vue";
-import { Details } from "./classes/details";
+import { Details } from "./classes/Details";
 
 import { Vue, Component } from "vue-property-decorator";
 
