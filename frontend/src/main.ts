@@ -44,6 +44,7 @@ Vue.use(mobileInput);
 Vue.use(popUp);
 
 export const vm = new Vue({
+  //@ts-ignore Interfaces are defined but can't be read at this stage (?)
   router,
   store,
   vuetify,

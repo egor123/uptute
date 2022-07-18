@@ -15,20 +15,11 @@
     "sourceMap": true,
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types", "./node_modules/vuetify/types"],
-    "types": ["webpack-env", "vuetify", "jest"],
-    "paths": {
-      "@/*": ["src/*"],
-      "crypto": ["node_modules/crypto-js"]
-    },
+    "types": ["webpack-env", "vuetify", "jest", "node"],
+    "paths": { "@/*": ["src/*"] },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.vue", "tests/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
 

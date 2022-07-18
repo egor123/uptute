@@ -24,8 +24,8 @@
 
 <script lang="ts">
 import { Vue, Component, Ref } from "vue-property-decorator";
-import Module from "../../store/modules/popUp/popUp";
-import { Value } from "../../store/modules/popUp/types";
+import Module from "@/store/modules/popUp/popUp";
+import { Value } from "@/store/modules/popUp/types";
 
 @Component
 export default class PopUp extends Vue {

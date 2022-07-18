@@ -18,7 +18,7 @@ import Info from "@/components/choosing/choosingATutor/Info.vue";
 import Panels from "@/components/choosing/choosingATutor/Panels";
 import Searching from "@/components/choosing/Searching.vue";
 import SortBy from "@/components/choosing/choosingATutor/SortBy.vue";
-import { isJwtExpired } from "@/services/api.service.js";
+import { isJwtExpired } from "@/services/api.service";
 
 import StudentLesson from "@/store/modules/lesson/student/module";
 
