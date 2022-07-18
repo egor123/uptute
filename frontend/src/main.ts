@@ -14,7 +14,7 @@ import mdiVue from "mdi-vue/v2";
 import * as mdijs from "@mdi/js";
 import "@mdi/font/css/materialdesignicons.css";
 import mobileInput from "./plugins/mobileInput";
-import popUp from "./plugins/popUp";
+import popUp from "./plugins/popUp/main";
 
 Vue.prototype.$backend = BackendService;
 Vue.prototype.$auth = AuthService;

@@ -1,6 +1,6 @@
 <template>
   <Background :title="$l('choose_a.tutor.header')">
-    <div class="innerContent">
+    <div id="wraper">
       <Info />
 
       <Searching />
@@ -81,7 +81,7 @@ export default {
 @import "@/scss/mixins.scss";
 $inner-content-width: 350px;
 
-.innerContent {
+#wraper {
   margin: calc(106px + 3rem) auto 3rem auto;
   width: $inner-content-width;
   #panels {
@@ -90,7 +90,7 @@ $inner-content-width: 350px;
 }
 
 @media (max-width: 400px) {
-  .innerContent {
+  #wraper {
     width: 100vh;
     padding: 0 1rem;
   }

@@ -1,14 +1,13 @@
-interface Obj<T> {
-  value: T;
-  default: T;
-}
-
-export interface TitleObj extends Obj<string> {}
+export type Value = string | boolean;
 
 export interface Button {
   text: string;
-  name: string;
+  value: Value;
 }
-export interface ButtonsObj extends Obj<Button[]> {}
 
-export interface ColorObj extends Obj<string> {}
+export interface Props {
+  title: string;
+  buttons: Button[];
+  backgroundColor: string;
+  color: string;
+}

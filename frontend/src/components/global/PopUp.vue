@@ -4,8 +4,9 @@
     min-width="fit-content"
     :color="Module.backgroundColor"
     timeout="-1"
-    :value="Module.title.length > 0"
+    :value="Module.isVisible"
     :style="`--color: ${Module.color}`"
+    ref="Snackbar"
   >
     <div id="snackTitle">{{ Module.title }}</div>
     <div id="snackButtons">
@@ -13,7 +14,7 @@
         v-for="(button, id) in Module.buttons"
         :key="id"
         text
-        @click="$emit('input', button.name)"
+        @click="$emit('input', button.value)"
       >
         {{ button.text }}
       </v-btn>
@@ -22,22 +23,22 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-
-import Module from "@/store/modules/popUp/popUp";
+import { Vue, Component, Ref } from "vue-property-decorator";
+import Module from "../../store/modules/popUp/popUp";
+import { Value } from "../../store/modules/popUp/types";
 
 @Component
 export default class PopUp extends Vue {
+  @Ref() readonly Snackbar!: Vue;
   Module = Module;
 
-  private emitInput(name: string) {
-    this.$root.$emit("popUpAnswer", name);
-    Module.setDefauls();
+  private emitAnswer(answer: Value) {
+    this.$root.$emit("popUpAnswer", answer);
+    Module.setIfVisible(false);
   }
 
   mounted() {
-    this.$on("input", this.emitInput);
-    Module.setDefauls();
+    this.$on("input", this.emitAnswer);
   }
 }
 </script>
@@ -56,11 +57,17 @@ export default class PopUp extends Vue {
   font-size: 1.1rem;
   color: var(--color);
 }
-#snackButtons .v-btn {
-  border-radius: 15px !important;
-  color: var(--color);
-  &:not(:last-child) {
-    margin-right: 1rem;
+#snackButtons {
+  display: flex;
+  justify-content: space-evenly;
+  & .v-btn {
+    border-radius: 15px !important;
+    color: var(--color);
+    display: flex;
+    flex-grow: 1;
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
   }
 }
 </style>

@@ -1,3 +1,3 @@
 export default interface popUp {
-  confirm: (title: string) => "true" | "false";
+  confirm: (title: string) => boolean;
 }
