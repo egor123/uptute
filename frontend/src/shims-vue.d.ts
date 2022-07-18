@@ -3,6 +3,8 @@ declare module "*.vue" {
   export default Vue;
 }
 
+import Vue from "vue";
+
 declare module "vue-animate-scroll";
 
 declare module "vue/types/options" {
@@ -15,3 +17,4 @@ declare module "vue/types/options" {
     };
   }
 }
+

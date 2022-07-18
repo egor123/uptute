@@ -13,16 +13,19 @@
 </template>
 
 <script lang="ts">
-import Background from "@/components/global/background/Background.vue";
-import Info from "@/components/choosing/choosingATutor/Info.vue";
-import Panels from "@/components/choosing/choosingATutor/Panels.vue";
-import Searching from "@/components/choosing/Searching.vue";
-import SortBy from "@/components/choosing/choosingATutor/SortBy.vue";
-import { isJwtExpired } from "@/services/api.service";
+import Background from "../components/global/background/Background.vue";
+import Info from "../components/choosing/choosingATutor/Info.vue";
+import Panels from "../components/choosing/choosingATutor/Panels.vue";
+import Searching from "../components/choosing/Searching.vue";
+import SortBy from "../components/choosing/choosingATutor/SortBy.vue";
+import { isJwtExpired } from "../services/api.service";
 
-import StudentLesson from "@/store/modules/lesson/student/module";
+import StudentLesson from "../store/modules/lesson/student/module";
 
-export default {
+import { Vue, Component } from "vue-property-decorator";
+import { Route } from "vue-router";
+
+@Component({
   name: "ChooseATutor",
   permisions: {
     roles: "ROLE_STUDENT",
@@ -36,23 +39,15 @@ export default {
     Searching,
     SortBy,
   },
-  data() {
-    return {
-      filter: { name: "rating", dir: "up" },
-    };
-  },
-  computed: {
-    tutors() {
-      return StudentLesson.tutors;
-    },
-  },
-  methods: {
-    preventNav(event) {
-      event.preventDefault();
-      event.returnValue = "";
-    },
-  },
-  async beforeRouteLeave(to, from, next) {
+})
+export default class ChooseATutor extends Vue {
+  filter = { name: "rating", dir: "up" };
+
+  public get tutors() {
+    return StudentLesson.tutors;
+  }
+
+  async beforeRouteLeave(to: Route, from: Route, next: Function) {
     const isExpired = await isJwtExpired();
     const isIdle = StudentLesson.phase === "idle";
 
@@ -60,19 +55,12 @@ export default {
 
     const bool = await this.$pop.confirm(this.$l("choose_a.tutor.ended"));
 
-    if (bool) {
-      next();
-      StudentLesson.deleteLesson();
-    } else next(false);
-  },
+    if (!bool) return next(false);
 
-  mounted() {
-    addEventListener("beforeunload", this.preventNav);
-  },
-  beforeDestroy() {
-    removeEventListener("beforeunload", this.preventNav);
-  },
-};
+    StudentLesson.deleteLesson();
+    next();
+  }
+}
 </script>
 
 <style lang="scss" scoped>

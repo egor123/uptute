@@ -7,14 +7,14 @@
 
 <script>
 // import Subheader from "@/components/app/Subheader.vue";
-// export default {
-//   components: {
-//     Subheader,
-//   },
-//   props: {
-//     title: String(),
-//   },
-// };
+export default {
+  //   components: {
+  //     Subheader,
+  //   },
+  //   props: {
+  //     title: String(),
+  //   },
+};
 </script>
 
 <style lang="scss" scoped>
