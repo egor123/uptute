@@ -7,7 +7,7 @@
 
       <SortBy v-model="filter" />
 
-      <Panels id="panels" :tutors="getTutors()" />
+      <Panels id="panels" :tutors="tutors" />
     </div>
   </Background>
 </template>
@@ -38,27 +38,25 @@ export default {
   },
   data() {
     return {
-      tutors: [],
       filter: { name: "rating", dir: "up" },
-      ifSnackbar: false,
-      closeButton: false,
-      backButton: false,
     };
+  },
+  computed: {
+    tutors() {
+      return StudentLesson.tutors;
+    },
   },
   methods: {
     preventNav(event) {
       event.preventDefault();
       event.returnValue = "";
     },
-
-    getTutors() {
-      return StudentLesson.tutors;
-    },
   },
   async beforeRouteLeave(to, from, next) {
-    const jwt = JSON.parse(sessionStorage.getItem("user")).jwt;
+    const isExpired = await isJwtExpired();
+    const isIdle = StudentLesson.phase === "idle";
 
-    if (StudentLesson.phase === "idle" || isJwtExpired(jwt)) next();
+    if (isIdle || isExpired) return next();
 
     const bool = await this.$pop.confirm(this.$l("choose_a.tutor.ended"));
 
@@ -79,11 +77,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
-$inner-content-width: 350px;
-
 #wraper {
   margin: calc(106px + 3rem) auto 3rem auto;
-  width: $inner-content-width;
+  width: 350px;
   #panels {
     margin-bottom: 3rem;
   }

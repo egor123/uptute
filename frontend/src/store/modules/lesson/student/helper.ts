@@ -1,5 +1,4 @@
 import { vm } from "@/main";
-import { isJwtExpired } from "@/services/api.service.js";
 import Module from "@/store/modules/lesson/student/module";
 import server from "@/services/lesson/student/student.service";
 import axios from "axios";
@@ -9,9 +8,7 @@ import ConferenceMain from "@/store/modules/conference/main";
 
 const exports = {
   exitIfFalsy: (bool: boolean, alertName: string): boolean => {
-    const user: string | null = sessionStorage.getItem("user");
-    if (!user || isJwtExpired(JSON.parse(user).jwt)) Module.deleteLesson();
-    else if (!bool) {
+    if (!bool) {
       alert(vm.$l(`choose_a.tutor.fail.${alertName}`));
       Module.deleteLesson();
       vm.$router.go(-1);

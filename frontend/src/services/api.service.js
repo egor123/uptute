@@ -9,7 +9,8 @@ export async function apiRequest({
   withJwt = true,
 }) {
   const jwt = withJwt ? await getJwt() : null;
-  if (withJwt && checkJwtExpiration(jwt)) return new Error("JWT expired");
+  if (withJwt && (await checkJwtExpiration(jwt)))
+    return new Error("JWT expired");
   const res = await axios({
     method,
     url: "/api" + urlEnd,
@@ -20,8 +21,8 @@ export async function apiRequest({
   return res;
 }
 
-function checkJwtExpiration(jwt) {
-  if (isJwtExpired(jwt) || !jwt) {
+async function checkJwtExpiration(jwt) {
+  if (!jwt || (await isJwtExpired(jwt))) {
     store.dispatch("auth/logout");
     alert(vm.$l("auth.error.expired"));
     return true;
@@ -29,7 +30,8 @@ function checkJwtExpiration(jwt) {
   return false;
 }
 
-export function isJwtExpired(jwt) {
+export async function isJwtExpired(jwt = undefined) {
+  if (jwt === undefined) jwt = await getJwt();
   if (!jwt) return true;
   const decodedJwt = parseJwt(jwt);
   return Date.now() > decodedJwt.exp * 1000;
