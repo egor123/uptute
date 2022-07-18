@@ -12,10 +12,10 @@
   </Background>
 </template>
 
-<script>
+<script lang="ts">
 import Background from "@/components/global/background/Background.vue";
 import Info from "@/components/choosing/choosingATutor/Info.vue";
-import Panels from "@/components/choosing/choosingATutor/Panels";
+import Panels from "@/components/choosing/choosingATutor/Panels.vue";
 import Searching from "@/components/choosing/Searching.vue";
 import SortBy from "@/components/choosing/choosingATutor/SortBy.vue";
 import { isJwtExpired } from "@/services/api.service";
