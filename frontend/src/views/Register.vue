@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import Subheader from "../components/app/Subheader.vue";
+import Subheader from "@/components/app/Subheader.vue";
 import { goTo } from "@/utility/methods.js";
 
 export default {

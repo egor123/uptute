@@ -14,13 +14,13 @@
 
 <script lang="ts">
 import Background from "@/components/global/background/Background.vue";
-import Info from "../components/choosing/choosingATutor/Info.vue";
-import Panels from "../components/choosing/choosingATutor/Panels.vue";
-import Searching from "../components/choosing/Searching.vue";
-import SortBy from "../components/choosing/choosingATutor/SortBy.vue";
+import Info from "@/components/choosing/choosingATutor/Info.vue";
+import Panels from "@/components/choosing/choosingATutor/Panels.vue";
+import Searching from "@/components/choosing/Searching.vue";
+import SortBy from "@/components/choosing/choosingATutor/SortBy.vue";
 import { isJwtExpired } from "@/services/api.service";
 
-import StudentLesson from "../store/modules/lesson/student/module";
+import StudentLesson from "@/store/modules/lesson/student/module";
 
 import { Vue, Component } from "vue-property-decorator";
 import { Route } from "vue-router";
