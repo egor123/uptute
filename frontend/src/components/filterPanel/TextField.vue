@@ -57,6 +57,13 @@ export default {
   },
   props: {
     value: String,
+    isError: {
+      type: Object,
+      default: () => ({
+        color: null,
+        animation: null,
+      }),
+    },
     rules: Function, // validation, always true if undef
     label: String, // panel's label
     area: Boolean, // changes to textarea
@@ -90,7 +97,21 @@ export default {
       if (!self.ifErrMsgVisible()) self.errMsgUsed = self.errMsg;
     }
   },
+  computed: {
+    isErrorColor() {
+      return this.isError.color;
+    },
+    isErrorAnimation() {
+      return this.isError.animation;
+    },
+  },
   watch: {
+    isErrorColor(isErrorColor) {
+      this.error = isErrorColor;
+    },
+    isErrorAnimation(isErrorAnimation) {
+      this.errorAnim = isErrorAnimation;
+    },
     input: function (val) {
       if (this.area) {
         const el = this.$refs.textarea;
@@ -249,4 +270,3 @@ export default {
   }
 }
 </style>
-

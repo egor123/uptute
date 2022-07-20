@@ -53,11 +53,12 @@ export default class ChooseATutor extends Vue {
 
     if (isIdle || isExpired) return next();
 
-    const bool = await this.$pop.confirm(this.$l("choose_a.tutor.ended"));
+    const bool = await this.$pop.warn(this.$l("choose_a.tutor.ended"));
 
     if (!bool) return next(false);
 
     StudentLesson.deleteLesson();
+
     next();
   }
 }
@@ -65,9 +66,11 @@ export default class ChooseATutor extends Vue {
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
+
 #wraper {
   margin: calc(106px + 3rem) auto 3rem auto;
   width: 350px;
+
   #panels {
     margin-bottom: 3rem;
   }

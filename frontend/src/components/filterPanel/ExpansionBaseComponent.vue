@@ -40,6 +40,29 @@ export default {
       type: String,
       default: "15px",
     },
+    isError: {
+      type: Object,
+      default: () => ({
+        color: null,
+        animation: null,
+      }),
+    },
+  },
+  computed: {
+    isErrorColor() {
+      return this.isError.color;
+    },
+    isErrorAnimation() {
+      return this.isError.animation;
+    },
+  },
+  watch: {
+    isErrorColor(isErrorColor) {
+      this.error = isErrorColor;
+    },
+    isErrorAnimation(isErrorAnimation) {
+      this.errorAnim = isErrorAnimation;
+    },
   },
 };
 </script>
@@ -77,4 +100,3 @@ export default {
   background: var(--v-secondary-darken1) !important;
 }
 </style>
-

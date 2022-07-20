@@ -1,9 +1,10 @@
+import { Info } from "@/store/modules/lesson/student/types";
 import { req } from "../base";
 import { AxiosIds, AxiosParentLog, AxiosTutorDetails } from "./types";
 
 export default {
-  create: (data: any): Promise<AxiosIds> =>
-    req("post", `/lessons/create`, data),
+  create: (info: Info): Promise<AxiosIds> =>
+    req("post", `/lessons/create`, info),
   close: (logId: number): Promise<AxiosIds> =>
     req("post", `/lessons/logs/${logId}/close`),
   fetchOffers: (logId: number): Promise<AxiosParentLog> =>

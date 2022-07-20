@@ -1,4 +1,4 @@
-import { language, subject } from "@/types";
+import { Language, Subject } from "@/types";
 import { Details } from "@/components/account/types";
 
 export type Phase =
@@ -13,13 +13,13 @@ export interface Info {
   name: string;
   grade: Details.Grade;
   // Lesson info
-  subject: subject;
+  subject: Subject;
   topic: string;
   details: string;
   imgs: string[];
   // Tutor requirements
   age: [number, number];
-  languages: language[];
+  languages: Language[];
   price: [number, number];
 }
 

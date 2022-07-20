@@ -1,139 +1,52 @@
 <template>
-  <Background>
-    <Subheader :title="$l('find.header')" />
-    <div id="content">
-      <v-btn @click="refresh()" small text rounded id="refreshBtn">
-        {{ $l("find.filters.refresh") }}
-      </v-btn>
-      <FilterPanel
-        ref="panel"
-        @next="
-          (action, callback) =>
-            action == 'isValid'
-              ? ifPanel2IsValid(action, callback)
-              : refreshPanel2(action)
-        "
-      >
-        <!-- $refs.panel2[action]() -->
-        <ExpandableListSelector
-          v-model="info.subject"
-          :label="$l('find.filters.subject.h')"
-          :text="$l('data.subjects.' + info.subject)"
-          :list="['MATH', 'BIOL', 'ESL', 'PHYS', 'GEOG', 'CHEM', 'CIS']"
-          :convertor="(item) => $l('data.subjects.' + item)"
-          :searchLabel="$l('find.filters.subject.search')"
-          :rules="(item) => item != null"
-          :flat="false"
-          :backgroundColor="'var(--v-card-lighten3)'"
-          :borderRadius="'15px 15px 0px 0px'"
-        />
+  <Background :title="$l('find.header')">
+    <div id="wrapper">
+      <Refresh @click="refresh()" class="refresh" />
 
-        <TextField
-          v-model="info.topic"
-          :label="$l('find.filters.topic')"
-          :rules="(val) => val != '' && val != null"
-          :area="false"
-          :flat="false"
-          :backgroundColor="'var(--v-card-lighten3)'"
-          :borderRadius="'0px'"
-        />
-        <TextField
-          v-model="info.details"
-          :label="$l('find.filters.details')"
-          :rules="(val) => val != '' && val != null"
-          :area="true"
-          :flat="false"
-          :backgroundColor="'var(--v-card-lighten3)'"
-          :borderRadius="'0px 0px 15px 15px'"
-        />
+      <FilterPanel>
+        <Subject v-model="f.subject.value" :isError="f.subject.isError" />
+        <Topic v-model="f.topic.value" :isError="f.topic.isError" />
+        <Detail v-model="f.details.value" :isError="filters.details.isError" />
       </FilterPanel>
 
-      <PageViewer
-        id="pageViewer"
-        :imgs="info.imgs"
-        @imgs="(imgs) => (info.imgs = imgs)"
-        :upload="true"
-      />
+      <ImgInput v-model="f.imgs.value" class="imgInput" />
 
-      <FilterPanel
-        ref="panel2"
-        @next="
-          (action, callback) => (action == 'isValid' ? callback(true) : null)
-        "
-      >
-        <ExpandableListSelector
-          v-model="info.languages"
-          :label="$l('find.filters.language.h')"
-          :text="
-            info.languages.map((l) => $l('data.languages.' + l)).join(', ')
-          "
-          :list="['EN', 'EST', 'RU']"
-          :convertor="(item) => $l('data.languages.' + item)"
-          :rules="(item) => item.length > 0"
-          :flat="false"
-          :backgroundColor="'var(--v-card-lighten3)'"
-          :borderRadius="'15px 15px 0px 0px'"
-        />
-
-        <ExpandableSlider
-          v-model="info.age"
-          :label="$l('find.filters.tutor_age.h')"
-          :text="info.age.join(' - ')"
-          :min="15"
-          :max="100"
-          :rules="(item) => item.length > 0"
-          :flat="false"
-          :backgroundColor="'var(--v-card-lighten3)'"
-          :borderRadius="'0px'"
-        />
-        <ExpandableSlider
-          v-model="info.price"
-          :label="$l('find.filters.price.h')"
-          :text="`${info.price[0]} - ${info.price[1]} UC/${$l(
-            'find.filters.price.p'
-          )}`"
-          :min="0"
-          :max="150"
-          :rules="(item) => item.length > 0"
-          :flat="false"
-          :backgroundColor="'var(--v-card-lighten3)'"
-          :borderRadius="'0px 0px 15px 15px'"
-        />
+      <FilterPanel>
+        <Languages v-model="f.languages.value" :isError="f.languages.isError" />
+        <Age v-model="f.age.value" :isError="f.age.isError" />
+        <Price v-model="f.price.value" :isError="f.price.isError" />
       </FilterPanel>
 
-      <v-btn @click="request" id="requestBtn" rounded outlined color="accent">
-        {{ $l("find.request") }}
-      </v-btn>
+      <RequestButton @click="tryRequest()" class="requestBtn" />
     </div>
-
-    <v-snackbar max-width="800" color="accent" timeout="-1" v-model="showAlert">
-      {{ $l("find.sure") }}
-      <div id="snackButtons">
-        <v-btn @click="sendLessonRequest()" text>
-          {{ $l("find.begin") }}
-        </v-btn>
-        <v-btn @click="showAlert = false" text>
-          {{ $l("find.cancel") }}
-        </v-btn>
-      </div>
-    </v-snackbar>
   </Background>
 </template>
 
-<script>
+<script lang="ts">
 import Background from "@/components/global/background/Background.vue";
-import Subheader from "@/components/app/Subheader.vue";
+import Refresh from "@/components/findATutor/Refresh.vue";
 
 import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
-import ExpandableListSelector from "@/components/filterPanel/ExpandableListSelector.vue";
-import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
-import TextField from "@/components/filterPanel/TextField";
+
+import Subject from "@/components/findATutor/Subject.vue";
+import Topic from "@/components/findATutor/Topic.vue";
+import Detail from "@/components/findATutor/Details.vue";
+
+import ImgInput from "@/components/findATutor/ImgInput.vue";
+
+import Languages from "@/components/findATutor/Languages.vue";
+import Age from "@/components/findATutor/Age.vue";
+import Price from "@/components/findATutor/Price.vue";
+
+import RequestButton from "@/components/findATutor/RequestButton.vue";
 
 import StudentLesson from "@/store/modules/lesson/student/module";
+import { Filters } from "@/components/findATutor/classes/Filters";
+import helper from "@/components/findATutor/helper";
 
-import PageViewer from "@/components/global/PageViewer.vue";
+import { Vue, Component } from "vue-property-decorator";
 
-export default {
+@Component({
   name: "FindATutor",
   permisions: {
     roles: ["ROLE_STUDENT"],
@@ -141,127 +54,92 @@ export default {
   },
   components: {
     Background,
-    Subheader,
+    Refresh,
 
     FilterPanel,
-    ExpandableListSelector,
-    ExpandableSlider,
-    TextField,
-    PageViewer,
+
+    Subject,
+    Topic,
+    Detail,
+
+    ImgInput,
+
+    Languages,
+    Age,
+    Price,
+
+    RequestButton,
   },
-  data() {
-    return {
-      info: {
-        name: "Someone", // Pull from account !!!!
-        grade: 12, //Pull from account !!!!
-        subject: "MATH", // null
-        topic: "Topic",
-        details: "Details",
+})
+export default class FindATutor extends Vue {
+  filters = new Filters();
 
-        // ----------------- this are going to be checked but not rendered
-        languages: ["EN"], // ["EN"]
-        age: [15, 100],
-        price: [0, 150],
-        // -----------------
+  get f(): Filters {
+    return this.filters;
+  }
 
-        imgs: [
-          // {
-          //   name: "physics1.jpg",
-          //   imageUrl:
-          //     "https://d2vlcm61l7u1fs.cloudfront.net/media%2F8d1%2F8d1789e9-0fb5-467e-906c-7998be55dcf4%2Fphp2hhv2V.png",
-          // },
-          // {
-          //   name: "physics2.jpg",
-          //   imageUrl:
-          //     "https://slideplayer.com/slide/6196941/18/images/22/Relationships+in+this+problem%3A.jpg",
-          // },
-          // {
-          //   name: "physics3.jpg",
-          //   imageUrl:
-          //     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROzKLzwCiWjKi4IIQVFeOvHoy2lW0ivmxVzA&usqp=CAU",
-          // },
-        ],
-      },
+  refresh(): void {
+    for (const filter of Object.values(this.filters))
+      filter.value = filter.default;
+  }
 
-      checkInProgress: false,
-      showAlert: false,
-    };
-  },
-  methods: {
-    refresh() {
-      this.$refs.panel.refresh();
-    },
-    async request() {
-      if (this.checkInProgress) return;
-
-      if (await this.$refs.panel.isValid()) this.showAlert = true;
-    },
-    getThis() {
-      return this;
-    },
-    ifPanel2IsValid(action, callback) {
-      callback(this.$refs.panel2[action]());
-    },
-    refreshPanel2(action) {
-      this.$refs.panel2[action]();
-    },
-    async sendLessonRequest() {
-      const bool = await StudentLesson.openRequest(this.info);
-      // const bool = await this.$store.dispatch("student/openRequest", this.info);
+  async tryRequest(): Promise<void> {
+    const sendLessonRequest = async () => {
+      const info = helper.getInfo(this.filters);
+      const bool = await StudentLesson.openRequest(info);
       if (bool) this.$router.push({ name: "ChooseATutor" });
-    },
-    keyPressed(e) {
-      if (e.key === "Enter") this.request();
-    },
-  },
+    };
+
+    if (!(await this.isValid())) return;
+    if (!(await this.$pop.confirm(this.$l("find.sure")))) return;
+
+    sendLessonRequest();
+  }
+
+  async isValid(): Promise<boolean> {
+    const filtersArr = Object.values(this.filters);
+    const isValid = filtersArr.every((f) => f.rules(f.value));
+
+    if (isValid) {
+      helper.clearErrorStyles(filtersArr);
+      return true;
+    } else {
+      await helper.animateErrors(filtersArr);
+      return false;
+    }
+  }
+
+  onKeyPressed(e: KeyboardEvent) {
+    if (e.key === "Enter") this.tryRequest();
+  }
   mounted() {
-    addEventListener("keypress", this.keyPressed);
-  },
+    addEventListener("keypress", this.onKeyPressed);
+  }
   beforeDestroy() {
-    removeEventListener("keypress", this.keyPressed);
-  },
-};
+    removeEventListener("keypress", this.onKeyPressed);
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-::v-deep(.v-snack__wrapper) {
-  border-radius: 15px !important;
-  .v-snack__content {
-    @include flexbox(column);
-  }
-  #snackButtons .v-btn {
-    border-radius: 15px !important;
-    margin: 0.5rem 0.5rem 0 0.5rem;
-  }
+.refresh {
+  margin-bottom: 0.5rem;
+  margin-left: auto;
 }
 
-#content {
+#wrapper {
   @include flexbox(column);
   max-width: 350px;
   min-width: 250px;
   height: max-content;
   margin: calc(106px + 6rem) 1rem 6rem 1rem;
 }
-#pageViewer {
+.imgInput {
   margin: 2rem 0 2rem 0;
-  width: 100%;
 }
-#refreshBtn {
-  background-color: var(--v-background-base);
-  color: var(--v-secondary-darken4);
-  opacity: 0.6;
-  margin-top: 0.3rem;
-  margin-bottom: 2px;
-  transform: scale(0.9);
-
-  transition: background-color 600ms;
-  &:hover {
-    background-color: var(--v-secondary-darken1);
-  }
-}
-#requestBtn {
+.requestBtn {
   margin-top: 48px;
 }
 </style>

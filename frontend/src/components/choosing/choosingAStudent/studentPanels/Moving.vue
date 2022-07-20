@@ -13,12 +13,12 @@
 </template>
 
 <script lang="ts">
-import { subject } from "@/types";
+import { Subject } from "@/types";
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class PanelMovingInfo extends Vue {
-  @Prop(String) readonly subject!: subject;
+  @Prop(String) readonly subject!: Subject;
   @Prop(String) readonly topic!: string;
 }
 </script>

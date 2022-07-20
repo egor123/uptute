@@ -1,6 +1,7 @@
 <template>
   <BaseComponent
     ref="base"
+    :isError="isError"
     :label="label"
     :text="text"
     :backgroundColor="backgroundColor"
@@ -48,6 +49,7 @@ export default {
   },
   props: [
     "value",
+    "isError",
     "label",
     "text",
     "converter",

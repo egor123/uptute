@@ -7,14 +7,14 @@
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
-    "experimentalDecorators": true,
+    "experimentalDecorators": true,  
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "typeRoots": ["./node_modules/@types", "./node_modules/vuetify/types"],
-    "types": ["webpack-env", "vuetify", "jest", "node"],
+    "types": ["webpack-env", "vuetify", "jest", "node"],  
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"]
