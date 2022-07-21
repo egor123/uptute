@@ -17,9 +17,11 @@ export module Details {
     firstName = "";
     lastName = "";
   }
+
   export class Student implements D.Student {
     grade = 1 as D.Grade;
   }
+
   export class Tutor implements D.Tutor {
     moto = "";
     about = "";

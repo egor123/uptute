@@ -7,7 +7,7 @@ export interface Img {
 
 export type Age = [number, number];
 
-export interface IsError {
+export interface IsError {  // A duplicate from src/types.ts
   color: boolean;
   animation: boolean;
 }
@@ -29,4 +29,4 @@ export interface Filter<T> {
   rules: Rules<T>;
 }
 
-export type Rules<T> = (v: T) => boolean;
+export type Rules<T> = (v: T) => boolean; // A duplicate from src/types.ts

@@ -37,4 +37,23 @@ export interface Validatable<T> {
   rules: Rules<T>;
 }
 
+export interface ValidatableField<T> extends Validatable<T> {
+  default: T;
+}
+
+export interface ValidatableFields {
+  [index: string]: ValidatableField<unknown>;
+}
+
+export interface Validatables {
+  [index: string]: Validatable<unknown>;
+}
+
 export type ValidatablesArr = Validatable<unknown>[];
+
+export interface IsError {
+  color: boolean;
+  animation: boolean;
+}
+
+export type Rules<T> = (v: T) => boolean;
