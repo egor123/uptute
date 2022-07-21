@@ -6,7 +6,7 @@
       <FilterPanel>
         <Subject v-model="f.subject.value" :isError="f.subject.isError" />
         <Topic v-model="f.topic.value" :isError="f.topic.isError" />
-        <Detail v-model="f.details.value" :isError="filters.details.isError" />
+        <Detail v-model="f.details.value" :isError="f.details.isError" />
       </FilterPanel>
 
       <ImgInput v-model="f.imgs.value" class="imgInput" />
@@ -40,7 +40,6 @@ import Price from "@/components/findATutor/Price.vue";
 
 import RequestButton from "@/components/findATutor/RequestButton.vue";
 
-import StudentLesson from "@/store/modules/lesson/student/module";
 import { Filters } from "@/components/findATutor/classes/Filters";
 import helper from "@/components/findATutor/helper";
 
@@ -72,44 +71,27 @@ import { Vue, Component } from "vue-property-decorator";
   },
 })
 export default class FindATutor extends Vue {
-  filters = new Filters();
+  private filters = new Filters();
 
-  get f(): Filters {
+  public get f(): Filters {
     return this.filters;
   }
 
-  refresh(): void {
+  public refresh(): void {
     for (const filter of Object.values(this.filters))
       filter.value = filter.default;
   }
 
-  async tryRequest(): Promise<void> {
-    const sendLessonRequest = async () => {
-      const info = helper.getInfo(this.filters);
-      const bool = await StudentLesson.openRequest(info);
-      if (bool) this.$router.push({ name: "ChooseATutor" });
-    };
-
-    if (!(await this.isValid())) return;
+  public async tryRequest(): Promise<void> {
+    if (!(await helper.isValid(this.filters))) return;
     if (!(await this.$pop.confirm(this.$l("find.sure")))) return;
 
-    sendLessonRequest();
+    const bool = await helper.postLessonRequest(this.filters);
+
+    if (bool) this.$router.push({ name: "ChooseATutor" });
   }
 
-  async isValid(): Promise<boolean> {
-    const filtersArr = Object.values(this.filters);
-    const isValid = filtersArr.every((f) => f.rules(f.value));
-
-    if (isValid) {
-      helper.clearErrorStyles(filtersArr);
-      return true;
-    } else {
-      await helper.animateErrors(filtersArr);
-      return false;
-    }
-  }
-
-  onKeyPressed(e: KeyboardEvent) {
+  private onKeyPressed(e: KeyboardEvent): void {
     if (e.key === "Enter") this.tryRequest();
   }
   mounted() {

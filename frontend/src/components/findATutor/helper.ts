@@ -3,6 +3,7 @@ import { Filters } from "./classes/Filters";
 import { Filter } from "./types";
 import helper from "./helper";
 import { Details } from "@/components/account/types";
+import StudentLesson from "@/store/modules/lesson/student/module";
 
 export default {
   clearErrorStyles: async (filters: Filter<unknown>[]) => {
@@ -11,6 +12,7 @@ export default {
       filter.isError.color = false;
     }
   },
+
   animateErrors: async (filters: Filter<unknown>[]) => {
     for (const filter of filters) filter.isError.animation = false;
 
@@ -26,6 +28,7 @@ export default {
 
     return;
   },
+
   getValues: (filters: Filters) => ({
     subject: filters.subject.value,
     topic: filters.topic.value,
@@ -35,9 +38,28 @@ export default {
     languages: filters.languages.value,
     price: filters.price.value,
   }),
+
   getInfo: (filters: Filters) => ({
     ...helper.getValues(filters),
     name: "HardcodedStudent" as string, // TODO pull instead of hardcoding
     grade: 1 as Details.Grade, // TODO pull instead of hardcoding
   }),
+
+  isValid: async (filters: Filters): Promise<boolean> => {
+    const filtersArr = Object.values(filters);
+    const isValid = filtersArr.every((f) => f.rules(f.value));
+
+    if (isValid) {
+      helper.clearErrorStyles(filtersArr);
+      return true;
+    } else {
+      await helper.animateErrors(filtersArr);
+      return false;
+    }
+  },
+
+  postLessonRequest: async (filters: Filters): Promise<boolean> => {
+    const info = helper.getInfo(filters);
+    return await StudentLesson.openRequest(info);
+  },
 };
