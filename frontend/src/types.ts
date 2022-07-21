@@ -1,3 +1,5 @@
+import { IsError, Rules } from "@/components/findATutor/types";
+
 export interface SwipeEventCallback {
   (move: Vector, status: SwipeStatus): void;
 }
@@ -28,3 +30,11 @@ export type Subject =
   | "GEOG"
   | "CHEM"
   | "CIS";
+
+export interface Validatable<T> {
+  isError: IsError;
+  value: T;
+  rules: Rules<T>;
+}
+
+export type ValidatablesArr = Validatable<unknown>[];

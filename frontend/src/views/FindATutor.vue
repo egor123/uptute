@@ -44,6 +44,8 @@ import { Filters } from "@/components/findATutor/classes/Filters";
 import helper from "@/components/findATutor/helper";
 
 import { Vue, Component } from "vue-property-decorator";
+import { isValid } from "@/utility/validate";
+import { Filter } from "@/components/findATutor/types";
 
 @Component({
   name: "FindATutor",
@@ -76,14 +78,17 @@ export default class FindATutor extends Vue {
   public get f(): Filters {
     return this.filters;
   }
+  private get filtersArr(): Filter<unknown>[] {
+    return Object.values(this.filters);
+  }
 
   public refresh(): void {
-    for (const filter of Object.values(this.filters))
+    for (const filter of this.filtersArr)
       filter.value = filter.default;
   }
 
   public async tryRequest(): Promise<void> {
-    if (!(await helper.isValid(this.filters))) return;
+    if (!(await isValid(this.filtersArr))) return;
     if (!(await this.$pop.confirm(this.$l("find.sure")))) return;
 
     const bool = await helper.postLessonRequest(this.filters);
