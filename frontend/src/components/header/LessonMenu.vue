@@ -16,11 +16,13 @@
       <HeaderListItem
         @click="goTo('FindATutor')"
         icon="mdi-school"
+        :color="textColor"
         :text="$l('app.header.lesson.learn')"
       />
       <HeaderListItem
         @click="goTo('ChooseAStudent')"
         icon="mdi-human-male-board"
+        :color="textColor"
         :text="$l('app.header.lesson.teach')"
       />
     </template>

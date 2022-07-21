@@ -11,9 +11,12 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { goTo } from "@/utility/methods";
 
 @Component
-export default class component_name extends Vue {}
+export default class HeaderTitle extends Vue {
+  public goTo = goTo;
+}
 </script>
 
 <style scoped lang="scss">

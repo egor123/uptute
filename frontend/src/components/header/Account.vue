@@ -14,11 +14,13 @@
       <HeaderListItem
         @click="goTo('LogIn')"
         :text="$l('auth.header.sign_in')"
+        :color="textColor"
         justify="center"
       />
       <HeaderListItem
         @click="goTo('Register')"
         :text="$l('auth.header.sign_up')"
+        :color="textColor"
         justify="center"
       />
     </template>

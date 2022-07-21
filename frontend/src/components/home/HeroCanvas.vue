@@ -1,5 +1,5 @@
 <template>
-  <canvas ref="canvas" />
+    <canvas ref="canvas" />
 </template>
 
 <script>
@@ -48,11 +48,10 @@ export default {
       },
       canvasColor: "#efefef",
       sensitivityMultipleByFont: 0.01,
-      fadeInProcess: false,
       concentrationOfSmallChars: 0.5,
     };
   },
-  props: ["fadeTimeout"],
+
   mounted() {
     addEventListener("resize", this.resize);
     document.addEventListener("mousemove", this.mousemove);
@@ -146,13 +145,11 @@ export default {
       requestAnimationFrame(this.animate);
 
       setTimeout(() => {
-        if (this.fadeInProcess == false) {
           this.fillBackground();
           this.updateMouseForChars();
           this.chars.arr.forEach((char) => {
             char.update();
           });
-        }
       }, 0);
     },
     resize() {
@@ -172,7 +169,7 @@ export default {
     mousemove(e) {
       this.mouseX = e.x;
       this.mouseY = e.y;
-      if (!this.fadeInProcess) this.updateMouseForChars();
+      this.updateMouseForChars();
     },
     updateMouseForChars() {
       this.chars.arr.forEach((val) => {
@@ -189,19 +186,13 @@ export default {
       });
     },
 
-    mouseEnter() {
-      this.fadeInProcess = true;
-
-      setTimeout(() => {
-        this.fadeInProcess = false;
-      }, this.fadeTimeout);
-    },
     rndBtw,
   },
 };
 </script>
 
 <style lang="scss" scoped>
+
 canvas {
   position: absolute;
   background: var(--v-background-base);

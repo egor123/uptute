@@ -1,6 +1,7 @@
 <template>
   <v-list-item>
     <v-btn
+      text
       @click="$emit('click')"
       :style="`--color: ${color}; --justify: ${justify};`"
       :class="{ withText: !!text }"
