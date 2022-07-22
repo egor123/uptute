@@ -10,16 +10,12 @@
         },
         {
           txt: 'Given lessons',
-          icon: 'mdi-teach',
+          icon: 'mdi-human-male-board',
           value: 'given',
         },
       ]"
     />
     <Subheader :title="$l('acc_pages.logs')" />
-    <!-- <p>__________________________________{{ lessons.length }}</p> -->
-    <!-- lessons.length === 0 -->
-    <!-- style="background: red" -->
-    <!-- <div style="background: red"> -->
     <Loading
       ref="loading"
       :action="calculateArr"
@@ -72,16 +68,13 @@
       </div>
     </Loading>
     <!-- </div> -->
-    <Dialog
-      :showDialogProp="currentComment.length > 0"
-      @dialogClosed="currentComment = ''"
-    >
-      <template v-slot:title id="title"> Comment </template>
+    <DialogCustom ref="dialog" @dialogClosed="currentComment = ''">
+      <template v-slot:title> Comment </template>
 
       <template v-slot:text>
         {{ currentComment }}
       </template>
-    </Dialog>
+    </DialogCustom>
   </div>
 </template>
 
@@ -90,7 +83,7 @@ import Loading from "@/components/global/Loading.vue";
 import CheckboxButtons from "@/components/account/CheckboxButtons.vue";
 import Subheader from "@/components/app/Subheader.vue";
 import Rating from "@/components/choosing/choosingATutor/Rating.vue";
-import Dialog from "@/components/global/Dialog.vue";
+import DialogCustom from "@/components/global/Dialog.vue";
 
 export default {
   components: {
@@ -98,7 +91,7 @@ export default {
     CheckboxButtons,
     Subheader,
     Rating,
-    Dialog,
+    DialogCustom,
   },
   data() {
     return {
@@ -163,13 +156,10 @@ export default {
       ],
     };
   },
-  beforeMount() {
-    // this.addBlankRows();
-    // this.selectedChanged();
-  },
   methods: {
     openComment(commentId) {
       this.currentComment = this.lessons[commentId].comment;
+      this.$refs.dialog.open();
     },
     cutComment(comment) {
       return comment.slice(0, 11).concat("...");
@@ -210,9 +200,6 @@ export default {
       arr.forEach((lesson) => {
         let d = new Date(lesson.newDate);
 
-        console.log("NEW DATE");
-        console.log(d);
-
         let day = d.getDate();
         let month = d.getMonth();
         let year = d.getFullYear();
@@ -237,17 +224,15 @@ export default {
 @import "@/scss/mixins.scss";
 
 #background {
-  @include box-size(100%);
-  padding-top: 9rem;
+  width: 100%;
 }
 
 #tableWrapper {
-  overflow-x: auto;
-  width: fit-content;
-  // margin: 0 10px;
+  width: 100%;
+
   table {
     border-radius: 15px;
-    margin: 0 2.5vw;
+    margin: 0 auto;
     width: 95vw;
     @media (max-width: 1100px) {
       width: 1045px; //1100 * 0.95
@@ -257,6 +242,8 @@ export default {
       @include box-shadow();
       border-radius: inherit;
       color: var(--v-primary-lighten3);
+      border-right: 2rem solid transparent;
+      border-left: 2rem solid transparent;
 
       // @include from-left();
 
@@ -302,3 +289,4 @@ export default {
   }
 }
 </style>
+

@@ -1,34 +1,63 @@
 <template>
   <v-app>
-    <Navigation />
-    <Header />
+    <Navigation v-if="ifNavigation" />
+    <HeaderCustom v-if="ifHeader" />
     <v-main>
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
     </v-main>
-    <Footer />
+    <!-- <MessengerChat /> -->
+    <PopUp />
+    <FooterCustom v-if="ifFooter" />
   </v-app>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import Header from "@/components/app/Header.vue";
-import Footer from "@/components/app/Footer.vue";
+import { mapActions } from "vuex";
+import HeaderCustom from "@/components/app/header/Header.vue";
+import FooterCustom from "@/components/app/Footer.vue";
 import Navigation from "@/components/app/Navigation.vue";
+// import MessengerChat from "@/components/MessengerChat.vue";
+import { apiRequest } from "@/services/api.service.js";
+import rules from "@/router/rules.js";
+import PopUp from "@/components/global/PopUp.vue";
 
 export default {
   data: () => ({
     drawer: false,
   }),
   components: {
-    Header,
-    Footer,
+    HeaderCustom,
+    FooterCustom,
     Navigation,
+    // MessengerChat,
+    PopUp,
   },
-  computed: mapGetters(["getStatus"]),
   methods: {
     ...mapActions(["isAuth"]),
+    // ---------
+    async getFirstPost() {
+      const res = await apiRequest({
+        method: "get",
+        urlEnd: `/api/auth/facebook/signin`,
+      }).catch((err) => console.log(err));
+      res;
+    },
+  },
+  mounted() {
+    // this.getFirstPost();
+  },
+  computed: {
+    ifNavigation() {
+      return !rules.no.navigation.includes(this.$route.name);
+    },
+    ifHeader() {
+      return !rules.no.header.includes(this.$route.name);
+    },
+    ifFooter() {
+      return !rules.no.footer.includes(this.$route.name);
+    },
   },
 };
 </script>
@@ -36,14 +65,6 @@ export default {
 <style lang="scss">
 @import "./scss/styles.scss";
 @import "./scss/mixins.scss";
-
-@font-face {
-  font-family: "Comfortaa";
-  src: url(//fonts.googleapis.com/css?family=Comfortaa);
-  font-weight: normal;
-  font-style: normal;
-  text-decoration: none;
-}
 
 :root {
   --side-margin: clamp(0.5rem, 18vw, 22rem);
@@ -80,7 +101,9 @@ html {
 }
 
 #app {
-  font-family: Comfortaa;
+  * {
+    font-family: "Comfortaa" !important;
+  }
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -88,11 +111,11 @@ html {
   font-size: 1.1rem;
 
   a:not(.v-btn) {
-    color: var(--v-secondary-darken3);
-    transition: color 400ms;
+    color: var(--v-background-darken4);
+    transition: color 500ms;
     &:hover,
     &:focus {
-      color: var(--v-accent-darken2);
+      color: var(--v-accent-base);
     }
   }
 }
@@ -122,3 +145,4 @@ html {
   opacity: 0;
 }
 </style>
+

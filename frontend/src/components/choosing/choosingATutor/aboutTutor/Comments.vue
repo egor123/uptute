@@ -1,7 +1,19 @@
 <template>
   <div class="comments">
-    <Loading :loading="loading.length > 0" :background="background">
-      <div class="wrapper" v-for="comment in comments" :key="comment.lessonsId">
+    <Loading
+      ref="loading"
+      :action="fetch"
+      @callback="callback"
+      :background="background"
+      :centered="true"
+      class="loading"
+      :isActive="isActive"
+    >
+      <div
+        class="wrapper"
+        v-for="(comment, name, id) in getComments()"
+        :key="id"
+      >
         <div class="commenter">
           <div class="tutor">
             <img
@@ -26,7 +38,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import Loading from "@/components/global/Loading.vue";
 import Rating from "../Rating.vue";
 
@@ -42,38 +54,70 @@ export default {
     Loading,
     Rating,
   },
-  props: ["value", "id", "background"],
-  mounted() {
-    this.fetch();
-  },
+  props: ["value", "isActive", "id", "background"],
   methods: {
-    async fetch() {
-      this.loading.push("");
+    getComments() {
+      return this.comments;
+    },
+    fetch() {
+      // return axios
+      //   .get(`/api/tutor/${this.id}/comments`, {
+      //     params: {
+      //       page: this.value?.page ?? 0,
+      //       itemsPerPage: this.value?.itemsPerPage ?? 2,
+      //     },
+      //   })
+      //   .then((res) => res.data);
 
-      await new Promise((res) => setTimeout(() => res(), 2000)); //deleteme!!!!!!!!!
-      let { data } = await axios.get(`/api/tutor/${this.id}/comments`, {
-        params: {
-          page: this.value?.page ?? 0,
-          itemsPerPage: this.value?.itemsPerPage ?? 2,
-        },
+      return new Promise((res) => {
+        setTimeout(() => {
+          res({
+            items: [
+              {
+                userFirstName: "Someone",
+                userLastName: "Anyone",
+                rating: 4.3,
+                review: "Kinda cool, actually.",
+              },
+            ],
+            page: 1,
+            itemsPerPage: 5,
+            pagesCount: 1,
+          });
+        }, 2000);
       });
+    },
+    callback(data) {
       this.comments = data.items;
+      console.log(this.comments);
       this.currentSettings = {
         page: data.page,
         itemsPerPage: data.itemsPerPage,
         pagesCount: data.pagesCount,
       };
+
       this.$emit("input", JSON.parse(JSON.stringify(this.currentSettings)));
-      this.loading.pop();
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.$refs.loading.invoke();
+    }, 150); //TODO
   },
   watch: {
     value: {
       deep: true,
       handler(val) {
         if (JSON.stringify(val) != JSON.stringify(this.currentSettings))
-          this.fetch();
+          this.$refs.loading.invoke();
       },
+    },
+    isActive: function(val) {
+      setTimeout(() => {
+        console.log("CHANGED");
+
+        if (val) this.$refs.loading.invoke();
+      }, 150); //TODO
     },
   },
 };
@@ -81,7 +125,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
-
 .comments {
   text-align: left;
 
@@ -93,12 +136,11 @@ export default {
   }
   .commenter {
     padding: 2rem 0;
-    // border-bottom: red solid 1px;
     .tutor {
       display: flex;
       flex: row;
       align-content: center;
-      margin: 1.2rem 0 0.5rem 0;
+      margin-bottom: 0.5rem;
       & > *:not(.rating) {
         opacity: 0.6;
       }
@@ -115,12 +157,14 @@ export default {
       }
     }
   }
-  .wrapper:not(:last-child) {
-    .divider {
-      width: 80%;
-      height: 1px;
-      background: var(--v-secondary-darken1);
-      margin: 0 auto;
+  .wrapper {
+    &:not(:last-child) {
+      .divider {
+        width: 80%;
+        height: 1px;
+        background: var(--v-secondary-darken1);
+        margin: 0 auto;
+      }
     }
   }
 }

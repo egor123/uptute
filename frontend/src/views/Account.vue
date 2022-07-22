@@ -1,7 +1,12 @@
 <template>
   <Background>
-    <PageButtons
+    <!-- <PageButtons
       :buttons="[
+        {
+          icon: 'mdi-account-circle',
+          label: $l('acc_pages.profile'),
+          path: 'Profile',
+        },
         {
           icon: 'mdi-calendar-clock',
           label: $l('acc_pages.calendar'),
@@ -13,12 +18,12 @@
           path: 'Logs',
         },
         {
-          icon: 'mdi-account-cog-outline',
+          icon: 'mdi-account-cog',
           label: $l('acc_pages.settings'),
           path: 'Settings',
         },
       ]"
-    />
+    /> -->
 
     <!-- !!!!!!!!!!!!!!!!!!! -->
     <transition name="fade" mode="out-in">
@@ -29,13 +34,25 @@
 
 <script>
 import Background from "@/components/global/background/Background.vue";
-import PageButtons from "@/components/account/PageButtons.vue";
+// import PageButtons from "@/components/account/PageButtons.vue";
+
+import Profile from "@/components/account/Profile.vue";
 import Calendar from "@/components/account/Calendar.vue";
 import Logs from "@/components/account/Logs.vue";
 import Settings from "@/components/account/Settings.vue";
 
 export default {
+  name: "Account",
+  permisions: {
+    roles: ["ROLE_STUDENT"],
+    redirect: "LogIn",
+  },
   children: [
+    {
+      name: "Profile",
+      path: "profile",
+      component: Profile,
+    },
     {
       name: "Calendar",
       path: "calendar",
@@ -54,7 +71,8 @@ export default {
   ],
   components: {
     Background,
-    PageButtons,
+    // PageButtons,
   },
 };
 </script>
+

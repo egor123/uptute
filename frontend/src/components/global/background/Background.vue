@@ -1,20 +1,21 @@
 <template>
   <div id="containerMain">
-    <!-- <Subheader :title="title"><slot name="subheader" /> </Subheader> -->
+    <Subheader :title="title"><slot name="subheader" /> </Subheader>
     <slot />
   </div>
 </template>
 
 <script>
-// import Subheader from "@/components/app/Subheader.vue";
-// export default {
-//   components: {
-//     Subheader,
-//   },
-//   props: {
-//     title: String(),
-//   },
-// };
+import Subheader from "@/components/app/Subheader.vue";
+
+export default {
+  components: {
+    Subheader,
+  },
+  props: {
+    title: String(),
+  },
+};
 </script>
 
 <style lang="scss" scoped>

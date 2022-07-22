@@ -1,5 +1,5 @@
 <template>
-  <Dialog class="dialog">
+  <DialogCustom class="dialog">
     <template v-slot:object
       ><v-btn
         rounded
@@ -26,16 +26,16 @@
     <template v-slot:text>
       <BookTheLesson :tutor="tutor" />
     </template>
-  </Dialog>
+  </DialogCustom>
 </template>
 
 <script>
-import Dialog from "@/components/global/Dialog.vue";
+import DialogCustom from "@/components/global/Dialog.vue";
 import BookTheLesson from "@/components/choosing/choosingATutor/bookTheLesson/BookTheLesson.vue";
 
 export default {
   components: {
-    Dialog,
+    DialogCustom,
     BookTheLesson,
   },
   props: {
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.button.v-btn {
+.v-btn {
   width: 100%;
 }
 </style>

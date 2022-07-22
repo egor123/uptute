@@ -56,10 +56,11 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item @click="type = 'day'">
+                <v-list-item @click="setType('day')">
                   <v-list-item-title>Day</v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="type = 'month'">
+                <v-list-item @click="setType('month')">
+                  <!-- type = 'month' -->
                   <v-list-item-title>Month</v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -127,7 +128,8 @@ import Background from "@/components/global/background/Background.vue";
 import BackgroundCard from "@/components/global/background/BackgroundCard.vue";
 export default {
   permisions: {
-    roles: "ALL",
+    roles: ["ROLE_STUDENT"],
+    redirect: "LogIn",
   },
   components: {
     Background,
@@ -182,9 +184,16 @@ export default {
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
+      this.prev(); // TODO
+      this.next(); // renders a blank calendar without them
     },
     getEventColor(event) {
       return event.color;
+    },
+    setType(type) {
+      this.type = type;
+      this.prev(); // TODO
+      this.next(); // renders a blank calendar without them
     },
     setToday() {
       this.focus = "";
@@ -273,186 +282,202 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/mixins.scss";
 $border: 1px solid var(--v-background-base);
-::v-deep {
-  #backgroundCard {
-    margin: 70px 0 20px 0;
-    .v-calendar {
-      height: 75vh;
-      width: 80vw;
-      &.v-calendar-daily {
-        width: 500px;
-      }
+
+::v-deep(#backgroundCard) {
+  padding: 0 !important;
+  margin: auto;
+  // margin-top: auto !important;
+  // margin-bottom: auto !important;
+  .v-calendar {
+    height: 75vh;
+    width: 80vw;
+    &.v-calendar-daily {
+      width: 600px;
     }
-    @media (max-width: 800px) {
-      .v-calendar,
-      .v-calendar.v-calendar-daily {
-        width: 100vw;
-        height: calc(100vh - 120px);
-        border-radius: 0 !important;
-      }
+  }
+  @media (max-width: 800px) {
+    .sheetWrapper {
+      border-radius: 0 !important;
+    }
+    .v-calendar,
+    .v-calendar.v-calendar-daily {
       width: 100vw;
-      margin-top: 56px;
-      margin-bottom: auto;
+      height: calc(100vh - 200px);
+    }
+    width: 100vw;
+    margin-top: 56px;
+    margin-bottom: auto;
+  }
+}
+
+//Was &.v-menu__content
+.v-menu__content {
+  min-width: max-content !important;
+  border-radius: 15px;
+}
+.sheetWrapper {
+  border-radius: 15px;
+  overflow: hidden;
+  border: $border;
+  // background: red;
+  @include box-shadow();
+}
+.v-sheet {
+  overflow: hidden;
+  .v-toolbar__content {
+    & > *:not(:last-child) {
+      margin-right: 1rem !important;
+    }
+    .v-toolbar__title {
+      opacity: 0;
+      transition: opacity 400ms ease-in-out;
     }
   }
-  &.v-menu__content {
-    min-width: max-content !important;
-    border-radius: 15px;
+  .v-btn__content {
+    color: var(--v-card-darken2);
   }
-  .sheetWrapper {
-    border-radius: 15px;
-    overflow: hidden;
-    border: $border;
-  }
-  .v-sheet {
-    overflow: hidden;
-    &.v-toolbar,
-    &.v-toolbar__content {
-      background: #ffffff00;
-      .v-toolbar__title {
-        opacity: 0;
-        transition: opacity 400ms ease-in-out;
-      }
-    }
-    .v-btn__content {
-      color: var(--v-card-darken2);
-    }
-    &.calendar {
-      width: max-content;
-      height: max-content;
-      .v-calendar {
-        opacity: 0;
-        transition: opacity 400ms ease-in-out;
-        border: none;
-        border-top: $border;
-        &.v-calendar-daily {
-          ::-webkit-scrollbar {
-            width: 0;
+  &.calendar {
+    width: max-content;
+    height: max-content;
+    .v-calendar {
+      opacity: 0;
+      transition: opacity 400ms ease-in-out;
+      border: none;
+      border-top: $border;
+      &.v-calendar-daily {
+        ::-webkit-scrollbar {
+          width: 0;
+        }
+        .v-calendar-daily__head {
+          margin-right: $border !important;
+          .v-calendar-daily_head-day {
+            border-right: none;
+            border-bottom: $border;
           }
-          .v-calendar-daily__head {
-            margin-right: $border !important;
-            .v-calendar-daily_head-day {
-              border-right: none;
-              border-bottom: $border;
+        }
+        .v-calendar-daily__day {
+          border: none;
+          &-interval {
+            border-top: $border;
+          }
+        }
+        .v-calendar-daily__intervals {
+          &-head {
+            border-right: $border;
+            &::after {
+              background: linear-gradient(
+                90deg,
+                transparent,
+                var(--v-background-base)
+              );
+              border: none;
             }
           }
-          .v-calendar-daily__day {
-            border: none;
-            &-interval {
+          &-body {
+            border-right: $border;
+            .v-calendar-daily__interval::after {
               border-top: $border;
             }
           }
-          .v-calendar-daily__intervals {
-            &-head {
-              border-right: $border;
-              &::after {
-                background: linear-gradient(
-                  90deg,
-                  transparent,
-                  var(--v-background-base)
-                );
-                border: none;
-              }
-            }
-            &-body {
-              border-right: $border;
-              .v-calendar-daily__interval::after {
-                border-top: $border;
-              }
-            }
-          }
-          .v-event-timed-container {
-            margin-right: 0;
-            .v-event-timed {
-              border: none !important;
-              border-top: 1px solid !important;
-              border-bottom: 1px solid !important;
-              border-radius: 0 !important;
+        }
+        .v-event-timed-container {
+          width: 97%;
+          margin: 0 auto;
+          .v-event-timed {
+            border: none !important;
+            border-top: 1px solid !important;
+            border-bottom: 1px solid !important;
+            border-radius: 15px !important;
+            @include flexbox();
+            .pl-1 {
+              padding-left: 0 !important;
             }
           }
         }
-        .v-calendar-weekly__head-weekday {
-          border-right: none;
-          color: var(--v-card-darken2);
-          padding-top: 2px;
-          &.v-present {
-            color: var(--v-card-darken4) !important;
+      }
+      .v-calendar-weekly__head-weekday {
+        border-right: none;
+        color: var(--v-card-darken2);
+        padding-top: 2px;
+        &.v-present {
+          color: var(--v-card-darken4) !important;
+        }
+      }
+      .v-calendar-weekly__week {
+        &:not(:last-child) {
+          .v-calendar-weekly__day {
+            border-bottom: $border;
           }
         }
-        .v-calendar-weekly__week {
+        &:last-child {
+          .v-calendar-weekly__day {
+            border-bottom: none;
+          }
+        }
+        .v-calendar-weekly__day {
           &:not(:last-child) {
-            .v-calendar-weekly__day {
-              border-bottom: $border;
-            }
+            border-right: $border;
           }
           &:last-child {
-            .v-calendar-weekly__day {
-              border-bottom: none;
-            }
+            border-right: none;
           }
-          .v-calendar-weekly__day {
-            &:not(:last-child) {
-              border-right: $border;
-            }
-            &:last-child {
-              border-right: none;
-            }
-            &.v-outside {
-              background: var(--v-header-base) !important;
-            }
-            .v-event {
-              border-radius: 0;
-              width: 100% !important;
-              margin: 2px auto !important;
-              color: var(--v-secondary-base) !important;
-            }
+          &.v-outside {
+            background: var(--v-header-base) !important;
           }
-        }
-        .v-present .v-btn--fab {
-          background-color: var(--v-header-base) !important;
+          .v-event {
+            border-radius: 0;
+            width: 100% !important;
+            margin: 2px auto !important;
+            color: var(--v-secondary-base) !important;
+          }
         }
       }
+      .v-present .v-btn--fab {
+        background-color: var(--v-header-base) !important;
+      }
     }
-    &.toolbar {
-      border: none !important;
-      border-bottom: 0px !important;
-      background: var(--v-secondary-base);
-      .spacer.onPhone {
+  }
+  &.toolbar {
+    border: none !important;
+    border-bottom: 0px !important;
+    background: var(--v-secondary-base);
+    .spacer.onPhone {
+      display: none;
+    }
+    * {
+      color: var(--v-card-darken2);
+    }
+    color: var(--v-card-base);
+    .v-btn:not(.v-btn--fab) {
+      border-radius: 15px;
+      border: none;
+      background: var(--v-header-base);
+    }
+    .v-btn--fab {
+      margin: auto 2px;
+    }
+    @media (max-width: 400px) {
+      .menuBtn {
         display: none;
       }
-      * {
-        color: var(--v-card-darken2);
-      }
-      color: var(--v-card-base);
-      .v-btn:not(.v-btn--fab) {
-        border-radius: 15px;
-        border: none;
-        background: var(--v-header-base);
-      }
-      .v-btn--fab {
-        margin: auto 2px;
-      }
-      @media (max-width: 400px) {
-        .menuBtn {
+      .spacer {
+        &.onComputer {
           display: none;
         }
-        .spacer {
-          &.onComputer {
-            display: none;
-          }
-          &.onPhone {
-            display: flex;
-          }
+        &.onPhone {
+          display: flex;
         }
       }
     }
   }
-  .v-toolbar__content .menuBtn.v-btn,
-  .v-list {
-    width: 10rem;
-  }
 }
+.v-toolbar__content .menuBtn.v-btn,
+.v-list {
+  width: 10rem;
+}
+
 table {
   width: 100%;
   td {
@@ -475,3 +500,4 @@ table {
   }
 }
 </style>
+

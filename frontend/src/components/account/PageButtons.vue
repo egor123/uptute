@@ -7,7 +7,6 @@
       class="pa-2"
       small
       text
-      ref="button"
     >
       <v-icon class="mr-2">{{ btn.icon }}</v-icon>
       <p>{{ btn.label }}</p>
@@ -33,11 +32,8 @@ export default {
       });
       el.addEventListener("click", () => {
         let name = el.getAttribute("path");
-        if (
-          !this.$mb.isMobileInput() ||
-          (btn.opened && this.$route.name != name)
-        )
-          this.$router.push({ name });
+        if (!this.$mb.isMobileInput() || btn.opened)
+          this.$router.push({ name }).catch(() => {});
       });
     });
   },

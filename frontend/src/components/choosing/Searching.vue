@@ -1,11 +1,7 @@
 <template>
   <div class="imgContainer">
     <div class="innerImgContainer">
-      <img
-        class="magnifiying-glass"
-        src="@/assets\icons\magnifiying-glass.svg"
-        alt="searching for tutors"
-      />
+      <v-icon class="magnifiying-glass">mdi-magnify</v-icon>
     </div>
   </div>
 </template>

@@ -1,9 +1,13 @@
 {
   "id": "est",
+  "global": {
+    "wrong": "Miski läks valesti"
+  },
   "auth": {
     "header": {
-      "log_in": "Logi sisse",
-      "register": "Registreeru"
+      "account": "Konto",
+      "sign_in": "Logi sisse",
+      "sign_up": "Loo konto"
     },
     "google": "Sisene Google'iga",
     "facebook": "Sisene Facebook'iga",
@@ -12,12 +16,15 @@
       "log_in": "Logi sisse",
       "register": "Registreeru"
     },
-    "email": "Emaili aadress...",
-    "password": "Salasõna...",
+    "email": "E-post",
+    "name": "Nimi",
+    "surname": "Perekonnanimi",
+    "password": "Salasõna",
     "forgot": "Unustasid salasõna?",
-    "account_yet": "Pole veel registreerunud?",
-    "create": "Loo salasõna",
-    "repeat": "Korda salasõna...",
+    "account_yet": "Konto veel puudub?",
+    "account_already": "Konto juba olemas?",
+    "create": "Salasõna",
+    "repeat": "Korda salasõna",
     "must_agree": "Jätkamiseks vajame su nõusolekut",
     "privacy": "Nõustun ",
     "receive": "Soovin saada UpTute'i uudiskirju.",
@@ -33,29 +40,42 @@
         "valid": "E-mail aadress peab olema töökorras"
       },
       "password": {
-        "password": {
-          "require": "Vajame su salasõna",
-          "lenght": {
-            "max": "Salasõna peaks olema lühem kui ${n} tähemärki",
-            "min": "Vähemalt ${n} tähemärki"
-          }
+        "require": "Vajame su salasõna",
+        "length": {
+          "max": "Mitte rohkem kui ${n} tähemärki",
+          "min": "Vähemalt ${n} tähemärki"
         }
       },
       "name": {
-        "require": "Vajame su kasutajanime",
-        "max": "Name must be less than ${n} characters",
-        "lenght": {
-          "max": "Kasutajanimi peaks olema lühem kui ${n} tähemärki",
+        "require": "Vajame su nime",
+        "length": {
+          "max": "Mitte rohkem kui ${n} tähemärki",
+          "min": "Vähemalt ${n} tähemärki"
+        }
+      },
+      "surname": {
+        "require": "Vajame su perekonnanime",
+        "length": {
+          "max": "Mitte rohkem kui ${n} tähemärki",
           "min": "Vähemalt ${n} tähemärki"
         }
       }
+    },
+    "error": {
+      "email_exists": "Konto sellise meiliga juba eksisteerib",
+      "email_or_password": "Vale meil või salasõna",
+      "expired": "Sessioon on aegunud"
     }
   },
   "app": {
     "pages": {
       "home": "Avaleht",
       "begin": "Alusta oma seiklus",
-      "find_tutor": "Leia õpetaja",
+      "account": {
+        "settings": "Sätted"
+      },
+      "find_a_tutor": "Leia õpetaja",
+      "choose_a_student": "Õpeta",
       "become_tutor": "Tule õpetajaks!",
       "blog": "Blogi",
       "why_us": "Miks valida meid?",
@@ -66,6 +86,28 @@
       "and": "ja",
       "terms": "Kasutustingimused",
       "with_terms": "Kasutustingimustega"
+    },
+    "header": {
+      "lesson": {
+        "title": "Tund",
+        "learn": "Õpi",
+        "teach": "Õpeta"
+      },
+      "notifications": {
+        "nothing": "Teavitused puuduvad",
+        "accepted": {
+          "lesson": "Tund NAME'ga",
+          "link": "siin"
+        },
+        "feedback": {
+          "gave": "COMMENTER andis",
+          "link": "tagasiside"
+        }
+      },
+      "balance": {
+        "purchase": "Osta",
+        "withdraw": "Välja"
+      }
     },
     "footer": {
       "pages_title": "Mõned leheküljed:"
@@ -80,33 +122,33 @@
     },
     "mission": {
       "title": "Meie missioon",
-      "list": [
-        "Muuta õppeprotsess meeldivamaks ja lihtsamaks.",
-        "Teha seda, mida armastame ning jagada enda kirgi ka teistega.",
-        "Muuta õpiabi taskukohasemaks ja tõhusamaks."
-      ],
+      "list": {
+        "process": "Muuta õppeprotsess meeldivamaks ja lihtsamaks.",
+        "passion": "Teha seda, mida armastame, ning jagada enda kirgi ka teistega.",
+        "affordable": "Muuta õpiabi taskukohasemaks ja tõhusamaks."
+      },
       "btn": "Tutvu meiega lähemalt"
     },
     "how_it_works": {
       "title": "Kuidas see käib?",
-      "list": [
-        {
+      "list": {
+        "filters": {
           "h": "Filtreeri",
           "p": "Täida paar välja infoga soovitud tunni kohta. (Aeg, hind, jne)"
         },
-        {
+        "choose": {
           "h": "Vali",
           "p": "Oota veidi kuni õpetajad pakkuvad oma abi ning vali neist sobivaima."
         },
-        {
+        "lesson": {
           "h": "Tund",
           "p": "Naudi tundi!"
         },
-        {
+        "rate": {
           "h": "Tagasiside",
           "p": "Jäta kommentaar tunni kohta ja anna õpetajale hinnang."
         }
-      ],
+      },
       "btn": "Miks valida meid?"
     },
     "gallery": "Gallerii",
@@ -126,46 +168,46 @@
     "header": "Miks valida meid?",
     "student": {
       "title": "Õpilasele",
-      "list": [
-        {
+      "list": {
+        "price": {
           "h": "Erakordne hind",
           "p": "Meie alaealistest eakaaslased ei kasseri kaugeltki sama palju kui mõni õpetaja doktori kraadiga."
         },
-        {
+        "now": {
           "h": "Täna, mitte homme",
           "p": "Abi on saadaval just siis kui seda vaja. Vajad täna? Olgu nii!"
         },
-        {
+        "understand": {
           "h": "Me mõistame",
           "p": "Me teame su raskusi. Meil on ju samad. Ning on ka meie noortel õpetajatel."
         }
-      ]
+      }
     },
     "tutor": {
       "title": "Õpetajale",
-      "list": [
-        {
+      "list": {
+        "not_just": {
           "h": "Rohkem kui töö",
           "p": "Suhtlusoskus, õpetamisoskus, enesekindlus. Koos viime me need täiesti uuele tasemele!"
         },
-        {
+        "salary": {
           "h": "Kopsakas palk",
           "p": "Meiega teed just seda, mida oskad. Ning vastav on ka palk!"
         },
-        {
+        "price": {
           "h": "Perfektne hind",
           "p": "Algoritm võtab tunnihinna mured enda peale. Nii saad sa võimalikult palju tunde kõrgeima hinna eest!"
         },
-        {
+        "flexible": {
           "h": "Paindlik töögraafik",
           "p": "Ole iseenda tööandja! Sina valid, kui palju ja millal töötada."
         }
-      ]
+      }
     }
   },
   "find": {
     "header": "Leia õpetaja ",
-    "search": "Trüki õpetaja nimi...",
+    "search": "Õpetaja nimi",
     "filters": {
       "subject": {
         "h": "Õppeaine",
@@ -178,7 +220,7 @@
       },
       "location": {
         "h": "Asukoht",
-        "p": "Tunni asukoht..."
+        "p": "Tunni asukoht"
       },
       "audience": {
         "h": "Klass"
@@ -225,7 +267,13 @@
       "anyway": "Siiski välju",
       "cancel": "Tagasi",
       "hours": "õpetamiskogemus",
-      "comments": "kommentaaride arv"
+      "comments": "kommentaaride arv",
+      "fail": {
+        "init": "Tunni päringu loomine ebaõnnestus",
+        "offers": "Tunni pakkumiste hankimine ebaõnnestus",
+        "accept": "Pakkumise vastuvõtmine ebaõnnestus",
+        "conference": "Koosolekuga liitumine ebaõnnestus"
+      }
     },
     "student": {
       "header": "Pakku oma abi",
@@ -234,15 +282,23 @@
       "button": "Uuri lähedamalt",
       "dialog": {
         "offer": "Pakku oma abi",
+        "cancel": "Tühista pakkumine",
         "title": "Su abipakkumine on saadetud",
         "text": "Sind teavitatakse, kui su pakkumine võetaks vastu"
+      },
+      "fail": {
+        "conference": "Koosoleku alsutamine ebaõnnestus",
+        "cancel": "Tunni pakkumise tühistamine ebaõnnestus",
+        "listen_accept": "Pakkumise vastuvõtu kontroll ebaõnnestus",
+        "lessons": "Tundide hankimine serverilt ebaõnnestus",
+        "send": "Tunni pakkumise saatmine ebaõnnestus"
       }
     }
   },
   "tutor": {
     "hour": "t",
     "clarification": "Järgmised 7 päeva, Sinu ajavöönd:",
-    "btn": "Broneeri tund",
+    "btn": "Võta pakkumine vastu",
     "subjects": "Õppeained",
     "languages": "Keeled",
     "age": "Mu vanus",
@@ -253,18 +309,21 @@
     "comments": "Tagasiside"
   },
   "booking": {
-    "subheader": "Broneeri tund",
+    "subheader": "Võta pakkumine vastu",
     "date": "Tunni kuupäev",
     "time": "Tunni kellaaeg",
-    "card_name": "Kaardi omaniku nimi...",
-    "card_int": ["Kaardi number...", "KK/AA", "CVC"],
+    "card": {
+      "name": "Kaardi omaniku nimi",
+      "number": "Kaardi number",
+      "exp": "KK/AA",
+      "cvc": "CVC"
+    },
     "cost": "Hind",
     "tooltip": "Eratunni hind arvutatakse sessiooni lõpus arvestades selle pikkust",
-    "confirm": "Kinnita broneering",
+    "confirm": "Kinnita tund",
     "dialog": {
-      "title": "Su eratunni link",
-      "here": "siit",
-      "text": "Oma eratunni leiad"
+      "title": "Tund alustatud",
+      "text": "Konferents kohe avaneb"
     }
   },
   "set_up": {
@@ -288,17 +347,21 @@
     "as_tutor": "Õpetajana",
     "button": "Valmis"
   },
-
   "lesson": {
     "feedback": {
       "comment": "Kommentaar"
     }
   },
-
   "acc_pages": {
-    "settings": "Seaded",
+    "profile": "Profiil",
     "calendar": "Kalender",
-    "logs": "Varemad tunnid"
+    "logs": "Eelnevad",
+    "settings": "Seaded",
+    "log_out": "Logi välja"
+  },
+  "main": {
+    "messenger": "Messengeri link",
+    "apply": "Rakenda järgmiseks \"n\"-ks nädalaks"
   },
   "settings": {
     "password": "Muuda salasõna",
@@ -332,6 +395,13 @@
     "comment": "Kommentaar",
     "button1": "Jätta vahele",
     "button2": "Salvesta"
+  },
+  "about": {
+    "subheader": "Meist",
+    "The very beggining": "",
+    "The solution": "",
+    "Our goals": "",
+    "What's next?": ""
   },
   "data": {
     "actions": {
@@ -439,5 +509,12 @@
     "languages": "Keeled",
     "age": "Vanus",
     "audience": "Sihtrühm"
+  },
+  "rules": {
+    "shared": {
+      "something": "Kasvõi midagi? 🥺",
+      "one": "Vähemalt üks 🥺"
+    }
   }
 }
+

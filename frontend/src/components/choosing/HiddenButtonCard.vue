@@ -1,61 +1,73 @@
 <template>
-  <div class="hiddenButtonCard">
+  <div id="hiddenButtonCard">
     <slot name="static" />
-    <div class="moving">
+    <div id="moving" v-if="ifMounted" :style="`--nudge: ${activatorH}px`">
       <slot name="moving" />
     </div>
-    <slot name="activator" />
+    <div id="activator" ref="activatorRef">
+      <slot name="activator" />
+    </div>
   </div>
 </template>
+
+<script lang="ts">
+import { Vue, Component, Ref } from "vue-property-decorator";
+
+@Component
+export default class HiddenButtonCard extends Vue {
+  @Ref() readonly activatorRef!: HTMLDivElement;
+
+  ifMounted: boolean = false;
+
+  get activatorH() {
+    return this.activatorRef?.clientHeight || 52;
+  }
+
+  mounted() {
+    this.$nextTick(() => (this.ifMounted = true));
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-::v-deep {
-  &.hiddenButtonCard {
-    cursor: auto;
-    display: flex;
-    flex-direction: column;
-    background: var(--v-card-base);
-    @include box-shadow();
+#hiddenButtonCard {
+  position: relative;
+  cursor: default;
+  background-color: var(--v-card-base);
+  @include box-shadow();
+  border-radius: 15px;
+  padding: 15px;
 
-    border-radius: 15px;
-    margin: 15px auto;
-    padding: 15px;
+  @include from-left();
 
-    @include from-left();
+  & > *:not(:first-child) {
+    padding-top: 15px;
+  }
 
-    .moving {
-      margin: 76px 0 -36px 0;
+  &:hover {
+    #moving {
+      transition: transform 0.6s ease;
     }
+    #activator {
+      opacity: 1;
+      pointer-events: all;
+      transition: opacity 0.5s ease 0.1s;
+    }
+  }
 
-    .button {
+  &:not(:hover) {
+    #moving {
+      transform: translateY(var(--nudge));
+      transition: transform 0.5s ease 0.2s;
+    }
+    #activator {
       opacity: 0;
-
-      &:hover {
-        opacity: 1 !important;
-      }
-    }
-
-    &:not(:hover) {
-      .moving {
-        transition: all 500ms ease 200ms;
-      }
-      .button {
-        transition: opacity 500ms ease 0ms;
-      }
-    }
-
-    &:hover {
-      .moving {
-        transform: translateY(-56px);
-        transition: all 600ms ease 0ms;
-      }
-      .button {
-        opacity: 1;
-        transition: opacity 800ms ease 100ms;
-      }
+      pointer-events: none;
+      transition: opacity 0.5s ease;
     }
   }
 }
 </style>
+

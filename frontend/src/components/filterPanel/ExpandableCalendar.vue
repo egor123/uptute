@@ -1,5 +1,11 @@
 <template>
-  <BaseComponent ref="base" :label="label" :text="text">
+  <BaseComponent
+    ref="base"
+    :label="label"
+    :text="text"
+    :borderRadius="borderRadius"
+    :flat="flat"
+  >
     <v-menu
       class="menu"
       ref="menu"
@@ -37,7 +43,7 @@
 </template>
 
 <script>
-import { refresh, isValid, convert, watch } from "./store.js";
+import { refresh, isValid, convert } from "./store.js";
 import BaseComponent from "./ExpansionBaseComponent.vue";
 
 export default {
@@ -52,7 +58,15 @@ export default {
       def: JSON.parse(JSON.stringify(this.value)),
     };
   },
-  props: ["value", "label", "text", "convertor", "rules"],
+  props: [
+    "value",
+    "label",
+    "text",
+    "convertor",
+    "rules",
+    "flat",
+    "borderRadius",
+  ],
   methods: {
     refresh,
     isValid,
@@ -61,24 +75,27 @@ export default {
       this.$refs.menu.save(date);
     },
   },
-  watch,
+  watch: {
+    input(val) {
+      this.$emit("input", val);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-::v-deep {
-  .v-picker__title.primary {
-    background: var(--v-secondary-darken3) !important;
-  }
-  .v-picker {
-    border-radius: 15px;
-  }
-  &.v-menu__content {
-    border-radius: 15px !important;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--v-secondary-base);
-    margin: 10px 0;
-  }
+::v-deep(.v-picker__title.primary) {
+  background: var(--v-secondary-darken3) !important;
+}
+::v-deep(.v-picker) {
+  border-radius: 15px;
+}
+::v-deep(&.v-menu__content) {
+  border-radius: 15px !important;
+}
+::v-deep(::-webkit-scrollbar-track) {
+  background: var(--v-secondary-base);
+  margin: 10px 0;
 }
 </style>
+

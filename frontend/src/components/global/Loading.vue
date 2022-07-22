@@ -1,5 +1,5 @@
 <template>
-  <div id="content">
+  <div id="content" ref="content">
     <div id="slot" ref="slot">
       <slot />
     </div>
@@ -37,6 +37,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    isActive: Boolean,
   },
   methods: {
     invoke(props) {
@@ -44,6 +45,8 @@ export default {
       else this.executeSequence(props);
     },
     executeSequence(props) {
+      console.log("started");
+      // const scrollHeight = 20;
       const slot = this.$refs.slot;
       const holder = this.$refs.holder;
       const icons = this.$refs.icon;
@@ -51,6 +54,9 @@ export default {
       const enable = () =>
         new Promise((res) => {
           Promise.resolve()
+            // .then(
+            //   () => new Promise((res) => this.waitUntilSlotCreated(slot, res))
+            // )
             .then(() => {
               console.log("enable start");
               this.toggleClass(holder, "disabled", false);
@@ -66,7 +72,7 @@ export default {
       const emit = (val) =>
         new Promise((res) => {
           console.log("emiting...");
-          console.log(val);
+          // console.log(val);
           this.$emit("callback", val);
           setTimeout(() => res(), 0);
         });
@@ -75,7 +81,12 @@ export default {
           Promise.resolve()
             .then(() => {
               console.log("disable start");
-              const height = slot.children[0].clientHeight + "px";
+              const height =
+                Array.from(slot.children).reduce(
+                  (val, el) => val + el.offsetHeight,
+                  0
+                ) + "px";
+              // slot.children[0].clientHeight + scrollHeight + "px";
               return this.setProperty(slot, "height", height, true);
             })
             .then(() => {
@@ -123,13 +134,30 @@ export default {
       });
     },
     setProperty(el, prop, val, wait = false) {
-      return new Promise((res) => {
+      return new Promise((res, rej) => {
         let stop = el.style[prop] === val;
         el.style[prop] = val;
         if (stop || !wait) res();
+
         el.addEventListener("transitionend", () => res(), { once: true });
+        setTimeout(() => {
+          rej();
+        }, 500);
+        // !!!!!! TO-DO
+      }).catch((r) => {
+        console.log("Transition wasn't ended");
+        return r;
       });
     },
+    // waitUntilSlotCreated(slot, res) {
+    //   console.log(slot.style.opacity != "");
+    //   console.log(slot.style.opacity);
+    //   console.log(slot);
+    //   slot.style.opacity = 1;
+    //   console.log("opacity === 1");
+    //   if (slot.style.opacity != "") return res();
+    //   setTimeout(() => this.waitUntilSlotCreated(slot, res), 1000);
+    // },
   },
 };
 </script>
@@ -138,15 +166,23 @@ export default {
 @import "@/scss/mixins.scss";
 #content {
   position: relative;
-  // min-height: 100px;
 }
 
 #slot {
   transition: all 400ms ease-in-out;
-  overflow: hidden;
+  overflow: auto;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
   $min-height: 100px;
   min-height: $min-height;
   height: $min-height;
+  max-height: 100vh;
+  @media (pointer: none), (pointer: coarse) {
+    scrollbar-width: none !important;
+    &::-webkit-scrollbar {
+      width: 0 !important;
+      height: 0 !important;
+    }
+  }
 }
 
 #holder {
@@ -168,7 +204,7 @@ export default {
     opacity: 0;
   }
   &.centered {
-    position: fixed;
+    position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);

@@ -7,7 +7,7 @@
 
     <InfoTable :tutor="tutor" />
 
-    <ConfirmButton :link="tutor.zoomLink" />
+    <ConfirmButton :tutor="tutor" :link="tutor.zoomLink" />
   </div>
 </template>
 
@@ -39,9 +39,7 @@ export default {
 #profile {
   @include flexbox;
 }
-::v-deep {
-  .userImg {
-    margin-right: 1rem;
-  }
+::v-deep(.userImg) {
+  margin-right: 1rem;
 }
 </style>

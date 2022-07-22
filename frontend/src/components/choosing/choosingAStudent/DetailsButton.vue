@@ -1,5 +1,5 @@
 <template>
-  <Dialog class="dialog">
+  <DialogCustom class="dialog">
     <template v-slot:object
       ><v-btn rounded elevation="0" outlined color="accent" class="button">
         {{ $l("choose_a.student.button") }}
@@ -13,16 +13,16 @@
     <template v-slot:text>
       <LessonDetails :student="student" />
     </template>
-  </Dialog>
+  </DialogCustom>
 </template>
 
 <script>
-import Dialog from "@/components/global/Dialog.vue";
+import DialogCustom from "@/components/global/Dialog.vue";
 import LessonDetails from "@/components/choosing/choosingAStudent/LessonDetails.vue";
 
 export default {
   components: {
-    Dialog,
+    DialogCustom,
     LessonDetails,
   },
   props: {

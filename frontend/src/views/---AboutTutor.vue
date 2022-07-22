@@ -114,7 +114,7 @@ export default {
   }
 }
 
-::v-deep #backgroundCard {
+::v-deep(#backgroundCard) {
   max-width: 50rem !important;
 }
 

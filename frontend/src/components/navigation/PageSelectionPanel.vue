@@ -9,7 +9,11 @@
         @click="btn.action()"
       />
     </div>
-    <PageSizeSelection v-model="value.itemsPerPage" :sizes="sizes" />
+    <PageSizeSelection
+      :value="value.itemsPerPage"
+      @input="$emit('input', { ...value, itemsPerPage: value.itemsPerPage })"
+      :sizes="sizes"
+    />
   </div>
 </template>
 
@@ -25,11 +29,15 @@ export default {
     };
   },
   computed: {
-    getButtons: function() {
+    getButtons: function () {
       let pages = [];
       const count = this.value.pagesCount;
       if (this.value.page > 0)
-        pages.push({ type: "previous", action: () => this.value.page-- });
+        pages.push({
+          type: "previous",
+          action: () =>
+            this.$emit("input", { ...this.value, page: this.value.page - 1 }),
+        });
       let last = 0;
       if (count != 1) {
         for (let i = 0; i < count; i++) {
@@ -43,7 +51,7 @@ export default {
             pages.push({
               type: "" + (i + 1),
               active: this.value.page === i,
-              action: () => (this.value.page = i),
+              action: () => this.$emit("input", { ...this.value, page: i }),
             });
             last = i;
           }
@@ -51,7 +59,11 @@ export default {
       }
 
       if (this.value.page + 1 < count)
-        pages.push({ type: "next", action: () => this.value.page++ });
+        pages.push({
+          type: "next",
+          action: () =>
+            this.$emit("input", { ...this.value, page: this.value.page + 1 }),
+        });
       return pages;
     },
   },
@@ -85,3 +97,4 @@ export default {
   }
 }
 </style>
+

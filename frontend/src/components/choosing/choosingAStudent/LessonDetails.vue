@@ -1,16 +1,28 @@
 <template>
   <div class="content">
     <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio labore harum
-      dolores eum deserunt facere dolorem ipsum rem nisi! Dolorum!
+      {{ student.details.details || null }}
     </p>
 
-    <PageViewer :imgs="imgs" :upload="false" />
+    <PageViewer
+      v-if="student.details.imgs && student.details.imgs.length > 0"
+      :imgs="student.imgs"
+      :upload="false"
+    />
 
-    <Dialog>
+    <DialogCustom>
       <template v-slot:object>
-        <v-btn rounded outlined color="accent">
-          {{ $l("choose_a.student.dialog.offer") }}
+        <v-btn
+          @click="isOffered ? cancelOffer() : sendOffer()"
+          rounded
+          outlined
+          color="accent"
+        >
+          {{
+            isOffered
+              ? $l("choose_a.student.dialog.cancel")
+              : $l("choose_a.student.dialog.offer")
+          }}
         </v-btn>
       </template>
 
@@ -21,13 +33,14 @@
       <template v-slot:text>
         {{ $l("choose_a.student.dialog.text") }}
       </template>
-    </Dialog>
+    </DialogCustom>
   </div>
 </template>
 
 <script>
-import Dialog from "@/components/global/Dialog.vue";
+import DialogCustom from "@/components/global/Dialog.vue";
 import PageViewer from "@/components/global/PageViewer.vue";
+import TutorLesson from "@/store/modules/lesson/tutor/module";
 
 export default {
   data() {
@@ -51,15 +64,35 @@ export default {
       ],
     };
   },
+  computed: {
+    isOffered: function () {
+      return TutorLesson.lessons.offered.length > 0;
+    },
+  },
+  props: ["student"],
   components: {
-    Dialog,
+    DialogCustom,
     PageViewer,
+  },
+  methods: {
+    async sendOffer() {
+      const lessonIds = {
+        lesson: this.student.lessonId,
+        log: this.student.logId,
+      };
+
+      TutorLesson.sendOffer(lessonIds);
+    },
+    cancelOffer() {
+      TutorLesson.cancelOffer(this.student.offerLogId);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .content {
+  width: 100%;
   & > *:not(:last-child) {
     margin-bottom: 5rem;
   }
