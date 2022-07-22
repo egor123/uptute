@@ -1,5 +1,3 @@
-import { IsError, Rules } from "@/components/findATutor/types";
-
 export interface SwipeEventCallback {
   (move: Vector, status: SwipeStatus): void;
 }
@@ -31,6 +29,13 @@ export type Subject =
   | "CHEM"
   | "CIS";
 
+export interface IsError {
+  color: boolean;
+  animation: boolean;
+}
+
+export type Rules<T> = (v: T) => boolean;
+
 export interface Validatable<T> {
   isError: IsError;
   value: T;
@@ -45,15 +50,10 @@ export interface ValidatableFields {
   [index: string]: ValidatableField<unknown>;
 }
 
+export type ValidatableFieldsArr = ValidatableField<unknown>[];
+
 export interface Validatables {
   [index: string]: Validatable<unknown>;
 }
 
 export type ValidatablesArr = Validatable<unknown>[];
-
-export interface IsError {
-  color: boolean;
-  animation: boolean;
-}
-
-export type Rules<T> = (v: T) => boolean;

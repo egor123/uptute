@@ -1,37 +1,30 @@
-import { Validatable, ValidatablesArr } from "@/types";
+import { ValidatableField as V, ValidatableFieldsArr as VArr } from "@/types";
 import { sleep } from "./methods";
 
-export const isValid = async (vArr: ValidatablesArr): Promise<Boolean> => {
-  const isValid = vArr.every((v) => v.rules(v.value));
+export async function isValid(v: VArr): Promise<Boolean>;
+export async function isValid(v: V<any>): Promise<Boolean>;
+export async function isValid(v: VArr | V<any>): Promise<Boolean> {
+  const arr = Array.isArray(v) ? v : [v];
 
-  if (isValid) {
-    clearErrorStyles(vArr);
-    return true;
-  } else {
-    await animateErrors(vArr);
-    return false;
-  }
-};
+  const isValid = arr.every((v) => v.rules(v.value));
 
-const clearErrorStyles = async (vArr: Validatable<unknown>[]) => {
-  for (const v of vArr) {
-    v.isError.animation = false;
-    v.isError.color = false;
-  }
-};
+  for (const v of arr) v.isError.animation = false;
 
-const animateErrors = async (vArr: Validatable<unknown>[]) => {
-  for (const v of vArr) v.isError.animation = false;
+  await sleep(10); // For animation to always take effect
 
-  await sleep(10);
+  for (const v of arr)
+    if (isValid) v.isError.color = false;
+    else await animateError(v);
 
-  for (const v of vArr) {
-    if (!v.rules(v.value)) {
-      v.isError.animation = true;
-      v.isError.color = true;
-      await sleep(100);
-    } else v.isError.color = false;
-  }
+  return isValid;
+}
+
+const animateError = async (v: V<unknown>) => {
+  if (!v.rules(v.value)) {
+    v.isError.animation = true;
+    v.isError.color = true;
+    await sleep(100);
+  } else v.isError.color = false;
 
   return;
 };

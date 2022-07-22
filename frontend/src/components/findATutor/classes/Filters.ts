@@ -1,11 +1,5 @@
-import { Language, Subject } from "@/types";
-import {
-  Filter as IFilter,
-  Filters as IFilters,
-  Img,
-  IsError,
-  Rules,
-} from "../types";
+import { Language, Subject, Rules, IsError } from "@/types";
+import { Filter as IFilter, Filters as IFilters, Img } from "../types";
 
 import subjectRules from "../rules/subject";
 import topicRules from "../rules/topic";

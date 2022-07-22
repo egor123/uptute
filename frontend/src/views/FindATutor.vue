@@ -43,7 +43,7 @@ import RequestButton from "@/components/findATutor/RequestButton.vue";
 import { Filters } from "@/components/findATutor/classes/Filters";
 import helper from "@/components/findATutor/helper";
 
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import { isValid } from "@/utility/validate";
 import { Filter } from "@/components/findATutor/types";
 
@@ -83,8 +83,7 @@ export default class FindATutor extends Vue {
   }
 
   public refresh(): void {
-    for (const filter of this.filtersArr)
-      filter.value = filter.default;
+    for (const filter of this.filtersArr) filter.value = filter.default;
   }
 
   public async tryRequest(): Promise<void> {
@@ -105,6 +104,14 @@ export default class FindATutor extends Vue {
   beforeDestroy() {
     removeEventListener("keypress", this.onKeyPressed);
   }
+
+  @Watch("f.subject.value") onSubject = () => isValid(this.filters.subject);
+  @Watch("f.topic.value") onTopic = () => isValid(this.filters.topic);
+  @Watch("f.details.value") onDetails = () => isValid(this.filters.details);
+  @Watch("f.imgs.value") onImgs = () => isValid(this.filters.imgs);
+  @Watch("f.languages.value") onLang = () => isValid(this.filters.languages);
+  @Watch("f.age.value") onAge = () => isValid(this.filters.age);
+  @Watch("f.price.value") onPrice = () => isValid(this.filters.price);
 }
 </script>
 
