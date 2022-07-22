@@ -1,20 +1,9 @@
 <template>
   <div id="container">
-    <coming-soon />
-    <Header :title="$l('auth.header.register')" />
+    <Subheader :title="$l('auth.header.register')" />
 
     <v-card id="card">
       <v-form ref="form" v-model="valid" lazy-validation>
-        <v-text-field
-          filled
-          rounded
-          v-model="name"
-          :counter="nameLength"
-          :rules="nameRules"
-          :label="$l('auth.name')"
-          required
-        ></v-text-field>
-
         <v-text-field
           filled
           rounded
@@ -25,6 +14,8 @@
         ></v-text-field>
 
         <v-text-field
+          filled
+          rounded
           v-model="password"
           :rules="passwordRules"
           :type="showPassword ? 'text' : 'password'"
@@ -32,7 +23,7 @@
           @click:append="showPassword = !showPassword"
           :label="$l('auth.create')"
           required
-          loading
+          :loading="password.length != 0"
         >
           <template v-slot:progress>
             <v-progress-linear
@@ -40,12 +31,14 @@
               :value="progress"
               :color="color"
               absolute
-              height="7"
+              id="progressBar"
             ></v-progress-linear>
           </template>
         </v-text-field>
 
         <v-text-field
+          filled
+          rounded
           v-model="password2"
           :rules="password2Rules"
           :type="showPassword2 ? 'text' : 'password'"
@@ -74,21 +67,18 @@
           </p>
         </div>
         <v-btn
-          class="mr-4 orangeBackground"
-          @click="
-            if ($refs.form.validate()) {
-              signup({ name: name, email: email, password: password }).then(
-                (val) => (errorMessage = val.message)
-              );
-            }
-          "
+          class="mr-4"
+          rounded
+          outlined
+          color="accent"
+          @click="tryRegister()"
         >
           {{ $l("auth.btn.register") }}
         </v-btn>
       </v-form>
 
       <br />
-      <v-alert
+      <!-- <v-alert
         v-if="errorMessage != ''"
         dense
         outlined
@@ -97,37 +87,28 @@
         type="warning"
       >
         {{ errorMessage }}
-      </v-alert>
+      </v-alert> -->
+      <p class="link" @click="goTo('LogIn')">
+        {{ $l("auth.account_already") }}
+      </p>
     </v-card>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import Header from "../components/Header.vue";
-import ComingSoon from "@/components/ComingSoon.vue";
+import Subheader from "@/components/app/Subheader.vue";
+import { goTo } from "@/utility/methods.js";
 
 export default {
+  name: "Register",
+  permisions: {
+    roles: "ALL",
+  },
   data() {
     return {
       valid: true,
-      name: "",
-      nameLength: 20,
-      nameMinLength: 3,
-      nameRules: [
-        (v) => !!v || this.$l("auth.rules.require"),
-        (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.no_spaces"),
-        (v) =>
-          (v && v.length >= this.nameMinLength) ||
-          this.$l("auth.rules.name.lenght.min", {
-            n: this.nameMinLength,
-          }),
-        (v) =>
-          (v && v.length <= this.nameLength) ||
-          this.$l("auth.rules.name.lenght.max", {
-            n: this.nameLength,
-          }),
-      ],
+
+      inProcess: false,
       email: "",
       emailRules: [
         (v) => !!v || this.$l("auth.rules.email.require"),
@@ -143,12 +124,12 @@ export default {
         (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.rules.no_spaces"),
         (v) =>
           (v && v.length >= this.passwordMinLength) ||
-          this.$l("auth.rules.password.lenght.min", {
+          this.$l("auth.rules.password.length.min", {
             n: this.passwordMinLength,
           }),
         (v) =>
           (v && v.length <= this.passwordLength) ||
-          this.$l("auth.rules.password.lenght.max", { n: this.passwordLength }),
+          this.$l("auth.rules.password.length.max", { n: this.passwordLength }),
       ],
       password2: "",
       showPassword2: false,
@@ -159,7 +140,7 @@ export default {
           this.$l("auth.rules.password.not_matching"),
       ],
       checkbox: false,
-      errorMessage: "",
+      // errorMessage: "",
     };
   },
   computed: {
@@ -175,28 +156,58 @@ export default {
       return "success";
     },
   },
-  methods: mapActions(["signup"]),
+  mounted() {
+    addEventListener("keypress", this.keyPressed);
+  },
+  beforeDestroy() {
+    removeEventListener("keypress", this.keyPressed);
+  },
+  methods: {
+    goTo,
+    keyPressed(e) {
+      if (e.key === "Enter") this.tryRegister();
+    },
+    async tryRegister() {
+      if (this.$refs.form.validate() && !this.inProcess) {
+        const form = {
+          email: this.email,
+          password: this.password,
+        };
+        this.inProcess = true;
+        await this.$store.dispatch("auth/signup", form);
+        this.inProcess = false;
+      }
+    },
+  },
   components: {
-    Header,
-    ComingSoon,
+    Subheader,
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/scss/mixins.scss";
+
 #container {
   overflow: auto;
 }
 #card {
   height: fit-content;
-  margin: 80px auto;
+  margin: calc(106px + 3rem) auto 3rem auto;
   padding: 30px;
   width: min(90%, 400px);
+  @include box-shadow;
+  border-radius: 15px;
+
+  ::v-deep(.v-messages__message) {
+    font-size: 12px !important;
+  }
 }
 
 .checkbox {
   display: flex;
-  margin-bottom: 40px;
+  margin-bottom: 1rem;
+  opacity: 0.5;
 }
 .checkbox p {
   position: absolute;
@@ -205,4 +216,26 @@ export default {
   margin-right: 30px;
   text-align: left;
 }
+
+p.link {
+  color: var(--v-secondary-darken2);
+  font-size: 87.5%;
+  cursor: pointer;
+  &:hover {
+    color: var(--v-secondary-darken3);
+  }
+  margin: 1rem 0 0 0;
+}
+
+::v-deep(.v-text-field .v-input__slot) {
+  overflow: hidden;
+}
+
+#progressBar {
+  $bar_height: 4px;
+  height: $bar_height !important;
+  margin-top: -0.5 * $bar_height;
+  opacity: 0.5;
+}
 </style>
+

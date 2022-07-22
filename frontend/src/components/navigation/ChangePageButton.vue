@@ -1,32 +1,64 @@
 <template>
-  <v-btn
-    elevation="5"
-    small
-    rounded
-    depressed
-    v-on:click="
-      if ((add < 0 && getPage > 0) || (add > 0 && getPage < getPageCount - 1))
-        fetchPage({ _page: getPage + add });
-    "
-  >
-    <div v-if="add > 0">&#8250;</div>
-    <div v-else>&#8249;</div>
-  </v-btn>
+  <button @click="$emit('click')" :type="type" :active="active" />
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
 export default {
   props: {
-    add: Number,
+    type: String,
+    active: Boolean,
   },
-  computed: mapGetters(["getPage", "getPageCount"]),
-  methods: mapActions(["fetchPage"]),
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/scss/mixins.scss";
 button {
-  margin: 10px;
+  position: relative;
+  @include box-size(2rem);
+
+  background: transparent;
+  color: darken($color: white, $amount: 50);
+
+  border-top: 1px solid darken($color: white, $amount: 16);
+  border-bottom: 1px solid darken($color: white, $amount: 16);
+
+  transition: background-color 200ms;
+  &:hover {
+    background-color: darken($color: white, $amount: 10);
+  }
+  &[active] {
+    color: var(--v-accent-base);
+  }
+
+  &::after {
+    content: attr(type);
+  }
+  &[type="previous"]::after {
+    content: "‹";
+  }
+  &[type="next"]::after {
+    content: "›";
+    background: none;
+  }
+  &[type="disabled"] {
+    // background: darken($color: white, $amount: 4);
+    background: transparent;
+    cursor: auto;
+    &::after {
+      content: "...";
+    }
+  }
+
+  &:first-child {
+    border-radius: 50% 0 0 50%;
+  }
+
+  &:last-child {
+    border-radius: 0 50% 50% 0;
+  }
+  &:only-child {
+    border-radius: 50%;
+  }
 }
 </style>

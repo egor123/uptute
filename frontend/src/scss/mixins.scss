@@ -1,0 +1,68 @@
+@import "./config.scss";
+
+@mixin hoverOpacity() {
+  transition: opacity 0.3s ease-in-out;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+@mixin from-left() {
+  animation: slideInFromLeft 0.6s ease-in-out;
+
+  @keyframes slideInFromLeft {
+    from {
+      transform: translateX(-4rem);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
+
+@mixin box-shadow() {
+  box-shadow: 3px 4px 8px 2px #ccc;
+
+  //   transition: box-shadow 300ms;
+  //   &:hover {
+  //     box-shadow: 2px 3px 4px 1px #ccc;
+  //   }
+}
+
+@mixin box-shadow-raised() {
+  box-shadow: 3px 4px 12px 2px #ccc;
+}
+
+@mixin flexbox($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+}
+@mixin box-size($size) {
+  width: $size;
+  height: $size;
+}
+@mixin pseudo-elements() {
+  &::before,
+  &::after {
+    content: "";
+    @content;
+  }
+}
+@mixin fill-parent($offset: 0) {
+  position: absolute;
+  top: $offset;
+  bottom: $offset;
+  left: $offset;
+  right: $offset;
+}
+@mixin font-size() {
+  font-size: map-get($font-sizes, normal);
+  @media (max-width: $font-size-breakpoint) {
+    font-size: map-get($font-sizes, small);
+  }
+}
+

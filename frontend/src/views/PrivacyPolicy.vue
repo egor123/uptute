@@ -1,10 +1,8 @@
 <template>
   <div>
-    <Header title="Privaatsuspoliitika" />
+    <Subheader title="Privaatsuspoliitika" />
     <div class="container">
-      <h2>
-        Sissejuhatus
-      </h2>
+      <h2>Sissejuhatus</h2>
       <p>
         UpTute OÜ vahendab agenditeenuse korras oma veebikeskkonnas
         <a href="http://www.uptute.com">uptute.com</a> eratundide teenust, mille
@@ -41,13 +39,15 @@
       </p>
       <div class="table">
         <table>
-          <tr>
-            <th>Andmetüüp</th>
-            <th>Õiguslik alus</th>
-            <th>Andmete töötlemise eesmärk</th>
-            <th>Andmete saamine</th>
-            <th>Kaua andmeid säilitame</th>
-          </tr>
+          <thead>
+            <tr>
+              <th>Andmetüüp</th>
+              <th>Õiguslik alus</th>
+              <th>Andmete töötlemise eesmärk</th>
+              <th>Andmete saamine</th>
+              <th>Kaua andmeid säilitame</th>
+            </tr>
+          </thead>
           <tr>
             <td>
               Andmed isiku tuvastamiseks: ees- ja perekonnanimi, isikukood ja
@@ -324,27 +324,38 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import Subheader from "@/components/app/Subheader.vue";
 export default {
+  name: "PrivacyPolicy",
+  permisions: {
+    roles: "ALL",
+  },
   components: {
-    Header,
+    Subheader,
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/scss/mixins.scss";
+
 .container {
   text-align: justify;
   width: calc(100% - 2 * var(--side-margin));
   height: 100%;
   overflow-wrap: break-word;
+  margin: calc(106px + 3rem) auto 3rem auto;
+  hyphens: auto;
+  @include font-size;
 }
-h2:first-child {
-  margin-top: 15vh;
+
+p {
+  margin: 0.5rem 0 1rem 0;
+  &:last-child {
+    margin-bottom: 15vh;
+  }
 }
-p:last-child {
-  margin-bottom: 15vh;
-}
+
 h1 {
   text-align: center;
   margin: 3rem 0rem;
@@ -355,14 +366,29 @@ h2 {
 .table {
   overflow: auto;
   margin: 2rem 0;
+
+  border-collapse: separate;
+  border: 2px solid var(--v-secondary-darken2);
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
 }
-table,
+
 th,
 td {
-  border: 2px solid var(--v-secondary-darken2);
-  border-collapse: collapse;
-  padding: 5px;
+  border-left: 2px dotted var(--v-secondary-darken2);
+  border-top: 2px dotted var(--v-secondary-darken2);
+  padding: 1rem;
 }
+
+th {
+  border-top: none;
+}
+
+td:first-child,
+th:first-child {
+  border-left: none;
+}
+
 td {
   text-align: left;
 }
@@ -373,3 +399,4 @@ td {
   }
 }
 </style>
+

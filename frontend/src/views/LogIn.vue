@@ -1,7 +1,6 @@
 <template>
   <div id="container">
-    <Header :title="$l('auth.header.log_in')" />
-    <coming-soon />
+    <Subheader :title="$l('auth.header.log_in')" />
 
     <v-card id="card">
       <v-form ref="form" v-model="valid" lazy-validation>
@@ -25,21 +24,13 @@
           required
         >
         </v-text-field>
-        <p>{{ $l("auth.forgot") }}</p>
-        <v-btn
-          class="mr-4 orangeBackground"
-          @click="
-            if ($refs.form.validate())
-              signin({ name: name, password: password }).then(
-                (val) => (errorMessage = val)
-              );
-          "
-        >
+
+        <v-btn rounded outlined color="accent" @click="trySignin">
           {{ $l("auth.btn.log_in") }}
         </v-btn>
       </v-form>
       <br />
-      <v-alert
+      <!-- <v-alert
         v-if="errorMessage != ''"
         dense
         outlined
@@ -48,21 +39,32 @@
         type="warning"
       >
         {{ errorMessage }}
-      </v-alert>
-
-      <v-btn id="google" @click="logIn()">
-        <v-icon>mdi-google</v-icon>Sign in with Google
-      </v-btn>
+      </v-alert> -->
+      <!-- <v-snackbar
+        max-width="800"
+        color="error"
+        timeout="15000"
+        v-model="showSnackbar"
+      >
+        <p class="errorSnackbar ma-0" v-html="$l('auth.allow_cookies')"></p>
+      </v-snackbar> -->
+      <p>{{ $l("auth.forgot") }}</p>
+      <p @click="goTo('Register')">{{ $l("auth.account_yet") }}</p>
     </v-card>
   </div>
 </template>
 
 <script>
 //import { mapActions } from "vuex";
-import Header from "@/components/Header.vue";
-import ComingSoon from "@/components/ComingSoon.vue";
-import { GoogleAuthService } from "@/services/index";
+import Subheader from "@/components/app/Subheader.vue";
+// import { GoogleAuthService } from "@/services/index";
+import { goTo } from "@/utility/methods.js";
+
 export default {
+  name: "LogIn",
+  permisions: {
+    roles: "ALL",
+  },
   data() {
     return {
       valid: true,
@@ -81,49 +83,92 @@ export default {
         (v) => (v || "").indexOf(" ") < 0 || this.$l("auth.rules.no_spaces"),
         (v) =>
           (v && v.length >= this.passwordMinLength) ||
-          this.$l("auth.rules.password.lenght.min", {
+          this.$l("auth.rules.password.length.min", {
             n: this.passwordMinLength,
           }),
         (v) =>
           (v && v.length <= this.passwordLength) ||
-          this.$l("auth.rules.password.lenght.max", { n: this.passwordLength }),
+          this.$l("auth.rules.password.length.max", { n: this.passwordLength }),
       ],
-      errorMessage: "",
+      // errorMessage: "",
+      // showSnackbar: false,
     };
   },
   mounted() {
     // GoogleAuthService.currentUser();
-    // console.log(GoogleAuthService.isSignedIn());
+    addEventListener("keypress", this.keyPressed);
   },
-  //methods: mapActions(["signin"]),
+  beforeDestroy() {
+    removeEventListener("keypress", this.keyPressed);
+  },
   methods: {
-    logIn() {
-      GoogleAuthService.signIn();
+    goTo,
+    // logIn() {
+    //   GoogleAuthService.signIn().catch((e) => {
+    //     if (e.error === "idpiframe_initialization_failed") {
+    //       this.showSnackbar = true;
+    //     }
+    //   });
+    // },
+    // logOut() {
+    //   GoogleAuthService.signOut();
+    // },
+    keyPressed(e) {
+      if (e.key === "Enter") this.trySignin();
     },
-    logOut() {
-      GoogleAuthService.signOut();
+    trySignin() {
+      if (this.$refs.form.validate())
+        this.$store
+          .dispatch("auth/signin", {
+            form: {
+              email: this.email,
+              password: this.password,
+            },
+          })
+          .then((val) => (this.errorMessage = val));
     },
   },
   components: {
-    Header,
-    ComingSoon,
+    Subheader,
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/scss/mixins.scss";
+
+::v-deep(.v-snack__wrapper) {
+  border-radius: 15px !important;
+}
+
 #container {
-  padding-top: -56px;
   overflow: auto;
 }
 #card {
   height: fit-content;
-  margin: 80px auto;
   padding: 30px;
   width: min(90%, 400px);
+  margin: calc(106px + 3rem) auto 3rem auto;
+  border-radius: 15px;
+  @include box-shadow;
+  ::v-deep(.v-messages__message) {
+    font-size: 12px !important;
+  }
 }
 
 #google .v-icon {
   margin-right: 10px;
 }
+
+p:not(.errorSnackbar) {
+  color: var(--v-secondary-darken2);
+  font-size: 87.5%;
+  cursor: pointer;
+  &:hover {
+    color: var(--v-secondary-darken3);
+  }
+
+  margin: 1rem 0 0 0;
+}
 </style>
+
