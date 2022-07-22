@@ -1,3 +1,10 @@
-export default (value: string) => {
-  return value != "" && value != null;
+import { Validated } from "@/types";
+import { vm } from "@/main";
+
+export default (value: string): Validated => {
+  let [ifSuccess, msg] = [true, ""];
+  if (value == null || value.length === 0)
+    [ifSuccess, msg] = [false, vm.$l("rules.shared.something")];
+  // else [ifSuccess, msg] = [false, "lol"];
+  return { ifSuccess, msg };
 };

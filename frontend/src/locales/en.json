@@ -397,5 +397,11 @@
     "languages": "Languages",
     "age": "Age",
     "audience": "Audience"
+  },
+  "rules": {
+    "shared": {
+      "something": "At least something? 🥺",
+      "one": "At least one 🥺"
+    }
   }
 }

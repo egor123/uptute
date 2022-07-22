@@ -35,7 +35,10 @@ export interface IsError {
   animation: boolean;
 }
 
-export type Rules<T> = (v: T) => boolean;
+export type Validated = boolean | { ifSuccess: boolean; msg: string };
+
+// TODO Delete booleran return type
+export type Rules<T> = (v: T) => Validated;
 
 export interface Validatable<T> {
   value: T;
@@ -58,8 +61,3 @@ export interface Validatables {
 }
 
 export type ValidatablesArr = Validatable<unknown>[];
-
-export interface Validated {
-  ifSuccess: boolean;
-  msg: string;
-}

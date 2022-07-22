@@ -2,6 +2,7 @@
   <TextField
     :value="value"
     :isError="isError"
+    :errMsg="isError.msg"
     @input="emit"
     :label="$l('find.filters.details')"
     :area="true"

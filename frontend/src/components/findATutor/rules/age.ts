@@ -1,5 +1,7 @@
+import { Validated } from "@/types";
 import { Age } from "../types";
 
-export default (value: Age) => {
-  return value.length > 0;
+export default (value: Age): Validated => {
+  value;
+  return { ifSuccess: true, msg: "" };
 };

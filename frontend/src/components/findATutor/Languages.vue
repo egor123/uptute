@@ -2,6 +2,7 @@
   <ExpandableListSelector
     :value="value"
     :isError="isError"
+    :errMsg="isError.msg"
     @input="emit"
     :label="$l('find.filters.language.h')"
     :text="value.map((l) => $l(`data.languages.${l}`)).join(', ')"

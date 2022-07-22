@@ -509,6 +509,12 @@
     "languages": "Keeled",
     "age": "Vanus",
     "audience": "Sihtrühm"
+  },
+  "rules": {
+    "shared": {
+      "something": "Kasvõi midagi? 🥺",
+      "one": "Vähemalt üks 🥺"
+    }
   }
 }
 

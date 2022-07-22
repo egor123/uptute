@@ -2,6 +2,7 @@
   <TextField
     :value="value"
     :isError="isError"
+    :errMsg="isError.msg"
     @input="emit"
     :label="$l('find.filters.topic')"
     :area="false"
@@ -29,6 +30,10 @@ export default class FindATutorTopicPanel extends Vue {
 
   emit(value: string) {
     this.$emit("input", value);
+  }
+
+  get isErrorMsg() {
+    return this.isError.msg;
   }
 }
 </script>
