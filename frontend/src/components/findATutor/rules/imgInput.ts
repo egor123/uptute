@@ -1,5 +1,7 @@
+import { Validated } from "@/types";
 import { Img } from "../types";
 
-export default (value: Img[]) => {
-  return value.length >= 0; // always true
+export default (value: Img[]): Validated => {
+  value;
+  return { ifSuccess: true, msg: "" };
 };

@@ -5,3 +5,4 @@ export default (value: Age): Validated => {
   value;
   return { ifSuccess: true, msg: "" };
 };
+ 
