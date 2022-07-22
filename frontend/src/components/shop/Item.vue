@@ -17,8 +17,9 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import { Item as I } from "./types";
 import { checkout } from "./stripe.service";
 
-@Component({ methods: { checkout } })
+@Component
 export default class Item extends Vue {
+  public checkout = checkout;
   @Prop() readonly value!: I;
 }
 </script>
