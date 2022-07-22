@@ -23,18 +23,19 @@ import { views } from "@/router/indexer";
 
 export const createRoutes = (prefix = "") =>
   Object.keys(views).map((key) => {
-    const component = views[key];
+    const view = views[key];
+    const options = typeof view === "function" ? view.options : view;
 
-    const name = component.name;
+    const name = options.name;
     if (!name) throw new Error(`Module ${key} does not have a name specified`);
 
-    const path = prefix + (component.path ?? getPathFromName(name));
+    const path = prefix + (options.path ?? getPathFromName(name));
 
-    const meta = createMeta(component);
+    const meta = createMeta(options);
 
-    const children = component.children;
+    const children = options.children;
 
-    return { name, path, meta, component, children };
+    return { name, path, meta, component: options, children };
   });
 
 const getPathFromName = (name) =>
