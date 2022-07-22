@@ -22,7 +22,7 @@ import { Subject } from "@/types";
 import { SUBJECTS } from "@/constants/index";
 
 import { Vue, Component, Prop, Ref } from "vue-property-decorator";
-import { IsError } from "./types";
+import { IsError } from "@/types";
 
 @Component({ components: { ExpandableListSelector } })
 export default class SubjectPanel extends Vue {

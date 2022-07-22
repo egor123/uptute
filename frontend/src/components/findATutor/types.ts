@@ -1,4 +1,4 @@
-import { Language, Subject } from "@/types";
+import { Language, Subject, ValidatableField as Field } from "@/types";
 
 export interface Img {
   name: string;
@@ -7,26 +7,12 @@ export interface Img {
 
 export type Age = [number, number];
 
-export interface IsError {  // A duplicate from src/types.ts
-  color: boolean;
-  animation: boolean;
-}
-
 export interface Filters {
-  subject: Filter<Subject>;
-  topic: Filter<string>;
-  details: Filter<string>;
-  imgs: Filter<Img[]>;
-  languages: Filter<Language[]>;
-  age: Filter<[number, number]>;
-  price: Filter<[number, number]>;
+  subject: Field<Subject>;
+  topic: Field<string>;
+  details: Field<string>;
+  imgs: Field<Img[]>;
+  languages: Field<Language[]>;
+  age: Field<[number, number]>;
+  price: Field<[number, number]>;
 }
-
-export interface Filter<T> {
-  value: T;
-  default: T;
-  isError: IsError;
-  rules: Rules<T>;
-}
-
-export type Rules<T> = (v: T) => boolean; // A duplicate from src/types.ts

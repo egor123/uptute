@@ -30,6 +30,7 @@ export type Subject =
   | "CIS";
 
 export interface IsError {
+  msg: string;
   color: boolean;
   animation: boolean;
 }
@@ -37,8 +38,8 @@ export interface IsError {
 export type Rules<T> = (v: T) => boolean;
 
 export interface Validatable<T> {
-  isError: IsError;
   value: T;
+  isError: IsError;
   rules: Rules<T>;
 }
 
@@ -57,3 +58,8 @@ export interface Validatables {
 }
 
 export type ValidatablesArr = Validatable<unknown>[];
+
+export interface Validated {
+  ifSuccess: boolean;
+  msg: string;
+}

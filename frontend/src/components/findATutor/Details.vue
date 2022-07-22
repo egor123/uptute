@@ -16,7 +16,7 @@ import TextField from "@/components/filterPanel/TextField.vue";
 import { panel } from "./settings";
 
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { IsError } from "./types";
+import { IsError } from "@/types";
 
 @Component({ components: { TextField } })
 export default class Details extends Vue {

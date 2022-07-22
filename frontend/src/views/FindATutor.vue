@@ -45,7 +45,7 @@ import helper from "@/components/findATutor/helper";
 
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { isValid } from "@/utility/validate";
-import { Filter } from "@/components/findATutor/types";
+import { ValidatableField } from "@/types";
 
 @Component({
   name: "FindATutor",
@@ -78,7 +78,7 @@ export default class FindATutor extends Vue {
   public get f(): Filters {
     return this.filters;
   }
-  private get filtersArr(): Filter<unknown>[] {
+  private get filtersArr(): ValidatableField<unknown>[] {
     return Object.values(this.filters);
   }
 

@@ -16,7 +16,8 @@
 <script lang="ts">
 import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 import { panel } from "./settings";
-import { Age, IsError } from "./types";
+import { Age } from "./types";
+import { IsError } from "@/types";
 
 import { Vue, Component, Prop} from "vue-property-decorator";
 

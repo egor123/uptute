@@ -17,7 +17,7 @@
 import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { panel } from "./settings";
-import { IsError } from "./types";
+import { IsError } from "@/types";
 
 @Component({ components: { ExpandableSlider } })
 export default class Price extends Vue {

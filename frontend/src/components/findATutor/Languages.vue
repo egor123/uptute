@@ -20,7 +20,7 @@ import { panel } from "./settings";
 import { LANGUAGES } from "@/constants/index";
 
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { IsError } from "./types";
+import { IsError } from "@/types";
 
 @Component({ components: { ExpandableListSelector } })
 export default class Languages extends Vue {
