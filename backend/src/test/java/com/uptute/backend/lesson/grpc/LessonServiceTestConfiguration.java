@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import com.uptute.backend.lesson.services.LessonRoomService;
 import com.uptute.backend.lesson.services.LessonRoomServiceImpl;
 import com.uptute.backend.lesson.services.StudentConnectionServiceImpl;
-import com.uptute.backend.lesson.services.StudentConnectionStoreImpl;
 import com.uptute.backend.lesson.services.TutorConnectionServiceImpl;
-import com.uptute.backend.lesson.services.TutorConnectionStoreImpl;
+import com.uptute.backend.lesson.stores.StudentConnectionStoreImpl;
+import com.uptute.backend.lesson.stores.TutorConnectionStoreImpl;
 
 @Configuration
 public class LessonServiceTestConfiguration {

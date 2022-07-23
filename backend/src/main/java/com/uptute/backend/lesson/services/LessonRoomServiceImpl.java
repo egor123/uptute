@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +15,14 @@ import com.uptute.backend.grpc.lessons.TutorEventResponse;
 import com.uptute.backend.lesson.domain.LessonRoom;
 import com.uptute.backend.lesson.domain.StreamWrapper;
 import com.uptute.backend.lesson.domain.LessonRoom.State;
+import com.uptute.backend.lesson.stores.StudentConnectionStoreImpl;
+import com.uptute.backend.lesson.stores.TutorConnectionStoreImpl;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class LessonRoomServiceImpl implements LessonRoomService {
-
-    Logger logger = LoggerFactory.getLogger(LessonRoomServiceImpl.class);
 
     @Autowired
     private StudentConnectionStoreImpl studentStore;
@@ -46,8 +47,8 @@ public class LessonRoomServiceImpl implements LessonRoomService {
                             .setType(com.uptute.backend.grpc.lessons.TutorEventResponse.Type.CREATED)
                             .setCreated(details)
                             .build()));
-            logger.info("student '{}' created room", student);
-            logger.info("{} tutors notified", subscribedTutors.size());
+            log.info("student '{}' created room", student);
+            log.info("{} tutors notified", subscribedTutors.size());
         }
     }
 

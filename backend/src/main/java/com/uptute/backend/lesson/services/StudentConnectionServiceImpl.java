@@ -15,7 +15,6 @@ public class StudentConnectionServiceImpl extends ConnectionServiceBase<StudentE
 
     @Override
     public void onConnected(String uuid, StreamWrapper<StudentEventRequest, StudentEventResponse> wrapper) {
-        // service.create(uuid, CreatedBody.newBuilder().build()); //TODO: DELETEME!!!!!!!!!!!!!!!!!!!!1
     }
 
     @Override
@@ -33,9 +32,9 @@ public class StudentConnectionServiceImpl extends ConnectionServiceBase<StudentE
             case REJECT:
                 service.get(uuid).reject(request.getReciverUUID());
                 break;
-            case CONFIG:
-                // TODO!!!!!!!!!!!!!!!!
-                break;
+            // case CONFIG:
+            //     // TODO!!!!!!!!!!!!!!!!
+            //     break;
             default:
                 throw new UnsupportedOperationException("Type is not supported");
         }

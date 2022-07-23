@@ -1,10 +1,10 @@
-package com.uptute.backend.lesson.services;
+package com.uptute.backend.lesson.stores;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.uptute.backend.grpc.lessons.TutorEventRequest;
 import com.uptute.backend.grpc.lessons.TutorEventResponse;
 
-@Service
+@Component
 public class TutorConnectionStoreImpl extends ConnectionStoreBase<TutorEventRequest, TutorEventResponse> {
 }

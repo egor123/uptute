@@ -11,8 +11,8 @@ import com.uptute.backend.grpc.lessons.CreatedBody;
 import com.uptute.backend.grpc.lessons.StudentEventResponse;
 import com.uptute.backend.grpc.lessons.TutorEventResponse;
 import com.uptute.backend.lesson.services.LessonRoomService;
-import com.uptute.backend.lesson.services.StudentConnectionStoreImpl;
-import com.uptute.backend.lesson.services.TutorConnectionStoreImpl;
+import com.uptute.backend.lesson.stores.StudentConnectionStoreImpl;
+import com.uptute.backend.lesson.stores.TutorConnectionStoreImpl;
 
 import lombok.Data;
 import lombok.NonNull;

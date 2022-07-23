@@ -27,9 +27,9 @@ public class TutorConnectionServiceImpl extends ConnectionServiceBase<TutorEvent
             case DISCONNECT:
                 service.get(request.getReciverUUID()).disconnect(uuid);
                 break;
-            case CONFIG:
-                // TODO!!!!!!!!!!!!!!!!
-                break;
+            // case CONFIG:
+            //     // TODO!!!!!!!!!!!!!!!!
+            //     break;
             default:
                 throw new UnsupportedOperationException("Type is not supported");
         }
