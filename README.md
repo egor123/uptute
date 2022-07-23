@@ -1,31 +1,31 @@
 # Must have
 
+<br/>
+
 ## Frontend
 
----
+yarn
 
-* ## yarn
-    * [download](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
+* [download](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
+
+<br/>
 
 ## Backend
 
----
+JDK
 
-* ## JDK <br/>
+* [Oracle](https://www.oracle.com/java/technologies/downloads/)
 
-    * [Oracle](https://www.oracle.com/java/technologies/downloads/)
+JAVA_HOME
 
-* ## JAVA_HOME
+* [Linux](https://www.onlinetutorialspoint.com/linux/how-to-set-java_home-on-linux.html)
+* [Windows](https://www.thewindowsclub.com/set-java_home-in-windows-10)
 
-    * [Linux](https://www.onlinetutorialspoint.com/linux/how-to-set-java_home-on-linux.html)
-    * [Windows](https://www.thewindowsclub.com/set-java_home-in-windows-10)
+Maven
 
-* ## Maven
+* [download](https://maven.apache.org/download.cgi?Preferred=ftp://ftp.osuosl.org/pub/apache/)
+* [set up](https://maven.apache.org/install.html)
 
-    * [download](https://maven.apache.org/download.cgi?Preferred=ftp://ftp.osuosl.org/pub/apache/)
-    * [set up](https://maven.apache.org/install.html)
+Lombok
 
-* ## Extentions
-
-    * Lombok
-        * [VS Code](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-lombok)
+* [VS Code](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-lombok)
