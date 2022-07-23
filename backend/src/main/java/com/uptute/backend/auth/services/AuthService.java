@@ -6,7 +6,6 @@ import com.uptute.backend.account.entities.User;
 import com.uptute.backend.account.exceptions.UserAlreadyExistsException;
 import com.uptute.backend.auth.exceptions.TokenRefreshException;
 import com.uptute.backend.grpc.account.JwtResponse;
-import com.uptute.backend.grpc.auth.ShortJwtResponse;
 import com.uptute.backend.grpc.auth.SigninRequest;
 import com.uptute.backend.grpc.auth.SignupRequest;
 
@@ -18,5 +17,5 @@ public interface AuthService {
     
     JwtResponse refreshToken(String refreshToken) throws TokenRefreshException;
 
-    ShortJwtResponse authUser(User user);
+    JwtResponse authUser(User user);
 }

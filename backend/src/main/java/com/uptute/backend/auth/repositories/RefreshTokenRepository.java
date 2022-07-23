@@ -1,15 +1,14 @@
 package com.uptute.backend.auth.repositories;
-// package com.uptute.backend.repositories;
 
-// import java.util.Optional;
+import java.util.Optional;
 
-// import com.uptute.backend.entities.RefreshToken;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
+import com.uptute.backend.auth.entities.RefreshToken;
 
-// public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
-//     @Override
-//     Optional<RefreshToken> findById(Long id);
+public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
+    @Override
+    Optional<RefreshToken> findById(Long id);
 
-//     Optional<RefreshToken> findByToken(String token);
-// }
+    Optional<RefreshToken> findByToken(String token);
+}

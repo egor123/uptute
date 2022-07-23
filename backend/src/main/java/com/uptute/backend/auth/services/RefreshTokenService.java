@@ -1,11 +1,10 @@
 package com.uptute.backend.auth.services;
-// package com.uptute.backend.services.auth;
 
-// import com.uptute.backend.entities.RefreshToken;
-// import com.uptute.backend.exceptions.TokenRefreshException;
+import com.uptute.backend.auth.entities.RefreshToken;
+import com.uptute.backend.auth.exceptions.TokenRefreshException;
 
-// public interface RefreshTokenService {
-//     String createRefreshToken(String uuid);
+public interface RefreshTokenService {
+    String createRefreshToken(String uuid);
 
-//     RefreshToken getByToken(String refreshToken) throws TokenRefreshException;
-// }
+    RefreshToken getByToken(String refreshToken) throws TokenRefreshException;
+}

@@ -1,34 +1,37 @@
 package com.uptute.backend.auth.entities;
-// package com.uptute.backend.entities;
 
-// import java.time.Instant;
+import java.time.Instant;
 
-// import javax.persistence.Column;
-// import javax.persistence.Entity;
-// import javax.persistence.GeneratedValue;
-// import javax.persistence.GenerationType;
-// import javax.persistence.Id;
-// import javax.persistence.JoinColumn;
-// import javax.persistence.OneToOne;
-// import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-// import lombok.Data;
+import com.uptute.backend.account.entities.User;
 
-// @Data
-// @Entity
-// @Table(name = "refresh_tokens")
-// public class RefreshToken {
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.AUTO)
-//     private long id;
+import lombok.Builder;
+import lombok.Data;
 
-//     @OneToOne
-//     @JoinColumn(name = "accaunt_UUID", referencedColumnName = "UUID")
-//     private User accaunt;
+@Data
+@Entity
+@Builder
+@Table(name = "refresh_tokens")
+public class RefreshToken {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-//     @Column(nullable = false, unique = true)
-//     private String token;
+    @OneToOne
+    @JoinColumn(name = "accaunt_UUID", referencedColumnName = "UUID")
+    private User accaunt;
 
-//     @Column(nullable = false)
-//     private Instant expiryDate;
-// }
+    @Column(nullable = false, unique = true)
+    private String token;
+
+    @Column(nullable = false)
+    private Instant expiryDate;
+}

@@ -8,7 +8,6 @@ import com.uptute.backend.account.servicies.AccountCreationService;
 import com.uptute.backend.auth.jwt.JwtAuthenticationProvider;
 import com.uptute.backend.grpc.auth.JwtResponse;
 import com.uptute.backend.grpc.auth.RefreshTokenRequest;
-import com.uptute.backend.grpc.auth.ShortJwtResponse;
 import com.uptute.backend.grpc.auth.SigninRequest;
 import com.uptute.backend.grpc.auth.SignupRequest;
 import com.uptute.backend.grpc.auth.AuthenticationServiceGrpc.AuthenticationServiceImplBase;
@@ -60,7 +59,7 @@ public class AuthenticationServiceImpl extends AuthenticationServiceImplBase {
     }
 
     @Override
-    public void refreshToken(RefreshTokenRequest request, StreamObserver<ShortJwtResponse> observer) {
+    public void refreshToken(RefreshTokenRequest request, StreamObserver<JwtResponse> observer) {
         // TODO
         observer.onCompleted();
     }

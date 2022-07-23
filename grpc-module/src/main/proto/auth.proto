@@ -9,7 +9,7 @@ option java_outer_classname = "Auth";
 service AuthenticationService{
     rpc Signup(SignupRequest) returns (JwtResponse);
     rpc Signin(SigninRequest) returns (JwtResponse);
-    rpc RefreshToken(RefreshTokenRequest) returns (ShortJwtResponse);
+    rpc RefreshToken(RefreshTokenRequest) returns (JwtResponse);
 }
 
 message SignupRequest {
@@ -29,15 +29,7 @@ message RefreshTokenRequest{
 message JwtResponse{
     string jwt = 1;
     string tokenType = 2; //Bearer
-    string refreshToken = 3;
-    string uuid = 4;
-    repeated string roles = 5; //TODO:????
-}
-
-message ShortJwtResponse{ //TODO: DELETEME????????
-    string jwt = 1;
-    string tokenType = 2; //Bearer
-    string refreshToken = 3;
+    string refreshToken = 3;//optional
     string uuid = 4;
     repeated string roles = 5; //TODO:????
 }
