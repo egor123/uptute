@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package grpc.auth;//FIXME
+
+option java_multiple_files = true;
+option java_package = "com.uptute.backend.grpc.auth";
+option java_outer_classname = "Auth";
+
+service AuthenticationService{
+    rpc Signup(SignupRequest) returns (JwtResponse);
+    rpc Signin(SigninRequest) returns (JwtResponse);
+    rpc RefreshToken(RefreshTokenRequest) returns (ShortJwtResponse);
+}
+
+message SignupRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message SigninRequest{ //TODO: DELETEME????????
+    string email = 1;
+    string password = 2;
+}
+
+message RefreshTokenRequest{
+    string refreshToken = 1;
+}
+
+message JwtResponse{
+    string jwt = 1;
+    string tokenType = 2; //Bearer
+    string refreshToken = 3;
+    string uuid = 4;
+    repeated string roles = 5; //TODO:????
+}
+
+message ShortJwtResponse{ //TODO: DELETEME????????
+    string jwt = 1;
+    string tokenType = 2; //Bearer
+    string refreshToken = 3;
+    string uuid = 4;
+    repeated string roles = 5; //TODO:????
+}
