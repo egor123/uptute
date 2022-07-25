@@ -29,7 +29,7 @@ export default {
 
       // // ! ----------------------------------
 
-      form: { email: string, password: string }
+      // form: { email: string, password: string }
       var response = await auth.signup(form);
       if (response.statusText == "OK") {
         const r = await ctx.dispatch("signin", {
