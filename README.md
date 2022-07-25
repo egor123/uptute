@@ -25,6 +25,21 @@
     * [download](https://maven.apache.org/download.cgi?Preferred=ftp://ftp.osuosl.org/pub/apache/)
     * [set up](https://maven.apache.org/install.html)
 
+* ## Protoc
+
+    * [download](https://github.com/protocolbuffers/protobuf/releases)
+    * [to PATH](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
+
+* ## gRPC
+
+    * [download](https://github.com/grpc/grpc-web/releases)
+    * [to PATH](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
+
+* ## grpcurl
+
+    * [download](https://github.com/fullstorydev/grpcurl)
+    * [to PATH](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
+
 * ## Extentions
 
     * Lombok
