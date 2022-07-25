@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.uptute</groupId>
 		<artifactId>uptute</artifactId>
-		<version>0.0.1</version>
+		<version>${uptute.version}</version>
 	</parent>
 	<packaging>jar</packaging>
 
@@ -76,7 +76,7 @@
 		<dependency>
 			<groupId>com.uptute</groupId>
 			<artifactId>grpc-module</artifactId>
-			<version>0.0.1</version>
+			<version>${uptute.version}</version>
 		</dependency>
 		<!-- _____________________TEST_____________________ -->
 		<dependency>
