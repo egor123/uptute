@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit --setupTestFrameworkScriptFile=./tests/unit/setup.js",
     "lint": "vue-cli-service lint",
-    "proto": "mkdirp proto && protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_out=./proto -I=../grpc-module/src/main/proto ../grpc-module/src/main/proto/*.proto --grpc-web_out=import_style=commonjs,mode=grpcwebtext:./proto"
+    "proto": "mkdirp proto && protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=../grpc-module/src/main/proto ../grpc-module/src/main/proto/*.proto --grpc-web_out=import_style=typescript,mode=grpcwebtext:./proto"
   },
   "main": "index.js",
   "dependencies": {
