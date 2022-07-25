@@ -4,6 +4,8 @@ import store from "@/store/index";
 // import l from "@/services/locale.service.js";
 import { vm } from "@/main";
 
+// import { AuthenticationServiceClient } from "@/../proto/AuthServiceClientPb";
+
 export default {
   namespaced: true,
   state: {
@@ -17,6 +19,17 @@ export default {
   },
   actions: {
     async signup(ctx, form) {
+      // // ! ----------------------------------
+
+      // const client = new AuthenticationServiceClient("http://localhost:9090/");
+
+      // const r = await client.signup(form, null);
+
+      // console.warn(r);
+
+      // // ! ----------------------------------
+
+      form: { email: string, password: string }
       var response = await auth.signup(form);
       if (response.statusText == "OK") {
         const r = await ctx.dispatch("signin", {
@@ -79,4 +92,3 @@ export default {
 function pullUser(state) {
   if (!state.user) state.user = JSON.parse(sessionStorage.getItem("user"));
 }
-
