@@ -1,46 +1,51 @@
 # Must have
 
+<br/>
+
 ## Frontend
 
----
+### Node
 
-* ## yarn
-    * [download](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
+* [download](https://nodejs.org/en/download/)
+
+### yarn
+
+* [download](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
+
+<br/>
+
 
 ## Backend
 
----
+### JDK <br/>
 
-* ## JDK <br/>
+* [Oracle](https://www.oracle.com/java/technologies/downloads/)
 
-    * [Oracle](https://www.oracle.com/java/technologies/downloads/)
+### JAVA_HOME
 
-* ## JAVA_HOME
+* [Linux](https://www.onlinetutorialspoint.com/linux/how-to-set-java_home-on-linux.html)
+* [Windows](https://www.thewindowsclub.com/set-java_home-in-windows-10)
 
-    * [Linux](https://www.onlinetutorialspoint.com/linux/how-to-set-java_home-on-linux.html)
-    * [Windows](https://www.thewindowsclub.com/set-java_home-in-windows-10)
+### Maven
 
-* ## Maven
+* [download](https://maven.apache.org/download.cgi?Preferred=ftp://ftp.osuosl.org/pub/apache/)
+* [set up](https://maven.apache.org/install.html)
 
-    * [download](https://maven.apache.org/download.cgi?Preferred=ftp://ftp.osuosl.org/pub/apache/)
-    * [set up](https://maven.apache.org/install.html)
+### Protoc
 
-* ## Protoc
+* [download](https://github.com/protocolbuffers/protobuf/releases)
+* [to PATH](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
 
-    * [download](https://github.com/protocolbuffers/protobuf/releases)
-    * [to PATH](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
+### gRPC
 
-* ## gRPC
+* [download](https://github.com/grpc/grpc-web/releases)
+* [to PATH](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
 
-    * [download](https://github.com/grpc/grpc-web/releases)
-    * [to PATH](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
+### grpcurl
 
-* ## grpcurl
+* [download](https://github.com/fullstorydev/grpcurl)
+* [to PATH](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
 
-    * [download](https://github.com/fullstorydev/grpcurl)
-    * [to PATH](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
+### Lombok
 
-* ## Extentions
-
-    * Lombok
-        * [VS Code](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-lombok)
+* [VS Code](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-lombok)
