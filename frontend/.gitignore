@@ -3,6 +3,7 @@ node_modules
 /dist
 /target
 /proto
+/node
 
 # local env files
 .env.local
