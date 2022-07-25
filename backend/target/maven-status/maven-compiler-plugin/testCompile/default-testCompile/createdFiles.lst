@@ -1,0 +1,6 @@
+com\uptute\backend\lesson\domain\StreamRecorder$1.class
+com\uptute\backend\lesson\domain\StreamRecorder.class
+com\uptute\backend\lesson\grpc\LessonServiceTest.class
+com\uptute\backend\lesson\grpc\LessonServiceTestConfiguration.class
+com\uptute\backend\lesson\services\LessonRoomServiceTest.class
+com\uptute\backend\lesson\domain\StreamRecorder$TestToken.class

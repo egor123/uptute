@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package grpc;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "com.uptute.backend.grpc.account";
+option java_outer_classname = "Account";
+
+service AccountService{
+    rpc UpgradeToUser(UserDetails) returns (JwtResponse);
+    rpc GetUserDetails(google.protobuf.Empty) returns (UserDetails);
+    rpc UpdateUserDetails(UserDetails) returns (UserDetails);
+
+    rpc UpgradeToStudent(StudentDetails) returns (JwtResponse);
+    rpc GetStudentDetails(google.protobuf.Empty) returns (StudentDetails);
+    rpc UpdateStudentDetails(StudentDetails) returns (StudentDetails);
+
+    rpc UpgradeToTutor(TutorDetails) returns (JwtResponse);
+    rpc GetTutorDetails(google.protobuf.Empty) returns (TutorDetails);
+    rpc UpdateTutorDetails(TutorDetails) returns (TutorDetails);
+}
+
+message UserDetails{
+    string firstName = 1;
+    string lastName = 2;
+    google.protobuf.Timestamp birthday = 3;
+}
+
+message StudentDetails{
+    int32 grade = 1;
+}
+
+message TutorDetails{
+}
+
+message JwtResponse{
+    string jwt = 1;
+    string tokenType = 2; //Bearer
+    string uuid = 4;
+    repeated string roles = 5; //TODO:????
+}

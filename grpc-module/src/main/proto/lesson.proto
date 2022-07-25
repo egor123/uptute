@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+// import "google/protobuf/any.proto";
+
+package grpc;
+
+option java_multiple_files = true;
+option java_package = "com.uptute.backend.grpc.lessons";
+option java_outer_classname = "Lesson";
+
+service LessonService{
+    rpc SubscribeStudentStream(stream StudentEventRequest) returns (stream StudentEventResponse);
+    rpc SubscribeTutorStream(stream TutorEventRequest) returns (stream TutorEventResponse);
+}
+//----------------------------------------------------------------------------------
+message StudentEventRequest{
+    // string UUID = 1; //TODO: DELETE
+    Type type = 2;
+    string reciverUUID = 3;
+    oneof body{
+        CreatedBody created = 4;
+        ConfigBody config = 5;
+    }
+    enum Type{
+        CREATE = 0;// use case: open lesson room; body: created
+        CLOSE = 1;// use case: lose lesson room;
+        ACCEPT = 2;// use case: accept tutor, init lesson;
+        REJECT = 3;// use case: reject tutor;
+        CONFIG = 4;// use case: config WebRTC; body: config
+    }
+
+}
+message TutorEventRequest{
+    // string UUID = 1; //TODO: DELETE
+    Type type = 2;
+    string reciverUUID = 3;
+    oneof body{
+        ConfigBody config = 4;
+    }
+    enum Type{
+        CONNECT = 0;// use case: connect to init lesson
+        DISCONNECT = 1; // use case: cancel connection 
+        CONFIG = 2;// use case: config WebRTC; body: config
+    }
+}
+//----------------------------------------------------------------------------------
+message StudentEventResponse {
+    string senderUUID = 1;
+    Type type = 3;
+    oneof body{
+        string errorMessage = 4;
+        ConfigBody config = 5;
+    }
+    enum Type{
+        ERROR = 0; // body: errorMessage
+        CONNECTED = 1; // use case: tutor conected to the room; body: connectedBody
+        DISCONNECTED = 2; // use case: tutor discontect from the room //TODO CHANGE NAME
+        INITIATED = 3; // use case: lesson initiolization
+        CONFIG = 4; // use case: config WebRTC; body: config
+        CLOSED = 5; // use case: lesson room was closed
+    }
+}
+message TutorEventResponse {
+    string senderUUID = 1;
+    Type type = 3;
+    oneof body{
+        string errorMessage = 4;
+        CreatedBody created = 5;
+        ConfigBody config = 6;
+    }
+    enum Type{
+        ERROR = 0; // body: errorMessage
+        CREATED = 1; // use case: room was created // body: CreatedBody
+        CLOSED = 2; // use case: lesson room was closed
+        INITIATED = 3; // use case: lesson initiolization
+        CONFIG = 4; // use case: config WebRTC; body: config
+    }
+}
+//----------------------------------------------------------------------------------
+message CreatedBody
+{
+    string topic = 1;
+    string description = 2;
+    repeated string languages = 3;
+}
+
+message ConfigBody
+{
+    //TODO!!!
+}
