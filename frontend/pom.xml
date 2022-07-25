@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>frontend</artifactId>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>com.uptute</groupId>
@@ -12,6 +13,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
     </properties>
 
 
@@ -23,48 +26,47 @@
                 <version>1.12.1</version>
                 <executions>
                     <!-- Install our node and npm version to run npm/node scripts-->
-                    <!-- <execution>
-                        <id>install node and npm</id>
+                    <execution>
+                        <id>install node and yarn</id>
                         <goals>
-                            <goal>install-node-and-npm</goal>
+                            <goal>install-node-and-yarn</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v10.13.0</nodeVersion>
+                            <yarnVersion>v1.22.19</yarnVersion>
+                            <nodeVersion>v16.16.0</nodeVersion>
                         </configuration>
-                    </execution> -->
+                    </execution>
                     <!-- Install all project dependencies -->
-                    <!-- <execution>
-                        <id>npm install</id>
+                    <execution>
+                        <id>yarn install</id>
                         <goals>
-                            <goal>npm</goal>
-                        </goals> -->
-                    <!-- Optional: default phase is "generate-resources" -->
-                    <!-- <phase>generate-resources</phase> -->
-                    <!-- Optional configuration which provides for running any npm command -->
-                    <!-- <configuration>
+                            <goal>yarn</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
                             <arguments>install</arguments>
                         </configuration>
-                    </execution> -->
+                    </execution>
                     <!-- Generate proto files -->
                     <execution>
-                        <id>yarn run proto</id>
+                        <id>yarn proto</id>
                         <goals>
                             <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <arguments>run proto</arguments>
+                            <arguments>proto</arguments>
                         </configuration>
                     </execution>
                     <!-- Build and minify static files -->
-                    <!-- <execution>
-                        <id>npm run build</id>
+                    <execution>
+                        <id>yarn build</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>build</arguments>
                         </configuration>
-                    </execution> -->
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
