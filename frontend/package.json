@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit --setupTestFrameworkScriptFile=./tests/unit/setup.js",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "proto": "mkdirp proto && protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./proto --proto_path=../grpc-module/src/main/proto auth.proto"
   },
   "main": "index.js",
   "dependencies": {
@@ -18,9 +19,12 @@
     "core-js": "^3.6.5",
     "firebase": "^9.8.4",
     "firebase-tools": "^10.8.0",
+    "google-protobuf": "^3.20.1",
     "mdi-vue": "^3.0.13",
+    "mkdirp": "^1.0.4",
     "node": "16.16",
     "ts-loader": "^9.3.1",
+    "ts-protoc-gen": "^0.15.0",
     "vite": "^2.5.4",
     "vue": "^2.6.11",
     "vue-analytics": "^5.22.1",
