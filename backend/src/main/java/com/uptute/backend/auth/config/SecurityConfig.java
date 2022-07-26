@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -18,6 +21,7 @@ import com.uptute.backend.auth.jwt.JwtAuthenticationProvider;
 import net.devh.boot.grpc.server.security.authentication.BearerAuthenticationReader;
 import net.devh.boot.grpc.server.security.authentication.CompositeGrpcAuthenticationReader;
 import net.devh.boot.grpc.server.security.authentication.GrpcAuthenticationReader;
+import net.devh.boot.grpc.server.security.check.AccessPredicateVoter;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -43,5 +47,12 @@ public class SecurityConfig {
         final List<GrpcAuthenticationReader> readers = new ArrayList<>();
         readers.add(new BearerAuthenticationReader(accessToken -> new BearerTokenAuthenticationToken(accessToken)));
         return new CompositeGrpcAuthenticationReader(readers);
+    }
+
+    @Bean
+    AccessDecisionManager accessDecisionManager(){
+        final List<AccessDecisionVoter<?>> voters = new ArrayList<>();
+        voters.add(new AccessPredicateVoter());
+        return new UnanimousBased(voters);
     }
 }
