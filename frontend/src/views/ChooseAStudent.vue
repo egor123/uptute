@@ -7,12 +7,12 @@
 
       <SortBy v-model="filter" />
 
-      <StudentPanels id="panels" v-model="filter" :students="getStudentsArr" />
+      <StudentPanels :students="getStudentsArr" />
     </div>
   </Background>
 </template>
 
-<script>
+<script lang="ts">
 import Background from "@/components/global/background/Background.vue";
 
 import Info from "@/components/choosing/choosingAStudent/Info.vue";
@@ -21,12 +21,17 @@ import SortBy from "@/components/choosing/choosingAStudent/SortBy.vue";
 import StudentPanels from "@/components/choosing/choosingAStudent/studentPanels/StudentPanels.vue";
 import TutorLesson from "@/store/modules/lesson/tutor/module";
 
-export default {
+import { Vue, Component } from "vue-property-decorator";
+import { Filter } from "@/components/choosing/choosingAStudent/type";
+import { Lesson } from "@/store/modules/lesson/tutor/types";
+import { Route } from "vue-router";
+
+@Component({
   name: "ChooseAStudent",
-  // permisions: {
-  // roles: "ROLE_TUTOR",
-  // redirect: "/setting_up/tutor",
-  // },
+  permisions: {
+    roles: "ROLE_TUTOR",
+    redirect: "/setting_up/tutor",
+  },
   components: {
     Background,
     Info,
@@ -34,30 +39,23 @@ export default {
     SortBy,
     StudentPanels,
   },
-  data() {
-    return {
-      name: "ChooseAStudent",
-      filter: { name: "time", dir: "up" },
-    };
-  },
-  computed: {
-    // getStudentsArr() {
-    //   if (TutorLesson.lessons.offered.length > 0)
-    //     return TutorLesson.lessons.offered;
-    //   return TutorLesson.lessons.open;
-    // },
-    getStudentsArr() {
-      return [];
-    },
-  },
-  // beforeMount() {
-  //   TutorLesson.initSearch();
-  // },
-  // beforeRouteLeave(to, from, next) {
-  //   TutorLesson.clearAll();
-  //   next();
-  // },
-};
+})
+export default class ChooseAStudent extends Vue {
+  filter: Filter = { name: "time", dir: "up" };
+
+  get getStudentsArr(): Lesson[] {
+    const lessons = TutorLesson.lessons;
+    return lessons.offered.length > 0 ? lessons.offered : lessons.open;
+  }
+
+  beforeMount() {
+    TutorLesson.initSearch();
+  }
+  beforeRouteLeave(to: Route, from: Route, next: Function) {
+    TutorLesson.clearAll();
+    next();
+  }
+}
 </script>
 
 <style lang="scss" scoped>

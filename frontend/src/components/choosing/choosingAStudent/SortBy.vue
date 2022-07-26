@@ -14,11 +14,12 @@
 import SortBy from "@/components/filterPanel/ExpandableSortBy.vue";
 
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { Filter } from "./type";
 
 @Component({ components: { SortBy } })
 export default class ChooseAStudetSortby extends Vue {
-  @Prop() readonly value!: { name: string; dir: "up" | "down" };
-  filters = [
+  @Prop() readonly value!: Filter;
+  filters: Filter[] = [
     { name: "time", dir: "up" },
     { name: "subject", dir: "up" },
     { name: "grade", dir: "up" },
@@ -30,10 +31,10 @@ export default class ChooseAStudetSortby extends Vue {
     return name + " " + dir;
   }
 
-  emit(value: { name: string; dir: "up" | "down" }) {
+  emit(value: Filter) {
     this.$emit("input", value);
   }
-  convertor(value: { name: string; dir: "up" | "down" }) {
+  convertor(value: Filter) {
     return this.$l("find.filters.filters." + value.name);
   }
 }
