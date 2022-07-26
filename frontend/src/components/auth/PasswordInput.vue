@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts">
-import TextInput from "../TextInput.vue";
+import TextInput from "./TextInput.vue";
 import { Vue, Component } from "vue-property-decorator";
-import Module from "@/store/modules/auth/register";
-import { Rules } from "../types";
+import Module from "@/store/modules/auth/credentials";
+import { Rules } from "./types";
 
 @Component({ components: { TextInput } })
 export default class PasswordInput extends Vue {

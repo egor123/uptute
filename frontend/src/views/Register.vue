@@ -19,21 +19,21 @@
 
 <script lang="ts">
 import Subheader from "@/components/app/Subheader.vue";
-import Email from "@/components/auth/signUp/EmailInput.vue";
-import Password from "@/components/auth/signUp/PasswordInput.vue";
+import Email from "@/components/auth/EmailInput.vue";
+import Password from "@/components/auth/PasswordInput.vue";
 import RepeatPassword from "@/components/auth/signUp/RepeatPasswordInput.vue";
 import Checkbox from "@/components/auth/signUp/Checkbox.vue";
 import Button from "@/components/auth/signUp/Button.vue";
 import ToSignIn from "@/components/auth/signUp/ToSignIn.vue";
 
-import Module from "@/store/modules/auth/register";
+import Module from "@/store/modules/auth/credentials";
 
 import { Vue, Component, Ref } from "vue-property-decorator";
 import { VForm } from "@/types";
 
 @Component({
   name: "Register",
-  permisions: { roles: "ALL" },
+  permisions: { roles: "ALL" }, 
   components: {
     Subheader,
     Email,

@@ -1,6 +1,6 @@
 import { vm } from "@/main";
-import { Rules } from "../../types";
-import { password as config } from "../../config";
+import { Rules } from "../types";
+import { password as config } from "../config";
 
 const rules: Rules<string> = [
   (v: string) => !!v || vm.$l("auth.rules.password.require"),

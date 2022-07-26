@@ -1,5 +1,5 @@
 <template>
-  <ButtonBase :title="$l('auth.btn.register')" @click="$emit('click')" />
+  <ButtonBase :title="$l('auth.btn.log_in')" @click="$emit('click')" />
 </template>
 
 <script lang="ts">
@@ -7,5 +7,5 @@ import ButtonBase from "../ButtonBase.vue";
 import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { ButtonBase } })
-export default class RegisterButton extends Vue {}
+export default class LogInButton extends Vue {}
 </script>
