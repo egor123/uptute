@@ -1,5 +1,11 @@
 grpc:
   port: 9090
+  server:
+    security:
+      enabled: false
+  # grpc.server.security.enabled=true
+  # grpc.server.security.certificateChain=file:certificates/server.crt
+  # grpc.server.security.privateKey=file:certificates/server.key
   client:
     __name__:
       negotiationType: PLAINTEXT
@@ -35,4 +41,3 @@ uptute:
       offer: 600000
       accepted: 600000
       init: 600000
-
