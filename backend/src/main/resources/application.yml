@@ -1,5 +1,9 @@
 grpc:
   port: 9090
+  client:
+    __name__:
+      negotiationType: PLAINTEXT
+      # TODO TLS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 server:
   main:
     web-application-type: none
