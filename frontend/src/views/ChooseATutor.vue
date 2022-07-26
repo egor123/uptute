@@ -1,13 +1,13 @@
 <template>
   <Background :title="$l('choose_a.tutor.header')">
-    <div id="wraper">
+    <div id="wrapper">
       <Info />
 
       <Searching />
 
       <SortBy v-model="filter" />
 
-      <Panels id="panels" :tutors="tutors" />
+      <Panels :tutors="tutors" />
     </div>
   </Background>
 </template>
@@ -43,7 +43,7 @@ import { Route } from "vue-router";
 export default class ChooseATutor extends Vue {
   filter = { name: "rating", dir: "up" };
 
-  public get tutors() {
+  get tutors() {
     return StudentLesson.tutors;
   }
 
@@ -67,17 +67,17 @@ export default class ChooseATutor extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/mixins.scss";
 
-#wraper {
+#wrapper {
   margin: calc(106px + 3rem) auto 3rem auto;
   width: 350px;
 
-  #panels {
+  & > :last-child {
     margin-bottom: 3rem;
   }
 }
 
 @media (max-width: 400px) {
-  #wraper {
+  #wrapper {
     width: 100vh;
     padding: 0 1rem;
   }
