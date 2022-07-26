@@ -153,7 +153,7 @@ export default {
         return "error";
       if (val < this.passwordLength / 20 + this.passwordMinLength)
         return "warning";
-      return "success";
+      return "success"; 
     },
   },
   mounted() {
