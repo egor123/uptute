@@ -1,9 +1,11 @@
 grpc:
   port: 9090
 server:
-  port: 9000
-  servlet:
-    contextPath: /api
+  main:
+    web-application-type: none
+  # port: 9000
+  # servlet:
+  #   contextPath: /api
 spring:
   mvc:
     format:
