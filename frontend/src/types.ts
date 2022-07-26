@@ -61,3 +61,9 @@ export interface Validatables {
 }
 
 export type ValidatablesArr = Validatable<unknown>[];
+
+export interface VForm extends HTMLFormElement {
+  reset(): void;
+  resetValidation(): void;
+  validate(): boolean;
+}

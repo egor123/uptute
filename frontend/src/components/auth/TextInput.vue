@@ -56,6 +56,9 @@ export default class AuthTextInput extends Vue {
 ::v-deep.v-text-field .v-input__slot {
   overflow: hidden;
 }
+::v-deep .v-messages__message {
+  font-size: 12px;
+}
 
 #progress {
   position: absolute;

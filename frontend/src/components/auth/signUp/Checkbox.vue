@@ -1,7 +1,7 @@
 <template>
   <div class="checkbox">
     <v-checkbox v-model="ifTicked" :rules="rules" required />
-    <p>
+    <div id="text">
       {{ $l("auth.privacy", { terms: "", privacy: "test" }) }}
       <router-link :to="{ name: 'PrivacyPolicy' }">
         {{ $l("app.pages.privacy_policy") }}
@@ -10,7 +10,7 @@
       <router-link :to="{ name: 'TermsOfUse' }">
         {{ $l("app.pages.terms") }}
       </router-link>
-    </p>
+    </div>
   </div>
 </template>
 
@@ -33,14 +33,23 @@ export default class RegisterCheckbox extends Vue {
 <style scoped lang="scss">
 .checkbox {
   display: flex;
-  margin-bottom: 1rem;
   opacity: 0.5;
-}
-.checkbox p {
-  position: absolute;
-  margin-top: 20px;
-  margin-left: 30px;
-  margin-right: 30px;
-  text-align: left;
+  .v-input--checkbox {
+    margin: 0px;
+    padding: 0px;
+    ::v-deep .v-input__slot {
+      margin: 0px !important;
+    }
+    ::v-deep .v-messages {
+      display: none;
+    }
+  }
+  #text {
+    position: absolute;
+    //   margin-top: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    text-align: left;
+  }
 }
 </style>

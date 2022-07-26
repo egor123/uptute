@@ -3,24 +3,21 @@
     <Subheader :title="$l('auth.header.register')" />
 
     <v-card id="card">
-      <v-form ref="form" v-model="valid" lazy-validation>
+      <v-form ref="Form" lazy-validation>
         <Email />
-
         <Password />
-
         <RepeatPassword />
-
         <Checkbox />
-
-        <Button @click="tryRegister()" />
       </v-form>
 
-      <ToSignIn id="toSignIn" />
+      <Button @click="tryRegister" />
+
+      <ToSignIn />
     </v-card>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Subheader from "@/components/app/Subheader.vue";
 import Email from "@/components/auth/signUp/EmailInput.vue";
 import Password from "@/components/auth/signUp/PasswordInput.vue";
@@ -31,7 +28,10 @@ import ToSignIn from "@/components/auth/signUp/ToSignIn.vue";
 
 import Module from "@/store/modules/auth/register";
 
-export default {
+import { Vue, Component, Ref } from "vue-property-decorator";
+import { VForm } from "@/types";
+
+@Component({
   name: "Register",
   permisions: { roles: "ALL" },
   components: {
@@ -43,32 +43,29 @@ export default {
     Button,
     ToSignIn,
   },
-  data() {
-    return {
-      valid: true,
-      inProcess: false,
-    };
-  },
+})
+export default class Register extends Vue {
+  @Ref() readonly Form!: VForm;
+  isValidating: boolean = false;
+
   mounted() {
-    addEventListener("keypress", this.keyPressed);
-  },
+    addEventListener("keypress", this.onKeyPress);
+  }
   beforeDestroy() {
-    removeEventListener("keypress", this.keyPressed);
-  },
-  methods: {
-    keyPressed(e) {
-      if (e.key === "Enter") this.tryRegister();
-    },
-    async tryRegister() {
-      if (this.$refs.form.validate() && !this.inProcess) {
-        const form = { email: Module.email, password: Module.password };
-        this.inProcess = true;
-        await this.$store.dispatch("auth/signup", form);
-        this.inProcess = false;
-      }
-    },
-  },
-};
+    removeEventListener("keypress", this.onKeyPress);
+  }
+  onKeyPress(e: KeyboardEvent): void {
+    if (e.key === "Enter") this.tryRegister();
+  }
+  async tryRegister(): Promise<void> {
+    if (!this.Form.validate() || this.isValidating) return;
+
+    this.isValidating = true;
+    const form = { email: Module.email, password: Module.password };
+    await this.$store.dispatch("auth/signup", form);
+    this.isValidating = false;
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -82,14 +79,12 @@ export default {
   @include box-shadow;
   border-radius: 15px;
 
-  ::v-deep(.v-messages__message) {
-    font-size: 12px !important;
-  }
-
-  & > :last-of-type {
+  & > :not(:first-child) {
     margin-top: 2rem;
   }
+  & > :last-child {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
-
-
 </style>

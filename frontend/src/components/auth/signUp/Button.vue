@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="mr-4" rounded outlined color="accent" @click="$emit('click')">
+  <v-btn  rounded outlined color="accent" @click="$emit('click')">
     {{ $l("auth.btn.register") }}
   </v-btn>
 </template>

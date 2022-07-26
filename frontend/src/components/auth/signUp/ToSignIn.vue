@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <router-link class="link" :to="{ name: 'LogIn' }">
+  <div class="wrapper">
+    <router-link :to="{ name: 'LogIn' }">
       {{ $l("auth.account_already") }}
     </router-link>
   </div>
@@ -9,7 +9,7 @@
 <script lang="ts">
 import { goTo } from "@/utility/methods.js";
 
-import { Vue, Component, Prop, Watch, Emit, Ref } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 
 @Component
 export default class ToSignIn extends Vue {
@@ -18,8 +18,12 @@ export default class ToSignIn extends Vue {
 </script>
 
 <style scoped lang="scss">
-a.link {
-  font-size: 87.5%;
-  opacity: 0.5;
+.wrapper {
+  width: fit-content;
+  a {
+    font-size: 87.5%;
+    opacity: 0.5;
+    text-decoration: none;
+  }
 }
 </style>
