@@ -1,10 +1,11 @@
 import router from "@/router";
 import auth from "@/services/auth.service";
 import store from "@/store/index";
-// import l from "@/services/locale.service.js";
 import { vm } from "@/main";
 
-// import { AuthenticationServiceClient } from "@/../proto/AuthServiceClientPb";
+import { AuthenticationServiceClient } from "@/../proto/AuthServiceClientPb";
+import { SignupRequest } from "@/../proto/auth_pb";
+import { req } from "@/services/lesson/base";
 
 export default {
   namespaced: true,
@@ -18,28 +19,29 @@ export default {
     },
   },
   actions: {
-    async signup(ctx, form) {
-      // // ! ----------------------------------
+    async signup(ctx, form: SignupRequest.AsObject) {
+      // ! ----------------------------------
 
-      // const client = new AuthenticationServiceClient("http://localhost:9090/");
-
-      // const r = await client.signup(form, null);
-
-      // console.warn(r);
-
-      // // ! ----------------------------------
+      const client = new AuthenticationServiceClient("http://localhost:9090/");
+      const request = new SignupRequest();
+      request.setEmail(form.email);
+      request.setPassword(form.password);
+      console.warn(request);
+      const r = await client.signup(request, null);
+      console.warn(r);
+      // ! ----------------------------------
 
       // form: { email: string, password: string }
-      var response = await auth.signup(form);
-      if (response.statusText == "OK") {
-        const r = await ctx.dispatch("signin", {
-          form,
-          routeName: "PrimarySettingUp",
-        });
-        if (r.statusText != "OK") router.push({ name: "LogIn" });
-      } else alert(vm.$l("auth.error.email_exists"));
 
-      return response;
+      // var response = await auth.signup(form);
+      // if (response.statusText == "OK") {
+      //   const r = await ctx.dispatch("signin", {
+      //     form,
+      //     routeName: "PrimarySettingUp",
+      //   });
+      //   if (r.statusText != "OK") router.push({ name: "LogIn" });
+      // } else alert(vm.$l("auth.error.email_exists"));
+      // return response;
     },
     async signin(ctx, { form, routeName = null }) {
       const res = await auth.signin(form);
@@ -69,7 +71,7 @@ export default {
       router.push({ name: "LogIn" });
     },
     async tryAddRole(ctx, { role }) {
-      let user = JSON.parse(sessionStorage.getItem("user"));
+      const user = JSON.parse(sessionStorage.getItem("user"));
       if (!user.roles.includes(role)) {
         user.roles.push(role);
         ctx.dispatch("updateUser", user);
