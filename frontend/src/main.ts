@@ -35,9 +35,7 @@ Vue.use(VueAnalytics, {
   },
 });
 
-Vue.use(mdiVue, {
-  icons: mdijs,
-});
+Vue.use(mdiVue, { icons: mdijs });
 
 // Plugins
 
@@ -46,10 +44,8 @@ Vue.use(mobileInput);
 Vue.use(popUp);
 
 export const vm = new Vue({
-  //@ts-ignore Interfaces are defined but can't be read at this stage (?)
   router,
   store,
   vuetify,
   render: (h) => h(App),
 }).$mount("#app");
-

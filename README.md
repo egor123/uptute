@@ -49,3 +49,25 @@
 ### Lombok
 
 * [VS Code](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-lombok)
+
+<br />
+
+# Commands
+
+### Build
+
+```
+mvn clean install
+```
+
+### Reinstall packages
+
+```
+yarn install
+```
+
+### Localhost server
+
+```
+yarn serve
+```
