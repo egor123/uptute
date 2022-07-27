@@ -4,7 +4,7 @@
 
 <br/>
 
-## Frontend
+<!-- ## Frontend
 
 ### Node
 
@@ -12,12 +12,12 @@
 
 ### yarn
 
-* [download](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
+* [download](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable) -->
 
 <br/>
 
 
-## Backend
+<!-- ## Backend
 
 ### JDK <br/>
 
@@ -50,4 +50,4 @@
 
 ### Lombok
 
-* [VS Code](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-lombok)
+* [VS Code](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-lombok) -->
