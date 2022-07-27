@@ -12,8 +12,8 @@ export function getId() {
   return result;
 }
 
-export function goTo(pageName) {
-  if (vm.$route.name !== pageName) vm.$router.push({ name: pageName });
+export function goTo(routeName) {
+  if (vm.$route.name !== routeName) vm.$router.push({ name: routeName });
 }
 
 export function scrolled({ cards }) {
@@ -77,3 +77,5 @@ export function ruleBase({ obj, condition, pathEnd, lParams }) {
 
 export const sleep = async (time = 0) =>
   await new Promise((r) => setTimeout(r, time));
+
+export const copy = (object) => JSON.parse(JSON.stringify(object));

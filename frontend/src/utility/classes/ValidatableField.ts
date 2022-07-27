@@ -12,3 +12,4 @@ export class ValidatableField<T> implements vField<T> {
     this.rules = rules;
   }
 }
+

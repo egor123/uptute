@@ -35,9 +35,9 @@ export interface IsError {
   animation: boolean;
 }
 
+// TODO Delete boolean return types
 export type Validated = boolean | { ifSuccess: boolean; msg: string };
 
-// TODO Delete booleran return type
 export type Rules<T> = (v: T) => Validated;
 
 export interface Validatable<T> {
@@ -51,7 +51,7 @@ export interface ValidatableField<T> extends Validatable<T> {
 }
 
 export interface ValidatableFields {
-  [index: string]: ValidatableField<unknown>;
+  [index: string]: ValidatableField<any>;
 }
 
 export type ValidatableFieldsArr = ValidatableField<unknown>[];

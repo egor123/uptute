@@ -76,7 +76,7 @@ export default {
     backgroundColor: {
       type: String,
       default: "var(--v-card-base)",
-      msg: "",
+      // msg: "",
     },
     borderRadius: {
       type: String,

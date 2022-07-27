@@ -1,26 +1,25 @@
 <template>
   <div id="wrapper">
-    <ImgInput v-model="img" />
-    <FilterPanel class="inputPanel" ref="panelRef" @next="actionOnPanel2">
-      <NameTextField
-        v-for="key in ['firstName', 'lastName']"
-        :value="value[key]"
-        @input="(v) => handleInput(key, v)"
-        :key="key"
-        :obj="info[key]"
-        :rules="(v) => ifPassesNameRules(v, info[key])"
+    <ImgInput :value="img" />
+
+    <FilterPanel class="inputPanel">
+      <NameField
+        :value="v.firstName.value"
+        @input="updateName"
+        :isError="v.firstName.isError"
+      />
+      <SurnameField
+        :value="v.lastName.value"
+        @input="updateSurname"
+        :isError="v.lastName.isError"
       />
     </FilterPanel>
 
-    <FilterPanel class="inputPanel" ref="panel2Ref">
-      <ExpandableCalendar
-        :value="value.birthday"
-        @input="(v) => handleInput('birthday', v)"
-        :label="$l('set_up.birth')"
-        :text="info.birthday.value"
-        :rules="(item) => item != null"
-        borderRadius="15px"
-        :flat="false"
+    <FilterPanel class="inputPanel">
+      <BirthdayField
+        :value="v.birthday.value"
+        @input="updateBirthday"
+        :isError="v.birthday.isError"
       />
     </FilterPanel>
   </div>
@@ -31,36 +30,49 @@ import ImgInput from "./ImgInput.vue";
 import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
 import ExpandableCalendar from "@/components/filterPanel/ExpandableCalendar.vue";
 import NameTextField from "@/components/account/NameTextField.vue";
-import { ifPassesNameRules } from "./rules/name";
 
-import { Vue, Component, Prop, Ref } from "vue-property-decorator";
-import { Details as D, PanelAction } from "./types";
+import { Vue, Component, Prop } from "vue-property-decorator";
+import { Details as D } from "./types";
+import NameField from "@/components/account/primary/settings/NameField.vue";
+import SurnameField from "@/components/account/primary/settings/SurnameField.vue";
+import BirthdayField from "./primary/settings/BirthdayField.vue";
 import { Details } from "./classes/Details";
-import { Info } from "./classes/Info";
 
 @Component({
-  components: { ImgInput, FilterPanel, NameTextField, ExpandableCalendar },
-  methods: { ifPassesNameRules },
+  components: {
+    ImgInput,
+    FilterPanel,
+    NameTextField,
+    ExpandableCalendar,
+    NameField,
+    SurnameField,
+    BirthdayField,
+  },
 })
 export default class PrimarySettings extends Vue {
-  @Ref() readonly panelRef!: InstanceType<typeof FilterPanel>;
-  @Ref() readonly panel2Ref!: InstanceType<typeof FilterPanel>;
   @Prop({ type: Object, default: () => new Details.User() })
   readonly value!: D.User;
+  get v() {
+    return this.value;
+  }
 
   // TODO include into the system (when will have db support)
   img =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9tbe0h9I_HCaMS2lyCsdTRXmznpSg9Rn5iA&usqp=CAU";
-  info = new Info.User();
 
-  actionOnPanel2(action: PanelAction) {
-    this.panel2Ref[action]();
+  updateName(value: string) {
+    this.emit("firstName", value);
   }
-  handleInput(name: string, val: string) {
-    this.$emit("input", { ...this.value, [name]: val });
+  updateSurname(value: string) {
+    this.emit("lastName", value);
   }
-  async isValid() {
-    await this.panelRef.isValid();
+  updateBirthday(value: string) {
+    this.emit("birthday", value);
+  }
+
+  emit(key: D.keyofUser, value: string) {
+    const field = { ...this.value[key], value };
+    this.$emit("input", { ...this.value, [key]: field });
   }
 }
 </script>

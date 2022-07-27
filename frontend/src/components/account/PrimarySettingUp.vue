@@ -2,7 +2,7 @@
   <div>
     <Subheader :title="$l('set_up.subheader')" />
 
-    <PrimarySettings ref="primarySettings" v-model="data" />
+    <PrimarySettings v-model="data" />
 
     <div id="buttons">
       <AsStudent @click="done({ isStudent: true })" />
@@ -11,59 +11,55 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import PrimarySettings from "./PrimarySettings.vue";
 import Subheader from "@/components/app/Subheader.vue";
 import { Details } from "./classes/Details";
-import AsStudent from "@/components/account/primarySettingUp/buttons/AsStudent.vue";
-import AsTutor from "@/components/account/primarySettingUp/buttons/AsTutor.vue";
+import AsStudent from "@/components/account/primary/settingUp/buttons/AsStudent.vue";
+import AsTutor from "@/components/account/primary/settingUp/buttons/AsTutor.vue";
 
-export default {
+import { goTo } from "@/utility/methods";
+import { isValid } from "@/utility/validate";
+
+import { Vue, Component, Watch } from "vue-property-decorator";
+import { Done } from "@/components/account/primary/settingUp/types";
+
+@Component({
   components: {
     PrimarySettings,
     Subheader,
     AsStudent,
     AsTutor,
   },
-  data() {
-    return {
-      data: new Details.User(),
-    };
-  },
-  methods: {
-    routerPush(to) {
-      this.$router.push({ name: to });
-    },
-    async done({ isStudent }) {
-      if (!this.checkRules()) return;
-      const r = await this.upgradeToUser();
-      if (r.statusText == "OK")
-        this.routerPush(`${isStudent ? "Student" : "Tutor"}SettingUp`);
-      else alert("Check your input"); // TODO Validate instead
-    },
-    checkRules() {
-      const refs = this.$refs.primarySettings.$refs;
+})
+export default class PrimarySettingUp extends Vue {
+  data = new Details.User();
 
-      const panels = [refs.panelRef, refs.panel2Ref];
+  async done({ isStudent }: Done): Promise<void> {
+    const data = this.data;
 
-      const addChildren = (fields, panel) => [
-        ...fields,
-        ...panel.$children[0].$children,
-      ];
-      const inputFields = panels.reduce(addChildren, []);
-      return inputFields.every((el) => el.isValid());
-    },
-    async upgradeToUser(data = this.data) {
-      return await this.$store.dispatch("account/upgradeToUser", { data });
-    },
-    // async updateUserDetails(data) {
-    //   if (this.isUpdating) return;
-    //   this.isUpdating = true;
-    //   await this.$store.dispatch("account/updateUserDetails", { data });
-    //   this.isUpdating = false;
-    // },
-  },
-};
+    if (!(await isValid(data))) return;
+
+    const r = await this.$store.dispatch("account/upgradeToUser", { data });
+
+    r.statusText == "OK"
+      ? goTo(`${isStudent ? "Student" : "Tutor"}SettingUp`)
+      : alert("Check your input"); // TODO Validate instead
+  }
+
+  @Watch("data.firstName.value")
+  onFirstName() {
+    isValid(this.data.firstName);
+  }
+  @Watch("data.lastName.value")
+  onLastName() {
+    isValid(this.data.lastName);
+  }
+  @Watch("data.birthday.value")
+  onBirthday() {
+    isValid(this.data.birthday);
+  }
+}
 </script>
 
 <style lang="scss" scoped>

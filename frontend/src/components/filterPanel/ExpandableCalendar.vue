@@ -1,6 +1,7 @@
 <template>
   <BaseComponent
     ref="base"
+    :isError="isError"
     :label="label"
     :text="text"
     :borderRadius="borderRadius"
@@ -60,6 +61,7 @@ export default {
   },
   props: [
     "value",
+    "isError",
     "label",
     "text",
     "convertor",

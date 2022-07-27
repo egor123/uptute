@@ -2,13 +2,11 @@
   <div id="container">
     <Subheader :title="$l('acc_pages.settings')" />
 
-    <PrimarySettings v-model="details.userDetails" />
-    <StudentSettings v-model="details.studentDetails" v-if="isStudent" />
-    <TutorSettings v-model="details.tutorDetails" v-if="isTutor" />
+    <PrimarySettings :value="details.userDetails" @input="onPrimary" />
+    <!-- <StudentSettings v-model="details.studentDetails" v-if="isStudent" />
+    <TutorSettings v-model="details.tutorDetails" v-if="isTutor" /> -->
 
-    <v-btn @click="saveChanges" rounded outlined color="accent">
-      {{ $l("settings.save") }}
-    </v-btn>
+    <ButtonBase :title="$l('settings.save')" @click="saveChanges" />
   </div>
 </template>
 
@@ -19,37 +17,54 @@ import StudentSettings from "@/components/account/StudentSettings.vue";
 import TutorSettings from "@/components/account/TutorSettings.vue";
 import { Details } from "./classes/Details";
 
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
+import { isValid, isChangeValid } from "@/utility/validate";
+import ButtonBase from "../global/ButtonBase.vue";
+import { ValidatableField } from "@/types";
+import { copy } from "@/utility/methods";
 
 @Component({
   name: "Settings",
   path: "/settings",
-  permisions: { roles: [], redirect: "LogIn" }, // "ROLE_STUDENT"
-  components: { Subheader, PrimarySettings, StudentSettings, TutorSettings },
+  // permisions: { roles: ["ROLE_USER"], redirect: "LogIn" }, // "ROLE_STUDENT"
+  components: {
+    Subheader,
+    PrimarySettings,
+    StudentSettings,
+    TutorSettings,
+    ButtonBase,
+  },
 })
 export default class Settings extends Vue {
   details = new Details.All();
   isUpdating = false;
 
-  async mounted() {
-    const fetch = () =>
-      this.$store.dispatch("account/getUserDetails").then((r) => r.data);
+  // async mounted() {
+  //   const fetch = () =>
+  //     this.$store.dispatch("account/getUserDetails").then((r) => r.data);
 
-    this.details.update(await fetch());
-  }
+  //   this.details.update(await fetch());
+  // }
 
-  get isStudent() {
-    return this.$store.getters[`auth/roles`].includes("ROLE_STUDENT");
-  }
-  get isTutor() {
-    return this.$store.getters[`auth/roles`].includes("ROLE_TUTOR");
-  }
+  // get isStudent() {
+  //   return this.$store.getters[`auth/roles`].includes("ROLE_STUDENT");
+  // }
+  // get isTutor() {
+  //   return this.$store.getters[`auth/roles`].includes("ROLE_TUTOR");
+  // }
 
   async saveChanges(data = this.details) {
-    if (this.isUpdating) return;
+    if (this.isUpdating || !(await isValid(this.details.userDetails))) return;
+
     this.isUpdating = true;
     await this.$store.dispatch("account/updateUserDetails", { data });
     this.isUpdating = false;
+  }
+
+  async onPrimary(newVal: Details.User) {
+    const oldVal: Details.User = copy(this.details.userDetails);
+    this.details.update({ userDetails: newVal });
+    isChangeValid(this.details.userDetails, oldVal);
   }
 }
 </script>
@@ -62,4 +77,3 @@ export default class Settings extends Vue {
   }
 }
 </style>
-

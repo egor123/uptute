@@ -400,8 +400,11 @@
   },
   "rules": {
     "shared": {
-      "something": "At least something? 🥺",
-      "one": "At least one 🥺"
+      "something": "At least something? 😢",
+      "one": "At least one 🥺",
+      "spaces": "Could you please avoid spaces? 😅",
+      "min": "At least ${n} characters ... please? 🥲",
+      "max": "No more than ${n} characters 😭"
     }
   }
 }

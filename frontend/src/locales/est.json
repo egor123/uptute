@@ -512,9 +512,11 @@
   },
   "rules": {
     "shared": {
-      "something": "Kasvõi midagi? 🥺",
-      "one": "Vähemalt üks 🥺"
+      "something": "Kasvõi midagi? 😢",
+      "one": "Vähemalt üks 🥺",
+      "spaces": "Saaksid palun vältida tühike? 😅",
+      "min": "Vähemalt ${n} tähemärki ... palun? 🥲",
+      "max": "Mitte rohkem kui ${n} tähemärki 😭"
     }
   }
 }
-

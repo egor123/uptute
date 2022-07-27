@@ -1,20 +1,16 @@
-export interface NameObject {
-  value: string;
-  isFirstName: boolean;
-  // propName: string;
-  errMsg: string;
-}
+import { ValidatableField, ValidatableFields } from "@/types";
 
 export interface NameConstructorPayload {
   isFirstName: boolean;
 }
 
 export declare module Details {
-  interface User {
-    birthday: string;
-    firstName: string;
-    lastName: string;
+  interface User extends ValidatableFields {
+    birthday: ValidatableField<string>;
+    firstName: ValidatableField<string>;
+    lastName: ValidatableField<string>;
   }
+  type keyofUser = "birthday" | "firstName" | "lastName";
 
   export type Grade = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 

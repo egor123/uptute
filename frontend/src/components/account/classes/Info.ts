@@ -1,11 +1,4 @@
-import { Name } from "./Name";
-
 export module Info {
-  export class User {
-    firstName = new Name({ isFirstName: true });
-    lastName = new Name({ isFirstName: false });
-    birthday = new Default();
-  }
   export class Tutor {
     moto = new Default();
     about = new Default();
