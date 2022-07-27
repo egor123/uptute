@@ -1,20 +1,12 @@
 <template>
   <div>
     <Subheader :title="$l('set_up.subheader')" />
+
     <PrimarySettings ref="primarySettings" v-model="data" />
 
     <div id="buttons">
-      <v-btn @click="done({ isStudent: true })" rounded outlined color="accent">
-        {{ $l("set_up.as_student") }}
-      </v-btn>
-      <v-btn
-        @click="done({ isStudent: false })"
-        rounded
-        outlined
-        color="accent"
-      >
-        {{ $l("set_up.as_tutor") }}
-      </v-btn>
+      <AsStudent @click="done({ isStudent: true })" />
+      <AsTutor @click="done({ isStudent: false })" />
     </div>
   </div>
 </template>
@@ -23,11 +15,15 @@
 import PrimarySettings from "./PrimarySettings.vue";
 import Subheader from "@/components/app/Subheader.vue";
 import { Details } from "./classes/Details";
+import AsStudent from "@/components/account/primarySettingUp/buttons/AsStudent.vue";
+import AsTutor from "@/components/account/primarySettingUp/buttons/AsTutor.vue";
 
 export default {
   components: {
     PrimarySettings,
     Subheader,
+    AsStudent,
+    AsTutor,
   },
   data() {
     return {
@@ -75,14 +71,5 @@ export default {
 #buttons {
   @include flexbox;
   margin-top: 3rem;
-  & > *:first-child {
-    border-radius: 15px 0 0 15px;
-    border-right: 0px;
-  }
-  & > *:last-child {
-    border-radius: 0 15px 15px 0;
-    border-left: 1px dashed var(--v-accent-base);
-  }
 }
 </style>
-

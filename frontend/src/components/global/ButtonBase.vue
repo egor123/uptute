@@ -8,7 +8,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component
-export default class RegisterButton extends Vue {
+export default class ButtonBase extends Vue {
   @Prop(String) readonly title!: string;
 }
 </script>

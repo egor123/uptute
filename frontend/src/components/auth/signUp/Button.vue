@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import ButtonBase from "../ButtonBase.vue";
+import ButtonBase from "../../global/ButtonBase.vue";
 import { Vue, Component } from "vue-property-decorator";
 
 @Component({ components: { ButtonBase } })
