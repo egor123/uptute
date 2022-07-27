@@ -2,9 +2,10 @@
   <div id="container">
     <Subheader :title="$l('acc_pages.settings')" />
 
-    <PrimarySettings :value="details.userDetails" @input="onPrimary" />
-    <!-- <StudentSettings v-model="details.studentDetails" v-if="isStudent" />
-    <TutorSettings v-model="details.tutorDetails" v-if="isTutor" /> -->
+    <PrimarySettings :value="details.user" @input="onPrimary" />
+    <!-- v-if="isStudent" -->
+    <StudentSettings :value="details.student" @input="onStudent" />
+    <!--  <TutorSettings v-model="details.tutorDetails" v-if="isTutor" /> -->
 
     <ButtonBase :title="$l('settings.save')" @click="saveChanges" />
   </div>
@@ -17,11 +18,9 @@ import StudentSettings from "@/components/account/StudentSettings.vue";
 import TutorSettings from "@/components/account/TutorSettings.vue";
 import { Details } from "./classes/Details";
 
-import { Vue, Component, Watch } from "vue-property-decorator";
-import { isValid, isChangeValid } from "@/utility/validate";
+import { Vue, Component } from "vue-property-decorator";
+import { isValid, update } from "@/utility/validate";
 import ButtonBase from "../global/ButtonBase.vue";
-import { ValidatableField } from "@/types";
-import { copy } from "@/utility/methods";
 
 @Component({
   name: "Settings",
@@ -54,7 +53,7 @@ export default class Settings extends Vue {
   // }
 
   async saveChanges(data = this.details) {
-    if (this.isUpdating || !(await isValid(this.details.userDetails))) return;
+    if (this.isUpdating || !(await isValid(this.details.user))) return;
 
     this.isUpdating = true;
     await this.$store.dispatch("account/updateUserDetails", { data });
@@ -62,9 +61,10 @@ export default class Settings extends Vue {
   }
 
   async onPrimary(newVal: Details.User) {
-    const oldVal: Details.User = copy(this.details.userDetails);
-    this.details.update({ userDetails: newVal });
-    isChangeValid(this.details.userDetails, oldVal);
+    update(this.details, newVal, "user");
+  }
+  async onStudent(newVal: Details.Student) {
+    update(this.details, newVal, "student");
   }
 }
 </script>

@@ -1,15 +1,10 @@
 <template>
   <div id="wrapper">
-    <FilterPanel ref="panelRef">
-      <ExpandableSlider
-        :value="value.grade"
-        @input="(grade) => $emit('input', { ...value, grade })"
-        :label="$l('set_up.grade')"
-        :text="value.grade"
-        :min="1"
-        :max="12"
-        borderRadius="15px"
-        :flat="false"
+    <FilterPanel>
+      <GradeField
+        :value="v.grade.value"
+        @input="updateGrade"
+        :isError="v.grade.isError"
       />
     </FilterPanel>
   </div>
@@ -17,20 +12,24 @@
 
 <script lang="ts">
 import FilterPanel from "@/components/filterPanel/FilterPanel.vue";
-import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
+import GradeField from "@/components/account/student/settings/GradeField.vue";
 
-import { Vue, Component, Prop, Ref } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { Details as D } from "./types";
 import { Details } from "./classes/Details";
+import { getUpdatedFields } from "@/utility/validate";
 
-@Component({ components: { FilterPanel, ExpandableSlider } })
+@Component({ components: { FilterPanel, GradeField } })
 export default class StudentSettings extends Vue {
-  @Ref() readonly panelRef!: InstanceType<typeof FilterPanel>;
   @Prop({ type: Object, default: () => new Details.Student() })
   readonly value!: D.Student;
 
-  async isValid() {
-    await this.panelRef.isValid();
+  get v() {
+    return this.value;
+  }
+
+  updateGrade(value: D.Grade) {
+    this.$emit("input", getUpdatedFields(this.value, "grade", value));
   }
 }
 </script>
@@ -44,13 +43,5 @@ export default class StudentSettings extends Vue {
     width: 100%;
     padding: 0 1rem;
   }
-
-  & > *:not(:last-child) {
-    margin-bottom: 2rem;
-  }
-}
-
-#panels {
-  border-radius: 15px;
 }
 </style>

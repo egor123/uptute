@@ -49,10 +49,10 @@ import { ValidatableField } from "@/types";
 
 @Component({
   name: "FindATutor",
-  permisions: {
-    roles: ["ROLE_STUDENT"],
-    redirect: "LogIn",
-  },
+  // permisions: {
+  //   roles: ["ROLE_STUDENT"],
+  //   redirect: "LogIn",
+  // },
   components: {
     Background,
     Refresh,

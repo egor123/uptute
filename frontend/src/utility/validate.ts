@@ -1,9 +1,10 @@
+import { ChildOfDetails, Details } from "@/components/account/types";
 import {
   ValidatableField as V,
   ValidatableFieldsArr as VArr,
   ValidatableFields as VObj,
 } from "@/types";
-import { sleep } from "./methods";
+import { copy, sleep } from "./methods";
 import { ValidatableUnion } from "./types";
 
 export async function isValid(v: VArr): Promise<Boolean>;
@@ -76,3 +77,37 @@ export async function isChangeValid(
 
   return await isValid(changedFields);
 }
+
+export const getUpdatedFields = (old: VObj, key: string, value: any) => ({
+  ...old,
+  [key]: { ...old[key], value },
+});
+
+export function update(realVal: ChildOfDetails, newVal: ChildOfDetails): void;
+export function update(
+  parentVal: Details.All,
+  newVal: ChildOfDetails,
+  key: Details.keyofAll
+): void;
+export function update(
+  source: ChildOfDetails | Details.All,
+  newVal: ChildOfDetails,
+  key?: Details.keyofAll
+): void {
+  if (ifAll(source, key) && ifKey(key)) {
+    source as Details.All;
+    const oldVal: ChildOfDetails = copy(source[key]);
+    source.update({ [key]: newVal });
+    isChangeValid(source[key]!, oldVal);
+  } else if (!ifAll(source, key) && !ifKey(key)) {
+    const oldVal: ChildOfDetails = copy(source);
+    for (const key of Object.keys(source)) source[key] = newVal[key];
+    isChangeValid(source, oldVal);
+  }
+}
+
+const ifAll = (
+  source: ChildOfDetails | Details.All,
+  key?: Details.keyofAll
+): source is Details.All => !!key;
+const ifKey = (key?: Details.keyofAll): key is Details.keyofAll => !!key;

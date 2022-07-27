@@ -37,6 +37,7 @@ import NameField from "@/components/account/primary/settings/NameField.vue";
 import SurnameField from "@/components/account/primary/settings/SurnameField.vue";
 import BirthdayField from "./primary/settings/BirthdayField.vue";
 import { Details } from "./classes/Details";
+import { getUpdatedFields } from "@/utility/validate";
 
 @Component({
   components: {
@@ -61,18 +62,13 @@ export default class PrimarySettings extends Vue {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9tbe0h9I_HCaMS2lyCsdTRXmznpSg9Rn5iA&usqp=CAU";
 
   updateName(value: string) {
-    this.emit("firstName", value);
+    this.$emit("input", getUpdatedFields(this.value, "firstName", value))
   }
   updateSurname(value: string) {
-    this.emit("lastName", value);
+    this.$emit("input", getUpdatedFields(this.value, "lastName", value))
   }
   updateBirthday(value: string) {
-    this.emit("birthday", value);
-  }
-
-  emit(key: D.keyofUser, value: string) {
-    const field = { ...this.value[key], value };
-    this.$emit("input", { ...this.value, [key]: field });
+    this.$emit("input", getUpdatedFields(this.value, "birthday", value))
   }
 }
 </script>

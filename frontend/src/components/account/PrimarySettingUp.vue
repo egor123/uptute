@@ -2,7 +2,7 @@
   <div>
     <Subheader :title="$l('set_up.subheader')" />
 
-    <PrimarySettings v-model="data" />
+    <PrimarySettings :value="data" @input="onInput" />
 
     <div id="buttons">
       <AsStudent @click="done({ isStudent: true })" />
@@ -18,8 +18,8 @@ import { Details } from "./classes/Details";
 import AsStudent from "@/components/account/primary/settingUp/buttons/AsStudent.vue";
 import AsTutor from "@/components/account/primary/settingUp/buttons/AsTutor.vue";
 
-import { goTo } from "@/utility/methods";
-import { isValid } from "@/utility/validate";
+import { copy, goTo } from "@/utility/methods";
+import { isChangeValid, isValid, update } from "@/utility/validate";
 
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { Done } from "@/components/account/primary/settingUp/types";
@@ -47,17 +47,8 @@ export default class PrimarySettingUp extends Vue {
       : alert("Check your input"); // TODO Validate instead
   }
 
-  @Watch("data.firstName.value")
-  onFirstName() {
-    isValid(this.data.firstName);
-  }
-  @Watch("data.lastName.value")
-  onLastName() {
-    isValid(this.data.lastName);
-  }
-  @Watch("data.birthday.value")
-  onBirthday() {
-    isValid(this.data.birthday);
+ onInput(data: Details.User) {
+    update(this.data, data)
   }
 }
 </script>

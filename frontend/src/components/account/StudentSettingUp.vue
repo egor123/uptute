@@ -1,50 +1,46 @@
 <template>
   <div>
     <Subheader :title="$l('set_up.subheader')" />
-    <StudentSettings v-model="data" />
-    <v-btn @click="done(data)" id="done" rounded outlined color="accent">{{
-      $l("set_up.button")
-    }}</v-btn>
+
+    <StudentSettings :value="data" @input="onInput" />
+
+    <ButtonBase :title="$l('set_up.button')" @click="done" id="btn" />
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import StudentSettings from "./StudentSettings.vue";
 import Subheader from "@/components/app/Subheader.vue";
+import { Details } from "./classes/Details";
+import { isChangeValid, isValid, update } from "@/utility/validate";
 
-export default {
-  components: {
-    StudentSettings,
-    Subheader,
-  },
-  data() {
-    return {
-      data: {
-        data: {},
-        grade: null,
-        inProcess: false,
-      },
-    };
-  },
-  methods: {
-    routerPush(to) {
-      this.$router.push({ name: to });
-    },
-    async done(data) {
-      if (this.inProcess) return;
-      this.inProcess = true;
-      const res = await this.$store.dispatch("account/upgradeToStudent", {
-        data,
-      });
-      this.inProcess = false;
-      if (res.statusText == "OK") this.routerPush("FindATutor");
-    },
-  },
-};
+import { Vue, Component, Watch } from "vue-property-decorator";
+import { copy, goTo } from "@/utility/methods";
+import ButtonBase from "../global/ButtonBase.vue";
+
+@Component({ components: { StudentSettings, Subheader, ButtonBase } })
+export default class StudentSettingUp extends Vue {
+  data: Details.Student = new Details.Student();
+  inProcess: boolean = false;
+
+  async done(data = this.data) {
+    if (this.inProcess || !(await isValid(this.data))) return;
+
+    this.inProcess = true;
+    const d = { data };
+    const r = await this.$store.dispatch("account/upgradeToStudent", d);
+    this.inProcess = false;
+    if (r.statusText == "OK") goTo("FindATutor");
+  }
+
+  onInput(data: Details.Student) {
+    update(this.data, data);
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-#done.v-btn {
+#btn {
   margin-top: 3rem;
 }
 </style>

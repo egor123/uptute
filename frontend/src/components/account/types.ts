@@ -5,6 +5,15 @@ export interface NameConstructorPayload {
 }
 
 export declare module Details {
+  interface All {
+    user: User;
+    student?: Student;
+    tutor?: Tutor;
+    update: (newDetails: Partial<this>) => void;
+    getArr: () => (User | Student | Tutor)[];
+  }
+  type keyofAll = "user" | "student" | "tutor";
+
   interface User extends ValidatableFields {
     birthday: ValidatableField<string>;
     firstName: ValidatableField<string>;
@@ -14,28 +23,24 @@ export declare module Details {
 
   export type Grade = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
-  interface Student {
-    grade: Grade;
+  interface Student extends ValidatableFields {
+    grade: ValidatableField<Grade>;
   }
 
   type Subject = string; //TODO certain strings only
   type Language = string; // TODO certain strings only
 
-  interface Tutor {
-    moto: string;
-    about: string;
-    conferenceLink: string;
-    subjects: Subject[];
-    audience: [Grade, Grade];
-    languages: Language[];
-  }
-
-  interface All {
-    userDetails: User;
-    studentDetails?: Student;
-    tutorDetails?: Tutor;
+  interface Tutor extends ValidatableFields {
+    moto: ValidatableField<string>;
+    about: ValidatableField<string>;
+    conferenceLink: ValidatableField<string>;
+    subjects: ValidatableField<Subject[]>;
+    audience: ValidatableField<[Grade, Grade]>;
+    languages: ValidatableField<Language[]>;
   }
 }
+
+export type ChildOfDetails = Details.User | Details.Student | Details.Tutor;
 
 export interface withErrMsg {
   errMsg: string;

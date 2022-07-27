@@ -10,8 +10,9 @@
   >
     <div id="wrapper">
       <v-range-slider
-        v-if="Array.isArray(def)"
-        v-model="input"
+        v-if="Array.isArray(value)"
+        :value="value"
+        @input="emit"
         :min="getMin()"
         :max="getMax()"
         step="1"
@@ -21,7 +22,8 @@
       />
       <v-slider
         v-else
-        v-model="input"
+        :value="value"
+        @input="emit"
         :min="getMin()"
         :max="getMax()"
         step="1"
@@ -40,12 +42,6 @@ import BaseComponent from "./ExpansionBaseComponent.vue";
 export default {
   components: {
     BaseComponent,
-  },
-  data() {
-    return {
-      input: this.value,
-      def: JSON.parse(JSON.stringify(this.value)),
-    };
   },
   props: [
     "value",
@@ -70,6 +66,9 @@ export default {
     getMax() {
       return this.max ?? 10;
     },
+    emit(v) {
+      this.$emit("input", v)
+    }
   },
   watch,
 };
