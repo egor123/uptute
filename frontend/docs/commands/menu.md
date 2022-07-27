@@ -1,12 +1,7 @@
 [***Home***](../../../README.md) ⮕ [***Front End***](../README.md) ⮕ ***Commands***
 
+
 <br/>
-
-### Build
-
-```
-mvn clean install
-```
 
 ### Reinstall packages
 
@@ -14,7 +9,7 @@ mvn clean install
 yarn install
 ```
 
-### Localhost server
+### Local server
 
 ```
 yarn serve
