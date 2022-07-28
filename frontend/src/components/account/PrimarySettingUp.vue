@@ -21,7 +21,7 @@ import AsTutor from "@/components/account/primary/settingUp/buttons/AsTutor.vue"
 import { goTo } from "@/utility/methods";
 import { isValid, update } from "@/utility/validate";
 
-import { Vue, Component, Watch } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 import { Done } from "@/components/account/primary/settingUp/types";
 
 @Component({
@@ -34,14 +34,14 @@ import { Done } from "@/components/account/primary/settingUp/types";
 })
 export default class PrimarySettingUp extends Vue {
   data = new Details.User();
+  inProcess = false;
 
-  async done({ isStudent }: Done): Promise<void> {
-    const data = this.data;
+  async done({ isStudent }: Done, data = this.data): Promise<void> {
+    if (this.inProcess || !(await isValid(data))) return;
 
-    if (!(await isValid(data))) return;
-
+    this.inProcess = true;
     const r = await this.$store.dispatch("account/upgradeToUser", { data });
-
+    this.inProcess = false;
     r.statusText == "OK"
       ? goTo(`${isStudent ? "Student" : "Tutor"}SettingUp`)
       : alert("Check your input"); // TODO Validate instead

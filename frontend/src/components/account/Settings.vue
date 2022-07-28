@@ -2,10 +2,13 @@
   <div id="container">
     <Subheader :title="$l('acc_pages.settings')" />
 
-    <PrimarySettings :value="details.user" @input="onPrimary" />
-    <!-- v-if="isStudent" -->
-    <StudentSettings :value="details.student" @input="onStudent" />
-    <!--  <TutorSettings v-model="details.tutorDetails" v-if="isTutor" /> -->
+    <div id="panels">
+      <PrimarySettings :value="details.user" @input="onPrimary" />
+      <!-- v-if="isStudent" -->
+      <StudentSettings :value="details.student" @input="onStudent" />
+      <!-- v-if="isTutor" -->
+      <TutorSettings :value="details.tutor" @input="onTutor" />
+    </div>
 
     <ButtonBase :title="$l('settings.save')" @click="saveChanges" />
   </div>
@@ -52,11 +55,16 @@ export default class Settings extends Vue {
   //   return this.$store.getters[`auth/roles`].includes("ROLE_TUTOR");
   // }
 
-  async saveChanges(data = this.details) {
-    if (this.isUpdating || !(await isValid(this.details.user))) return;
+  async saveChanges(d = this.details) {
+    if (
+      this.isUpdating ||
+      // !(await isValid({ user: d.user, student: d.student, tutor: d.tutor }))
+      !(await isValid([d.user, d.student, d.tutor]))
+    )
+      return;
 
     this.isUpdating = true;
-    await this.$store.dispatch("account/updateUserDetails", { data });
+    await this.$store.dispatch("account/updateUserDetails", { data: d });
     this.isUpdating = false;
   }
 
@@ -66,6 +74,9 @@ export default class Settings extends Vue {
   async onStudent(newVal: Details.Student) {
     update(this.details, newVal, "student");
   }
+  async onTutor(newVal: Details.Tutor) {
+    update(this.details, newVal, "tutor");
+  }
 }
 </script>
 
@@ -74,6 +85,9 @@ export default class Settings extends Vue {
   padding: 7rem 0 2rem 0;
   .v-btn {
     margin-top: 2rem;
+  }
+  #panels > :not(:last-child) {
+    margin-bottom: 2rem;
   }
 }
 </style>

@@ -2,6 +2,7 @@ import { Filters } from "./classes/Filters";
 import helper from "./helper";
 import { Details } from "@/components/account/types";
 import StudentLesson from "@/store/modules/lesson/student/module";
+import { Grade } from "@/types";
 
 export default {
   // clearErrorStyles: async (filters: Filter<unknown>[]) => {
@@ -40,7 +41,7 @@ export default {
   getInfo: (filters: Filters) => ({
     ...helper.getValues(filters),
     name: "HardcodedStudent" as string, // TODO pull instead of hardcoding
-    grade: 1 as Details.Grade, // TODO pull instead of hardcoding
+    grade: 1 as Grade, // TODO pull instead of hardcoding
   }),
 
   // isValid: async (filters: Filters): Promise<boolean> => {

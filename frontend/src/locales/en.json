@@ -404,7 +404,8 @@
       "one": "At least one 🥺",
       "spaces": "Could you please avoid spaces? 😅",
       "min": "At least ${n} characters ... please? 🥲",
-      "max": "No more than ${n} characters 😭"
+      "max": "No more than ${n} characters 😭",
+      "valid": "Sure it's valid? 😅"
     }
   }
 }

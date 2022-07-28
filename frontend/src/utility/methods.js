@@ -70,12 +70,26 @@ export function rndBtw(start, end) {
 //       "transition: all 1s; transform: perspective(1000px) translateZ(0px); ";
 // });
 
-export function ruleBase({ obj, condition, pathEnd, lParams }) {
-  if (!condition) obj.errMsg = vm.$l(`auth.rules.${pathEnd}`, lParams || {});
-  return condition;
-}
-
 export const sleep = async (time = 0) =>
   await new Promise((r) => setTimeout(r, time));
 
 export const copy = (object) => JSON.parse(JSON.stringify(object));
+
+// (v1: any, v2: any): boolean
+export const areEqual = (v1, v2) => {
+  if (Array.isArray(v1)) {
+    return areArrEqual(v1, v2);
+  } else return v1 === v2;
+};
+
+// (arr1: any[], arr2: any[]): boolean
+const areArrEqual = (arr1, arr2) => {
+  if (arr1.length === 0)
+    if (arr2.length === 0) return true;
+    else return false;
+  if (arr2.length === 0)
+    if (arr1.length === 0) return true;
+    else return false;
+
+  return arr1.every((v, id) => areEqual(arr1[id], arr2[id]));
+};

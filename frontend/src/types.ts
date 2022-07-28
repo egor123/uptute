@@ -17,8 +17,8 @@ export interface PromiseRes<T = unknown> {
 }
 
 export type Direction = "right" | "left" | "up" | "down";
-
 export type Language = "EN" | "EST" | "RU";
+export type Grade = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
 export type Subject =
   | "MATH"
@@ -66,4 +66,18 @@ export interface VForm extends HTMLFormElement {
   reset(): void;
   resetValidation(): void;
   validate(): boolean;
+}
+
+export namespace ValidatableFieldUnion {
+  export type User = ValidatableField<string>;
+  export type Student = ValidatableField<Grade>;
+  export type Tutor =
+    | ValidatableField<string>
+    | ValidatableField<Subject[]>
+    | ValidatableField<[Grade, Grade]>
+    | ValidatableField<Language[]>;
+}
+
+export interface IndexOfValidatableFields {
+  [index: string]: ValidatableFields;
 }

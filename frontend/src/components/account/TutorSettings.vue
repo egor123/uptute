@@ -1,43 +1,40 @@
 <template>
-  <div id="wrapper" ref="tutorSettingsWrapper">
-    <FilterPanel
-      ref="panel"
-      @next="(action, callback) => callback($refs.panel2[action]())"
-    >
+  <div id="wrapper">
+    <FilterPanel>
       <TextField
-        :value="value.moto"
-        @input="(v) => $emit('input', { ...value, moto: v })"
+        :value="value.moto.value"
+        @input="updateMotto"
+        :isError="value.moto.isError"
+        :errMsg="value.moto.isError.msg"
         :label="$l('set_up.motto')"
         :borderRadius="'15px 15px 0px 0px'"
         :flat="false"
-        :rules="(v) => v != '' && v != null"
       />
+
       <TextField
-        :value="value.about"
-        @input="(v) => $emit('input', { ...value, about: v })"
+        :value="value.about.value"
+        @input="updateAbout"
+        :isError="value.about.isError"
+        :errMsg="value.about.isError.msg"
         :area="true"
         :label="$l('set_up.about')"
         :borderRadius="'0px 0px 15px 15px'"
         :flat="false"
-        :rules="(v) => v != '' && v != null"
       />
     </FilterPanel>
 
-    <FilterPanel
-      ref="panel2"
-      @next="(action, callback) => callback($refs.panel3[action]())"
-      id="zoomDiv"
-    >
+    <FilterPanel id="zoomDiv">
       <TextField
-        :value="value.conferenceLink"
-        @input="(v) => $emit('input', { ...value, conferenceLink: v })"
+        :value="value.conferenceLink.value"
+        @input="updateLink"
+        :isError="value.conferenceLink.isError"
+        :errMsg="value.conferenceLink.isError.msg"
         class="zoom"
         :label="$l('set_up.zoom')"
         img="zoom-icon"
         :flat="false"
-        :rules="(v) => ifPassesLinkRules(v, info.conferenceLink)"
-        :errMsg="info.conferenceLink.errMsg"
       />
+
       <div id="dialogContainer">
         <!-- Class notInput for FilterPanel -->
         <DialogCustom class="notInput">
@@ -62,39 +59,45 @@
       </div>
     </FilterPanel>
 
-    <FilterPanel ref="panel3" @next="(action, callback) => callback(true)">
+    <FilterPanel>
       <ExpandableListSelector
-        :value="value.subjects"
-        @input="(v) => $emit('input', { ...value, subjects: v })"
+        :value="value.subjects.value"
+        @input="updateSubjects"
+        :isError="value.subjects.isError"
         :label="$l('set_up.subjects')"
-        :text="value.subjects.map((l) => $l('data.subjects.' + l)).join(', ')"
+        :text="
+          value.subjects.value.map((l) => $l('data.subjects.' + l)).join(', ')
+        "
         :list="['MATH', 'BIOL', 'ESL', 'PHYS', 'GEOG', 'CHEM', 'CIS']"
         :convertor="(item) => $l('data.subjects.' + item)"
         :searchLabel="$l('find.filters.subject.search')"
-        :rules="(arr) => arr.length > 0"
         borderRadius="15px 15px 0px 0px"
         :flat="false"
       />
+
       <ExpandableSlider
-        :value="value.audience"
-        @input="(v) => $emit('input', { ...value, audience: v })"
+        :value="value.audience.value"
+        @input="updateAudience"
+        :isError="value.audience.isError"
         :label="$l('find.filters.audience.h')"
-        :text="value.audience.join(' - ')"
+        :text="value.audience.value.join(' - ')"
         :min="1"
         :max="12"
         borderRadius="0px"
-        :rules="() => true"
         :flat="false"
       />
+
       <ExpandableListSelector
-        :value="value.languages"
-        @input="(v) => $emit('input', { ...value, languages: v })"
+        :value="value.languages.value"
+        @input="updateLanguages"
+        :isError="value.languages.isError"
         :label="$l('find.filters.language.h')"
-        :text="value.languages.map((l) => $l('data.languages.' + l)).join(', ')"
+        :text="
+          value.languages.value.map((l) => $l('data.languages.' + l)).join(', ')
+        "
         :list="['EN', 'EST', 'RU']"
         :convertor="(item) => $l('data.languages.' + item)"
         :multiple="true"
-        :rules="(arr) => arr.length > 0"
         borderRadius="0px 0px 15px 15px"
         :flat="false"
       />
@@ -109,12 +112,12 @@ import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 import TextField from "@/components/filterPanel/TextField.vue";
 
 import DialogCustom from "@/components/global/Dialog.vue";
-import { ifPassesLinkRules } from "./rules/link";
 
 import { Vue, Component, Prop, Ref } from "vue-property-decorator";
-import { Info } from "./classes/Info";
 import { Details as D } from "./types";
 import { Details } from "./classes/Details";
+import { getUpdatedFields } from "@/utility/validate";
+import { Grade, Language, Subject } from "@/types";
 
 @Component({
   components: {
@@ -125,17 +128,29 @@ import { Details } from "./classes/Details";
 
     DialogCustom,
   },
-  methods: { ifPassesLinkRules },
 })
 export default class TutorSettings extends Vue {
   @Ref() readonly panel!: InstanceType<typeof FilterPanel>;
   @Prop({ type: Object, default: () => new Details.Tutor() })
   readonly value!: D.Tutor;
 
-  info = new Info.Tutor();
-
-  async isValid() {
-    return await this.panel.isValid();
+  updateMotto(value: string) {
+    this.$emit("input", getUpdatedFields(this.value, "moto", value));
+  }
+  updateAbout(value: string) {
+    this.$emit("input", getUpdatedFields(this.value, "about", value));
+  }
+  updateLink(value: string) {
+    this.$emit("input", getUpdatedFields(this.value, "conferenceLink", value));
+  }
+  updateSubjects(value: Subject[]) {
+    this.$emit("input", getUpdatedFields(this.value, "subjects", value));
+  }
+  updateAudience(value: [Grade, Grade]) {
+    this.$emit("input", getUpdatedFields(this.value, "audience", value));
+  }
+  updateLanguages(value: Language[]) {
+    this.$emit("input", getUpdatedFields(this.value, "languages", value));
   }
 }
 </script>

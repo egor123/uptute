@@ -2,6 +2,7 @@ import {
   ValidatableField as V,
   ValidatableFieldsArr as VArr,
   ValidatableFields as VObj,
+  IndexOfValidatableFields as VIndex,
 } from "@/types";
 import { sleep } from "@/utility/methods";
 import { ValidatableUnion as VUnion } from "../../types";
@@ -12,7 +13,8 @@ import {
   toArr,
 } from "../helper";
 
-
+async function _isValid(v: VIndex): Promise<Boolean>;
+async function _isValid(v: VObj[]): Promise<Boolean>;
 async function _isValid(v: VArr): Promise<Boolean>;
 async function _isValid(v: VObj): Promise<Boolean>;
 async function _isValid(v: V<any>): Promise<Boolean>;

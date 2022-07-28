@@ -18,6 +18,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import { Details as D } from "./types";
 import { Details } from "./classes/Details";
 import { getUpdatedFields } from "@/utility/validate";
+import { Grade } from "@/types";
 
 @Component({ components: { FilterPanel, GradeField } })
 export default class StudentSettings extends Vue {
@@ -28,7 +29,7 @@ export default class StudentSettings extends Vue {
     return this.value;
   }
 
-  updateGrade(value: D.Grade) {
+  updateGrade(value: Grade) {
     this.$emit("input", getUpdatedFields(this.value, "grade", value));
   }
 }

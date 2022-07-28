@@ -82,7 +82,7 @@ export default class PrimarySettings extends Vue {
     width: 100%;
     padding: 0 1rem;
   }
-  & > * {
+  & > :not(:last-child) {
     margin-bottom: 2rem;
   }
 }

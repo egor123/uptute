@@ -3,6 +3,7 @@ import {
   ValidatableFieldsArr as VArr,
   ValidatableFields as VObj,
 } from "@/types";
+import { areEqual } from "@/utility/methods";
 import { ValidatableUnion as VUnion } from "../../types";
 import { toArr } from "../helper";
 import { isValid } from "./isValid";
@@ -14,9 +15,12 @@ async function _isChangeValid(newV: VUnion, oldV: VUnion): Promise<Boolean> {
   const newArr: VArr = toArr(newV);
   const oldArr: VArr = toArr(oldV);
 
-  const dif = (field: V<any>, id: number) => field.value !== oldArr[id].value;
+  const hasChanged = (field: V<any>, id: number): boolean =>
+    !areEqual(newArr[id].value, oldArr[id].value);
 
-  const changedFields: VArr = newArr.filter(dif);
+  const changedFields: VArr = newArr.filter(hasChanged);
+
+  console.warn(changedFields);
 
   return await isValid(changedFields);
 }

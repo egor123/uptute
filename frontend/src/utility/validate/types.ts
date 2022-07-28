@@ -3,11 +3,14 @@ import {
   ValidatableField,
   ValidatableFields,
   ValidatableFieldsArr,
+  IndexOfValidatableFields,
 } from "@/types";
 
 export type ValidatableUnion =
-  | ValidatableField<unknown>
+  | IndexOfValidatableFields
+  | ValidatableFields[]
+  | ValidatableFields
   | ValidatableFieldsArr
-  | ValidatableFields;
+  | ValidatableField<unknown>;
 
 export type Source = ChildOfDetails | Details.All;

@@ -1,10 +1,10 @@
 <template>
   <div>
     <Subheader :title="$l('set_up.subheader')" />
-    <TutorSettings v-model="data" ref="TutorSettings" />
-    <v-btn @click="done()" id="done" rounded outlined color="accent">
-      {{ $l("set_up.button") }}
-    </v-btn>
+
+    <TutorSettings :value="data" @input="onInput" />
+
+    <ButtonBase :title="$l('set_up.button')" @click="done()" id="done" />
   </div>
 </template>
 
@@ -12,38 +12,38 @@
 import TutorSettings from "./TutorSettings.vue";
 import Subheader from "@/components/app/Subheader.vue";
 import { Details } from "./classes/Details";
+import ButtonBase from "@/components/global/ButtonBase.vue";
 
-import { Vue, Component, Ref } from "vue-property-decorator";
+import { isValid, update } from "@/utility/validate";
+
+import { Vue, Component /*, Ref */ } from "vue-property-decorator";
 
 @Component({
-  components: { TutorSettings, Subheader },
+  components: { TutorSettings, Subheader, ButtonBase },
   permisions: { roles: ["ROLE_STUDENT", "ROLE_USER"], redirect: "LogIn" },
 })
 export default class TutorSettingUp extends Vue {
-  @Ref() readonly TutorSettings!: TutorSettings;
 
   data = new Details.Tutor();
   inProcess = false;
 
-  async done(): Promise<void> {
-    const passesRules: boolean = await this.TutorSettings.isValid();
-    if (this.inProcess || !passesRules) return;
+  async done(data = this.data): Promise<void> {
+    if (this.inProcess || !(await isValid(data))) return;
 
     this.inProcess = true;
-
-    const data = { conferenceLink: this.data.conferenceLink };
-    const r = await this.$store.dispatch("account/upgradeToTutor", { data });
-
+    const d = { data: { conferenceLink: this.data.conferenceLink } };
+    const r = await this.$store.dispatch("account/upgradeToTutor", d);
     this.inProcess = false;
-
     if (r.statusText == "OK") this.$router.push({ name: "ChooseAStudent" });
+  }
+  onInput(data: Details.Tutor) {
+    update(this.data, data);
   }
 }
 </script>
 
 <style lang="scss" scoped>
-#done.v-btn {
-  margin-top: 3rem;
+#done {
+  margin-top: 2rem;
 }
 </style>
-

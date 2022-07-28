@@ -1,5 +1,4 @@
-import { Language, Subject } from "@/types";
-import { Details } from "@/components/account/types";
+import { Grade, Language, Subject } from "@/types";
 
 export type Phase =
   | "idle"
@@ -11,7 +10,7 @@ export type Phase =
 export interface Info {
   // Student info
   name: string;
-  grade: Details.Grade;
+  grade: Grade;
   // Lesson info
   subject: Subject;
   topic: string;
