@@ -22,12 +22,10 @@ import { LANGUAGES } from "@/constants/index";
 
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { IsError } from "@/types";
+import FieldClass from "@/utility/classes/abstract/vue/Field.vue";
 
 @Component({ components: { ExpandableListSelector } })
-export default class Languages extends Vue {
-  @Prop(Array) readonly value!: Language[];
-  @Prop(Object) readonly isError!: IsError;
-
+export default class Languages extends FieldClass<Language[]> {
   get settings() {
     return panel;
   }
@@ -37,9 +35,6 @@ export default class Languages extends Vue {
 
   convertor(language: Language) {
     return this.$l(`data.languages.${language}`);
-  }
-  emit(value: Language[]) {
-    this.$emit("input", value);
   }
 }
 </script>

@@ -55,19 +55,28 @@ export default {
       def: JSON.parse(JSON.stringify(this.value)),
     };
   },
-  props: [
-    "value",
-    "isError",
-    "label",
-    "text",
-    "list",
-    "convertor",
-    "searchLabel",
-    "rules",
-    "flat",
-    "backgroundColor",
-    "borderRadius",
-  ],
+  props: {
+    value: Array | String | Number,
+    isError: {
+      type: Object,
+      default: () => ({
+        color: null,
+        animation: null,
+      }),
+    },
+    label: String,
+    text: String,
+    list: Array,
+    convertor: Function,
+    searchLabel: String,
+    rules: Array,
+    flat: {
+      type: Boolean,
+      default: false,
+    },
+    backgroundColor: String,
+    borderRadius: String,
+  },
   methods: {
     refresh,
     isValid,

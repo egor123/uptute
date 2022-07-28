@@ -1,23 +1,22 @@
 <template>
   <ExpandableSlider
     :value="value"
-    :isError="isError"
     @input="emit"
-    :label="$l('set_up.grade')"
-    :text="value"
+    :isError="isError"
+    :label="$l('find.filters.audience.h')"
+    :text="value.join(' - ')"
     :min="1"
     :max="12"
-    borderRadius="15px"
-    :flat="false"
+    borderRadius="0px"
   />
 </template>
 
 <script lang="ts">
-import { Grade } from "@/types";
-import { Component } from "vue-property-decorator";
 import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
+import { Grade } from "@/types";
 import FieldClass from "@/utility/classes/abstract/vue/Field.vue";
 
+import { Component } from "vue-property-decorator";
 @Component({ components: { ExpandableSlider } })
-export default class GradeField extends FieldClass<Grade> {}
+export default class SubjectField extends FieldClass<[Grade, Grade]> {}
 </script>

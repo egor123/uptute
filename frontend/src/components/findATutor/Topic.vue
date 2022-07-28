@@ -16,24 +16,13 @@
 import TextField from "@/components/filterPanel/TextField.vue";
 import { panel } from "./settings";
 
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { IsError } from "@/types";
+import { Component } from "vue-property-decorator";
+import FieldClass from "@/utility/classes/abstract/vue/Field.vue";
 
 @Component({ components: { TextField } })
-export default class FindATutorTopicPanel extends Vue {
-  @Prop(String) readonly value!: string;
-  @Prop(Object) readonly isError!: IsError;
-
+export default class FindATutorTopicPanel extends FieldClass<string> {
   get settings() {
     return panel;
-  }
-
-  emit(value: string) {
-    this.$emit("input", value);
-  }
-
-  get isErrorMsg() {
-    return this.isError.msg;
   }
 }
 </script>

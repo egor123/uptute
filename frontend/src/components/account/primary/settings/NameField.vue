@@ -10,15 +10,10 @@
 
 <script lang="ts">
 import NameTextField from "@/components/account/NameTextField.vue";
-import { IsError } from "@/types";
+import FieldClass from "@/utility/classes/abstract/vue/Field.vue";
 
-import { Vue, Component, Prop, Watch, Emit, Ref } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 
 @Component({ components: { NameTextField } })
-export default class NameField extends Vue {
-  @Prop(String) readonly value!: string;
-  @Prop() readonly isError!: IsError;
-
-  emit = (input: string) => this.$emit("input", input);
-}
+export default class NameField extends FieldClass<string> {}
 </script>

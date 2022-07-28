@@ -1,28 +1,21 @@
 <template>
   <TextField
     :value="value"
+    @input="emit"
     :isError="isError"
     :errMsg="isError.msg"
-    @input="emit"
-    :label="$l('find.filters.details')"
     :area="true"
-    :flat="settings.flat"
-    :backgroundColor="settings.backgroundColor"
+    :label="$l('set_up.about')"
     :borderRadius="'0px 0px 15px 15px'"
   />
 </template>
 
 <script lang="ts">
 import TextField from "@/components/filterPanel/TextField.vue";
-import { panel } from "./settings";
 
-import { Component } from "vue-property-decorator";
 import FieldClass from "@/utility/classes/abstract/vue/Field.vue";
 
+import { Component } from "vue-property-decorator";
 @Component({ components: { TextField } })
-export default class Details extends FieldClass<string> {
-  get settings() {
-    return panel;
-  }
-}
+export default class AboutField extends FieldClass<string> {}
 </script>

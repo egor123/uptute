@@ -196,7 +196,7 @@
       "native": "native speaker",
       "refresh": "Refresh filters",
       "subject": { "h": "Subject", "search": "Search" },
-      "language": { "h": "Language" },
+      "language": { "h": "Language", "search": "Search" },
       "location": { "h": "Location", "p": "Your location" },
       "audience": { "h": "Grades you tech" },
       "price": { "h": "Price", "p": "h" },

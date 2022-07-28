@@ -1,66 +1,29 @@
 <template>
   <div id="wrapper">
     <FilterPanel>
-      <TextField
+      <MottoField
         :value="value.moto.value"
         @input="updateMotto"
         :isError="value.moto.isError"
-        :errMsg="value.moto.isError.msg"
-        :label="$l('set_up.motto')"
-        :borderRadius="'15px 15px 0px 0px'"
-        :flat="false"
       />
 
-      <TextField
+      <AboutField
         :value="value.about.value"
         @input="updateAbout"
         :isError="value.about.isError"
-        :errMsg="value.about.isError.msg"
-        :area="true"
-        :label="$l('set_up.about')"
-        :borderRadius="'0px 0px 15px 15px'"
-        :flat="false"
       />
-    </FilterPanel>
-
-    <FilterPanel id="zoomDiv">
-      <TextField
-        :value="value.conferenceLink.value"
-        @input="updateLink"
-        :isError="value.conferenceLink.isError"
-        :errMsg="value.conferenceLink.isError.msg"
-        class="zoom"
-        :label="$l('set_up.zoom')"
-        img="zoom-icon"
-        :flat="false"
-      />
-
-      <div id="dialogContainer">
-        <!-- Class notInput for FilterPanel -->
-        <DialogCustom class="notInput">
-          <template v-slot:object>
-            <button id="dialog">?</button>
-          </template>
-
-          <template v-slot:title>
-            {{ $l("set_up.dialog.title") }}
-          </template>
-
-          <template v-slot:text>
-            {{ $l("set_up.dialog.text") }}
-            <a
-              target="_blank"
-              href="https://support.zoom.us/hc/en-us/articles/201362843-Personal-meeting-ID-PMI-and-personal-link"
-            >
-              {{ $l("set_up.dialog.link") }}
-            </a>
-          </template>
-        </DialogCustom>
-      </div>
     </FilterPanel>
 
     <FilterPanel>
-      <ExpandableListSelector
+      <LinkField
+        :value="value.conferenceLink.value"
+        @input="updateLink"
+        :isError="value.conferenceLink.isError"
+      />
+    </FilterPanel>
+
+    <FilterPanel>
+      <!-- <ExpandableListSelector
         :value="value.subjects.value"
         @input="updateSubjects"
         :isError="value.subjects.isError"
@@ -73,33 +36,24 @@
         :searchLabel="$l('find.filters.subject.search')"
         borderRadius="15px 15px 0px 0px"
         :flat="false"
+      /> -->
+
+      <SubjectsField
+        :value="value.subjects.value"
+        @input="updateSubjects"
+        :isError="value.subjects.isError"
       />
 
-      <ExpandableSlider
+      <GradeField
         :value="value.audience.value"
         @input="updateAudience"
         :isError="value.audience.isError"
-        :label="$l('find.filters.audience.h')"
-        :text="value.audience.value.join(' - ')"
-        :min="1"
-        :max="12"
-        borderRadius="0px"
-        :flat="false"
       />
 
-      <ExpandableListSelector
+      <LanguagesField
         :value="value.languages.value"
         @input="updateLanguages"
         :isError="value.languages.isError"
-        :label="$l('find.filters.language.h')"
-        :text="
-          value.languages.value.map((l) => $l('data.languages.' + l)).join(', ')
-        "
-        :list="['EN', 'EST', 'RU']"
-        :convertor="(item) => $l('data.languages.' + item)"
-        :multiple="true"
-        borderRadius="0px 0px 15px 15px"
-        :flat="false"
       />
     </FilterPanel>
   </div>
@@ -111,22 +65,37 @@ import ExpandableListSelector from "@/components/filterPanel/ExpandableListSelec
 import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
 import TextField from "@/components/filterPanel/TextField.vue";
 
-import DialogCustom from "@/components/global/Dialog.vue";
-
 import { Vue, Component, Prop, Ref } from "vue-property-decorator";
 import { Details as D } from "./types";
 import { Details } from "./classes/Details";
 import { getUpdatedFields } from "@/utility/validate";
 import { Grade, Language, Subject } from "@/types";
 
+import MottoField from "./tutor/settings/MottoField.vue";
+import AboutField from "./tutor/settings/AboutField.vue";
+
+import LinkField from "./tutor/settings/LinkField.vue";
+
+import SubjectsField from "./tutor/settings/SubjectsField.vue";
+import LanguagesField from "./tutor/settings/LanguagesField.vue";
+import GradeField from "./tutor/settings/GradeField.vue";
+
 @Component({
   components: {
     FilterPanel,
+
+    MottoField,
+    AboutField,
+
+    LinkField,
+
+    SubjectsField,
+    GradeField,
+    LanguagesField,
+
     ExpandableListSelector,
     ExpandableSlider,
     TextField,
-
-    DialogCustom,
   },
 })
 export default class TutorSettings extends Vue {
@@ -167,46 +136,6 @@ export default class TutorSettings extends Vue {
 
   & > *:not(:last-child) {
     margin-bottom: 2rem;
-  }
-}
-
-.motto {
-  border-radius: 15px 15px 0 0;
-}
-
-.about {
-  border-radius: 0 0 15px 15px;
-}
-
-#zoomDiv {
-  position: relative;
-
-  .zoom {
-    border-radius: 15px;
-  }
-
-  #dialogContainer {
-    position: absolute;
-    left: 102%;
-    top: 50%;
-    transform: translateY(-50%);
-
-    @media (max-width: 450px) {
-      left: 84%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    #dialog {
-      @include box-size(30px);
-      border-radius: 50%;
-      color: var(--v-secondary-darken2);
-
-      transition: color 300ms ease-in-out;
-      &:hover {
-        color: var(--v-secondary-darken3);
-      }
-    }
   }
 }
 

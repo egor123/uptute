@@ -216,7 +216,8 @@
       "topic": "Teema",
       "details": "Täpsustusi",
       "language": {
-        "h": "Keel"
+        "h": "Keel",
+        "search": "Otsi"
       },
       "location": {
         "h": "Asukoht",

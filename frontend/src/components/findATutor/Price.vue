@@ -15,22 +15,14 @@
 
 <script lang="ts">
 import ExpandableSlider from "@/components/filterPanel/ExpandableSlider.vue";
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import { panel } from "./settings";
-import { IsError } from "@/types";
+import FieldClass from "@/utility/classes/abstract/vue/Field.vue";
 
 @Component({ components: { ExpandableSlider } })
-export default class Price extends Vue {
-  @Prop(Array) readonly value!: [number, number];
-  @Prop() readonly isError!: IsError;
-
+export default class Price extends FieldClass<[number, number]> {
   get settings() {
     return panel;
   }
-
-  emit(value: [number, number]) {
-    this.$emit("input", value);
-  }
- 
 }
 </script>

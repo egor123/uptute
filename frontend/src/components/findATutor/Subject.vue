@@ -21,16 +21,12 @@ import { panel } from "./settings";
 import { Subject } from "@/types";
 import { SUBJECTS } from "@/constants/index";
 
-import { Vue, Component, Prop, Ref } from "vue-property-decorator";
-import { IsError } from "@/types";
+import { Component, Ref } from "vue-property-decorator";
+import FieldClass from "@/utility/classes/abstract/vue/Field.vue";
 
 @Component({ components: { ExpandableListSelector } })
-export default class SubjectPanel extends Vue {
+export default class SubjectPanel extends FieldClass<Subject> {
   @Ref() readonly Parent!: typeof ExpandableListSelector;
-
-  @Prop(String) readonly value!: Subject;
-  @Prop(Object) readonly isError!: IsError;
-
   get SUBJECTS() {
     return SUBJECTS;
   }
@@ -38,9 +34,6 @@ export default class SubjectPanel extends Vue {
     return panel;
   }
 
-  emit(value: Subject) {
-    this.$emit("input", value);
-  }
   convertor(subject: Subject) {
     return this.$l(`data.subjects.${subject}`);
   }

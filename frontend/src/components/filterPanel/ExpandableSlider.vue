@@ -43,19 +43,28 @@ export default {
   components: {
     BaseComponent,
   },
-  props: [
-    "value",
-    "isError",
-    "label",
-    "text",
-    "converter",
-    "rules",
-    "min",
-    "max",
-    "backgroundColor",
-    "flat",
-    "borderRadius",
-  ],
+  props: {
+    value: Array | Number,
+    isError: {
+      type: Object,
+      default: () => ({
+        color: null,
+        animation: null,
+      }),
+    },
+    label: String,
+    text: Number | String,
+    list: Array,
+    rules: Array,
+    min: Number,
+    max: Number,
+    flat: {
+      type: Boolean,
+      default: false,
+    },
+    backgroundColor: String,
+    borderRadius: String,
+  },
   methods: {
     refresh,
     isValid,
@@ -67,8 +76,8 @@ export default {
       return this.max ?? 10;
     },
     emit(v) {
-      this.$emit("input", v)
-    }
+      this.$emit("input", v);
+    },
   },
   watch,
 };
@@ -79,4 +88,3 @@ export default {
   width: 100%;
 }
 </style>
-
