@@ -12,10 +12,10 @@
 import StudentSettings from "./StudentSettings.vue";
 import Subheader from "@/components/app/Subheader.vue";
 import { Details } from "./classes/Details";
-import { isChangeValid, isValid, update } from "@/utility/validate";
+import { isValid, update } from "@/utility/validate";
 
-import { Vue, Component, Watch } from "vue-property-decorator";
-import { copy, goTo } from "@/utility/methods";
+import { Vue, Component } from "vue-property-decorator";
+import { goTo } from "@/utility/methods";
 import ButtonBase from "../global/ButtonBase.vue";
 
 @Component({ components: { StudentSettings, Subheader, ButtonBase } })

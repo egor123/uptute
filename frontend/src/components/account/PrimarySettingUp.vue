@@ -18,8 +18,8 @@ import { Details } from "./classes/Details";
 import AsStudent from "@/components/account/primary/settingUp/buttons/AsStudent.vue";
 import AsTutor from "@/components/account/primary/settingUp/buttons/AsTutor.vue";
 
-import { copy, goTo } from "@/utility/methods";
-import { isChangeValid, isValid, update } from "@/utility/validate";
+import { goTo } from "@/utility/methods";
+import { isValid, update } from "@/utility/validate";
 
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { Done } from "@/components/account/primary/settingUp/types";
@@ -47,8 +47,8 @@ export default class PrimarySettingUp extends Vue {
       : alert("Check your input"); // TODO Validate instead
   }
 
- onInput(data: Details.User) {
-    update(this.data, data)
+  onInput(data: Details.User) {
+    update(this.data, data);
   }
 }
 </script>
